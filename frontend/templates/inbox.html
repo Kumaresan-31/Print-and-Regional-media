@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox Workflow Automation & Clipping Ingestion | ePaper Harvester</title>
+    <meta name="description" content="Autonomous IMAP Inbox Monitor, Real-Time Mailbox Feed, Rule-Based Newspaper Extraction, OCR & Multi-Language Translation.">
+    <!-- Google Fonts: Outfit and JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=2.5">
+    <style>
+        .nav-links {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.35rem 0.5rem;
+            border-radius: var(--radius-full, 9999px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.5rem 1.15rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: var(--radius-full, 9999px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .nav-link.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(168, 85, 247, 0.35) 100%);
+            border: 1px solid #38bdf8;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+        .nav-link .nav-icon {
+            font-size: 1.1rem;
+        }
+        .inbox-page-header {
+            background: linear-gradient(135deg, rgba(168,85,247,0.12) 0%, rgba(56,189,248,0.08) 50%, rgba(15,23,42,0.6) 100%);
+            border: 1px solid rgba(168,85,247,0.25);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.75rem;
+            backdrop-filter: blur(16px);
+            position: relative;
+            overflow: hidden;
+        }
+        .inbox-page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(168,85,247,0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .inbox-metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+        }
+        .inbox-metric-card {
+            background: rgba(15,23,42,0.7);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.25s ease;
+        }
+        .inbox-metric-card:hover {
+            border-color: rgba(168,85,247,0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .inbox-metric-icon {
+            font-size: 2rem;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(168,85,247,0.12);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(168,85,247,0.2);
+        }
+        .inbox-item-card {
+            background: rgba(15,23,42,0.65);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .inbox-item-card:hover {
+            border-color: rgba(168,85,247,0.35);
+            background: rgba(15,23,42,0.85);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+        .inbox-item-card.rule-matched {
+            border-left: 4px solid #10b981;
+        }
+        .rule-badge-matched {
+            background: rgba(16,185,129,0.15);
+            border: 1px solid rgba(16,185,129,0.4);
+            color: #10b981;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            letter-spacing: 0.02em;
+        }
+        .rule-badge-standard {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+        }
+        .inbox-search-bar {
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-sm);
+            padding: 0.6rem 1rem;
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            outline: none;
+            width: 280px;
+            transition: all 0.2s ease;
+        }
+        .inbox-search-bar:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 0 3px rgba(168,85,247,0.25);
+            width: 340px;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <!-- Global Navigation Bar -->
+    <header class="navbar" id="appNavbar">
+        <div class="nav-brand">
+            <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.75rem;">
+                <div class="logo-icon">📰</div>
+                <div class="brand-text">
+                    <span class="brand-title">ePaper<span class="gradient-text">Harvester</span></span>
+                    <span class="brand-badge">v2.0 • Intelligence Suite</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Central Navigation Tabs -->
+        <nav class="nav-links">
+            <a href="/" class="nav-link">
+                <span class="nav-icon">📰</span>
+                <span>Catalog & Harvest</span>
+            </a>
+            <a href="/upload" class="nav-link">
+                <span class="nav-icon">📄</span>
+                <span>Hardcopy PDF Harvester</span>
+            </a>
+            <a href="/inbox" class="nav-link active">
+                <span class="nav-icon">📬</span>
+                <span>Inbox Automation</span>
+                <span class="badge badge-purple" id="navLiveInboxCount">...</span>
+            </a>
+        </nav>
+
+        <!-- Right Status & Controls -->
+        <div class="nav-status-group">
+            <div class="live-pill" id="wsStatusIndicator">
+                <span class="pulse-dot"></span>
+                <span id="wsStatusText">Live Sync</span>
+            </div>
+            <div class="clock-display" id="istClockDisplay">00:00:00 IST</div>
+            <button class="btn btn-sm btn-outline" id="btnRunEmailDiagnostics" style="border-color:rgba(245,158,11,0.5);color:#f59e0b;" title="Run SMTP & IMAP Diagnostics">
+                🩺 Diagnostics
+            </button>
+        </div>
+    </header>
+
+    <!-- Main App Layout -->
+    <main class="app-layout" style="padding-top:1.5rem;">
+        
+        <!-- Header Banner -->
+        <div class="inbox-page-header">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1.25rem;">
+                <div>
+                    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.4rem;">
+                        <span class="live-pill" style="background:rgba(168,85,247,0.2);border-color:#a855f7;color:#c084fc;font-weight:700;">
+                            <span class="pulse-dot" style="background:#c084fc;"></span> IMAP SSL ACTIVE
+                        </span>
+                        <span style="color:var(--text-muted);font-size:0.85rem;">Port 993 • imap.gmail.com</span>
+                    </div>
+                    <h1 style="font-size:1.9rem;font-weight:800;color:var(--text-primary);margin:0 0 0.4rem 0;">
+                        📬 Autonomous Email Inbox Monitor & Clipping Ingestion
+                    </h1>
+                    <p style="color:var(--text-secondary);font-size:0.95rem;margin:0;max-width:750px;line-height:1.5;">
+                        Real-time Gmail inbox surveillance, rule-based clipping filtering, rapid multi-engine OCR, automated multi-language translation, and 3-tier digital twin audit trail.
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display:flex;align-items:center;gap:0.65rem;flex-wrap:wrap;">
+                    <button class="btn btn-primary glow-button" id="btnCheckInboxNow" style="background:#a855f7;border-color:#a855f7;">
+                        ⚡ Check Inbox Now
+                    </button>
+                    <button class="btn btn-outline" id="btnSimulateClipping" style="border-color:rgba(56,189,248,0.5);color:#38bdf8;">
+                        🧪 Test Simulation
+                    </button>
+                    <button class="btn btn-outline" id="btnDirectUploadClipping" style="border-color:rgba(16,185,129,0.5);color:#10b981;">
+                        📤 Ingest Local File
+                    </button>
+                    <input type="file" id="directClippingFileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" style="display:none;">
+                    <button class="btn btn-outline" id="btnRefreshRealInbox" style="border-color:rgba(255,255,255,0.15);">
+                        🔄 Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metrics Overview Grid -->
+        <div class="inbox-metrics-row">
+            <div class="inbox-metric-card">
+                <div class="inbox-metric-icon" style="color:#a855f7;">📧</div>
+                <div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">Monitored Mailbox</div>
+                    <div style="font-size:1.05rem;font-weight:700;color:var(--text-primary);word-break:break-all;" id="inboxAccountDisplay">cuttygreenscreen@gmail.com</div>
+                </div>
+            </div>
+            <div class="inbox-metric-card">
+                <div class="inbox-metric-icon" style="color:#38bdf8;">📥</div>
+                <div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">Total Mailbox Emails</div>
+                    <div style="font-size:1.5rem;font-weight:800;color:#38bdf8;" id="metricTotalEmails">...</div>
+                </div>
+            </div>
+            <div class="inbox-metric-card">
+                <div class="inbox-metric-icon" style="color:#10b981;">🗞️</div>
+                <div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">Ingested Clippings</div>
+                    <div style="font-size:1.5rem;font-weight:800;color:#10b981;" id="metricIngestedClippings">0</div>
+                </div>
+            </div>
+            <div class="inbox-metric-card">
+                <div class="inbox-metric-icon" style="color:#f59e0b;">⏱️</div>
+                <div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">Auto-Scan Cadence</div>
+                    <div style="font-size:1.15rem;font-weight:700;color:#f59e0b;">Every 15 Minutes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diagnostics Box (Collapsible) -->
+        <div id="emailDiagnosticsBox" style="display:none;margin-bottom:1.5rem;background:rgba(15,23,42,0.8);border:1px solid rgba(245,158,11,0.3);border-radius:var(--radius-md);padding:1.25rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                <h3 style="margin:0;font-size:1rem;color:#f59e0b;display:flex;align-items:center;gap:0.5rem;">
+                    🩺 Email Infrastructure Diagnostics Report
+                </h3>
+                <button class="btn btn-xs btn-outline" id="btnCloseDiagnosticsBox">Close</button>
+            </div>
+            <div id="emailDiagnosticsContent">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- Ingestion Rules Banner -->
+        <div style="background:rgba(15,23,42,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-md);padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;flex-wrap:wrap;gap:0.5rem;">
+                <div style="font-weight:700;color:var(--text-primary);font-size:0.95rem;display:flex;align-items:center;gap:0.5rem;">
+                    ⚙️ Active Email Ingestion Rules & Pipeline Architecture
+                </div>
+                <span class="live-pill" style="background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.4);color:#10b981;font-size:0.75rem;">
+                    Auto-Ingestion Enabled
+                </span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:0.85rem;margin-bottom:1rem;">
+                <div style="background:rgba(0,0,0,0.25);padding:0.85rem 1rem;border-radius:var(--radius-sm);border-left:3px solid #a855f7;">
+                    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;font-weight:600;">SENDER RULES</div>
+                    <code style="color:#c084fc;font-size:0.85rem;font-weight:600;">cuttyknowledge2006@gmail.com, bureau@chennai.com</code>
+                </div>
+                <div style="background:rgba(0,0,0,0.25);padding:0.85rem 1rem;border-radius:var(--radius-sm);border-left:3px solid #38bdf8;">
+                    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;font-weight:600;">SUBJECT KEYWORD RULES</div>
+                    <code style="color:#38bdf8;font-size:0.85rem;font-weight:600;">clipping</code>
+                </div>
+            </div>
+            <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;padding-top:0.5rem;border-top:1px solid rgba(255,255,255,0.05);">
+                <span>📥 <strong>Inbound Attachment</strong> (.pdf, .png, .jpg)</span>
+                <span>➔</span>
+                <span>🔍 <strong>RapidOCR / Tesseract OCR</strong></span>
+                <span>➔</span>
+                <span>🌐 <strong>Indic Translation to English</strong></span>
+                <span>➔</span>
+                <span>📰 <strong>3-Tier Traceability Audit & Main Pipeline Push</strong></span>
+            </div>
+        </div>
+
+        <!-- Processing Status Spinner -->
+        <div id="inboxProcessingStatus" style="display:none;margin-bottom:1.5rem;padding:1.25rem;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.35);border-radius:var(--radius-md);text-align:center;">
+            <div class="spinner" style="margin:0 auto 0.6rem auto;border-top-color:#a855f7;"></div>
+            <span id="inboxProcessingStatusText" style="font-size:0.92rem;color:#e2e8f0;font-weight:600;">Connecting to IMAP and checking messages...</span>
+        </div>
+
+        <!-- Navigation Tabs: Live Real Inbox vs Ingested Clippings -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:1rem;">
+            <div class="news-categories-bar" style="margin:0;">
+                <button class="news-cat-pill active" id="tabRealInboxBtn">
+                    <span class="cat-icon">📬</span> Live Real Inbox (<span id="inboxLiveTabCount">...</span>)
+                </button>
+                <button class="news-cat-pill" id="tabIngestedClippingsBtn">
+                    <span class="cat-icon">🗞️</span> Ingested Clippings (<span id="inboxIngestedTabCount">0</span>)
+                </button>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+                <input type="text" id="inboxSearchInput" class="inbox-search-bar" placeholder="🔍 Search sender, subject, text...">
+            </div>
+        </div>
+
+        <!-- VIEW 1: Live Real Inbox Feed -->
+        <section id="realInboxView">
+            <div id="realInboxMessagesList" style="display:flex;flex-direction:column;gap:1rem;">
+                <div style="text-align:center;padding:3rem;color:var(--text-muted);">
+                    <div class="spinner" style="margin:0 auto 1rem auto;border-top-color:#a855f7;"></div>
+                    <div>Connecting to Gmail IMAP SSL (Port 993) & loading live mailbox...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: Ingested Clippings Feed -->
+        <section id="ingestedClippingsView" style="display:none;">
+            <div id="inboxClippingsContainer" style="display:flex;flex-direction:column;gap:1.25rem;">
+                <!-- Clippings injected via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 3-Tier Traceability Audit Modal -->
+    <div class="modal-backdrop" id="auditTraceabilityModal">
+        <div class="modal-dialog modal-glass" style="max-width:1150px;max-height:92vh;display:flex;flex-direction:column;">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <h3 class="modal-title" style="display:flex;align-items:center;gap:0.5rem;">
+                        🔍 Digital Twin Traceability & Audit Console
+                    </h3>
+                    <div class="modal-subtitle">
+                        Full 3-Tier Traceability: Translated Text ➔ OCR Ground Truth ➔ Original Document Snapshot
+                    </div>
+                </div>
+                <button class="btn-close" id="btnCloseAuditModal">✕</button>
+            </div>
+            
+            <div class="modal-body" style="padding:1.5rem;overflow-y:auto;flex:1;">
+                <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:0.85rem 1.25rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;">
+                    <div style="display:flex;align-items:center;gap:0.75rem;">
+                        <span class="live-pill" id="auditSeverityBadge" style="background:#ef4444;color:#fff;font-weight:700;">🚨 HIGH PRIORITY</span>
+                        <span id="auditSourceBadge" style="font-weight:700;color:var(--text-primary);">Regional Press</span>
+                        <span>•</span>
+                        <span id="auditDateBadge" style="color:var(--text-secondary);font-size:0.82rem;">Page 1</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:0.5rem;" id="auditEntitiesContainer"></div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;">
+                    <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(56,189,248,0.3);border-radius:var(--radius-md);padding:1.25rem;">
+                        <div style="font-size:0.75rem;font-weight:700;color:#38bdf8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">
+                            🌐 TIER 1: Auto-Translated English Content
+                        </div>
+                        <h4 id="auditTitleEn" style="margin:0 0 0.6rem 0;color:var(--text-primary);font-size:1.05rem;">Title</h4>
+                        <div id="auditContentEn" style="font-size:0.88rem;color:var(--text-secondary);line-height:1.6;white-space:pre-wrap;">Content</div>
+                    </div>
+
+                    <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:var(--radius-md);padding:1.25rem;">
+                        <div style="font-size:0.75rem;font-weight:700;color:#c084fc;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">
+                            🔍 TIER 2: OCR Ground Truth (Original Language)
+                        </div>
+                        <h4 id="auditTitleOrig" style="margin:0 0 0.6rem 0;color:var(--text-primary);font-size:1.05rem;">Original Title</h4>
+                        <div id="auditContentOrig" style="font-size:0.88rem;color:var(--text-secondary);line-height:1.6;white-space:pre-wrap;font-family:'JetBrains Mono',monospace;">Original Content</div>
+                    </div>
+                </div>
+
+                <!-- Ground Truth Page Snapshot -->
+                <div style="background:rgba(15,23,42,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-md);padding:1.25rem;">
+                    <div style="font-size:0.75rem;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.75rem;">
+                        🖼️ TIER 3: Visual Page Bounding Box & Ground Truth Snapshot
+                    </div>
+                    <div id="auditSnapshotContainer" style="text-align:center;background:#000;border-radius:var(--radius-sm);overflow:hidden;min-height:220px;display:flex;align-items:center;justify-content:center;">
+                        <span style="color:var(--text-muted);font-size:0.85rem;">Document snapshot preview</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inbox Page Dedicated JS -->
+    <script src="/static/js/inbox.js"></script>
+</body>
+</html>

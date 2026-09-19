@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-PDF News Extraction & Categorization | ePaper Harvester</title>
+    <meta name="description" content="Upload up to 20 hardcopy or digital newspaper PDFs simultaneously with OCR text detection in any language, auto-translation to English, and smart news categorization.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=2.5">
+    <style>
+        .nav-links {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.35rem 0.5rem;
+            border-radius: var(--radius-full, 9999px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.5rem 1.15rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: var(--radius-full, 9999px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .nav-link.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(168, 85, 247, 0.35) 100%);
+            border: 1px solid #38bdf8;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+        .nav-link .nav-icon {
+            font-size: 1.1rem;
+        }
+        .upload-page-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 4rem;
+        }
+        .page-header-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: var(--radius-lg, 12px);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .header-title-group h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .header-title-group p {
+            color: var(--text-secondary, #94a3b8);
+            font-size: 0.95rem;
+        }
+        .btn-nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.1rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .btn-nav-back:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            color: #38bdf8;
+            transform: translateX(-2px);
+        }
+
+        /* Staging Area */
+        .upload-workspace {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.75rem;
+        }
+        .staged-files-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-top: 1.25rem;
+        }
+        .staged-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 0.75rem;
+        }
+        .staged-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+        .staged-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+        }
+        .staged-item .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .btn-remove-staged {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .btn-remove-staged:hover {
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        /* Progress Card */
+        .batch-progress-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+        }
+        .batch-progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            overflow: hidden;
+            margin: 1.25rem 0 0.75rem;
+        }
+        .batch-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #10b981);
+            transition: width 0.3s ease;
+            border-radius: 9999px;
+        }
+
+        /* Metrics Bar */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .metric-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .metric-card .label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .metric-card .value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        /* Filter Controls */
+        .results-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 0.85rem 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .doc-select-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .doc-select-control {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #f8fafc;
+            padding: 0.5rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            outline: none;
+            min-width: 240px;
+        }
+        .search-control {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f8fafc;
+            padding: 0.5rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            outline: none;
+            width: 260px;
+        }
+        .search-control:focus {
+            border-color: #38bdf8;
+        }
+
+        /* Story Cards */
+        .news-article-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .news-article-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.35);
+        }
+        .article-original-title {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 0.4rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            margin: 0.4rem 0 0.6rem;
+            border-left: 3px solid #38bdf8;
+        }
+        .badge-lang {
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #c084fc;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <!-- Global Navigation Bar -->
+    <header class="navbar" id="appNavbar">
+        <div class="nav-brand">
+            <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.75rem;">
+                <div class="logo-icon">📰</div>
+                <div class="brand-text">
+                    <span class="brand-title">ePaper<span class="gradient-text">Harvester</span></span>
+                    <span class="brand-badge">v2.0 • Intelligence Suite</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Central Navigation Tabs -->
+        <nav class="nav-links">
+            <a href="/" class="nav-link">
+                <span class="nav-icon">📰</span>
+                <span>Catalog & Harvest</span>
+            </a>
+            <a href="/upload" class="nav-link active">
+                <span class="nav-icon">📄</span>
+                <span>Hardcopy PDF Harvester</span>
+            </a>
+            <a href="/inbox" class="nav-link">
+                <span class="nav-icon">📬</span>
+                <span>Inbox Automation</span>
+            </a>
+        </nav>
+
+        <!-- Right Status & Controls -->
+        <div class="nav-right-cluster">
+            <div class="nav-status-group">
+                <div class="live-pill">
+                    <span class="pulse-dot"></span>
+                    <span>OCR Engine Ready</span>
+                </div>
+                <div class="clock-display" id="istClockDisplay">00:00:00 IST</div>
+            </div>
+            <a href="/" class="btn btn-sm btn-outline" style="text-decoration:none;">← Back to Catalog</a>
+        </div>
+    </header>
+
+    <div class="upload-page-container">
+        <!-- Banner -->
+        <div class="page-header-banner">
+            <div class="header-title-group">
+                <h1>📄 Unified Hardcopy Newspaper & Document Harvester</h1>
+                <p>Upload newspaper PDFs, Word docs, scanned press clippings, or text files • Multi-engine OCR • Text & language detection in any language • Automatic English translation & news categorization</p>
+            </div>
+            <div>
+                <span class="badge badge-cyan" style="font-size:0.85rem;padding:0.4rem 0.85rem;font-weight:700;">⚡ 1 to 20+ Documents Concurrent</span>
+            </div>
+        </div>
+
+        <!-- Upload & Staging Workspace -->
+        <div id="uploadWorkspaceArea">
+            <div class="upload-dropzone" id="batchDropzone" style="max-width:100%;padding:3rem 2rem;">
+                <div class="upload-icon" style="font-size:3.5rem;">📰</div>
+                <h3 style="font-size:1.4rem;margin-bottom:0.4rem;">Drag & Drop Newspaper Documents or Clippings</h3>
+                <p class="text-secondary" style="margin-bottom:1.25rem;font-size:0.95rem;">Select single or batch documents: PDF, Word (.docx/.doc), Scanned Press Clippings (JPG, PNG, WebP), or Text files</p>
+                
+                <input type="file" id="batchFileInput" accept=".pdf,.docx,.doc,.txt,.md,.csv,.png,.jpg,.jpeg,.webp,.tiff,.bmp" multiple style="display:none;">
+                <div style="display:flex;justify-content:center;gap:0.75rem;flex-wrap:wrap;">
+                    <label for="batchFileInput" class="btn btn-primary glow-button" id="btnBrowseBatch" style="padding:0.7rem 1.6rem;font-size:0.95rem;font-weight:700;background:#38bdf8;border-color:#38bdf8;color:#0f172a;cursor:pointer;display:inline-flex;align-items:center;user-select:none;">
+                        📁 Select Documents / Clippings (1 or Multiple)
+                    </label>
+                </div>
+
+                <div class="upload-hints" style="margin-top:1.5rem;display:flex;flex-direction:row;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
+                    <span>✨ Any Language Detected (Tamil, Hindi, Telugu, Bengali, Marathi, Urdu, English, etc.)</span>
+                    <span>✨ Supports PDF, Word (.docx), Scanned Images (JPG, PNG), and Text</span>
+                    <span>✨ Fast Multi-Threaded OCR & Column Segmentation</span>
+                    <span>✨ Categorized News (Sports, Business, Politics, Disasters, General)</span>
+                </div>
+            </div>
+
+            <!-- Staged Files Queue (Shows when files are chosen) -->
+            <div class="staged-files-card" id="stagedFilesCard" style="display:none;">
+                <div class="staged-header">
+                    <div>
+                        <strong id="stagedCountText">0 Documents Staged for Analysis</strong>
+                        <span class="text-secondary" id="stagedTotalSize" style="margin-left:0.5rem;font-size:0.82rem;">(0 MB)</span>
+                    </div>
+                    <div style="display:flex;gap:0.5rem;">
+                        <button class="btn btn-xs btn-outline" id="btnAddMoreFiles">➕ Add More</button>
+                        <button class="btn btn-xs btn-outline" id="btnClearStaged" style="color:#ef4444;border-color:rgba(239,68,68,0.4);">🗑️ Clear All</button>
+                        <button class="btn btn-sm btn-primary" id="btnStartBatchAnalysis" style="background:linear-gradient(90deg, #38bdf8, #10b981);">
+                            🚀 Start News Extraction (<span id="btnStartFileCount">0</span> Files)
+                        </button>
+                    </div>
+                </div>
+                <div class="staged-list" id="stagedFilesList">
+                    <!-- Dynamic items -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing State Card -->
+        <div class="batch-progress-card" id="batchProgressCard" style="display:none;">
+            <div class="spinner" style="margin:0 auto 1rem;"></div>
+            <h3 id="progressTitle" style="font-size:1.3rem;margin-bottom:0.4rem;">Processing Uploaded Newspaper PDFs...</h3>
+            <p class="text-secondary" id="progressSubText">Rendering pages, executing high-precision OCR, detecting languages, translating, and categorizing news...</p>
+            
+            <div class="batch-progress-bar-container">
+                <div class="batch-progress-fill" id="batchProgressBarFill"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:#94a3b8;">
+                <span id="progressFilesProcessed">Preparing worker threads...</span>
+                <span id="progressPercent">0%</span>
+            </div>
+        </div>
+
+        <!-- Results Workspace (Hidden initially) -->
+        <div id="batchResultsWorkspace" style="display:none;">
+            <!-- Metrics Bar -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="label">Total Documents</span>
+                    <span class="value" id="metricTotalPdfs" style="color:#38bdf8;">0</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">Total Pages</span>
+                    <span class="value" id="metricTotalPages" style="color:#818cf8;">0</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">Stories Extracted</span>
+                    <span class="value" id="metricTotalStories" style="color:#10b981;">0</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">Auto-Translated</span>
+                    <span class="value" id="metricTranslated" style="color:#06b6d4;">0</span>
+                </div>
+                <div class="metric-card">
+                    <span class="label">Languages</span>
+                    <span class="value" id="metricLanguages" style="color:#c084fc;font-size:1.2rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">All</span>
+                </div>
+            </div>
+
+            <!-- Toolbar & Controls -->
+            <div class="results-toolbar">
+                <div class="doc-select-group">
+                    <label for="docFilterSelect" style="font-size:0.85rem;color:#94a3b8;">📄 Document:</label>
+                    <select id="docFilterSelect" class="doc-select-control">
+                        <option value="all">📁 All Uploaded Documents</option>
+                    </select>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+                    <input type="text" id="newsSearchInput" class="search-control" placeholder="🔍 Search extracted stories...">
+                    <button class="btn btn-xs btn-outline" id="btnExportJson" title="Export Extracted News as JSON">💾 Export JSON</button>
+                    <button class="btn btn-xs btn-primary" id="btnUploadMore">📤 Upload More Documents</button>
+                </div>
+            </div>
+
+            <!-- Categories Tabs -->
+            <div class="news-categories-bar" id="categoryTabsBar" style="margin-bottom:1.5rem;">
+                <button class="news-cat-pill active" data-cat="all">
+                    <span class="cat-icon">📰</span> All Stories (<span id="catCountAll">0</span>)
+                </button>
+                <button class="news-cat-pill" data-cat="sports">
+                    <span class="cat-icon">🏆</span> Sports (<span id="catCountSports">0</span>)
+                </button>
+                <button class="news-cat-pill" data-cat="business">
+                    <span class="cat-icon">💼</span> Business (<span id="catCountBusiness">0</span>)
+                </button>
+                <button class="news-cat-pill" data-cat="economic">
+                    <span class="cat-icon">📈</span> Economic (<span id="catCountEconomic">0</span>)
+                </button>
+                <button class="news-cat-pill" data-cat="political">
+                    <span class="cat-icon">🏛️</span> Political (<span id="catCountPolitical">0</span>)
+                </button>
+                <button class="news-cat-pill" data-cat="crises_disasters">
+                    <span class="cat-icon">🚨</span> Crises & Disasters (<span id="catCountCrises">0</span>)
+                </button>
+            </div>
+
+            <!-- Articles Container -->
+            <div id="articlesListContainer">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Snapshot / Traceability Modal -->
+    <div class="modal-backdrop" id="snapshotModal">
+        <div class="modal-dialog modal-dialog-lg modal-glass">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <h3 class="modal-title" id="snapshotModalTitle">🔍 Newspaper Page & OCR Traceability</h3>
+                    <div class="modal-subtitle">High-resolution snapshot verification against extracted ground truth</div>
+                </div>
+                <button class="btn-close" id="btnCloseSnapshotModal">✕</button>
+            </div>
+            <div class="modal-body" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-height:75vh;overflow-y:auto;">
+                <div>
+                    <h4 style="margin-bottom:0.6rem;font-size:0.95rem;color:#38bdf8;">📷 Original Page Render (300 DPI)</h4>
+                    <div style="background:#000;border:1px solid rgba(255,255,255,0.1);border-radius:8px;overflow:hidden;text-align:center;">
+                        <img id="snapshotModalImg" src="" alt="Page snapshot" style="max-width:100%;height:auto;display:block;margin:0 auto;">
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom:0.6rem;font-size:0.95rem;color:#10b981;">📜 OCR Ground Truth Text</h4>
+                    <div id="snapshotOcrContent" style="background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:1rem;font-family:'JetBrains Mono', monospace;font-size:0.85rem;white-space:pre-wrap;max-height:500px;overflow-y:auto;color:#cbd5e1;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Page Logic -->
+    <script>
+        // State
+        const pageState = {
+            stagedFiles: [],
+            batchData: null,
+            currentCategory: 'all',
+            currentDocFilter: 'all',
+            searchQuery: ''
+        };
+
+        const batchFileInput = document.getElementById('batchFileInput');
+        const btnBrowseBatch = document.getElementById('btnBrowseBatch');
+        const batchDropzone = document.getElementById('batchDropzone');
+        const stagedFilesCard = document.getElementById('stagedFilesCard');
+        const stagedFilesList = document.getElementById('stagedFilesList');
+        const stagedCountText = document.getElementById('stagedCountText');
+        const stagedTotalSize = document.getElementById('stagedTotalSize');
+        const btnStartFileCount = document.getElementById('btnStartFileCount');
+        const btnStartBatchAnalysis = document.getElementById('btnStartBatchAnalysis');
+        const btnAddMoreFiles = document.getElementById('btnAddMoreFiles');
+        const btnClearStaged = document.getElementById('btnClearStaged');
+
+        const uploadWorkspaceArea = document.getElementById('uploadWorkspaceArea');
+        const batchProgressCard = document.getElementById('batchProgressCard');
+        const batchResultsWorkspace = document.getElementById('batchResultsWorkspace');
+        const btnUploadMore = document.getElementById('btnUploadMore');
+
+        const docFilterSelect = document.getElementById('docFilterSelect');
+        const newsSearchInput = document.getElementById('newsSearchInput');
+        const btnExportJson = document.getElementById('btnExportJson');
+
+        // File Selection Handlers
+        if (btnAddMoreFiles && batchFileInput) {
+            btnAddMoreFiles.addEventListener('click', () => batchFileInput.click());
+        }
+        if (batchDropzone && batchFileInput) {
+            batchDropzone.addEventListener('click', (e) => {
+                if (!e.target.closest('#btnBrowseBatch') && !e.target.closest('button') && !e.target.closest('label')) {
+                    batchFileInput.click();
+                }
+            });
+            batchDropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                batchDropzone.classList.add('dragover');
+            });
+            batchDropzone.addEventListener('dragleave', () => {
+                batchDropzone.classList.remove('dragover');
+            });
+            batchDropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                batchDropzone.classList.remove('dragover');
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    addFilesToStaging(Array.from(e.dataTransfer.files));
+                }
+            });
+        }
+        if (batchFileInput) {
+            batchFileInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                    addFilesToStaging(Array.from(e.target.files));
+                    e.target.value = '';
+                }
+            });
+        }
+        if (btnClearStaged) {
+            btnClearStaged.addEventListener('click', () => {
+                pageState.stagedFiles = [];
+                updateStagingUI();
+            });
+        }
+
+        const ALLOWED_EXTS = ['.pdf', '.docx', '.doc', '.txt', '.md', '.csv', '.png', '.jpg', '.jpeg', '.webp', '.tiff', '.bmp'];
+
+        function addFilesToStaging(files) {
+            const docs = files.filter(f => {
+                const name = (f.name || '').toLowerCase();
+                return ALLOWED_EXTS.some(ext => name.endsWith(ext));
+            });
+            if (docs.length === 0) {
+                alert('Please upload supported documents (PDF, Word, Images, or Text).');
+                return;
+            }
+
+            // Cap at 25 files
+            for (const f of docs) {
+                if (!pageState.stagedFiles.some(existing => existing.name === f.name && existing.size === f.size)) {
+                    if (pageState.stagedFiles.length < 25) {
+                        pageState.stagedFiles.push(f);
+                    }
+                }
+            }
+            updateStagingUI();
+            // Automatically launch extraction for seamless 1-click experience
+            startBatchUpload();
+        }
+
+        function updateStagingUI() {
+            if (pageState.stagedFiles.length === 0) {
+                stagedFilesCard.style.display = 'none';
+                return;
+            }
+
+            stagedFilesCard.style.display = 'block';
+            stagedCountText.textContent = `${pageState.stagedFiles.length} Document${pageState.stagedFiles.length > 1 ? 's' : ''} Staged for Analysis`;
+            btnStartFileCount.textContent = pageState.stagedFiles.length;
+
+            const totalBytes = pageState.stagedFiles.reduce((acc, f) => acc + f.size, 0);
+            const totalMb = (totalBytes / (1024 * 1024)).toFixed(2);
+            stagedTotalSize.textContent = `(${totalMb} MB total)`;
+
+            stagedFilesList.innerHTML = pageState.stagedFiles.map((f, i) => `
+                <div class="staged-item">
+                    <div class="file-info">
+                        <span>📄</span>
+                        <strong style="color:#f8fafc;">${f.name}</strong>
+                        <span style="color:#64748b;">(${(f.size / 1024).toFixed(0)} KB)</span>
+                    </div>
+                    <button class="btn-remove-staged" onclick="removeStagedFile(${i})" title="Remove file">✕</button>
+                </div>
+            `).join('');
+        }
+
+        window.removeStagedFile = function(index) {
+            pageState.stagedFiles.splice(index, 1);
+            updateStagingUI();
+        };
+
+        // Start Analysis
+        if (btnStartBatchAnalysis) {
+            btnStartBatchAnalysis.addEventListener('click', startBatchUpload);
+        }
+
+        async function startBatchUpload() {
+            if (pageState.stagedFiles.length === 0) return;
+
+            uploadWorkspaceArea.style.display = 'none';
+            batchResultsWorkspace.style.display = 'none';
+            batchProgressCard.style.display = 'block';
+
+            const progressTitle = document.getElementById('progressTitle');
+            const progressSubText = document.getElementById('progressSubText');
+            const progressFilesProcessed = document.getElementById('progressFilesProcessed');
+            const progressPercent = document.getElementById('progressPercent');
+            const progressBarFill = document.getElementById('batchProgressBarFill');
+
+            progressTitle.textContent = `Processing ${pageState.stagedFiles.length} Newspaper PDFs...`;
+            progressSubText.textContent = `Extracting high-resolution pages, running RapidOCR, detecting languages, translating, and categorizing...`;
+            progressBarFill.style.width = '20%';
+            progressPercent.textContent = '20%';
+            progressFilesProcessed.textContent = `Uploading ${pageState.stagedFiles.length} files to processing queue...`;
+
+            const formData = new FormData();
+            pageState.stagedFiles.forEach(f => formData.append('files', f));
+
+            // Interval simulated progress while server processes
+            let currentPct = 20;
+            const progressInterval = setInterval(() => {
+                if (currentPct < 90) {
+                    currentPct += 5;
+                    progressBarFill.style.width = `${currentPct}%`;
+                    progressPercent.textContent = `${currentPct}%`;
+                    progressFilesProcessed.textContent = `Analyzing page layout & text streams across all ${pageState.stagedFiles.length} PDFs...`;
+                }
+            }, 1200);
+
+            try {
+                const res = await fetch('/api/newspaper/upload-batch', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                clearInterval(progressInterval);
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({ detail: res.statusText }));
+                    throw new Error(err.detail || 'Batch analysis failed');
+                }
+
+                progressBarFill.style.width = '100%';
+                progressPercent.textContent = '100%';
+                progressFilesProcessed.textContent = 'Extraction & categorization complete!';
+
+                const data = await res.json();
+                pageState.batchData = data;
+
+                setTimeout(() => {
+                    batchProgressCard.style.display = 'none';
+                    renderBatchResults(data);
+                }, 500);
+
+            } catch (err) {
+                clearInterval(progressInterval);
+                alert(`Error processing PDFs: ${err.message}`);
+                batchProgressCard.style.display = 'none';
+                uploadWorkspaceArea.style.display = 'block';
+            }
+        }
+
+        // Render Results
+        function renderBatchResults(data) {
+            batchResultsWorkspace.style.display = 'block';
+
+            // Metrics
+            document.getElementById('metricTotalPdfs').textContent = data.total_files || data.documents?.length || 1;
+            document.getElementById('metricTotalPages').textContent = data.total_pages || 0;
+            document.getElementById('metricTotalStories').textContent = data.total_articles || 0;
+            document.getElementById('metricTranslated').textContent = data.translated_count || 0;
+
+            const langs = data.detected_languages && data.detected_languages.length > 0
+                ? data.detected_languages.join(', ')
+                : 'English / Regional';
+            document.getElementById('metricLanguages').textContent = langs;
+            document.getElementById('metricLanguages').title = langs;
+
+            // Populate Document Filter Select
+            docFilterSelect.innerHTML = `<option value="all">📁 All Uploaded Newspapers (${data.total_articles || 0} Stories)</option>`;
+            if (data.documents && data.documents.length > 0) {
+                data.documents.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d.doc_id || d.filename;
+                    opt.textContent = `📄 ${d.filename} (${d.total_articles || 0} stories)`;
+                    docFilterSelect.appendChild(opt);
+                });
+            }
+
+            // Update category counts
+            updateCategoryPillCounts();
+
+            // Render Articles
+            renderFilteredArticles();
+        }
+
+        function updateCategoryPillCounts() {
+            if (!pageState.batchData || !pageState.batchData.categories) return;
+
+            const cats = pageState.batchData.categories;
+            const doc = pageState.currentDocFilter;
+
+            function countForCat(catName) {
+                const list = cats[catName] || [];
+                if (doc === 'all') return list.length;
+                return list.filter(a => a.doc_id === doc || a.filename === doc).length;
+            }
+
+            document.getElementById('catCountAll').textContent = countForCat('all');
+            document.getElementById('catCountSports').textContent = countForCat('sports');
+            document.getElementById('catCountBusiness').textContent = countForCat('business');
+            document.getElementById('catCountEconomic').textContent = countForCat('economic');
+            document.getElementById('catCountPolitical').textContent = countForCat('political');
+            document.getElementById('catCountCrises').textContent = countForCat('crises_disasters');
+        }
+
+        function renderFilteredArticles() {
+            const container = document.getElementById('articlesListContainer');
+            if (!container || !pageState.batchData) return;
+
+            const category = pageState.currentCategory;
+            const docFilter = pageState.currentDocFilter;
+            const q = pageState.searchQuery.toLowerCase().trim();
+
+            let articles = pageState.batchData.categories[category] || [];
+
+            // Filter by document
+            if (docFilter !== 'all') {
+                articles = articles.filter(a => a.doc_id === docFilter || a.filename === docFilter);
+            }
+
+            // Filter by search query
+            if (q) {
+                articles = articles.filter(a =>
+                    (a.title && a.title.toLowerCase().includes(q)) ||
+                    (a.snippet && a.snippet.toLowerCase().includes(q)) ||
+                    (a.original_title && a.original_title.toLowerCase().includes(q))
+                );
+            }
+
+            if (articles.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding:3rem 1rem;text-align:center;">
+                        <div style="font-size:3rem;margin-bottom:0.75rem;">🗞️</div>
+                        <h3>No news stories match your current filters</h3>
+                        <p class="text-secondary">Try switching categories or clearing search keywords.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const categoryBadges = {
+                sports: { label: '🏆 Sports', class: 'cat-badge-sports' },
+                business: { label: '💼 Business', class: 'cat-badge-business' },
+                economic: { label: '📈 Economic', class: 'cat-badge-economic' },
+                political: { label: '🏛️ Political', class: 'cat-badge-political' },
+                crises_disasters: { label: '🚨 Crises & Disasters', class: 'cat-badge-crises' },
+                all: { label: '📰 General', class: 'cat-badge-all' },
+            };
+
+            container.innerHTML = articles.map(art => {
+                const badgeInfo = categoryBadges[art.category] || categoryBadges.all;
+
+                const langBadge = art.original_language
+                    ? `<span class="badge-lang">🌐 ${art.original_language}</span>`
+                    : '';
+
+                const translationBadge = art.is_translated
+                    ? `<span class="news-translated-badge" style="font-size:0.75rem;">🌐 Translated to English</span>`
+                    : '';
+
+                const originalSubtitle = art.is_translated && art.original_title
+                    ? `<div class="article-original-title">📖 <em>Original:</em> ${art.original_title}</div>`
+                    : '';
+
+                const pageNum = art.page_number || 1;
+                const pageBadge = `<span class="article-page-badge" style="background:rgba(56,189,248,0.18);border:1px solid rgba(56,189,248,0.5);color:#38bdf8;font-weight:700;font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:9999px;">📑 Page ${pageNum}</span>`;
+
+                const sourceTag = art.filename
+                    ? `📄 ${art.filename}`
+                    : (art.author || `Newspaper PDF`);
+
+                return `
+                    <div class="news-article-card" id="art_${art.id}">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;flex-wrap:wrap;gap:0.4rem;">
+                            <div style="display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;">
+                                <span class="news-cat-badge ${badgeInfo.class}">${badgeInfo.label}</span>
+                                ${pageBadge}
+                                ${langBadge}
+                                ${translationBadge}
+                            </div>
+                            <span style="font-size:0.78rem;color:#94a3b8;">${sourceTag} • Page ${pageNum}</span>
+                        </div>
+
+                        <h3 style="color:#f8fafc;font-size:1.15rem;margin-bottom:0.4rem;line-height:1.4;">
+                            ${art.title}
+                        </h3>
+
+                        ${originalSubtitle}
+
+                        ${art.snippet ? `<p style="color:#cbd5e1;font-size:0.9rem;line-height:1.5;margin-bottom:0.75rem;">${art.snippet}</p>` : ''}
+
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.6rem;border-top:1px solid rgba(255,255,255,0.06);flex-wrap:wrap;gap:0.5rem;">
+                            <div style="font-size:0.76rem;color:#94a3b8;">
+                                OCR Confidence: <strong style="color:#f8fafc;">${Math.round((art.ocr_confidence || 0.98)*100)}%</strong>
+                                ${art.is_translated ? ` • Translation: <strong style="color:#f8fafc;">${Math.round((art.translation_confidence || 1.0)*100)}%</strong>` : ''}
+                            </div>
+                            <div style="display:flex;align-items:center;gap:0.45rem;">
+                                ${art.page_snapshot_url ? `
+                                    <a href="${art.page_snapshot_url}" target="_blank" class="btn btn-xs btn-outline" style="border-color:rgba(56,189,248,0.5);color:#38bdf8;" title="View high-res scanned page image">
+                                        👁️ Page ${pageNum} Scan ↗
+                                    </a>
+                                    <button class="btn btn-xs btn-outline" style="border-color:rgba(245,158,11,0.5);color:#f59e0b;" onclick="openTraceabilityView('${art.id}')">
+                                        🔍 Digital Twin (Page ${pageNum})
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Traceability Modal Viewer
+        window.openTraceabilityView = function(artId) {
+            if (!pageState.batchData) return;
+            const allArticles = pageState.batchData.categories.all || [];
+            const art = allArticles.find(a => a.id === artId);
+            if (!art) return;
+
+            const modal = document.getElementById('snapshotModal');
+            const title = document.getElementById('snapshotModalTitle');
+            const img = document.getElementById('snapshotModalImg');
+            const ocr = document.getElementById('snapshotOcrContent');
+
+            title.textContent = `🔍 ${art.title} (${art.filename || 'Page ' + (art.page_number || 1)})`;
+            img.src = art.page_snapshot_url || '';
+            ocr.textContent = art.ocr_raw_text || art.snippet || 'No raw OCR text recorded.';
+
+            modal.classList.add('open');
+        };
+
+        const btnCloseSnapshotModal = document.getElementById('btnCloseSnapshotModal');
+        if (btnCloseSnapshotModal) {
+            btnCloseSnapshotModal.addEventListener('click', () => {
+                document.getElementById('snapshotModal').classList.remove('open');
+            });
+        }
+
+        // Category Tab switching
+        document.querySelectorAll('#categoryTabsBar .news-cat-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                document.querySelectorAll('#categoryTabsBar .news-cat-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                pageState.currentCategory = pill.dataset.cat;
+                renderFilteredArticles();
+            });
+        });
+
+        // Document Filter change
+        if (docFilterSelect) {
+            docFilterSelect.addEventListener('change', (e) => {
+                pageState.currentDocFilter = e.target.value;
+                updateCategoryPillCounts();
+                renderFilteredArticles();
+            });
+        }
+
+        // Search Input
+        if (newsSearchInput) {
+            newsSearchInput.addEventListener('input', (e) => {
+                pageState.searchQuery = e.target.value;
+                renderFilteredArticles();
+            });
+        }
+
+        // Export JSON
+        if (btnExportJson) {
+            btnExportJson.addEventListener('click', () => {
+                if (!pageState.batchData) return;
+                const blob = new Blob([JSON.stringify(pageState.batchData, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `newspaper_news_extracted_${new Date().toISOString().slice(0,10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        // Upload More Button
+        if (btnUploadMore) {
+            btnUploadMore.addEventListener('click', () => {
+                uploadWorkspaceArea.style.display = 'block';
+                batchResultsWorkspace.style.display = 'none';
+                pageState.stagedFiles = [];
+                updateStagingUI();
+            });
+        }
+        // Clock
+        function initClock() {
+            function updateClock() {
+                const now = new Date();
+                const istTime = new Intl.DateTimeFormat('en-IN', {
+                    timeZone: 'Asia/Kolkata',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                }).format(now);
+                const el = document.getElementById('istClockDisplay');
+                if (el) el.textContent = `${istTime} IST`;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+        initClock();
+    </script>
+</body>
+</html>

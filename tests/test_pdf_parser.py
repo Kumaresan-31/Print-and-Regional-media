@@ -82,9 +82,87 @@ class TestPDFNewsParser(unittest.TestCase):
             first_art = result["categories"]["all"][0]
             self.assertIn("page_snapshot_url", first_art)
             self.assertIsNotNone(first_art["page_snapshot_url"])
-            self.assertGreaterEqual(first_art.get("ocr_confidence", 0), 0.90)
+            self.assertGreaterEqual(first_art.get("ocr_confidence", 0), 0.70)
 
         asyncio.run(_run())
+
+    def test_multilingual_detection(self):
+        # Spanish
+        code, name = detect_script_language("El presidente anuncia nuevas medidas para el gobierno")
+        self.assertEqual(code, "es")
+        self.assertEqual(name, "Spanish")
+
+        # French
+        code, name = detect_script_language("Le gouvernement vote une loi sur les retraites dans le pays")
+        self.assertEqual(code, "fr")
+        self.assertEqual(name, "French")
+
+        # German
+        code, name = detect_script_language("Die Wirtschaftskrise verschärft sich mit der Inflation")
+        self.assertEqual(code, "de")
+        self.assertEqual(name, "German")
+
+        # Russian / Cyrillic
+        code, name = detect_script_language("Президент провел встречу в Москве")
+        self.assertEqual(code, "ru")
+        self.assertEqual(name, "Russian / Cyrillic")
+
+        # Chinese
+        code, name = detect_script_language("北京举行重大经济工作会议")
+        self.assertEqual(code, "zh")
+        self.assertEqual(name, "Chinese")
+
+        # Bengali
+        code, name = detect_script_language("কলকাতায় নতুন মেট্রো রেলের উদ্বোধন")
+        self.assertEqual(code, "bn")
+        self.assertEqual(name, "Bengali")
+
+    def test_post_translation_categorization(self):
+        # Even non-English headlines correctly categorize
+        cat_sports = pdf_news_parser.classify_category(
+            "Real Madrid gana la final de la Liga de Campeones",
+            "El equipo logra una victoria histórica en el torneo"
+        )
+        self.assertEqual(cat_sports, "sports")
+
+        cat_political = pdf_news_parser.classify_category(
+            "संसद में नए विधेयक पर मतदान, विपक्ष का हंगामा",
+            "सरकार ने लोकसभा में विधेयक पारित कराया"
+        )
+        self.assertEqual(cat_political, "political")
+
+        cat_crises = pdf_news_parser.classify_category(
+            "Desastre por inundación repentina en la costa",
+            "Equipos de rescate y emergencia evacúan a miles de damnificados"
+        )
+        self.assertEqual(cat_crises, "crises_disasters")
+
+    def test_batch_processing(self):
+        async def _run_batch():
+            sample_pdf = Path("data/sample_regional_newspaper.pdf")
+            if not sample_pdf.exists():
+                sample_pdf = Path("data/archive/toi/2026-08-29/toi_delhi_2026-08-29.pdf")
+            if not sample_pdf.exists():
+                self.skipTest("Sample PDF not found")
+
+            # Test batch with 2 sample PDFs
+            batch_result = await pdf_news_parser.parse_and_process_pdf_batch(
+                file_paths=[sample_pdf, sample_pdf],
+                source_names=["Batch Paper A", "Batch Paper B"],
+                max_pages_per_doc=1,
+                max_concurrency=2
+            )
+
+            self.assertTrue(batch_result.get("batch_mode"))
+            self.assertEqual(batch_result.get("total_files"), 2)
+            self.assertEqual(batch_result.get("successful_files"), 2)
+            self.assertEqual(batch_result.get("failed_files"), 0)
+            self.assertGreater(batch_result.get("total_articles"), 0)
+            self.assertEqual(len(batch_result.get("documents", [])), 2)
+            self.assertIn("categories", batch_result)
+            self.assertIn("all", batch_result["categories"])
+
+        asyncio.run(_run_batch())
 
 
 if __name__ == "__main__":

@@ -1,0 +1,122 @@
+{
+  "source_id": "dt_next",
+  "updated_at": "2026-09-19T14:02:00.000000+00:00",
+  "cookies": [
+    {
+      "domain": "news.dtnext.in",
+      "hostOnly": true,
+      "httpOnly": true,
+      "name": "ASP.NET_SessionId",
+      "path": "/",
+      "sameSite": "lax",
+      "secure": false,
+      "session": true,
+      "storeId": null,
+      "value": "vgnduy4np2pcub14shuaek2m"
+    },
+    {
+      "domain": ".dtnext.in",
+      "expirationDate": 1824385363.854225,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "_ga_385540605",
+      "path": "/",
+      "sameSite": "no_restriction",
+      "secure": true,
+      "session": false,
+      "storeId": null,
+      "value": "GS2.1.s1789825354$o2$g1$t1789825363$j51$l0$h0"
+    },
+    {
+      "domain": ".dtnext.in",
+      "expirationDate": 1789911750,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "_clsk",
+      "path": "/",
+      "sameSite": null,
+      "secure": false,
+      "session": false,
+      "storeId": null,
+      "value": "1s0iamt%5E1789825350319%5E1%5E1%5El.clarity.ms%2Fcollect"
+    },
+    {
+      "domain": ".dtnext.in",
+      "expirationDate": 1824385354.939056,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "_ga",
+      "path": "/",
+      "sameSite": "no_restriction",
+      "secure": true,
+      "session": false,
+      "storeId": null,
+      "value": "GA1.1.66503710.1789816022"
+    },
+    {
+      "domain": ".dtnext.in",
+      "expirationDate": 1789911754,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "_gid",
+      "path": "/",
+      "sameSite": "no_restriction",
+      "secure": true,
+      "session": false,
+      "storeId": null,
+      "value": "GA1.2.804541863.1789816035"
+    },
+    {
+      "domain": ".dtnext.in",
+      "expirationDate": 1821352022,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "_clck",
+      "path": "/",
+      "sameSite": null,
+      "secure": false,
+      "session": false,
+      "storeId": null,
+      "value": "eqwf4x%5E2%5Eg9l%5E0%5E2453"
+    },
+    {
+      "domain": ".dtnext.in",
+      "expirationDate": 1824385349.747227,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "_ga_B2VCQLJD3C",
+      "path": "/",
+      "sameSite": null,
+      "secure": false,
+      "session": false,
+      "storeId": null,
+      "value": "GS2.1.s1789825348$o2$g0$t1789825349$j59$l0$h0"
+    },
+    {
+      "domain": ".dtnext.in",
+      "expirationDate": 1824385363.857187,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "_ga_N8Q2L41X6R",
+      "path": "/",
+      "sameSite": "no_restriction",
+      "secure": true,
+      "session": false,
+      "storeId": null,
+      "value": "GS2.1.s1789825354$o2$g1$t1789825363$j51$l0$h0"
+    },
+    {
+      "domain": ".dtnext.in",
+      "expirationDate": 1789825414,
+      "hostOnly": false,
+      "httpOnly": false,
+      "name": "_gat_gtag_UA_69390380_3",
+      "path": "/",
+      "sameSite": "no_restriction",
+      "secure": true,
+      "session": false,
+      "storeId": null,
+      "value": "1"
+    }
+  ]
+}

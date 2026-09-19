@@ -1,0 +1,42 @@
+{
+  "source_id": "lokmat",
+  "source_name": "Lokmat",
+  "date": "2026-09-19",
+  "pdf_path": "D:\\Projects\\VEE2\\data\\archive\\lokmat\\2026-09-19\\lokmat_pune_2026-09-19.pdf",
+  "doc_id": "cbb48fccc7f5",
+  "indexed_at": "2026-09-19T16:04:56.676555",
+  "total_pages": 4,
+  "total_stories": 1,
+  "snapshots": [
+    "/api/snapshots/cbb48fccc7f5/1",
+    "/api/snapshots/cbb48fccc7f5/2",
+    "/api/snapshots/cbb48fccc7f5/3",
+    "/api/snapshots/cbb48fccc7f5/4"
+  ],
+  "pages": [
+    {
+      "page_num": 3,
+      "snapshot_url": "/api/snapshots/cbb48fccc7f5/3",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cbb48fccc7f5\\page_003.jpg",
+      "ocr_text_original": "LOKMATTIMES",
+      "ocr_text_en": "LOKMATTIMES LOKMATTIMES",
+      "ocr_confidence": 0.8959,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "e2933d27c833",
+          "title": "LOKMATTIMES",
+          "snippet": "LOKMATTIMES",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 3,
+          "ocr_raw_text": "LOKMATTIMES",
+          "ocr_confidence": 0.8959,
+          "page_snapshot_url": "/api/snapshots/cbb48fccc7f5/3",
+          "is_translated": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+# Notifications module
+from harvester.notifications.telegram_service import telegram_service
+from harvester.notifications.whatsapp_service import whatsapp_service
+from harvester.notifications.email_service import news_email_service

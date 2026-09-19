@@ -37,7 +37,9 @@ Handles dynamic date-based URLs, authentication/session persistence, anti-bot/ca
 
 ### 1. Launch the Web Dashboard & API
 
+Run from the `backend/` directory:
 ```powershell
+cd backend
 python -m harvester.cli serve --port 8000
 ```
 Then open your browser at:
@@ -45,8 +47,11 @@ Then open your browser at:
 
 ### 2. CLI Usage Examples
 
+Run all CLI commands from the `backend/` directory:
+
 #### List all configured sources:
 ```powershell
+cd backend
 python -m harvester.cli list
 python -m harvester.cli list --language Telugu
 ```
@@ -80,56 +85,89 @@ python -m harvester.cli import-cookies --source toi --file cookies.json
 python -m harvester.cli purge --days 14
 ```
 
+#### WhatsApp & Telegram Bot Diagnostics:
+```powershell
+# Test WhatsApp Green API connection and send a test alert
+python -m harvester.cli test-whatsapp
+
+# Run standalone interactive WhatsApp bot listener
+python -m harvester.cli whatsapp-bot
+
+# Test Telegram bot connection and send a test alert
+python -m harvester.cli test-telegram
+
+# Run standalone interactive Telegram bot listener
+python -m harvester.cli telegram-bot
+```
+
 ---
 
-## Architecture
+## Project Structure
 
 ```
-harvester/
-├── config.py                 # Configuration & paths
-├── models.py                 # Pydantic schemas (Sources, Jobs, Archives)
-├── registry.py               # Catalog of 57 configured newspapers
-├── orchestrator.py           # Concurrency worker pool & event broadcaster
-├── cli.py                    # Command-line interface
-├── auth/
-│   └── session_manager.py    # Cookie persistence & Netscape/JSON importer
-├── captcha/
-│   └── solver.py             # Anti-bot stealth, OCR solver, 2Captcha hook
-├── extractors/
-│   ├── base.py               # BaseExtractor abstract class
-│   ├── factory.py            # Instantiates appropriate extractor
-│   ├── engines/
-│   │   ├── image_stitcher.py # Concurrent image downloader & PDF compiler
-│   │   ├── manifest_api.py   # Manifest API extractor
-│   │   ├── browser_engine.py # Playwright stealth flipbook extractor
-│   │   └── direct_pdf.py     # Direct PDF downloader
-│   └── sources/
-│       ├── toi.py            # Times of India handler
-│       ├── the_hindu.py      # The Hindu handler
-│       ├── dainik_bhaskar.py # Dainik Bhaskar handler
-│       ├── eenadu.py         # Eenadu handler
-│       ├── indian_express.py # Indian Express handler
-│       ├── sakshi.py         # Sakshi handler
-│       ├── amar_ujala.py     # Amar Ujala handler
-│       └── generic.py        # Universal extractor for remaining 45+ sources
-├── storage/
-│   └── retention.py          # Storage stats, thumbnails, and auto-cleanup
-├── scheduler/
-│   └── cron_manager.py       # APScheduler IST cron runner
-├── api/
-│   └── app.py               # FastAPI backend & WebSocket service
-└── web/
-    ├── templates/index.html  # Modern glassmorphism web dashboard
-    └── static/
-        ├── css/style.css     # Dark mode CSS design system
-        └── js/app.js         # Reactive frontend with WebSocket live sync
+VEE2/
+├── backend/                        # All Python backend code
+│   └── harvester/                  # Main Python package
+│       ├── __init__.py
+│       ├── config.py               # Configuration & paths
+│       ├── models.py               # Pydantic schemas (Sources, Jobs, Archives)
+│       ├── registry.py             # Catalog of 57 configured newspapers
+│       ├── orchestrator.py         # Concurrency worker pool & event broadcaster
+│       ├── cli.py                  # Command-line interface
+│       ├── api/
+│       │   └── app.py              # FastAPI backend & WebSocket service
+│       ├── auth/
+│       │   └── session_manager.py  # Cookie persistence & Netscape/JSON importer
+│       ├── captcha/
+│       │   └── solver.py           # Anti-bot stealth, OCR solver, 2Captcha hook
+│       ├── extractors/
+│       │   ├── base.py             # BaseExtractor abstract class
+│       │   ├── factory.py          # Instantiates appropriate extractor
+│       │   ├── engines/
+│       │   │   ├── image_stitcher.py
+│       │   │   ├── manifest_api.py
+│       │   │   ├── browser_engine.py
+│       │   │   └── direct_pdf.py
+│       │   └── sources/
+│       │       ├── toi.py
+│       │       ├── the_hindu.py
+│       │       ├── dainik_bhaskar.py
+│       │       ├── eenadu.py
+│       │       ├── indian_express.py
+│       │       ├── sakshi.py
+│       │       ├── amar_ujala.py
+│       │       └── generic.py
+│       ├── news/                   # News parsing & alerts service
+│       ├── notifications/          # Email, Telegram & WhatsApp notification services
+│       ├── automation/             # Email inbox monitor
+│       ├── storage/
+│       │   └── retention.py        # Storage stats, thumbnails, and auto-cleanup
+│       ├── scheduler/
+│       │   └── cron_manager.py     # APScheduler IST cron runner
+│       └── translation/
+│           └── llm_translator.py   # LLM-powered article translator
+├── frontend/                       # All UI assets (served by FastAPI)
+│   ├── templates/
+│   │   ├── index.html              # Main glassmorphism web dashboard
+│   │   ├── inbox.html              # Email inbox viewer
+│   │   └── upload.html             # Manual upload page
+│   └── static/
+│       ├── css/
+│       │   └── style.css           # Dark mode CSS design system
+│       └── js/
+│           ├── app.js              # Reactive frontend with WebSocket live sync
+│           └── inbox.js            # Inbox page JS
+├── data/                           # Runtime data (archives, sessions, logs)
+├── tests/                          # Unit & integration tests
+├── scratch/                        # Development scratch files
+└── requirements.txt                # Python dependencies
 ```
 
 ---
 
 ## Testing
 
-Run unit and integration tests:
+Run unit and integration tests from the project root:
 ```powershell
 python -m unittest discover -s tests -p "test_*.py"
 ```
