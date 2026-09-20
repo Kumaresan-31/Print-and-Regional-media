@@ -5,11 +5,18 @@ from pydantic import BaseModel, Field
 # Project root: backend/harvester/ -> ../../ -> project root
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-# On Render, use the persistent disk mounted at /var/data so harvested
-# PDFs, sessions, and indexes survive server restarts.
-# Locally, fall back to the data/ folder inside the project root.
-if os.environ.get("RENDER"):
-    DATA_DIR = Path("/var/data")
+# On Render, if a persistent disk is mounted at /var/data and writable, use it
+# so harvested PDFs, sessions, and indexes survive restarts.
+# On Render Free tier (no persistent disk) or locally, fall back to BASE_DIR / "data".
+custom_data_dir = os.environ.get("DATA_DIR")
+if custom_data_dir:
+    DATA_DIR = Path(custom_data_dir)
+elif os.environ.get("RENDER"):
+    render_disk = Path("/var/data")
+    if render_disk.exists() and os.access(str(render_disk), os.W_OK):
+        DATA_DIR = render_disk
+    else:
+        DATA_DIR = BASE_DIR / "data"
 else:
     DATA_DIR = BASE_DIR / "data"
 
@@ -24,7 +31,10 @@ PDF_INDEX_DIR = DATA_DIR / "pdf_index"
 EXPORTS_DIR = DATA_DIR / "exports"
 
 for directory in [DATA_DIR, ARCHIVE_DIR, TEMP_DIR, SESSIONS_DIR, LOGS_DIR, INBOX_ATTACHMENTS_DIR, INBOX_INGESTED_DIR, SNAPSHOTS_DIR, PDF_INDEX_DIR, EXPORTS_DIR]:
-    directory.mkdir(parents=True, exist_ok=True)
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        print(f"[WARN] Could not create directory {directory}: {e}")
 
 
 

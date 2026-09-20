@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.cpython-*.pyc
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Harvested newspaper archives, snapshots, and temporary runtime data
+data/archive/
+data/temp/
+data/logs/
+data/snapshots/
+data/exports/
+data/inbox_attachments/
+data/inbox_ingested/
+
+# Scratch & test dumps
+scratch/test_lokmat_temp/
+scratch/*.html
+
+# Operating System files
+.DS_Store
+Thumbs.db

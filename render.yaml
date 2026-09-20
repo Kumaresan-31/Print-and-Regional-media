@@ -3,9 +3,8 @@ services:
     name: epaper-harvester
     runtime: python
     rootDir: backend
-    buildCommand: >
-      pip install -r ../requirements.txt &&
-      playwright install --with-deps chromium
+    plan: starter # NOTE: Set to 'free' and remove the 'disk' section below if deploying on Render Free Tier
+    buildCommand: pip install -r ../requirements.txt && playwright install chromium
     startCommand: python -m harvester.cli serve --port $PORT
     envVars:
       - key: PORT

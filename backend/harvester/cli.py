@@ -388,10 +388,11 @@ def whatsapp_bot_cmd():
 @cli.command("serve")
 @click.option("--host", "-h", default="0.0.0.0", help="Host address")
 @click.option("--port", "-p", default=8000, type=int, help="Port number")
-def serve_cmd(host, port):
+@click.option("--reload/--no-reload", default=False, help="Enable code auto-reload (development only)")
+def serve_cmd(host, port, reload):
     """Launch the Web Control Center and API server."""
     click.echo(f"Starting ePaper Harvester Web Dashboard at http://{host if host != '0.0.0.0' else 'localhost'}:{port}")
-    uvicorn.run("harvester.api.app:app", host=host, port=port, reload=True)
+    uvicorn.run("harvester.api.app:app", host=host, port=port, reload=reload)
 
 
 if __name__ == "__main__":
