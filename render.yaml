@@ -4,7 +4,7 @@ services:
     runtime: python
     rootDir: backend
     plan: free
-    buildCommand: pip install -r ../requirements.txt && playwright install chromium
+    buildCommand: pip install -r ../requirements.txt && pip install -e . && playwright install chromium
     startCommand: python -m harvester.cli serve
     healthCheckPath: /healthz
     envVars:
@@ -12,5 +12,7 @@ services:
         value: 10000
       - key: PYTHON_VERSION
         value: "3.11"
+      - key: PYTHONPATH
+        value: "."
       - key: PLAYWRIGHT_BROWSERS_PATH
         value: /opt/render/project/.playwright

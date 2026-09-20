@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.cpython-*.pyc
+*.egg-info/
+*.egg
+
 
 # Virtual environments
 .venv/
