@@ -195,7 +195,7 @@ class HarvestOrchestrator:
             return
         try:
             pdf_p = Path(pdf_path)
-            ok = await idx.index_document(pdf_p, source_id, target_date)
+            ok = await idx.index_document(pdf_p, source_id, target_date, force=True)
             if ok:
                 logger.info(f"Auto-indexed PDF: {source_id}/{target_date}")
         except Exception as e:

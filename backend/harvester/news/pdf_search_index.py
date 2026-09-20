@@ -119,21 +119,22 @@ class PDFSearchIndex:
         OCR + translate a harvested PDF and store results in the search index.
         Skips if already indexed unless force=True.
         """
-        if source_id not in INDEXED_SOURCES:
-            logger.debug(f"Source {source_id} not in INDEXED_SOURCES, skipping index.")
+        norm_source_id = self.normalize_source_id(source_id)
+        if norm_source_id not in INDEXED_SOURCES:
+            logger.debug(f"Source {source_id} (normalized: {norm_source_id}) not in INDEXED_SOURCES, skipping index.")
             return False
 
-        key = self._index_key(source_id, date)
+        key = self._index_key(norm_source_id, date)
         if key in self._memory_index and not force:
-            logger.info(f"PDF already indexed: {source_id}/{date}, skipping.")
+            logger.info(f"PDF already indexed: {norm_source_id}/{date}, skipping.")
             return True
 
         if not pdf_path.exists():
             logger.error(f"PDF not found for indexing: {pdf_path}")
             return False
 
-        source = get_source(source_id)
-        source_name = source.name if source else source_id.replace("_", " ").title()
+        source = get_source(norm_source_id)
+        source_name = source.name if source else norm_source_id.replace("_", " ").title()
         logger.info(f"Indexing PDF: {pdf_path.name} for {source_name} ({date})...")
 
         try:
@@ -207,7 +208,7 @@ class PDFSearchIndex:
             pages.sort(key=lambda x: x["page_num"])
 
             index_entry = {
-                "source_id": source_id,
+                "source_id": norm_source_id,
                 "source_name": source_name,
                 "date": date,
                 "pdf_path": str(pdf_path),
@@ -220,9 +221,9 @@ class PDFSearchIndex:
             }
 
             self._memory_index[key] = index_entry
-            self._save_index(source_id, date)
+            self._save_index(norm_source_id, date)
             logger.info(
-                f"PDF indexed: {source_id}/{date} — {len(pages)} pages, "
+                f"PDF indexed: {norm_source_id}/{date} — {len(pages)} pages, "
                 f"{result.get('total_articles', 0)} stories"
             )
             return True

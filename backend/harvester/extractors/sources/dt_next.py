@@ -41,6 +41,16 @@ class DtNextExtractor(BaseExtractor):
         if not stored_cookies:
             # Fallback check for alias
             stored_cookies = session_manager.load_cookies("dtnext")
+        if not stored_cookies:
+            import json
+            root_cookie_path = settings.base_dir / "dt_next_cookies.json"
+            if root_cookie_path.exists():
+                try:
+                    with open(root_cookie_path, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        stored_cookies = data if isinstance(data, list) else data.get("cookies", [])
+                except Exception:
+                    pass
 
         page_image_paths: List[Path] = []
         page_keys: List[Dict[str, Any]] = []
@@ -130,7 +140,7 @@ class DtNextExtractor(BaseExtractor):
                 await page.goto("https://news.dtnext.in/dt-next", wait_until="domcontentloaded", timeout=settings.browser_timeout_ms)
 
             # Wait for PressReader engine to initialize and publish PageKeys
-            for _ in range(24):
+            for _ in range(40):
                 if page_keys and issue_id:
                     break
                 await asyncio.sleep(0.5)
