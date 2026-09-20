@@ -26,6 +26,9 @@ SOURCE_ALIASES: Dict[str, str] = {
     "the_financial_express": "financial_express",
     "financialexpress": "financial_express",
     "financial_express": "financial_express",
+    "the_finance_express": "financial_express",
+    "financeexpress": "financial_express",
+    "finance_express": "financial_express",
     "the_finanace_express": "financial_express",
     "finanace_express": "financial_express",
     "fe": "financial_express",
@@ -114,6 +117,7 @@ class PDFSearchIndex:
         source_id: str,
         date: str,
         force: bool = False,
+        max_pages: int = 10,
     ) -> bool:
         """
         OCR + translate a harvested PDF and store results in the search index.
@@ -141,7 +145,7 @@ class PDFSearchIndex:
             result = await pdf_news_parser.parse_and_process_pdf(
                 file_path=pdf_path,
                 source_name=source_name,
-                max_pages=16,
+                max_pages=max_pages,
             )
 
             page_map: Dict[int, Dict[str, Any]] = {}
@@ -443,6 +447,9 @@ class PDFSearchIndex:
 
         from harvester.news.service import CATEGORY_VALIDATION_KEYWORDS
 
+        from harvester.news.service import contains_regional_script
+        from harvester.translation.llm_translator import llm_translator
+
         stories_collected = []
         for page in latest_doc.get("pages", []):
             page_num = page.get("page_num", 1)
@@ -495,13 +502,35 @@ class PDFSearchIndex:
                     "author": f"{source_name} Page {page_num}",
                     "ocr_raw_text": st.get("ocr_raw_text"),
                     "ocr_confidence": st.get("ocr_confidence", page.get("ocr_confidence", 0.9)),
-                    "is_translated": st.get("is_translated", False),
+                    "is_translated": st.get("is_translated", False) or bool(orig_title or orig_snippet),
                 })
 
                 if len(stories_collected) >= limit:
                     break
             if len(stories_collected) >= limit:
                 break
+
+        # Fast-pass: Ensure strict English translation only on the final returned subset
+        src_lang = "mr" if norm_src in ["loksatta", "lokmat"] else "auto"
+        for item in stories_collected:
+            it_title = item.get("title", "")
+            it_snippet = item.get("snippet", "")
+            if contains_regional_script(it_title):
+                item["original_title"] = item.get("original_title") or it_title
+                try:
+                    tr = llm_translator._translate_sync(it_title, src_lang)
+                    if tr and not contains_regional_script(tr):
+                        item["title"] = tr
+                except Exception:
+                    pass
+            if contains_regional_script(it_snippet):
+                item["original_snippet"] = item.get("original_snippet") or it_snippet
+                try:
+                    tr = llm_translator._translate_sync(it_snippet[:200], src_lang)
+                    if tr and not contains_regional_script(tr):
+                        item["snippet"] = tr
+                except Exception:
+                    pass
 
         return stories_collected
 

@@ -1235,8 +1235,50 @@ SOURCES_REGISTRY: Dict[str, SourceConfig] = {
 }
 
 
+SOURCE_ALIASES: Dict[str, str] = {
+    "dtnext": "dt_next",
+    "dt_next": "dt_next",
+    "financeexpress": "financial_express",
+    "finance_express": "financial_express",
+    "financialexpress": "financial_express",
+    "financial_express": "financial_express",
+    "the_financial_express": "financial_express",
+    "the_finance_express": "financial_express",
+    "the_hindu": "the_hindu",
+    "hindu": "the_hindu",
+    "hindhu": "the_hindu",
+    "the_hindhu": "the_hindu",
+    "loksatta": "loksatta",
+    "lokmat": "lokmat",
+    "lokmat_samachar": "lokmat_samachar",
+}
+
+# The ONLY 6 publications with active cookies and authenticated broadsheet ePaper harvesting.
+# ALL other newspapers have Online News ONLY.
+ACTIVE_EPAPER_COOKIE_SOURCES = {
+    "the_hindu",
+    "financial_express",
+    "lokmat_samachar",
+    "lokmat",
+    "loksatta",
+    "dt_next",
+}
+
+for sid, cfg in SOURCES_REGISTRY.items():
+    clean = sid.strip().lower().replace("-", "_")
+    canonical = SOURCE_ALIASES.get(clean, clean)
+    cfg.supports_epaper_digital = (canonical in ACTIVE_EPAPER_COOKIE_SOURCES or sid in ACTIVE_EPAPER_COOKIE_SOURCES)
+
+
 def get_source(source_id: str) -> Optional[SourceConfig]:
-    return SOURCES_REGISTRY.get(source_id)
+    if not source_id:
+        return None
+    clean = source_id.strip().lower().replace("-", "_")
+    canonical = SOURCE_ALIASES.get(clean, clean)
+    src = SOURCES_REGISTRY.get(canonical) or SOURCES_REGISTRY.get(source_id)
+    if src:
+        src.supports_epaper_digital = (canonical in ACTIVE_EPAPER_COOKIE_SOURCES or src.id in ACTIVE_EPAPER_COOKIE_SOURCES)
+    return src
 
 
 def list_sources(
@@ -1245,6 +1287,10 @@ def list_sources(
     active_only: bool = False
 ) -> List[SourceConfig]:
     sources = list(SOURCES_REGISTRY.values())
+    for s in sources:
+        clean = s.id.strip().lower().replace("-", "_")
+        canonical = SOURCE_ALIASES.get(clean, clean)
+        s.supports_epaper_digital = (canonical in ACTIVE_EPAPER_COOKIE_SOURCES or s.id in ACTIVE_EPAPER_COOKIE_SOURCES)
     if language:
         sources = [s for s in sources if s.language.value.lower() == language.lower()]
     if category:

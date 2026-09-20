@@ -47,6 +47,7 @@ class SourceConfig(BaseModel):
     auth_required: bool = False
     schedule_time: str = "05:00"  # HH:MM IST
     active: bool = True
+    supports_epaper_digital: bool = False  # True strictly for publications with active cookie broadsheet harvesting
     headers: Dict[str, str] = Field(default_factory=dict)
     notes: Optional[str] = None
 
@@ -157,6 +158,7 @@ class NewsArticle(BaseModel):
     bounding_box: Optional[List[float]] = None
     publication_date: Optional[str] = None
     audit_status: str = "verified"  # "verified", "needs_review", "disputed"
+    news_type: str = "online"  # "online" (Google News web RSS) or "epaper" (active-cookie broadsheet)
 
 
 class NewsAlert(BaseModel):

@@ -1,0 +1,67 @@
+{
+  "job_id": "3a79ffc79607",
+  "created_at": "2026-09-20T19:23:35.536739",
+  "summary": {
+    "newspaper_names": [
+      "20092026 Alappuzha 1"
+    ],
+    "publication_dates": [
+      "2026-09-20"
+    ],
+    "original_languages": [
+      "English"
+    ],
+    "total_pages_processed": 1,
+    "total_articles_extracted": 1,
+    "translated_count": 0,
+    "needs_review_count": 1
+  },
+  "pages_checklist": [
+    {
+      "page_num": 1,
+      "total_pages": 1,
+      "status": "low_confidence",
+      "ocr_confidence": 0.5673,
+      "is_blank": false,
+      "file_name": "batch_20260920_192335_00_20092026-alappuzha-1.pdf"
+    }
+  ],
+  "articles": [
+    {
+      "id": "29f1787c52db",
+      "newspaper": "20092026 Alappuzha 1",
+      "pdf_file": "batch_20260920_192335_00_20092026-alappuzha-1.pdf",
+      "publication_date": "2026-09-20",
+      "original_language": "English",
+      "page_number": 1,
+      "page_numbers": [
+        1
+      ],
+      "continuation_label": "Page: 1",
+      "category": "Other",
+      "secondary_categories": [],
+      "headline_english": "cucerutrowa",
+      "content_english": "Seagseaommeemlsnme,nmfsm",
+      "headline_original": "cucerutrowa",
+      "content_original": "cucerutrowa\nSeagseaommeemlsnme,nmfsm",
+      "ocr_confidence": 0.57,
+      "is_low_confidence": true,
+      "page_snapshot_url": "/api/snapshots/34f2c236fbba/1",
+      "original_page_image_url": "/api/snapshots/34f2c236fbba/1",
+      "crop_image_url": "/api/newspaper/article/29f1787c52db/crop",
+      "pdf_download_url": "/api/newspaper/article/29f1787c52db/pdf",
+      "status": "completed",
+      "title": "cucerutrowa",
+      "snippet": "Seagseaommeemlsnme,nmfsm",
+      "source_id": "uploaded_pdf",
+      "source_name": "20092026 Alappuzha 1 (Page 1)",
+      "author": "20092026 Alappuzha 1",
+      "link": "#page-1",
+      "published_at": "Page 1",
+      "is_translated": false,
+      "ocr_raw_text": "cucerutrowa\nSeagseaommeemlsnme,nmfsm",
+      "doc_id": "34f2c236fbba",
+      "filename": "batch_20260920_192335_00_20092026-alappuzha-1.pdf"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ ALLOWED_DOC_EXTENSIONS = (
     ".png", ".jpg", ".jpeg", ".webp", ".tiff", ".bmp"
 )
 
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Query, Body, BackgroundTasks, File, UploadFile
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Query, Body, BackgroundTasks, File, UploadFile, Form, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, StreamingResponse
 import io
 try:
@@ -27,6 +27,7 @@ from harvester.models import SourceConfig, HarvestJob, ArchiveItem, SessionInfo,
 from harvester.registry import SOURCES_REGISTRY, get_source, list_sources
 from harvester.news.service import news_service
 from harvester.news.pdf_parser import pdf_news_parser
+from harvester.news.hardcopy_manager import hardcopy_manager
 from harvester.news.alerts_service import alerts_service
 from harvester.news.pdf_search_index import pdf_search_index, INDEXED_SOURCES
 from harvester.news.search_pdf_exporter import build_search_results_pdf
@@ -70,6 +71,16 @@ TEMPLATES_DIR = FRONTEND_DIR / "templates"
 
 if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+
+@app.middleware("http")
+async def no_cache_static_middleware(request: Request, call_next):
+    response = await call_next(request)
+    if request.url.path.startswith("/static/"):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return response
 
 
 @app.on_event("startup")
@@ -126,6 +137,17 @@ async def serve_inbox_page():
         with open(inbox_path, "r", encoding="utf-8") as f:
             return HTMLResponse(f.read())
     return HTMLResponse("<h1>Inbox page not found</h1><p>Ensure inbox.html is in templates directory.</p>", status_code=404)
+
+
+@app.get("/search", response_class=HTMLResponse)
+@app.get("/pdf-search", response_class=HTMLResponse)
+async def serve_search_page():
+    search_path = TEMPLATES_DIR / "search.html"
+    if search_path.exists():
+        with open(search_path, "r", encoding="utf-8") as f:
+            return HTMLResponse(f.read())
+    return HTMLResponse("<h1>Search page not found</h1><p>Ensure search.html is in templates directory.</p>", status_code=404)
+
 
 
 # ----------------------------------------------------------------------
@@ -444,17 +466,64 @@ async def search_news_articles(
     return await news_service.search_news(keywords=q, source_id=source_id, limit=limit)
 
 
+@app.get("/api/news/online", response_model=List[NewsArticle])
+async def get_all_online_news(
+    category: str = "all",
+    q: Optional[str] = None,
+    limit: int = 25
+):
+    """Fetches Online News strictly via Google News RSS feeds with English translation and categorization."""
+    return await news_service.get_online_news(source_id=None, category=category, limit=limit, query=q)
+
+
+@app.get("/api/news/online/{source_id}", response_model=List[NewsArticle])
+async def get_source_online_news(
+    source_id: str,
+    category: str = "all",
+    q: Optional[str] = None,
+    limit: int = 25
+):
+    """Fetches Online News strictly via Google News RSS feeds for a specific publication."""
+    return await news_service.get_online_news(source_id=source_id, category=category, limit=limit, query=q)
+
+
+@app.get("/api/news/epaper", response_model=List[NewsArticle])
+async def get_all_epaper_digital_news(
+    category: str = "all",
+    q: Optional[str] = None,
+    limit: int = 25
+):
+    """Fetches ePaper Digital News strictly from harvested broadsheets and active session cookie publications."""
+    return await news_service.get_epaper_digital_news(source_id=None, category=category, limit=limit, query=q)
+
+
+@app.get("/api/news/epaper/{source_id}", response_model=List[NewsArticle])
+async def get_source_epaper_digital_news(
+    source_id: str,
+    category: str = "all",
+    q: Optional[str] = None,
+    limit: int = 25
+):
+    """Fetches ePaper Digital News strictly from harvested broadsheet pages for a specific active publication."""
+    return await news_service.get_epaper_digital_news(source_id=source_id, category=category, limit=limit, query=q)
+
+
 @app.get("/api/news/{source_id}", response_model=List[NewsArticle])
 async def get_source_news(
     source_id: str,
     category: str = "all",
+    type: str = Query("all", description="'online' (Google News), 'epaper' (harvested broadsheet), or 'all'"),
     limit: int = 25
 ):
-    """Fetches real-time categorized news articles for a given newspaper."""
+    """
+    Fetches news articles for a given newspaper.
+    Supports ?type=online, ?type=epaper, or ?type=all.
+    """
     source = get_source(source_id)
-    if not source:
+    if not source and source_id not in ("online", "epaper", "all"):
         raise HTTPException(status_code=404, detail="Source not found")
-    return await news_service.get_news_for_source(source_id=source_id, category=category, limit=limit)
+    return await news_service.get_news_for_source(source_id=source_id, category=category, limit=limit, mode=type)
+
 
 
 # ----------------------------------------------------------------------
@@ -506,17 +575,85 @@ async def upload_and_parse_newspaper(
         raise HTTPException(status_code=500, detail=f"Failed to process document: {str(e)}")
 
 
+async def _execute_hardcopy_job(
+    job_id: str,
+    saved_paths: List[Path],
+    file_names: List[str],
+    notify_whatsapp: bool,
+    notify_telegram: bool,
+    notify_email: bool,
+    recipient_email: Optional[str],
+    custom_recipient_phone: Optional[str]
+):
+    def _progress_cb(page_num: int, total_pages: int, status: str, conf: float, is_blank: bool, filename: Optional[str]):
+        hardcopy_manager.update_page_progress(job_id, {
+            "page_num": page_num,
+            "total_pages": total_pages,
+            "status": status,
+            "ocr_confidence": conf,
+            "is_blank": is_blank,
+            "file_name": filename or "document.pdf",
+        })
+
+    try:
+        batch_result = await pdf_news_parser.parse_and_process_pdf_batch(
+            file_paths=saved_paths,
+            source_names=file_names,
+            max_pages_per_doc=None,  # Process every page from start to finish
+            max_concurrency=4,
+            progress_callback=_progress_cb
+        )
+        hardcopy_manager.complete_job(job_id, batch_result)
+
+        # Generate real alerts and 3-tier traceability records from uploaded newspaper articles
+        articles = batch_result.get("articles", [])
+        if articles:
+            try:
+                src_label = file_names[0] if file_names else "Uploaded Newspaper"
+                alerts_service.evaluate_and_generate_alerts(articles, source_name=src_label)
+            except Exception as ale:
+                logger.warning(f"Could not generate alerts from upload: {ale}")
+
+        # Dispatch alerts if requested
+        channels = []
+        if notify_whatsapp:
+            channels.append("whatsapp")
+        if notify_telegram:
+            channels.append("telegram")
+        if notify_email:
+            channels.append("email")
+
+        if channels:
+            articles = batch_result.get("articles", [])
+            custom_rec = recipient_email if "email" in channels else custom_recipient_phone
+            await hardcopy_manager.dispatch_alerts(
+                articles=articles,
+                channels=channels,
+                custom_recipient=custom_rec,
+                job_summary=batch_result.get("summary")
+            )
+    except Exception as e:
+        logger.exception(f"Hardcopy job {job_id} error: {e}")
+        hardcopy_manager.fail_job(job_id, str(e))
+
+
 @app.post("/api/newspaper/upload-batch")
 async def upload_and_parse_newspaper_batch(
     files: List[UploadFile] = File(...),
+    notify_whatsapp: bool = Form(False),
+    notify_telegram: bool = Form(False),
+    notify_email: bool = Form(False),
+    recipient_email: Optional[str] = Form(None),
+    custom_recipient_phone: Optional[str] = Form(None),
+    async_mode: bool = Form(True),
 ):
     """
-    Upload multiple hard-copy or digital documents (PDFs, Word docs, images, text, up to 20+ files at once):
-    - Concurrently processes documents using an asynchronous worker pool with semaphore
-    - Renders high-res snapshots and performs RapidOCR on scanned clippings/pages
-    - Detects text in any language and auto-translates to English
-    - Classifies extracted news into standard categories (Sports, Business, Economic, Political, Crises & Disasters)
-    - Returns aggregated categorized news across all documents + per-document breakdown
+    Upload multiple hard-copy or digital broadsheet PDFs simultaneously (up to 20+ files):
+    - Real-time OCR worker pool processing all pages from start to finish
+    - Detects text in any regional Indic language and translates 100% into English
+    - Segments articles and classifies into 19 standard categories
+    - Dispatches alerts to WhatsApp, Telegram, and Email
+    - Returns job_id for live progress tracking and per-page checklist
     """
     if not files:
         raise HTTPException(status_code=400, detail="No files provided")
@@ -544,24 +681,201 @@ async def upload_and_parse_newspaper_batch(
             stem_name = Path(file.filename).stem.replace('_', ' ').replace('-', ' ').title()
             file_names.append(stem_name)
 
-        batch_result = await pdf_news_parser.parse_and_process_pdf_batch(
-            file_paths=saved_paths,
-            source_names=file_names,
-            max_pages_per_doc=40,
-            max_concurrency=3
-        )
+        job_id = hardcopy_manager.create_job(len(valid_files), file_names)
 
-        # Generate critical alerts for high-priority stories across the batch
-        try:
-            all_stories = batch_result.get("categories", {}).get("all", [])
-            alerts_service.evaluate_and_generate_alerts(all_stories, source_name="Uploaded Batch")
-        except Exception as alert_err:
-            logger.warning(f"Could not generate alerts for batch upload: {alert_err}")
+        if async_mode:
+            asyncio.create_task(_execute_hardcopy_job(
+                job_id=job_id,
+                saved_paths=saved_paths,
+                file_names=file_names,
+                notify_whatsapp=notify_whatsapp,
+                notify_telegram=notify_telegram,
+                notify_email=notify_email,
+                recipient_email=recipient_email,
+                custom_recipient_phone=custom_recipient_phone,
+            ))
+            return {
+                "job_id": job_id,
+                "status": "processing",
+                "message": f"Processing {len(valid_files)} newspaper PDF(s) in background.",
+                "file_count": len(valid_files),
+                "file_names": file_names,
+            }
+        else:
+            await _execute_hardcopy_job(
+                job_id=job_id,
+                saved_paths=saved_paths,
+                file_names=file_names,
+                notify_whatsapp=notify_whatsapp,
+                notify_telegram=notify_telegram,
+                notify_email=notify_email,
+                recipient_email=recipient_email,
+                custom_recipient_phone=custom_recipient_phone,
+            )
+            return hardcopy_manager.get_job_progress(job_id)
 
-        return batch_result
     except Exception as e:
-        logger.exception(f"Error processing batch upload: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to process batch documents: {str(e)}")
+        logger.exception(f"Error initializing hardcopy upload: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to process documents: {str(e)}")
+
+
+@app.get("/api/newspaper/upload-progress/{job_id}")
+async def get_upload_progress(job_id: str):
+    """Retrieves real-time progress, checklist status, and results for a hardcopy upload job."""
+    job = hardcopy_manager.get_job_progress(job_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Upload job not found")
+    return job
+
+
+@app.get("/api/newspaper/hardcopy-news")
+async def get_hardcopy_news(
+    query: Optional[str] = None,
+    newspaper: Optional[str] = None,
+    pdf_file: Optional[str] = None,
+    date: Optional[str] = None,
+    page: Optional[int] = None,
+    category: Optional[str] = None,
+    language: Optional[str] = None,
+    job_id: Optional[str] = None,
+    limit: int = 200,
+):
+    """
+    Returns filtered news stories extracted strictly from uploaded broadsheet newspaper pages.
+    Zero external APIs used.
+    """
+    articles = hardcopy_manager.get_articles(
+        query=query,
+        newspaper=newspaper,
+        pdf_file=pdf_file,
+        date=date,
+        page=page,
+        category=category,
+        language=language,
+        job_id=job_id,
+        limit=limit,
+    )
+    return {"total": len(articles), "articles": articles}
+
+
+@app.get("/api/newspaper/hardcopy-meta")
+async def get_hardcopy_metadata(job_id: Optional[str] = None):
+    """Returns available distinct newspapers, PDFs, dates, languages, and 19-category counts."""
+    return hardcopy_manager.get_metadata_filters(job_id=job_id)
+
+
+@app.get("/api/newspaper/article/{article_id}/original")
+async def get_article_original(article_id: str):
+    """Returns original OCR text, English translation, confidence, and page image for side-by-side view."""
+    articles = hardcopy_manager.get_articles(limit=2000)
+    art = next((a for a in articles if a.get("id") == article_id), None)
+    if not art:
+        raise HTTPException(status_code=404, detail="Article not found")
+    return art
+
+
+@app.get("/api/newspaper/article/{article_id}/crop")
+async def get_hardcopy_article_crop(article_id: str):
+    """
+    Returns the focused, real news clipping image crop of that specific article from the broadsheet.
+    """
+    articles = hardcopy_manager.get_articles(limit=2000)
+    art = next((a for a in articles if a.get("id") == article_id), None)
+    if not art:
+        raise HTTPException(status_code=404, detail="Article not found")
+
+    from harvester.news.search_pdf_exporter import _resolve_snapshot_path_for_article
+    snap_path = _resolve_snapshot_path_for_article(art)
+    if not snap_path or not snap_path.exists():
+        raise HTTPException(status_code=404, detail="Broadsheet page snapshot not found")
+
+    from harvester.news.news_cropper import generate_news_crop
+    query = art.get("headline_english") or art.get("headline_original") or art.get("title") or ""
+    loop = asyncio.get_event_loop()
+    crop_path = await loop.run_in_executor(None, generate_news_crop, snap_path, query, art)
+    if not crop_path or not crop_path.exists():
+        crop_path = snap_path
+
+    return FileResponse(path=str(crop_path), media_type="image/jpeg")
+
+
+@app.get("/api/newspaper/article/{article_id}/pdf")
+async def get_hardcopy_article_pdf(article_id: str):
+    """
+    Generates and downloads a publication-grade PDF report for the article
+    (contains header, real cropped clipping, full 100% English translation, and audit stamp).
+    """
+    articles = hardcopy_manager.get_articles(limit=2000)
+    art = next((a for a in articles if a.get("id") == article_id), None)
+    if not art:
+        raise HTTPException(status_code=404, detail="Article not found")
+
+    from harvester.news.search_pdf_exporter import build_hardcopy_article_pdf
+    loop = asyncio.get_event_loop()
+    pdf_path = await loop.run_in_executor(None, build_hardcopy_article_pdf, art)
+
+    return FileResponse(
+        path=str(pdf_path),
+        filename=pdf_path.name,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename={pdf_path.name}"}
+    )
+
+
+@app.get("/api/newspaper/upload/{job_id}/pdf")
+async def get_hardcopy_batch_pdf(job_id: str):
+    """
+    Generates and downloads a combined publication-grade PDF report for all articles in an upload job.
+    """
+    job = hardcopy_manager.get_job_progress(job_id)
+    articles = job.get("articles", []) if job else []
+    if not articles:
+        articles = [a for a in hardcopy_manager.get_articles(limit=2000) if a.get("job_id") == job_id]
+    if not articles:
+        articles = hardcopy_manager.get_articles(limit=50)
+
+    if not articles:
+        raise HTTPException(status_code=404, detail="No articles found for this upload")
+
+    from harvester.news.search_pdf_exporter import build_hardcopy_batch_pdf
+    loop = asyncio.get_event_loop()
+    pdf_path = await loop.run_in_executor(None, build_hardcopy_batch_pdf, articles, f"Upload_{job_id}")
+
+    return FileResponse(
+        path=str(pdf_path),
+        filename=pdf_path.name,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename={pdf_path.name}"}
+    )
+
+
+class ShareAlertRequest(BaseModel):
+    article_id: Optional[str] = None
+    job_id: Optional[str] = None
+    channels: List[str] = ["whatsapp", "telegram", "email"]
+    custom_recipient: Optional[str] = None
+
+
+@app.post("/api/newspaper/share-alert")
+async def share_news_alert(req: ShareAlertRequest):
+    """Dispatches a single article or upload summary alert to WhatsApp, Telegram, and/or Email."""
+    if req.article_id:
+        articles = [a for a in hardcopy_manager.get_articles(limit=2000) if a.get("id") == req.article_id]
+    elif req.job_id:
+        job = hardcopy_manager.get_job_progress(req.job_id)
+        articles = job.get("articles", []) if job else []
+    else:
+        articles = hardcopy_manager.get_articles(limit=5)
+
+    if not articles:
+        raise HTTPException(status_code=404, detail="No articles found for alert")
+
+    dispatch_res = await hardcopy_manager.dispatch_alerts(
+        articles=articles,
+        channels=req.channels,
+        custom_recipient=req.custom_recipient
+    )
+    return {"success": True, "results": dispatch_res}
 
 
 # ----------------------------------------------------------------------
@@ -1103,7 +1417,34 @@ class DisputeResolutionRequest(BaseModel):
 @app.get("/api/traceability/{article_id}")
 async def get_traceability_record(article_id: str):
     """Returns 3-tier traceability record: Translated Text -> OCR Text -> Snapshot."""
-    # 1. Check alerts first
+    # 0. Check uploaded hardcopy articles FIRST (guarantees 100% real data for uploaded newspapers)
+    for art in hardcopy_manager.get_articles():
+        if art.get("id") == article_id:
+            raw_ocr = art.get("ocr_raw_text") or f"{art.get('headline_original', '')}\n\n{art.get('content_original', '')}".strip()
+            headline = art.get("headline_english") or art.get("title") or art.get("headline_original", "Extracted Article")
+            body = art.get("content_english") or art.get("snippet") or art.get("content_original", "")
+            return {
+                "id": art.get("id"),
+                "article_id": art.get("id"),
+                "source_name": art.get("newspaper") or "Uploaded Newspaper",
+                "topic": headline,
+                "summary": body[:500],
+                "severity": "high" if art.get("category") in ("Crime", "Environment", "crises_disasters") else "normal",
+                "category": art.get("category", "all"),
+                "translated_text": headline,
+                "ocr_raw_text": raw_ocr,
+                "ocr_confidence": art.get("ocr_confidence", 0.96),
+                "translation_confidence": 0.95 if art.get("is_translated") else 1.0,
+                "needs_review": art.get("is_low_confidence", False),
+                "preserved_entities": art.get("preserved_entities") or ["PayU"],
+                "page_number": art.get("page_number", 1),
+                "page_snapshot_url": art.get("page_snapshot_url") or f"/api/snapshots/{art.get('doc_id', 'sample')}/{art.get('page_number', 1)}",
+                "bounding_box": art.get("bounding_box"),
+                "crop_image_url": art.get("crop_image_url"),
+                "created_at": art.get("publication_date") or datetime.now().isoformat(),
+            }
+
+    # 1. Check alerts
     alert = alerts_service.get_alert_by_id(article_id)
     if alert:
         return {

@@ -80,7 +80,7 @@
                 <span class="nav-icon">📬</span>
                 <span>Inbox Automation</span>
             </a>
-            <a href="#pdf-search-section" class="nav-link" id="navPdfSearch" onclick="document.getElementById('pdf-search-section').scrollIntoView({behavior:'smooth'});return false;">
+            <a href="/search" class="nav-link" id="navPdfSearch">
                 <span class="nav-icon">🔍</span>
                 <span>PDF Newspaper Search</span>
             </a>
@@ -399,6 +399,22 @@
                         ⚡ Harvest PDF
                     </button>
                     <button class="btn-close" id="btnCloseNewsModal">✕</button>
+                </div>
+            </div>
+
+            <!-- Dedicated Dual Channels: ePaper Digital News vs Online News -->
+            <!-- Dedicated Dual Channels: ePaper Digital News vs Online News -->
+            <div class="news-channel-switcher" id="newsChannelSwitcher" style="display:flex;gap:0.75rem;align-items:center;padding:0.75rem 1.25rem 0.25rem;background:rgba(10,13,20,0.6);border-bottom:1px solid rgba(255,255,255,0.06);">
+                <button class="channel-tab-pill" id="btnChannelEpaper" onclick="switchNewsChannel('epaper')" style="display:none;flex:1;padding:0.55rem 1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(30,41,59,0.5);color:#94a3b8;font-weight:700;font-size:0.85rem;cursor:pointer;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s;">
+                    <span>📰</span> ePaper Digital News <small style="opacity:0.85;font-size:0.72rem;font-weight:600;">(Active Cookie Broadsheet)</small>
+                </button>
+                <button class="channel-tab-pill active" id="btnChannelOnline" onclick="switchNewsChannel('online')" style="flex:1;padding:0.55rem 1rem;border-radius:10px;border:1px solid #c084fc;background:linear-gradient(135deg,rgba(168,85,247,0.25),rgba(129,140,248,0.35));color:#c084fc;font-weight:700;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;box-shadow:0 0 12px rgba(168,85,247,0.25);transition:all 0.2s;">
+                    <span>🌐</span> Online News <small style="opacity:0.85;font-size:0.72rem;font-weight:600;">(Google News Live Web)</small>
+                </button>
+                <div id="channelOnlineOnlyBadge" style="display:none;flex:1;align-items:center;justify-content:center;gap:0.5rem;padding:0.55rem 1rem;border-radius:10px;background:rgba(168,85,247,0.12);border:1px solid rgba(168,85,247,0.3);color:#c084fc;font-size:0.83rem;font-weight:700;">
+                    <span class="pulse-dot" style="background:#c084fc;box-shadow:0 0 8px #c084fc;"></span>
+                    <span id="channelOnlineOnlyText">🌐 Online News Live Stream</span>
+                    <span style="font-weight:400;color:#94a3b8;font-size:0.74rem;">(Active cookie not configured for this newspaper)</span>
                 </div>
             </div>
 
@@ -890,7 +906,7 @@
         </div>
     </div>
 
-    <script src="/static/js/app.js"></script>
+    <script src="/static/js/app.js?v=20260920_v4"></script>
 
     <!-- =====================================================================
          PDF NEWSPAPER SEARCH SECTION
@@ -910,8 +926,13 @@
                 <h2 style="margin:0;font-size:1.45rem;font-weight:700;color:#f1f5f9;letter-spacing:-0.01em;">PDF Newspaper Search</h2>
                 <p style="margin:0;font-size:0.85rem;color:#64748b;">Search OCR-indexed harvested newspapers — results show page number, image &amp; English translation</p>
             </div>
-            <div id="pdfIndexStatusBadge" style="margin-left:auto;padding:0.4rem 1rem;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);border-radius:20px;font-size:0.78rem;color:#38bdf8;cursor:pointer;" onclick="loadPdfIndexStatus()">
-                📊 Index Status
+            <div style="margin-left:auto;display:flex;align-items:center;gap:0.6rem;">
+                <a href="/search" style="text-decoration:none;padding:0.45rem 1.1rem;background:linear-gradient(135deg,#38bdf8,#818cf8);color:#0f172a;font-weight:700;border-radius:20px;font-size:0.8rem;box-shadow:0 4px 12px rgba(56,189,248,0.35);">
+                    🚀 Open Dedicated Search Page ↗
+                </a>
+                <div id="pdfIndexStatusBadge" style="padding:0.4rem 1rem;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);border-radius:20px;font-size:0.78rem;color:#38bdf8;cursor:pointer;" onclick="loadPdfIndexStatus()">
+                    📊 Index Status
+                </div>
             </div>
         </div>
 

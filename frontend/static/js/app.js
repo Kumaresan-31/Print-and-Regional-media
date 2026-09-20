@@ -11,6 +11,7 @@ const state = {
     ws: null,
     currentNewsSource: null,
     currentNewsCategory: 'all',
+    currentNewsChannel: 'epaper', // 'epaper' or 'online'
     currentSearchKeyword: '',
     newsCache: {},
     uploadedNewsData: null,
@@ -19,6 +20,56 @@ const state = {
     inboxClippings: [],
     realInboxMessages: [],
 };
+
+// Strict list of publications configured with active session cookies for broadsheet ePaper harvesting.
+// ALL other publications support Online News (Google News) ONLY.
+const ACTIVE_COOKIE_EPAPER_SOURCES = new Set([
+    'the_hindu',
+    'financial_express',
+    'lokmat_samachar',
+    'lokmat',
+    'loksatta',
+    'dt_next'
+]);
+
+function isEpaperCookieSource(sourceOrId) {
+    if (!sourceOrId) return false;
+    let sid = '';
+    let sname = '';
+    if (typeof sourceOrId === 'string') {
+        sid = sourceOrId.toLowerCase().trim().replace(/-/g, '_');
+    } else if (typeof sourceOrId === 'object') {
+        sid = (sourceOrId.id || '').toLowerCase().trim().replace(/-/g, '_');
+        sname = (sourceOrId.name || '').toLowerCase().trim();
+    }
+    if (!sname && state.sources && state.sources.length > 0) {
+        const found = state.sources.find(s => s.id === sid);
+        if (found) sname = (found.name || '').toLowerCase().trim();
+    }
+
+    // Direct match against the 6 authorized publications
+    if (ACTIVE_COOKIE_EPAPER_SOURCES.has(sid)) return true;
+
+    // The Hindu
+    if (sid === 'the_hindu' || sid === 'hindu' || sid === 'the_hindhu' || sid === 'hindhu' || sname.includes('the hindu')) return true;
+
+    // Financial Express
+    if (sid.includes('financial') || sid.includes('financeexpress') || sid.includes('finance_express') || sid === 'fe' || sname.includes('financial express')) return true;
+
+    // Lokmat Samachar
+    if (sid === 'lokmat_samachar' || sid.startsWith('lokmat_samachar_') || sname.includes('lokmat samachar')) return true;
+
+    // Lokmat (Marathi)
+    if (sid === 'lokmat' || (sid.startsWith('lokmat_') && !sid.includes('samachar')) || (sname.includes('lokmat') && !sname.includes('samachar'))) return true;
+
+    // Loksatta
+    if (sid === 'loksatta' || sid.startsWith('loksatta_') || sname.includes('loksatta')) return true;
+
+    // DT Next
+    if (sid === 'dt_next' || sid === 'dtnext' || sname.includes('dt next')) return true;
+
+    return false;
+}
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
@@ -150,6 +201,11 @@ function renderSources() {
             ? `<span class="badge badge-auth" title="Session cookies required for complete edition">🔒 Subscribed</span>`
             : `<span class="badge" style="background:rgba(255,255,255,0.06);color:#9aa8be;">Free Access</span>`;
 
+        const hasEpaperSupport = isEpaperCookieSource(source.id) || !!source.supports_epaper_digital;
+        const channelBadge = hasEpaperSupport
+            ? `<span class="badge" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.35);font-weight:700;" title="Authenticated Broadsheet ePaper + Google Online News">📰 ePaper + 🌐 Online</span>`
+            : `<span class="badge" style="background:rgba(168,85,247,0.12);color:#c084fc;border:1px solid rgba(168,85,247,0.3);" title="Live Google News Feed auto-translated">🌐 Online News Only</span>`;
+
         // Check if an archive is available for this source
         const matchingArchive = state.archives.find(a => a.source_id === source.id);
         const pdfReadyBtn = matchingArchive
@@ -168,6 +224,7 @@ function renderSources() {
                     </div>
 
                     <div class="source-meta">
+                        ${channelBadge}
                         ${engineBadge}
                         ${authBadge}
                         <span class="badge" style="background:rgba(255,255,255,0.04);color:#627086;">⏰ ${source.schedule_time} IST</span>
@@ -196,7 +253,7 @@ function renderSources() {
                         </div>
                         <div class="source-button-row secondary-row">
                             <button class="btn btn-sm btn-news" onclick="openNewspaperNewsModal('${source.id}')" title="Read categorized news stories">
-                                📰 Read News
+                                ${hasEpaperSupport ? '📰 ePaper + 🌐 Online' : '🌐 Read Online News'}
                             </button>
                             <button class="btn btn-sm btn-outline" onclick="openNewspaperSearch('${source.id}')" title="Search keywords specifically in ${source.name}">
                                 🔍 Search
@@ -618,8 +675,90 @@ async function triggerPurge() {
 
 
 // --------------------------------------------------------------------------
-// Categorized News Reader Modal Functions
+// Categorized News Reader Modal Functions & Dual Channel Switcher
 // --------------------------------------------------------------------------
+function updateChannelPillsUI(sourceId = null) {
+    const sid = sourceId || (state.currentNewsSource ? state.currentNewsSource.id : null);
+    const hasEpaper = isEpaperCookieSource(sid);
+
+    const btnEp = document.getElementById('btnChannelEpaper');
+    const btnOn = document.getElementById('btnChannelOnline');
+    const badgeOnly = document.getElementById('channelOnlineOnlyBadge');
+    const txt = document.getElementById('channelOnlineOnlyText');
+
+    if (!hasEpaper) {
+        // NON-COOKIE PAPERS (Times of India, etc.): Strictly Online News only!
+        state.currentNewsChannel = 'online';
+        if (btnEp) {
+            btnEp.style.display = 'none';
+            btnEp.classList.remove('active');
+        }
+        if (badgeOnly) {
+            badgeOnly.style.display = 'flex';
+            const srcName = state.currentNewsSource ? state.currentNewsSource.name : (sid || 'Publication');
+            if (txt) txt.textContent = `🌐 Online News (Google News Live Stream) • ${srcName}`;
+        }
+        if (btnOn) {
+            btnOn.style.display = 'flex';
+            btnOn.classList.add('active');
+            btnOn.style.background = 'linear-gradient(135deg,rgba(168,85,247,0.25),rgba(129,140,248,0.35))';
+            btnOn.style.color = '#c084fc';
+            btnOn.style.borderColor = '#c084fc';
+            btnOn.style.boxShadow = '0 0 12px rgba(168,85,247,0.25)';
+        }
+        return;
+    }
+
+    // THE 6 ACTIVE COOKIE PUBLICATIONS (The Hindu, FE, Lokmat, Samachar, Loksatta, DT Next): Both channels available!
+    if (badgeOnly) badgeOnly.style.display = 'none';
+    if (btnEp) btnEp.style.display = 'flex';
+    if (btnOn) btnOn.style.display = 'flex';
+
+    const isEpaper = state.currentNewsChannel !== 'online';
+    if (isEpaper) {
+        if (btnEp) {
+            btnEp.classList.add('active');
+            btnEp.style.background = 'linear-gradient(135deg,rgba(56,189,248,0.25),rgba(2,132,199,0.35))';
+            btnEp.style.color = '#38bdf8';
+            btnEp.style.borderColor = '#38bdf8';
+            btnEp.style.boxShadow = '0 0 12px rgba(56,189,248,0.25)';
+        }
+        if (btnOn) {
+            btnOn.classList.remove('active');
+            btnOn.style.background = 'rgba(30,41,59,0.5)';
+            btnOn.style.color = '#94a3b8';
+            btnOn.style.borderColor = 'rgba(255,255,255,0.12)';
+            btnOn.style.boxShadow = 'none';
+        }
+    } else {
+        if (btnOn) {
+            btnOn.classList.add('active');
+            btnOn.style.background = 'linear-gradient(135deg,rgba(168,85,247,0.25),rgba(129,140,248,0.35))';
+            btnOn.style.color = '#c084fc';
+            btnOn.style.borderColor = '#c084fc';
+            btnOn.style.boxShadow = '0 0 12px rgba(168,85,247,0.25)';
+        }
+        if (btnEp) {
+            btnEp.classList.remove('active');
+            btnEp.style.background = 'rgba(30,41,59,0.5)';
+            btnEp.style.color = '#94a3b8';
+            btnEp.style.borderColor = 'rgba(255,255,255,0.12)';
+            btnEp.style.boxShadow = 'none';
+        }
+    }
+}
+
+window.switchNewsChannel = async function(channel) {
+    if (!state.currentNewsSource) return;
+    const hasEpaper = isEpaperCookieSource(state.currentNewsSource.id);
+    if (channel === 'epaper' && !hasEpaper) {
+        return;
+    }
+    state.currentNewsChannel = channel;
+    updateChannelPillsUI(state.currentNewsSource.id);
+    await loadCategorizedNews(state.currentNewsSource.id, state.currentNewsCategory || 'all');
+};
+
 async function openNewspaperNewsModal(sourceId, initialCategory = 'all') {
     const source = state.sources.find(s => s.id === sourceId);
     if (!source) return;
@@ -627,6 +766,16 @@ async function openNewspaperNewsModal(sourceId, initialCategory = 'all') {
     state.currentNewsSource = source;
     state.currentNewsCategory = initialCategory;
     state.currentSearchKeyword = '';
+
+    const hasEpaper = isEpaperCookieSource(sourceId);
+    if (!hasEpaper) {
+        state.currentNewsChannel = 'online';
+    } else {
+        if (state.currentNewsChannel !== 'online') {
+            state.currentNewsChannel = 'epaper';
+        }
+    }
+    updateChannelPillsUI(sourceId);
 
     // Clear search input in modal
     const modalSearchInput = document.getElementById('modalKeywordSearchInput');
@@ -714,7 +863,8 @@ async function loadCategorizedNews(sourceId, category) {
     const container = document.getElementById('newsArticlesContainer');
     if (!container) return;
 
-    const cacheKey = `${sourceId}:${category}`;
+    const channel = state.currentNewsChannel || 'epaper';
+    const cacheKey = `${channel}:${sourceId}:${category}`;
 
     // Show loading skeleton
     container.innerHTML = `
@@ -729,7 +879,7 @@ async function loadCategorizedNews(sourceId, category) {
     try {
         let articles = state.newsCache[cacheKey];
         if (!articles) {
-            const res = await fetch(`/api/news/${sourceId}?category=${category}`);
+            const res = await fetch(`/api/news/${channel}/${sourceId}?category=${category}`);
             if (!res.ok) throw new Error(await res.text());
             articles = await res.json();
             state.newsCache[cacheKey] = articles;
@@ -740,7 +890,7 @@ async function loadCategorizedNews(sourceId, category) {
         container.innerHTML = `
             <div class="empty-state">
                 <div style="font-size:2rem;margin-bottom:0.5rem;">⚠️</div>
-                <h4>Could not load ${category.replace('_', ' ')} news</h4>
+                <h4>Could not load ${channel === 'epaper' ? 'ePaper Digital' : 'Online'} ${category.replace('_', ' ')} news</h4>
                 <p class="text-secondary" style="margin-top:0.25rem;">${e.message}</p>
                 <button class="btn btn-secondary btn-sm" style="margin-top:1rem;" onclick="loadCategorizedNews('${sourceId}', '${category}')">🔄 Retry</button>
             </div>
@@ -919,19 +1069,30 @@ function renderNewsArticles(articles, category) {
 
     if (!displayArticles || displayArticles.length === 0) {
         const isSearch = category === 'search' || !!state.currentSearchKeyword;
+        const hasEpaper = state.currentNewsSource ? isEpaperCookieSource(state.currentNewsSource.id) : false;
+        const isEpaper = hasEpaper && (state.currentNewsChannel || 'epaper') === 'epaper';
         const emptyTitle = isSearch
             ? `No articles found matching "${state.currentSearchKeyword || ''}"`
-            : `No recent articles found in this category`;
+            : (isEpaper
+                ? `No ePaper broadsheet articles indexed for this category`
+                : `No online news articles found for this category`);
         const emptyDesc = isSearch
             ? `Try searching with fewer words, common names (e.g. Tata, Reliance, Modi, Train, Flood, RBI), or clear the search.`
-            : `Check another category or visit the official ePaper website directly.`;
+            : (isEpaper
+                ? `Active cookie broadsheet harvesting for this edition hasn't extracted this category yet. You can trigger a harvest or view the Google News Online feed.`
+                : `Check another category or visit the official portal.`);
+
+        const altActionBtn = (!isSearch && isEpaper)
+            ? `<button class="btn btn-secondary btn-sm" style="margin-top:1rem;" onclick="switchNewsChannel('online')">🌐 Switch to Online News (Google News)</button>`
+            : '';
 
         container.innerHTML = `
             <div class="empty-state">
-                <div style="font-size:2.5rem;margin-bottom:0.5rem;">${isSearch ? '🔍' : '🗞️'}</div>
+                <div style="font-size:2.5rem;margin-bottom:0.5rem;">${isSearch ? '🔍' : (isEpaper ? '📰' : '🌐')}</div>
                 <h3>${emptyTitle}</h3>
                 <p class="text-secondary" style="margin-top:0.35rem;">${emptyDesc}</p>
                 ${isSearch ? '<button class="btn btn-secondary btn-sm" style="margin-top:1rem;" onclick="resetModalSearch()">🔄 Clear Search</button>' : ''}
+                ${altActionBtn}
             </div>
         `;
         return;
@@ -971,6 +1132,11 @@ function renderNewsArticles(articles, category) {
             }
         } catch (e) {}
 
+        const isEpaper = art.news_type === 'epaper' || !!art.page_number;
+        const channelBadge = isEpaper
+            ? `<span class="news-channel-badge" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.4);padding:2px 8px;border-radius:4px;font-size:0.73rem;font-weight:700;">📰 ePaper Digital (Page ${art.page_number || 1})</span>`
+            : `<span class="news-channel-badge" style="background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.4);padding:2px 8px;border-radius:4px;font-size:0.73rem;font-weight:700;">🌐 Online News (Google News)</span>`;
+
         const translationBadge = art.is_translated
             ? `<span class="news-translated-badge" title="Original: ${art.original_title || ''}">🌐 Translated from ${art.original_language || 'Regional'}</span>`
             : '';
@@ -984,6 +1150,7 @@ function renderNewsArticles(articles, category) {
                 <div class="article-top-row">
                     <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
                         <span class="news-cat-badge ${badgeInfo.class}">${badgeInfo.label}</span>
+                        ${channelBadge}
                         ${translationBadge}
                     </div>
                     <span class="article-date">🕒 ${pubDateStr}</span>
@@ -1932,28 +2099,30 @@ async function openAuditModal(targetId = null) {
         }
     }
 
-    // Default to first alert or sample record
+    // Default to first alert or first uploaded newspaper article
     if (!record && state.alerts.length > 0) {
         record = state.alerts[0];
+    }
+    if (!record && window.hardcopyState && window.hardcopyState.articles && window.hardcopyState.articles.length > 0) {
+        const hArt = window.hardcopyState.articles[0];
+        record = {
+            id: hArt.id,
+            source_name: hArt.newspaper || 'Uploaded Regional Newspaper',
+            topic: hArt.headline_english || hArt.title,
+            translated_text: hArt.headline_english || hArt.title,
+            summary: hArt.content_english || hArt.snippet,
+            ocr_raw_text: hArt.ocr_raw_text || (hArt.headline_original + '\n\n' + (hArt.content_original || '')),
+            ocr_confidence: hArt.ocr_confidence || 0.96,
+            translation_confidence: 0.95,
+            needs_review: hArt.is_low_confidence || false,
+            preserved_entities: hArt.preserved_entities || [],
+            page_number: hArt.page_number || 1,
+            page_snapshot_url: hArt.page_snapshot_url || '/api/snapshots/sample/1',
+        };
     }
 
     if (record) {
         populateAuditModal(record);
-    } else {
-        // Sample default if no alerts yet
-        populateAuditModal({
-            id: 'sample_alert',
-            source_name: 'The Times of India (Delhi Edition)',
-            topic: 'Digital Twin Verification',
-            translated_text: 'Finance Ministry and PayU announce unified payment compliance directives',
-            ocr_raw_text: 'वित्त मंत्रालय और PayU ने नए डिजिटल भुगतान नियमों की घोषणा की\nTHE TIMES OF INDIA - DELHI SPECIAL',
-            ocr_confidence: 0.992,
-            translation_confidence: 0.98,
-            needs_review: false,
-            preserved_entities: ['PayU', 'Nirmala Sitharaman', 'UPI'],
-            page_number: 1,
-            page_snapshot_url: '/api/snapshots/sample/1',
-        });
     }
 
     renderAuditAlertsList();

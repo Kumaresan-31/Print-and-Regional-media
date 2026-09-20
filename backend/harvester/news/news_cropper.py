@@ -54,23 +54,13 @@ def get_or_create_boxes(snapshot_path: Path) -> List[Dict[str, Any]]:
         except Exception as e:
             logger.warning(f"Error reading boxes file {boxes_file}: {e}")
 
-    # Compute with RapidOCR
+    # Compute using dual-engine run_ocr_on_image (supports all Indian regional scripts via Tesseract + RapidOCR)
     boxes: List[Dict[str, Any]] = []
     try:
-        from rapidocr_onnxruntime import RapidOCR
-        ocr = RapidOCR()
-        res, _ = ocr(str(snapshot_path))
-        if res:
-            for item in res:
-                box = item[0]
-                txt = str(item[1]).strip()
-                score = float(item[2]) if len(item) > 2 else 0.95
-                boxes.append({
-                    "text": txt,
-                    "box": _clean_box_coords(box),
-                    "score": round(score, 4)
-                })
-        if boxes:
+        from harvester.news.pdf_parser import run_ocr_on_image
+        _, _, computed_blocks = run_ocr_on_image(snapshot_path)
+        if computed_blocks:
+            boxes = computed_blocks
             try:
                 clean_boxes = [
                     {"text": str(b.get("text", "")), "score": float(b.get("score", 0.9)), "box": _clean_box_coords(b.get("box"))}
@@ -81,7 +71,7 @@ def get_or_create_boxes(snapshot_path: Path) -> List[Dict[str, Any]]:
             except Exception as e:
                 logger.debug(f"Could not cache boxes to {boxes_file}: {e}")
     except Exception as e:
-        logger.warning(f"RapidOCR box generation failed on {snapshot_path}: {e}")
+        logger.warning(f"Dual-engine box generation fallback failed on {snapshot_path}: {e}")
 
     _BOXES_CACHE[cache_key] = boxes
     return boxes
@@ -102,7 +92,7 @@ def generate_news_crop(
 
     # Determine cache file if not provided
     if output_path is None:
-        q_hash = hashlib.md5(f"{query}_{story.get('id', '') if story else ''}".encode()).hexdigest()[:10]
+        q_hash = hashlib.md5(f"v4_hl_{query}_{story.get('id', '') if story else ''}".encode()).hexdigest()[:10]
         crop_dir = snapshot_path.parent / "crops"
         crop_dir.mkdir(parents=True, exist_ok=True)
         output_path = crop_dir / f"{snapshot_path.stem}_crop_{q_hash}.jpg"
@@ -113,6 +103,53 @@ def generate_news_crop(
     orig_img = Image.open(snapshot_path).convert("RGB")
     img_w, img_h = orig_img.size
 
+    # 0. DIRECT EXACT BOUNDING BOX CROPPING
+    # If the article has an exact precomputed bounding box [bx1, by1, bx2, by2], crop that directly!
+    bbox = story.get("bounding_box") if story else None
+    if bbox and len(bbox) == 4:
+        bx1, by1, bx2, by2 = bbox
+        if bx2 > bx1 and by2 > by1:
+            pad_x = 24
+            pad_y = 20
+            crop_x1 = max(0, int(bx1 - pad_x))
+            crop_y1 = max(0, int(by1 - pad_y))
+            crop_x2 = min(img_w, int(bx2 + pad_x))
+            crop_y2 = min(img_h, int(by2 + pad_y))
+
+            cropped = orig_img.crop((crop_x1, crop_y1, crop_x2, crop_y2))
+
+            overlay = Image.new("RGBA", cropped.size, (255, 255, 255, 0))
+            draw = ImageDraw.Draw(overlay)
+
+            # Elegant translucent headline highlight band (top portion of article)
+            hl_h = min(int((by2 - by1) * 0.28), 70)
+            hl_x1 = max(4, int(bx1 - crop_x1))
+            hl_y1 = max(4, int(by1 - crop_y1))
+            hl_x2 = min(cropped.width - 4, int(bx2 - crop_x1))
+            hl_y2 = min(cropped.height - 4, int(by1 - crop_y1 + hl_h))
+
+            draw.rounded_rectangle(
+                [(hl_x1, hl_y1), (hl_x2, hl_y2)],
+                radius=4,
+                fill=(254, 240, 138, 120),    # gentle translucent yellow headline glow
+                outline=(245, 158, 11, 210),   # crisp amber headline boundary
+                width=2,
+            )
+
+            # Sleek subtle border around the entire clipping
+            draw.rounded_rectangle(
+                [(2, 2), (cropped.width - 3, cropped.height - 3)],
+                radius=6,
+                outline=(245, 158, 11, 190),
+                width=2,
+            )
+
+            final_clipping = Image.alpha_composite(cropped.convert("RGBA"), overlay).convert("RGB")
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            final_clipping.save(output_path, "JPEG", quality=93)
+            logger.info(f"Direct bounding-box crop generated for article {story.get('id', '')} ({final_clipping.size})")
+            return output_path
+
     boxes_data = get_or_create_boxes(snapshot_path)
 
     # Tokenize query
@@ -121,48 +158,90 @@ def generate_news_crop(
     if not q_tokens and clean_q:
         q_tokens = [clean_q]
 
-    # Additional tokens from matched story (e.g. original language text)
+    # Additional tokens and lines from matched story
     story_tokens = []
+    story_lines = []
     story_title = ""
     if story:
-        story_title = story.get("title") or story.get("original_title") or ""
-        for field in ["title", "original_title", "snippet", "ocr_raw_text"]:
+        story_title = (
+            story.get("headline_original")
+            or story.get("headline_english")
+            or story.get("title")
+            or story.get("original_title")
+            or ""
+        )
+        for field in [
+            "headline_original",
+            "headline_english",
+            "title",
+            "original_title",
+            "content_original",
+            "content_english",
+            "snippet",
+            "ocr_raw_text",
+            "body",
+        ]:
             val = story.get(field) or ""
             if isinstance(val, str) and val.strip():
-                story_tokens.extend([w.lower() for w in re.split(r"\s+", val.strip())[:15] if len(w) >= 3])
+                for ln in val.splitlines():
+                    ln_c = ln.strip().lower()
+                    if len(ln_c) >= 3:
+                        story_lines.append(ln_c)
+                words = [w.lower().strip("\"'.,;:-!?।/\\()-") for w in re.split(r"\s+", val.strip()) if len(w) >= 2]
+                for w in words[:60]:
+                    if len(w) >= 2 and w not in story_tokens:
+                        story_tokens.append(w)
 
     # Find matched boxes on the page
     direct_matched_boxes = []
     story_matched_boxes = []
+    seen_box_texts = set()
 
     for item in boxes_data:
         box = item.get("box")
-        txt = (item.get("text") or "").lower()
-        if not box or len(box) < 4:
+        txt = (item.get("text") or "").strip().lower()
+        if not box or len(box) < 4 or not txt:
             continue
 
+        txt_key = txt[:35]
         # Check exact direct query match
-        if any(t in txt for t in q_tokens):
-            direct_matched_boxes.append((box, item.get("text", "")))
-        # Check story correlation
-        elif story_tokens and any(st in txt for st in story_tokens[:20]):
-            story_matched_boxes.append((box, item.get("text", "")))
+        if q_tokens and any(t in txt for t in q_tokens):
+            if txt_key not in seen_box_texts:
+                direct_matched_boxes.append((box, item.get("text", "")))
+                seen_box_texts.add(txt_key)
+        # Check story line / token correlation
+        elif (story_lines and any(sl in txt or txt in sl for sl in story_lines if len(sl) >= 4)) or \
+             (story_tokens and any(st in txt for st in story_tokens[:40])):
+            if txt_key not in seen_box_texts:
+                story_matched_boxes.append((box, item.get("text", "")))
+                seen_box_texts.add(txt_key)
 
-    targets = direct_matched_boxes if direct_matched_boxes else story_matched_boxes
+    # Combine direct query matches and story content matches
+    targets = direct_matched_boxes + [b for b in story_matched_boxes if b not in direct_matched_boxes]
 
-    # If no text box matched, fallback to smart vertical page band based on story position
+    # If no text box matched, fallback to focused upper column band
     if not targets:
         crop_x1 = max(0, int(img_w * 0.05))
-        crop_x2 = min(img_w, int(img_w * 0.95))
-        crop_y1 = max(0, int(img_h * 0.15))
-        crop_y2 = min(img_h, int(img_h * 0.55))
+        crop_x2 = min(img_w, int(img_w * 0.50))
+        crop_y1 = max(0, int(img_h * 0.10))
+        crop_y2 = min(img_h, int(img_h * 0.45))
         cropped = orig_img.crop((crop_x1, crop_y1, crop_x2, crop_y2))
-        cropped.save(output_path, "JPEG", quality=92)
+
+        overlay = Image.new("RGBA", cropped.size, (255, 255, 255, 0))
+        draw = ImageDraw.Draw(overlay)
+        draw.rounded_rectangle(
+            [(4, 4), (cropped.width - 4, cropped.height - 4)],
+            radius=6,
+            outline=(245, 158, 11, 200),
+            width=2,
+        )
+        final_fallback = Image.alpha_composite(cropped.convert("RGBA"), overlay).convert("RGB")
+        final_fallback.save(output_path, "JPEG", quality=92)
         return output_path
 
-    # Cluster matched boxes spatially to avoid averaging across opposite sides of the broadsheet
-    reach_x = max(380, int(img_w * 0.35))
-    reach_y = max(450, int(img_h * 0.25))
+    # Cluster matched boxes spatially within a single broadsheet column (~18% page width)
+    reach_x = max(180, int(img_w * 0.18))
+    reach_y = max(320, int(img_h * 0.20))
 
     clusters = []
     for b, txt in targets:
@@ -210,11 +289,11 @@ def generate_news_crop(
 
     active_boxes = article_boxes if article_boxes else [b for b, _ in best_cluster["boxes"]]
 
-    # Compute crop boundary with generous padding scaled to image size
-    pad_x = max(50, int(img_w * 0.045))
-    pad_y = max(55, int(img_h * 0.035))
-    min_w = max(520, int(img_w * 0.42))
-    min_h = max(360, int(img_h * 0.20))
+    # Compute crop boundary with tight padding scaled to article column
+    pad_x = max(24, int(img_w * 0.02))
+    pad_y = max(24, int(img_h * 0.02))
+    min_w = max(280, int(img_w * 0.20))
+    min_h = max(160, int(img_h * 0.12))
 
     crop_x1 = max(0, int(min(min(pt[0] for pt in b) for b in active_boxes) - pad_x))
     crop_y1 = max(0, int(min(min(pt[1] for pt in b) for b in active_boxes) - pad_y))
@@ -233,11 +312,12 @@ def generate_news_crop(
     # Crop
     cropped_img = orig_img.crop((crop_x1, crop_y1, crop_x2, crop_y2))
 
-    # Apply translucent golden highlight on matched lines inside this cluster
+    # Apply vibrant golden highlight on matched lines inside this cluster and a glowing border around the article
     overlay = Image.new("RGBA", cropped_img.size, (255, 255, 255, 0))
     draw = ImageDraw.Draw(overlay)
 
-    for b, txt in best_cluster["boxes"]:
+    boxes_to_highlight = best_cluster.get("boxes", [])
+    for b, txt in boxes_to_highlight:
         bx1 = min(pt[0] for pt in b) - crop_x1
         by1 = min(pt[1] for pt in b) - crop_y1
         bx2 = max(pt[0] for pt in b) - crop_x1
@@ -250,12 +330,25 @@ def generate_news_crop(
         draw.rounded_rectangle(
             [(bx1 - 4, by1 - 3), (bx2 + 4, by2 + 3)],
             radius=4,
-            fill=(254, 240, 138, 140),   # vibrant translucent yellow
-            outline=(245, 158, 11, 235),  # amber outline
+            fill=(254, 240, 138, 140),   # vibrant translucent yellow highlight
+            outline=(245, 158, 11, 235),  # glowing amber outline
             width=2,
         )
 
-    # Alpha composite highlight onto crop
+    # Draw a stylish glowing amber border around the overall matched article zone
+    if boxes_to_highlight:
+        all_hb = [box for box, _ in boxes_to_highlight]
+        art_x1 = max(4, min(min(pt[0] for pt in b) for b in all_hb) - crop_x1 - 8)
+        art_y1 = max(4, min(min(pt[1] for pt in b) for b in all_hb) - crop_y1 - 8)
+        art_x2 = min(cropped_img.width - 4, max(max(pt[0] for pt in b) for b in all_hb) - crop_x1 + 8)
+        art_y2 = min(cropped_img.height - 4, max(max(pt[1] for pt in b) for b in all_hb) - crop_y1 + 8)
+        draw.rounded_rectangle(
+            [(art_x1, art_y1), (art_x2, art_y2)],
+            radius=6,
+            outline=(245, 158, 11, 210),  # vibrant amber article boundary
+            width=2,
+        )
+
     final_clipping = Image.alpha_composite(cropped_img.convert("RGBA"), overlay).convert("RGB")
 
     output_path.parent.mkdir(parents=True, exist_ok=True)

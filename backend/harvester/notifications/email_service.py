@@ -480,6 +480,51 @@ class NewsEmailService:
             logger.error(f"Failed to send PDF to {to_email}: {e}")
             return {"success": False, "error": str(e)}
 
+    def send_raw_email(
+        self,
+        recipient_email: str,
+        subject: str,
+        html_body: str,
+        attachment_path: Optional[Path] = None,
+    ) -> Tuple[bool, str]:
+        """
+        Sends raw HTML email alert via Gmail SSL SMTP with optional file attachment.
+        Returns (success: bool, message: str).
+        """
+        try:
+            target = recipient_email or self.default_recipient
+            if not target or "@" not in target:
+                return False, "Invalid recipient email"
+
+            msg = MIMEMultipart("mixed" if attachment_path else "alternative")
+            msg["Subject"] = Header(subject, "utf-8").encode()
+            msg["From"] = formataddr(("ePaper Harvester", self.smtp_user))
+            msg["To"] = target
+            msg.attach(MIMEText(html_body, "html", "utf-8"))
+
+            if attachment_path and Path(attachment_path).exists():
+                try:
+                    with open(attachment_path, "rb") as f:
+                        att_data = f.read()
+                    mime_type = "application/pdf" if str(attachment_path).lower().endswith(".pdf") else "application/octet-stream"
+                    att = MIMEBase(*mime_type.split("/"))
+                    att.set_payload(att_data)
+                    email.encoders.encode_base64(att)
+                    att.add_header("Content-Disposition", "attachment", filename=Path(attachment_path).name)
+                    msg.attach(att)
+                except Exception as ae:
+                    logger.warning(f"Could not attach file {attachment_path}: {ae}")
+
+            with smtplib.SMTP_SSL(self.smtp_host, self.smtp_port, timeout=20) as server:
+                server.login(self.smtp_user, self.smtp_password)
+                server.sendmail(self.smtp_user, [target], msg.as_string())
+
+            logger.info(f"Raw email alert successfully delivered to {target} (attachment={attachment_path is not None})!")
+            return True, f"Sent to {target}"
+        except Exception as e:
+            logger.error(f"Failed to send raw email to {recipient_email}: {e}")
+            return False, str(e)
+
 
 # Singleton instance
 news_email_service = NewsEmailService()

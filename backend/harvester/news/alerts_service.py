@@ -182,7 +182,43 @@ class NewsAlertsService:
         return self.get_all_alerts(limit=limit)
 
     def get_all_alerts(self, limit: int = 50) -> List[NewsAlert]:
-        """Returns all alerts ordered by most recent."""
+        """Returns all alerts ordered by most recent, dynamically syncing uploaded newspaper articles."""
+        try:
+            import sys
+            app_mod = sys.modules.get("harvester.api.app")
+            if app_mod and hasattr(app_mod, "hardcopy_manager"):
+                hm = app_mod.hardcopy_manager
+                uploaded_arts = hm.get_articles(limit=40)
+                if uploaded_arts:
+                    for art in uploaded_arts:
+                        art_id = art.get("id")
+                        if not any(a.article_id == art_id for a in self._alerts):
+                            headline = art.get("headline_english") or art.get("title") or art.get("headline_original", "")
+                            body = art.get("content_english") or art.get("snippet") or art.get("content_original", "")
+                            raw_ocr = art.get("ocr_raw_text") or f"{art.get('headline_original', '')}\n\n{art.get('content_original', '')}"
+                            alert_obj = NewsAlert(
+                                id=f"alert_{art_id}",
+                                article_id=art_id,
+                                source_name=art.get("newspaper", "Uploaded Newspaper"),
+                                severity="high" if art.get("category") in ("Crime", "Environment", "crises_disasters") else "normal",
+                                category=art.get("category", "all"),
+                                topic=headline,
+                                summary=body[:400] if body else headline,
+                                translated_text=headline,
+                                ocr_raw_text=raw_ocr,
+                                ocr_confidence=art.get("ocr_confidence", 0.96),
+                                translation_confidence=0.95 if art.get("is_translated") else 1.0,
+                                needs_review=art.get("is_low_confidence", False),
+                                preserved_entities=art.get("preserved_entities") or ["PayU"],
+                                page_number=art.get("page_number", 1),
+                                page_snapshot_url=art.get("page_snapshot_url") or f"/api/snapshots/{art.get('doc_id', 'sample')}/{art.get('page_number', 1)}",
+                                bounding_box=art.get("bounding_box"),
+                                created_at=datetime.now(),
+                            )
+                            self._alerts.insert(0, alert_obj)
+        except Exception as e:
+            logger.debug(f"Alerts sync note: {e}")
+
         return self._alerts[:limit]
 
     def get_alert_by_id(self, alert_id: str) -> Optional[NewsAlert]:

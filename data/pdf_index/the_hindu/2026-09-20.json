@@ -1,0 +1,372 @@
+{
+  "source_id": "the_hindu",
+  "source_name": "The Hindu",
+  "date": "2026-09-20",
+  "pdf_path": "D:\\Projects\\VEE2\\data\\archive\\the_hindu\\2026-09-20\\the_hindu_chennai_2026-09-20.pdf",
+  "doc_id": "4a0b3195fed3",
+  "indexed_at": "2026-09-20T14:44:32.607894",
+  "total_pages": 16,
+  "total_stories": 17,
+  "snapshots": [
+    "/api/snapshots/4a0b3195fed3/1",
+    "/api/snapshots/4a0b3195fed3/2",
+    "/api/snapshots/4a0b3195fed3/3",
+    "/api/snapshots/4a0b3195fed3/4",
+    "/api/snapshots/4a0b3195fed3/5",
+    "/api/snapshots/4a0b3195fed3/6",
+    "/api/snapshots/4a0b3195fed3/7",
+    "/api/snapshots/4a0b3195fed3/8",
+    "/api/snapshots/4a0b3195fed3/9",
+    "/api/snapshots/4a0b3195fed3/10",
+    "/api/snapshots/4a0b3195fed3/11",
+    "/api/snapshots/4a0b3195fed3/12",
+    "/api/snapshots/4a0b3195fed3/13",
+    "/api/snapshots/4a0b3195fed3/14",
+    "/api/snapshots/4a0b3195fed3/15",
+    "/api/snapshots/4a0b3195fed3/16"
+  ],
+  "pages": [
+    {
+      "page_num": 1,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/1",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_001.jpg",
+      "ocr_text_original": "Developingnationswrondhy\nblamedforemissionsModi",
+      "ocr_text_en": "Developingnationswrondhy blamedforemissionsModi",
+      "ocr_confidence": 0.7652,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "f310a94f12c9",
+          "title": "Developingnationswrondhy",
+          "snippet": "blamedforemissionsModi",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 1,
+          "ocr_raw_text": "Developingnationswrondhy\nblamedforemissionsModi",
+          "ocr_confidence": 0.7652,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/1",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 3,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/3",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_003.jpg",
+      "ocr_text_original": "aboutriseindenguecase\nDrDhivyaNarasimhan",
+      "ocr_text_en": "aboutriseindenguecase DrDhivyaNarasimhan",
+      "ocr_confidence": 0.8031,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "1ebeaf2018f7",
+          "title": "aboutriseindenguecase",
+          "snippet": "DrDhivyaNarasimhan",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 3,
+          "ocr_raw_text": "aboutriseindenguecase\nDrDhivyaNarasimhan",
+          "ocr_confidence": 0.8031,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/3",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 5,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/5",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_005.jpg",
+      "ocr_text_original": "Cheunal\nmayproviderelierfromsummer-likeheat\n\nKainlikelyoverstatetillSeptemberZk\nercdime",
+      "ocr_text_en": "Cheunal mayproviderelierfromsummer-likeheat\n\nKainlikelyoverstatetillSeptemberZk ercdime",
+      "ocr_confidence": 0.7213,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "a9a196599c74",
+          "title": "Cheunal",
+          "snippet": "mayproviderelierfromsummer-likeheat",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 5,
+          "ocr_raw_text": "Cheunal\nmayproviderelierfromsummer-likeheat",
+          "ocr_confidence": 0.7213,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/5",
+          "is_translated": false
+        },
+        {
+          "id": "a2ad5e1cc807",
+          "title": "KainlikelyoverstatetillSeptemberZk",
+          "snippet": "ercdime",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 5,
+          "ocr_raw_text": "KainlikelyoverstatetillSeptemberZk\nercdime",
+          "ocr_confidence": 0.7213,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/5",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 7,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/7",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_007.jpg",
+      "ocr_text_original": "Morepowertoyou\nwithMyUPI EnnancingDrustandsaletyin everypaymentyoumaks.",
+      "ocr_text_en": "Morepowertoyou withMyUPI EnnancingDrustandsaletyin everypaymentyoumaks.",
+      "ocr_confidence": 0.7059,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "363f23218d8f",
+          "title": "Morepowertoyou",
+          "snippet": "withMyUPI EnnancingDrustandsaletyin everypaymentyoumaks.",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 7,
+          "ocr_raw_text": "Morepowertoyou\nwithMyUPI EnnancingDrustandsaletyin everypaymentyoumaks.",
+          "ocr_confidence": 0.7059,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/7",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 8,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/8",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_008.jpg",
+      "ocr_text_original": "Tuall Nadu\nDMkfunctionary.SubRecstraramongstx\n\nbookedforalleed landfraud inNrirangcam\naphanbinonddinT\n\noauedemocracvhasdedsaln\nLwunnrapcrewpusthemagra",
+      "ocr_text_en": "Tuall Nadu DMkfunctionary.SubRecstraramongstx\n\nbookedforalleed landfraud inNrirangcam aphanbinonddinT\n\noauedemocracvhasdedsaln Lwunnrapcrewpusthemagra",
+      "ocr_confidence": 0.7395,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "a6a566c6f2d4",
+          "title": "Tuall Nadu",
+          "snippet": "DMkfunctionary.SubRecstraramongstx",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 8,
+          "ocr_raw_text": "Tuall Nadu\nDMkfunctionary.SubRecstraramongstx",
+          "ocr_confidence": 0.7395,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/8",
+          "is_translated": false
+        },
+        {
+          "id": "a1b0607e8d11",
+          "title": "bookedforalleed landfraud inNrirangcam",
+          "snippet": "aphanbinonddinT",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 8,
+          "ocr_raw_text": "bookedforalleed landfraud inNrirangcam\naphanbinonddinT",
+          "ocr_confidence": 0.7395,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/8",
+          "is_translated": false
+        },
+        {
+          "id": "32bc54ec3d33",
+          "title": "oauedemocracvhasdedsaln",
+          "snippet": "Lwunnrapcrewpusthemagra",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 8,
+          "ocr_raw_text": "oauedemocracvhasdedsaln\nLwunnrapcrewpusthemagra",
+          "ocr_confidence": 0.7395,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/8",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 9,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/9",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_009.jpg",
+      "ocr_text_original": "CELEBRATINGTHEOUIETDREAMERSWHO\nDRIVEPOWERFULCHANGE",
+      "ocr_text_en": "CELEBRATINGTHEOUIETDREAMERSWHO DRIVEPOWERFULCHANGE",
+      "ocr_confidence": 0.8137,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "f590bc747755",
+          "title": "CELEBRATINGTHEOUIETDREAMERSWHO",
+          "snippet": "DRIVEPOWERFULCHANGE",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 9,
+          "ocr_raw_text": "CELEBRATINGTHEOUIETDREAMERSWHO\nDRIVEPOWERFULCHANGE",
+          "ocr_confidence": 0.8137,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/9",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 12,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/12",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_012.jpg",
+      "ocr_text_original": "Willnotesictfarnersfrom\nSorestareasKarmatakaCM",
+      "ocr_text_en": "Willnotesictfarnersfrom SorestareasKarmatakaCM",
+      "ocr_confidence": 0.7802,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "b758d7a16f1e",
+          "title": "Willnotesictfarnersfrom",
+          "snippet": "SorestareasKarmatakaCM",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 12,
+          "ocr_raw_text": "Willnotesictfarnersfrom\nSorestareasKarmatakaCM",
+          "ocr_confidence": 0.7802,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/12",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 13,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/13",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_013.jpg",
+      "ocr_text_original": "DelhiCMAAPchiefserved\nnoticesamidSiRexercise\n\nInBorbsxuyeusherbocd\nrahmeskhecaeaue",
+      "ocr_text_en": "DelhiCMAAPchiefserved noticesamidSiRexercise\n\nInBorbsxuyeusherbocd rahmeskhecaeaue",
+      "ocr_confidence": 0.6744,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "8bbc43a5534e",
+          "title": "DelhiCMAAPchiefserved",
+          "snippet": "noticesamidSiRexercise",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 13,
+          "ocr_raw_text": "DelhiCMAAPchiefserved\nnoticesamidSiRexercise",
+          "ocr_confidence": 0.6744,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/13",
+          "is_translated": false
+        },
+        {
+          "id": "9f571cbda10d",
+          "title": "InBorbsxuyeusherbocd",
+          "snippet": "rahmeskhecaeaue",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 13,
+          "ocr_raw_text": "InBorbsxuyeusherbocd\nrahmeskhecaeaue",
+          "ocr_confidence": 0.6744,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/13",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 14,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/14",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_014.jpg",
+      "ocr_text_original": "Congress candidatesentto\nnqukUtmMarstb\n\nudiciacustodytilloct3\nRcjinagarcandikdatehadk\n\nnraeahrdecuringed\noimnnbMdpfeNindsier",
+      "ocr_text_en": "Congress candidatesentto nqukUtmMarstb\n\nudiciacustodytilloct3 Rcjinagarcandikdatehadk\n\nnraeahrdecuringed oimnnbMdpfeNindsier",
+      "ocr_confidence": 0.697,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "0fa6bc40bb3d",
+          "title": "Congress candidatesentto",
+          "snippet": "nqukUtmMarstb",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "political",
+          "page_num": 14,
+          "ocr_raw_text": "Congress candidatesentto\nnqukUtmMarstb",
+          "ocr_confidence": 0.697,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/14",
+          "is_translated": false
+        },
+        {
+          "id": "11ca1306d90a",
+          "title": "udiciacustodytilloct3",
+          "snippet": "Rcjinagarcandikdatehadk",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 14,
+          "ocr_raw_text": "udiciacustodytilloct3\nRcjinagarcandikdatehadk",
+          "ocr_confidence": 0.697,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/14",
+          "is_translated": false
+        },
+        {
+          "id": "ff697a0d64f2",
+          "title": "nraeahrdecuringed",
+          "snippet": "oimnnbMdpfeNindsier",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 14,
+          "ocr_raw_text": "nraeahrdecuringed\noimnnbMdpfeNindsier",
+          "ocr_confidence": 0.697,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/14",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 15,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/15",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_015.jpg",
+      "ocr_text_original": "Prohibitionismosolution\ntoalcobolismtopcourt",
+      "ocr_text_en": "Prohibitionismosolution toalcobolismtopcourt",
+      "ocr_confidence": 0.7735,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "8d9d2040834a",
+          "title": "Prohibitionismosolution",
+          "snippet": "toalcobolismtopcourt",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 15,
+          "ocr_raw_text": "Prohibitionismosolution\ntoalcobolismtopcourt",
+          "ocr_confidence": 0.7735,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/15",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 16,
+      "snapshot_url": "/api/snapshots/4a0b3195fed3/16",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\4a0b3195fed3\\page_016.jpg",
+      "ocr_text_original": "Business\npricesarefallingbut tirms arespendingmore",
+      "ocr_text_en": "Business pricesarefallingbut tirms arespendingmore",
+      "ocr_confidence": 0.731,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "4e1e1ad8d6b4",
+          "title": "Business",
+          "snippet": "pricesarefallingbut tirms arespendingmore",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "business",
+          "page_num": 16,
+          "ocr_raw_text": "Business\npricesarefallingbut tirms arespendingmore",
+          "ocr_confidence": 0.731,
+          "page_snapshot_url": "/api/snapshots/4a0b3195fed3/16",
+          "is_translated": false
+        }
+      ]
+    }
+  ]
+}

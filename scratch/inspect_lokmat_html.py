@@ -1,32 +1,25 @@
-import sys
+import requests, re
 from bs4 import BeautifulSoup
-import re
 
-sys.stdout.reconfigure(encoding='utf-8')
+url = "https://epaper.lokmat.com/articlepage.php?catid=1&eddate=2026-09-20"
+resp = requests.get(url, timeout=15)
+soup = BeautifulSoup(resp.text, "html.parser")
 
-with open('scratch/lokmat_page.html', 'r', encoding='utf-8') as f:
-    html = f.read()
+# Find all script src
+scripts = [s.get("src") for s in soup.find_all("script") if s.get("src")]
+print("Scripts:", scripts[:10])
 
-soup = BeautifulSoup(html, 'html.parser')
+# Find all images or canvas or zoom containers
+containers = [tag.get("id") or tag.get("class") for tag in soup.find_all(["div", "section", "main"]) if any(k in str(tag.get("id") or "") or k in str(tag.get("class") or "") for k in ["page", "epaper", "edition", "book", "zoom", "read"])]
+print("Containers:", containers[:10])
 
-print('Title:', repr(soup.title.string if soup.title else 'No title'))
+# Search for any image links with jpg or png or article
+all_imgs = [img.get("src") or img.get("data-src") for img in soup.find_all("img")]
+print("All img srcs:", all_imgs[:10])
 
-print('--- Links with edition / article / eddate / lokmat ---')
-seen = set()
-for a in soup.find_all('a', href=True):
-    href = a['href']
-    if any(k in href.lower() for k in ['pune', 'mumbai', 'edition', 'eddate', 'lokmat', 'article']):
-        txt = a.get_text(strip=True).encode('ascii', 'replace').decode('ascii')
-        if href not in seen:
-            seen.add(href)
-            print(f'{txt[:30]:<32} -> {href}')
-
-print('\n--- Scripts mentioning page, edition, or cdn ---')
-for s in soup.find_all('script'):
-    content = s.string or ''
-    if any(k in content for k in ['edition', 'page', 'cdn', 'image', 'eddate', 'zoom']):
-        for line in content.splitlines():
-            if any(k in line.lower() for k in ['edition', 'date', 'pune', 'mumbai', 'page', 'article', 'url', 'cdn']):
-                l = line.strip().encode('ascii', 'replace').decode('ascii')
-                if len(l) < 160:
-                    print('JS:', l)
+# Search for inline scripts with eddate or page or catid
+inline = [s.text for s in soup.find_all("script") if not s.get("src") and ("page" in s.text or "eddate" in s.text or "catid" in s.text)]
+print(f"Found {len(inline)} inline scripts.")
+for idx, s in enumerate(inline):
+    print(f"--- Inline {idx} (first 300 chars) ---")
+    print(s[:300].strip())

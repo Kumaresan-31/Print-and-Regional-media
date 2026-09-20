@@ -11,6 +11,7 @@ from harvester.extractors.sources.amar_ujala import AmarUjalaExtractor
 from harvester.extractors.sources.dt_next import DtNextExtractor
 from harvester.extractors.sources.financial_express import FinancialExpressExtractor
 from harvester.extractors.sources.loksatta import LoksattaExtractor
+from harvester.extractors.sources.lokmat import LokmatExtractor
 from harvester.extractors.sources.generic import GenericUniversalExtractor
 
 SPECIALIZED_MAP: Dict[str, Type[BaseExtractor]] = {
@@ -24,6 +25,7 @@ SPECIALIZED_MAP: Dict[str, Type[BaseExtractor]] = {
     "dt_next": DtNextExtractor,
     "financial_express": FinancialExpressExtractor,
     "loksatta": LoksattaExtractor,
+    "lokmat": LokmatExtractor,
 }
 
 

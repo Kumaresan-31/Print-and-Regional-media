@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Newspaper Search & Clipping Intelligence | ePaper Harvester</title>
+    <meta name="description" content="Dedicated full-text search across OCR-indexed harvested broadsheet newspapers with instant article clipping crops, 100% English translation, and publication-grade PDF reporting.">
+    <!-- Google Fonts: Outfit and JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=2.5">
+    <style>
+        body {
+            background-color: #07090e;
+            color: #f1f5f9;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Nav styles */
+        .nav-links {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.35rem 0.5rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.5rem 1.15rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .nav-link.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(168, 85, 247, 0.35) 100%);
+            border: 1px solid #38bdf8;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+        .nav-link .nav-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Container Layout */
+        .search-page-container {
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 2rem 1.75rem 5rem;
+        }
+
+        /* Hero Header Section */
+        .search-hero {
+            background: radial-gradient(100% 120% at 50% 0%, rgba(56, 189, 248, 0.15) 0%, rgba(15, 23, 42, 0.85) 60%, rgba(7, 9, 14, 0.95) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 24px;
+            padding: 2.25rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .search-hero::after {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(129, 140, 248, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+        .hero-brand {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+        .hero-icon-box {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
+            flex-shrink: 0;
+        }
+        .hero-title {
+            margin: 0 0 0.25rem;
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+        .hero-subtitle {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #94a3b8;
+            max-width: 780px;
+            line-height: 1.5;
+        }
+
+        /* Quick Stat Badges */
+        .hero-stats-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .stat-pill {
+            padding: 0.45rem 1rem;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            backdrop-filter: blur(8px);
+        }
+        .stat-pill strong {
+            color: #38bdf8;
+            font-weight: 800;
+        }
+
+        /* Search Input Box */
+        .search-box-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .search-inputs-grid {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        @media (max-width: 860px) {
+            .search-inputs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 0.45rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .input-control {
+            width: 100%;
+            padding: 0.85rem 1.15rem;
+            background: rgba(10, 14, 23, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 12px;
+            color: #f1f5f9;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .input-control:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .btn-search-primary {
+            padding: 0.85rem 2.25rem;
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #818cf8 100%);
+            border: none;
+            border-radius: 12px;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 1.05rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 52px;
+            white-space: nowrap;
+        }
+        .btn-search-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(56, 189, 248, 0.55);
+        }
+
+        /* Keyword chips */
+        .quick-tags-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .quick-tag-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .quick-tag-pill {
+            padding: 0.3rem 0.75rem;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .quick-tag-pill:hover {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: #38bdf8;
+            color: #38bdf8;
+            transform: translateY(-1px);
+        }
+
+        /* Source Checkboxes */
+        .sources-filter-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-top: 1.25rem;
+        }
+        .src-chip {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.08);
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        .src-chip.selected {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.22);
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        /* Action Controls Banner */
+        .automation-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 14px;
+            padding: 1rem 1.4rem;
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .auto-banner-text {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        /* Results Info Bar */
+        .results-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.85rem 1.25rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Result Cards Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pdf-result-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+        .pdf-result-card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(56, 189, 248, 0.15);
+        }
+
+        .card-image-box {
+            position: relative;
+            height: 240px;
+            background: #090d16;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .card-image-box img:hover {
+            transform: scale(1.02);
+        }
+
+        .card-content-body {
+            padding: 1.25rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-headline {
+            margin: 0 0 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #f8fafc;
+            line-height: 1.4;
+        }
+        .card-snippet {
+            margin: 0 0 1rem;
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        /* Action Buttons */
+        .card-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+            padding-top: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-card-action {
+            flex: 1;
+            min-width: 76px;
+            padding: 0.5rem 0.65rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid transparent;
+            text-align: center;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .btn-card-action.export {
+            background: rgba(56, 189, 248, 0.12);
+            border-color: rgba(56, 189, 248, 0.35);
+            color: #38bdf8;
+        }
+        .btn-card-action.export:hover {
+            background: rgba(56, 189, 248, 0.25);
+        }
+        .btn-card-action.wa {
+            background: rgba(37, 211, 102, 0.12);
+            border-color: rgba(37, 211, 102, 0.4);
+            color: #25d366;
+        }
+        .btn-card-action.wa:hover {
+            background: rgba(37, 211, 102, 0.25);
+        }
+        .btn-card-action.tg {
+            background: rgba(0, 136, 204, 0.12);
+            border-color: rgba(0, 136, 204, 0.4);
+            color: #38bdf8;
+        }
+        .btn-card-action.tg:hover {
+            background: rgba(0, 136, 204, 0.25);
+        }
+        .btn-card-action.email {
+            background: rgba(168, 85, 247, 0.12);
+            border-color: rgba(168, 85, 247, 0.4);
+            color: #c084fc;
+        }
+        .btn-card-action.email:hover {
+            background: rgba(168, 85, 247, 0.25);
+        }
+
+        /* Modal Overlay */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .custom-modal.open {
+            display: flex;
+        }
+        .modal-card {
+            background: #111827;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Toast */
+        .toast-notify {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100000;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+
+    <!-- Global App Navbar -->
+    <header class="navbar" id="appNavbar" style="background:rgba(10,13,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.08);padding:0.75rem 1.75rem;position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;">
+        <div class="nav-brand">
+            <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.75rem;">
+                <div style="width:40px;height:40px;background:linear-gradient(135deg,#38bdf8,#818cf8);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">📰</div>
+                <div>
+                    <span style="font-size:1.15rem;font-weight:800;color:#fff;">ePaper<span style="background:linear-gradient(135deg,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Harvester</span></span>
+                    <span style="display:block;font-size:0.7rem;color:#94a3b8;font-weight:600;">v2.0 • Intelligence Suite</span>
+                </div>
+            </a>
+        </div>
+
+        <nav class="nav-links">
+            <a href="/" class="nav-link">
+                <span class="nav-icon">📰</span>
+                <span>Catalog & Harvest</span>
+            </a>
+            <a href="/upload" class="nav-link">
+                <span class="nav-icon">📄</span>
+                <span>Hardcopy PDF Harvester</span>
+            </a>
+            <a href="/inbox" class="nav-link">
+                <span class="nav-icon">📬</span>
+                <span>Inbox Automation</span>
+            </a>
+            <a href="/search" class="nav-link active">
+                <span class="nav-icon">🔍</span>
+                <span>PDF Newspaper Search</span>
+            </a>
+        </nav>
+
+        <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;background:rgba(30,41,59,0.7);padding:0.35rem 0.8rem;border-radius:20px;font-size:0.78rem;border:1px solid rgba(255,255,255,0.1);">
+                <span style="width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981;"></span>
+                <span style="color:#94a3b8;">Search Index Ready</span>
+            </div>
+            <div id="clockDisplay" style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#38bdf8;font-weight:600;">00:00:00 IST</div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="search-page-container">
+
+        <!-- Hero Header -->
+        <section class="search-hero">
+            <div class="hero-top-row">
+                <div class="hero-brand">
+                    <div class="hero-icon-box">🔍</div>
+                    <div>
+                        <h1 class="hero-title">PDF Newspaper Search & Clipping</h1>
+                        <p class="hero-subtitle">
+                            Search OCR-indexed harvested broadsheet newspapers. Results instantly render page numbers, real highlighted clippings, and full English translation with direct WhatsApp, Telegram, and Email PDF reporting.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="hero-stats-group">
+                    <div class="stat-pill">
+                        <span>📑 Total Indexed:</span>
+                        <strong id="statTotalIndexed">Loading...</strong>
+                    </div>
+                    <button class="stat-pill" style="cursor:pointer;border-color:#38bdf8;color:#38bdf8;" onclick="loadPdfIndexStatus()">
+                        📊 Index Diagnostics
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Box Form -->
+            <div class="search-box-card">
+                <div class="search-inputs-grid">
+                    <!-- Keyword Input -->
+                    <div class="input-group">
+                        <label for="pdfSearchInput">🔤 Search Keywords (Tamil, Hindi, Marathi, English)</label>
+                        <input
+                            id="pdfSearchInput"
+                            class="input-control"
+                            type="text"
+                            placeholder="e.g. Reserve Bank, Supreme Court, Chennai roads, budget, election..."
+                            onkeydown="if(event.key==='Enter')runPdfSearch()"
+                            autofocus
+                        />
+                    </div>
+
+                    <!-- Date Picker -->
+                    <div class="input-group" style="min-width:210px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.45rem;">
+                            <label style="margin:0;">📅 Publication Date</label>
+                            <button type="button" onclick="document.getElementById('pdfSearchDate').value='';showShareToast('Searching across all dates', false);" style="background:none;border:none;color:#38bdf8;font-size:0.75rem;cursor:pointer;font-weight:700;">Any Date</button>
+                        </div>
+                        <input id="pdfSearchDate" class="input-control" type="date" />
+                    </div>
+
+                    <!-- Search Button -->
+                    <div>
+                        <button id="btnRunPdfSearch" class="btn-search-primary" onclick="runPdfSearch()">
+                            🔍 Search Newspapers
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Keywords Row -->
+                <div class="quick-tags-row">
+                    <span class="quick-tag-label">Popular Searches:</span>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Reserve Bank of India')">Reserve Bank of India</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Election Commission')">Election Commission</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Supreme Court')">Supreme Court</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Budget 2026')">Budget 2026</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Stock Market')">Stock Market</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Cabinet decision')">Cabinet decision</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Chief Minister')">Chief Minister</button>
+                </div>
+
+                <!-- Sources Filter Row -->
+                <div class="sources-filter-row">
+                    <span style="font-size:0.82rem;color:#64748b;font-weight:700;text-transform:uppercase;">Publications:</span>
+                    <label id="chk-the_hindu" class="src-chip selected">
+                        <input type="checkbox" value="the_hindu" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> The Hindu
+                    </label>
+                    <label id="chk-dt_next" class="src-chip selected">
+                        <input type="checkbox" value="dt_next" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> DT Next
+                    </label>
+                    <label id="chk-lokmat" class="src-chip selected">
+                        <input type="checkbox" value="lokmat" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> Lokmat
+                    </label>
+                    <label id="chk-loksatta" class="src-chip selected">
+                        <input type="checkbox" value="loksatta" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> Loksatta
+                    </label>
+                    <label id="chk-financial_express" class="src-chip selected">
+                        <input type="checkbox" value="financial_express" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> Financial Express
+                    </label>
+                    <button type="button" onclick="selectAllSources(true)" style="background:none;border:none;color:#38bdf8;font-size:0.78rem;cursor:pointer;font-weight:700;margin-left:0.5rem;">Select All</button>
+                </div>
+            </div>
+
+            <!-- Automation Banner -->
+            <div class="automation-banner">
+                <div class="auto-banner-text">
+                    <span style="font-size:1.6rem;">⚡</span>
+                    <div>
+                        <div style="font-size:0.92rem;font-weight:700;color:#f1f5f9;display:flex;align-items:center;gap:0.5rem;">
+                            Automated Morning Broadsheet Harvester &amp; OCR Engine
+                            <span style="padding:0.2rem 0.55rem;border-radius:12px;background:rgba(16,185,129,0.2);color:#10b981;font-size:0.72rem;font-weight:800;">● Active (05:15 AM IST)</span>
+                        </div>
+                        <div style="font-size:0.8rem;color:#94a3b8;">
+                            Automatically captures, parses, and OCR-indexes morning e-papers across Tamil, Marathi, and English broadsheets.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:0.6rem;align-items:center;">
+                    <button id="btnTriggerAutoHarvest" onclick="runAutoHarvest()" style="padding:0.55rem 1.25rem;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:8px;color:#fff;font-weight:700;font-size:0.84rem;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
+                        ⚡ Run Auto-Harvest Now
+                    </button>
+                    <button onclick="rebuildPdfIndex()" style="padding:0.55rem 1rem;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.35);border-radius:8px;color:#38bdf8;font-size:0.84rem;font-weight:600;cursor:pointer;">
+                        🔄 Re-Index PDFs
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Index Status Diagnostics Panel -->
+        <div id="pdfIndexStatusPanel" style="display:none;margin-bottom:2rem;padding:1.5rem;background:rgba(15,23,42,0.9);border:1px solid rgba(56,189,248,0.3);border-radius:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                <h3 style="margin:0;color:#38bdf8;font-size:1.1rem;display:flex;align-items:center;gap:0.5rem;">
+                    <span>📊</span> PDF Search Index Status &amp; Diagnostics
+                </h3>
+                <div style="display:flex;gap:0.5rem;">
+                    <button onclick="rebuildPdfIndex()" style="padding:0.4rem 0.9rem;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:8px;color:#ef4444;font-size:0.8rem;font-weight:600;cursor:pointer;">🔄 Force Rebuild</button>
+                    <button onclick="document.getElementById('pdfIndexStatusPanel').style.display='none'" style="padding:0.4rem 0.7rem;background:rgba(100,116,139,0.2);border:1px solid rgba(100,116,139,0.3);border-radius:8px;color:#94a3b8;font-size:0.8rem;cursor:pointer;">✕ Close</button>
+                </div>
+            </div>
+            <div id="pdfIndexStatusContent" style="color:#cbd5e1;font-size:0.88rem;">Loading diagnostics...</div>
+        </div>
+
+        <!-- Results Info Bar -->
+        <div id="pdfSearchInfoBar" class="results-toolbar" style="display:none;">
+            <div id="pdfSearchInfoText" style="font-size:0.95rem;font-weight:600;color:#f1f5f9;"></div>
+            <div style="display:flex;gap:0.6rem;align-items:center;">
+                <button onclick="exportAllResults()" style="padding:0.5rem 1.25rem;background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;border-radius:8px;color:#0f172a;font-weight:800;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem;">
+                    📄 Export Full PDF Report
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="pdfSearchLoading" style="display:none;text-align:center;padding:4rem 2rem;">
+            <div style="width:52px;height:52px;border:4px solid rgba(56,189,248,0.2);border-top-color:#38bdf8;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1.25rem;"></div>
+            <h3 style="color:#f1f5f9;margin:0 0 0.4rem;font-size:1.15rem;">Searching Harvested PDFs...</h3>
+            <p style="color:#64748b;margin:0;font-size:0.88rem;">Querying full-text OCR database and locating real broadsheet clipping coordinates...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="pdfSearchEmpty" style="display:none;text-align:center;padding:5rem 2rem;background:rgba(15,23,42,0.5);border:1px dashed rgba(255,255,255,0.1);border-radius:20px;">
+            <div style="font-size:3.5rem;margin-bottom:1rem;">📰</div>
+            <h3 style="color:#f1f5f9;margin:0 0 0.5rem;font-size:1.25rem;">No Matching Newspaper Stories Found</h3>
+            <p style="color:#64748b;font-size:0.92rem;max-width:560px;margin:0 auto 1.5rem;line-height:1.6;">
+                Try searching for broader keywords (e.g. <em>"Reserve Bank"</em>, <em>"Chennai"</em>, <em>"Market"</em>), select <strong>Any Date</strong>, or click <strong>Run Auto-Harvest Now</strong> to download today's broadsheets.
+            </p>
+            <button onclick="rebuildPdfIndex()" style="padding:0.6rem 1.25rem;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.4);border-radius:10px;color:#38bdf8;font-weight:700;font-size:0.88rem;cursor:pointer;">
+                🔄 Rebuild &amp; Index Local PDFs
+            </button>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="pdfSearchResults" class="results-grid"></div>
+
+    </div>
+
+    <!-- Email Share Modal -->
+    <div id="emailShareModal" class="custom-modal">
+        <div class="modal-card">
+            <h3 style="margin:0 0 1.25rem;color:#f1f5f9;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem;">
+                <span>📨</span> Share Report via Email
+            </h3>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;color:#94a3b8;margin-bottom:0.4rem;">Recipient Email</label>
+                <input id="emailShareTo" class="input-control" type="email" value="cuttyknowledge2006@gmail.com" placeholder="name@domain.com" />
+            </div>
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;color:#94a3b8;margin-bottom:0.4rem;">Subject Line</label>
+                <input id="emailShareSubject" class="input-control" type="text" placeholder="Newspaper Search Report" />
+            </div>
+            <div style="display:flex;gap:0.75rem;">
+                <button onclick="confirmEmailShare()" style="flex:1;padding:0.85rem;background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;border-radius:10px;color:#0f172a;font-weight:800;cursor:pointer;">Send Email</button>
+                <button onclick="document.getElementById('emailShareModal').classList.remove('open')" style="flex:1;padding:0.85rem;background:rgba(100,116,139,0.2);border:1px solid rgba(100,116,139,0.3);border-radius:10px;color:#94a3b8;font-weight:700;cursor:pointer;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="shareToast" class="toast-notify"></div>
+
+    <script>
+    // =========================================================
+    // PDF Newspaper Search Page Logic
+    // =========================================================
+    let _currentPdfResults = [];
+    let _currentQuery = '';
+    let _pendingSharePdfPath = '';
+    let _emailShareIdx = -1;
+
+    // Initialize clock
+    setInterval(() => {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata' }) + ' IST';
+        const el = document.getElementById('clockDisplay');
+        if (el) el.textContent = timeStr;
+    }, 1000);
+
+    // Initial load: fetch index stats
+    window.addEventListener('DOMContentLoaded', () => {
+        fetchIndexStatsQuick();
+        
+        // Auto-run if query param present (e.g. ?q=rbi)
+        const params = new URLSearchParams(window.location.search);
+        const qParam = params.get('q');
+        if (qParam) {
+            document.getElementById('pdfSearchInput').value = qParam;
+            runPdfSearch();
+        }
+    });
+
+    async function fetchIndexStatsQuick() {
+        try {
+            const resp = await fetch('/api/pdf-index/status');
+            const data = await resp.json();
+            const statEl = document.getElementById('statTotalIndexed');
+            if (statEl) {
+                statEl.textContent = `${data.total_documents || 0} issues (${data.indexed_sources ? data.indexed_sources.length : 0} publications)`;
+            }
+        } catch (e) {
+            const statEl = document.getElementById('statTotalIndexed');
+            if (statEl) statEl.textContent = 'Ready';
+        }
+    }
+
+    function setQuickKeyword(kw) {
+        const inp = document.getElementById('pdfSearchInput');
+        inp.value = kw;
+        inp.focus();
+        runPdfSearch();
+    }
+
+    function updateChipState(cb) {
+        const label = cb.closest('label');
+        if (!label) return;
+        if (cb.checked) {
+            label.classList.add('selected');
+        } else {
+            label.classList.remove('selected');
+        }
+    }
+
+    function selectAllSources(check) {
+        const checkboxes = document.querySelectorAll('.sources-filter-row input[type=checkbox]');
+        checkboxes.forEach(cb => {
+            cb.checked = check;
+            updateChipState(cb);
+        });
+    }
+
+    function getSelectedSources() {
+        const checkboxes = document.querySelectorAll('.sources-filter-row input[type=checkbox]');
+        const sel = [];
+        checkboxes.forEach(cb => { if (cb.checked) sel.push(cb.value); });
+        return sel;
+    }
+
+    async function runPdfSearch() {
+        const q = document.getElementById('pdfSearchInput').value.trim();
+        if (!q) {
+            document.getElementById('pdfSearchInput').focus();
+            showShareToast('Please enter search keywords', true);
+            return;
+        }
+
+        _currentQuery = q;
+        const date = document.getElementById('pdfSearchDate').value || null;
+        const sources = getSelectedSources();
+
+        document.getElementById('pdfSearchLoading').style.display = 'block';
+        document.getElementById('pdfSearchResults').innerHTML = '';
+        document.getElementById('pdfSearchEmpty').style.display = 'none';
+        document.getElementById('pdfSearchInfoBar').style.display = 'none';
+
+        try {
+            let url = `/api/pdf-search?q=${encodeURIComponent(q)}&limit=60`;
+            if (date) url += `&date=${date}`;
+            if (sources.length) url += `&source_ids=${sources.join(',')}`;
+
+            const resp = await fetch(url);
+            const data = await resp.json();
+            _currentPdfResults = data.results || [];
+
+            document.getElementById('pdfSearchLoading').style.display = 'none';
+
+            if (!_currentPdfResults.length) {
+                document.getElementById('pdfSearchEmpty').style.display = 'block';
+                return;
+            }
+
+            // Results toolbar
+            const infoBar = document.getElementById('pdfSearchInfoBar');
+            const uniqueSources = new Set(_currentPdfResults.map(r => r.source_name)).size;
+            document.getElementById('pdfSearchInfoText').innerHTML =
+                `Found <span style="color:#38bdf8;font-weight:800;">${_currentPdfResults.length}</span> news stories matching <em>"${escapeHtml(q)}"</em> across ${uniqueSources} broadsheet publication(s)`;
+            infoBar.style.display = 'flex';
+
+            renderPdfResults(_currentPdfResults, q);
+        } catch (err) {
+            document.getElementById('pdfSearchLoading').style.display = 'none';
+            document.getElementById('pdfSearchEmpty').style.display = 'block';
+            console.error('PDF search error:', err);
+            showShareToast('Search request error: ' + err.message, true);
+        }
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function renderPdfResults(results, query) {
+        const container = document.getElementById('pdfSearchResults');
+        container.innerHTML = '';
+        const keywords = query.toLowerCase().split(/\s+/).filter(t => t.length >= 2);
+
+        results.forEach((r, idx) => {
+            const card = document.createElement('div');
+            card.className = 'pdf-result-card';
+
+            // Highlight keywords in snippet
+            let snippet = r.snippet_en || r.ocr_text_en || '';
+            if (snippet.length > 280) snippet = snippet.substring(0, 280) + '...';
+            keywords.forEach(kw => {
+                const re = new RegExp(`(${kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+                snippet = snippet.replace(re, '<mark style="background:#fef08a;color:#713f12;border-radius:3px;padding:0 2px;font-weight:700;">$1</mark>');
+            });
+
+            const cropUrl = r.crop_url || '';
+            const snapUrl = r.snapshot_url || '';
+            const initialImg = snapUrl || cropUrl;
+
+            const sourceColor = {
+                'the_hindu': '#38bdf8',
+                'dt_next': '#f59e0b',
+                'lokmat': '#10b981',
+                'loksatta': '#a855f7',
+                'financial_express': '#06b6d4'
+            }[r.source_id] || '#38bdf8';
+
+            const confPct = Math.round((r.ocr_confidence || 0.95) * 100);
+            const storyTitle = (r.story && r.story.title) ? r.story.title : (r.headline_english || 'Regional News Article');
+            const isTranslated = Boolean(r.story && r.story.is_translated);
+
+            card.innerHTML = `
+                <div class="card-image-box">
+                    ${initialImg
+                        ? `<img id="res-img-${idx}" src="${initialImg}" alt="${r.source_name} Page ${r.page_num}" onclick="openPageFullView('${cropUrl}','${snapUrl}','${r.source_name}','${r.date}',${r.page_num})" data-snap="${snapUrl}" data-crop="${cropUrl}" data-view-mode="snap" loading="lazy" />`
+                        : `<div style="color:#475569;font-size:3rem;">📰</div>`
+                    }
+
+                    <!-- Top Left Badges -->
+                    <div style="position:absolute;top:10px;left:10px;display:flex;gap:0.4rem;align-items:center;z-index:2;">
+                        <span style="background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);border:1px solid ${sourceColor};color:${sourceColor};font-weight:800;font-size:0.72rem;padding:0.25rem 0.65rem;border-radius:20px;">${r.source_name}</span>
+                        <span id="clip-badge-${idx}" style="background:linear-gradient(135deg,#f59e0b,#ea580c);color:#ffffff;font-weight:700;font-size:0.68rem;padding:0.25rem 0.55rem;border-radius:20px;box-shadow:0 2px 8px rgba(245,158,11,0.5);">✂️ Focused Crop</span>
+                    </div>
+
+                    <!-- Page Badge -->
+                    <div style="position:absolute;top:10px;right:10px;background:#ef4444;color:white;font-weight:800;font-size:0.78rem;padding:0.28rem 0.65rem;border-radius:20px;box-shadow:0 2px 8px rgba(239,68,68,0.5);z-index:2;">
+                        Page ${r.page_num}
+                    </div>
+
+                    <!-- Toggle Switcher -->
+                    <div style="position:absolute;bottom:10px;right:10px;display:flex;background:rgba(15,23,42,0.92);backdrop-filter:blur(8px);border:1px solid rgba(56,189,248,0.35);border-radius:8px;overflow:hidden;z-index:2;">
+                        <button id="btn-crop-${idx}" onclick="toggleResultView(${idx},'crop',event)" style="border:none;background:rgba(56,189,248,0.3);color:#38bdf8;font-size:0.72rem;font-weight:800;padding:0.3rem 0.65rem;cursor:pointer;">✂️ Clip</button>
+                        <button id="btn-full-${idx}" onclick="toggleResultView(${idx},'full',event)" style="border:none;background:transparent;color:#94a3b8;font-size:0.72rem;font-weight:600;padding:0.3rem 0.65rem;cursor:pointer;">📰 Page</button>
+                    </div>
+
+                    ${isTranslated ? `<div style="position:absolute;bottom:10px;left:10px;background:rgba(16,185,129,0.9);color:#fff;font-size:0.68rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:10px;z-index:2;">🌐 100% English</div>` : ''}
+                </div>
+
+                <div class="card-content-body">
+                    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.45rem;font-size:0.78rem;color:#64748b;">
+                        <span>📅 ${r.date}</span>
+                        <span>•</span>
+                        <span>🎯 OCR: ${confPct}%</span>
+                        ${r.original_language ? `<span>•</span><span>🗣️ ${r.original_language}</span>` : ''}
+                    </div>
+
+                    <h3 class="card-headline">${storyTitle}</h3>
+                    <p class="card-snippet">${snippet || '<em style="color:#64748b;">No snippet text available</em>'}</p>
+
+                    <div class="card-actions-bar">
+                        <button class="btn-card-action export" onclick="exportSingleResult(${idx})" title="Download publication-grade clipping PDF">
+                            📄 PDF
+                        </button>
+                        <button class="btn-card-action wa" onclick="shareWhatsApp(${idx})" title="Send PDF directly to WhatsApp">
+                            📱 WhatsApp
+                        </button>
+                        <button class="btn-card-action tg" onclick="shareTelegram(${idx})" title="Send PDF directly to Telegram">
+                            ✈️ Telegram
+                        </button>
+                        <button class="btn-card-action email" onclick="openEmailModal(${idx})" title="Send PDF report via Email">
+                            📧 Email
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+
+            // Lazy-load highlighted crop image in background
+            if (r.crop_url && r.snapshot_url && r.crop_url !== r.snapshot_url) {
+                const imgEl = document.getElementById(`res-img-${idx}`);
+                const badgeEl = document.getElementById(`clip-badge-${idx}`);
+                if (imgEl) {
+                    const cropImg = new Image();
+                    cropImg.onload = function() {
+                        if (imgEl.dataset.viewMode !== 'full') {
+                            imgEl.src = cropImg.src;
+                            imgEl.dataset.viewMode = 'crop';
+                        }
+                        if (badgeEl) {
+                            badgeEl.textContent = '✂️ Highlighted Clip';
+                            badgeEl.style.display = 'inline-block';
+                        }
+                    };
+                    cropImg.onerror = function() {
+                        if (badgeEl) badgeEl.style.display = 'none';
+                    };
+                    cropImg.src = r.crop_url;
+                }
+            }
+        });
+    }
+
+    function toggleResultView(idx, mode, evt) {
+        if (evt) evt.stopPropagation();
+        const r = _currentPdfResults[idx];
+        if (!r) return;
+        const imgEl = document.getElementById(`res-img-${idx}`);
+        const badgeEl = document.getElementById(`clip-badge-${idx}`);
+        const btnCrop = document.getElementById(`btn-crop-${idx}`);
+        const btnFull = document.getElementById(`btn-full-${idx}`);
+
+        if (mode === 'crop') {
+            if (imgEl && r.crop_url) {
+                imgEl.src = r.crop_url;
+                imgEl.dataset.viewMode = 'crop';
+            }
+            if (badgeEl) { badgeEl.textContent = '✂️ Highlighted Clip'; badgeEl.style.display = 'inline-block'; }
+            if (btnCrop) { btnCrop.style.background = 'rgba(56,189,248,0.3)'; btnCrop.style.color = '#38bdf8'; btnCrop.style.fontWeight = '800'; }
+            if (btnFull) { btnFull.style.background = 'transparent'; btnFull.style.color = '#94a3b8'; btnFull.style.fontWeight = '600'; }
+        } else {
+            if (imgEl && r.snapshot_url) {
+                imgEl.src = r.snapshot_url;
+                imgEl.dataset.viewMode = 'full';
+            }
+            if (badgeEl) { badgeEl.style.display = 'none'; }
+            if (btnCrop) { btnCrop.style.background = 'transparent'; btnCrop.style.color = '#94a3b8'; btnCrop.style.fontWeight = '600'; }
+            if (btnFull) { btnFull.style.background = 'rgba(56,189,248,0.3)'; btnFull.style.color = '#38bdf8'; btnFull.style.fontWeight = '800'; }
+        }
+    }
+
+    function openPageFullView(cropUrl, fullUrl, source, date, pageNum) {
+        const win = window.open('', '_blank', 'width=1100,height=950');
+        const activeInitial = cropUrl || fullUrl;
+        win.document.write(`
+            <html><head><title>${source} - Page ${pageNum} - ${date} - Highlighted News Clipping</title>
+            <style>
+                body { margin:0; background:#0b1120; color:#f1f5f9; display:flex; flex-direction:column; align-items:center; padding:24px; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif; }
+                .top-bar { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:980px; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
+                .title { font-size:1.25rem; font-weight:700; color:#38bdf8; display:flex; align-items:center; gap:8px; margin:0; }
+                .controls { display:flex; gap:8px; }
+                .btn { padding:8px 16px; border-radius:8px; font-weight:600; font-size:0.85rem; cursor:pointer; border:1px solid rgba(56,189,248,0.3); background:rgba(30,41,59,0.9); color:#f1f5f9; transition:all 0.2s; }
+                .btn.active { background:#38bdf8; color:#0f172a; border-color:#38bdf8; font-weight:700; }
+                .img-frame { max-width:980px; width:100%; border:2px solid rgba(56,189,248,0.3); border-radius:12px; overflow:hidden; background:#0f172a; box-shadow:0 16px 48px rgba(0,0,0,0.6); display:flex; justify-content:center; }
+                img { max-width:100%; height:auto; display:block; }
+            </style></head>
+            <body>
+                <div class="top-bar">
+                    <h2 class="title">📰 ${source} &mdash; ${date} (Page ${pageNum})</h2>
+                    <div class="controls">
+                        <button id="viewClipBtn" class="btn active" onclick="switchView('crop')">✂️ Highlighted News Clipping</button>
+                        <button id="viewPageBtn" class="btn" onclick="switchView('full')">📰 Full Page</button>
+                        <a id="downloadBtn" class="btn" href="${activeInitial}" download="${source}_Page${pageNum}_Clipping.jpg">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="img-frame">
+                    <img id="mainDisplayImg" src="${activeInitial}" alt="News Clipping" />
+                </div>
+                <script>
+                    const cUrl = "${cropUrl}";
+                    const fUrl = "${fullUrl}";
+                    function switchView(mode) {
+                        const img = document.getElementById('mainDisplayImg');
+                        const bClip = document.getElementById('viewClipBtn');
+                        const bPage = document.getElementById('viewPageBtn');
+                        const dBtn = document.getElementById('downloadBtn');
+                        if(mode === 'crop') {
+                            img.src = cUrl;
+                            bClip.className = 'btn active';
+                            bPage.className = 'btn';
+                            dBtn.href = cUrl;
+                        } else {
+                            img.src = fUrl;
+                            bPage.className = 'btn active';
+                            bClip.className = 'btn';
+                            dBtn.href = fUrl;
+                        }
+                    }
+                <\/script>
+            </body></html>
+        `);
+    }
+
+    async function exportSingleResult(idx) {
+        const result = _currentPdfResults[idx];
+        if (!result) return;
+        showShareToast('⏳ Generating publication-grade PDF report...', false);
+        try {
+            const resp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    query: _currentQuery,
+                    source_ids: [result.source_id],
+                    date: result.date,
+                })
+            });
+            if (!resp.ok) {
+                const e = await resp.json().catch(() => ({ detail: 'Export error' }));
+                showShareToast('❌ ' + (e.detail || 'Export failed'), true);
+                return;
+            }
+            const blob = await resp.blob();
+            const cd = resp.headers.get('Content-Disposition') || '';
+            const fnMatch = cd.match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : 'clipping_report.pdf';
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            showShareToast('✅ PDF report downloaded successfully!', false);
+        } catch (e) {
+            showShareToast('❌ Export failed: ' + e.message, true);
+        }
+    }
+
+    async function exportAllResults() {
+        if (!_currentPdfResults.length || !_currentQuery) return;
+        showShareToast('⏳ Generating executive multi-page PDF digest...', false);
+        const sources = [...new Set(_currentPdfResults.map(r => r.source_id))];
+        const dates = [...new Set(_currentPdfResults.map(r => r.date))];
+        try {
+            const resp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    query: _currentQuery,
+                    source_ids: sources,
+                    date: dates.length === 1 ? dates[0] : null,
+                })
+            });
+            if (!resp.ok) {
+                showShareToast('❌ Batch PDF generation failed', true);
+                return;
+            }
+            const blob = await resp.blob();
+            const cd = resp.headers.get('Content-Disposition') || '';
+            const fnMatch = cd.match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : 'search_digest.pdf';
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            showShareToast('✅ Full Search PDF Digest successfully downloaded!', false);
+        } catch (e) {
+            showShareToast('❌ Export failed: ' + e.message, true);
+        }
+    }
+
+    async function shareWhatsApp(idx) {
+        const result = _currentPdfResults[idx];
+        if (!result) return;
+        showShareToast('⏳ Generating & dispatching PDF document to WhatsApp...', false);
+        try {
+            const expResp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
+            });
+            if (!expResp.ok) { showShareToast('❌ PDF build failed', true); return; }
+            const expData = await expResp.headers.get('Content-Disposition');
+            const fnMatch = (expData || '').match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : null;
+            if (!filename) { showShareToast('❌ Could not get export filename', true); return; }
+
+            const shareResp = await fetch('/api/pdf-search/share/whatsapp', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    export_pdf_path: filename,
+                    caption: `📰 ${result.source_name} (Page ${result.page_num}) — ${result.date}\n📌 Search: "${_currentQuery}"\n📄 Publication-Grade Broadsheet PDF Report attached`
+                })
+            });
+            const sd = await shareResp.json();
+            if (sd.success) {
+                showShareToast(`✅ PDF Document delivered to ${sd.recipients_count} WhatsApp chat(s)!`, false);
+            } else {
+                showShareToast('❌ WhatsApp dispatch error: ' + (sd.detail || 'Send failed'), true);
+            }
+        } catch (e) {
+            showShareToast('❌ WhatsApp error: ' + e.message, true);
+        }
+    }
+
+    async function shareTelegram(idx) {
+        const result = _currentPdfResults[idx];
+        if (!result) return;
+        showShareToast('⏳ Generating & dispatching PDF document to Telegram...', false);
+        try {
+            const expResp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
+            });
+            if (!expResp.ok) { showShareToast('❌ PDF build failed', true); return; }
+            const expData = await expResp.headers.get('Content-Disposition');
+            const fnMatch = (expData || '').match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : null;
+            if (!filename) { showShareToast('❌ Could not get export filename', true); return; }
+
+            const shareResp = await fetch('/api/pdf-search/share/telegram', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    export_pdf_path: filename,
+                    caption: `📰 <b>${result.source_name}</b> (Page ${result.page_num}) — ${result.date}\n📌 Search: <i>"${_currentQuery}"</i>\n📄 Broadsheet Clipping & Full English PDF attached`
+                })
+            });
+            const sd = await shareResp.json();
+            if (sd.success) {
+                showShareToast(`✅ PDF Document delivered to ${sd.recipients_count} Telegram chat(s)!`, false);
+            } else {
+                showShareToast('❌ Telegram dispatch error: ' + (sd.detail || 'Send failed'), true);
+            }
+        } catch (e) {
+            showShareToast('❌ Telegram error: ' + e.message, true);
+        }
+    }
+
+    function openEmailModal(idx) {
+        _emailShareIdx = idx;
+        const result = _currentPdfResults[idx];
+        if (result) {
+            document.getElementById('emailShareSubject').value =
+                `📰 [Newspaper Report] ${result.source_name}: "${_currentQuery}" (Page ${result.page_num})`;
+        }
+        document.getElementById('emailShareModal').classList.add('open');
+    }
+
+    async function confirmEmailShare() {
+        const toEmail = document.getElementById('emailShareTo').value.trim();
+        const subject = document.getElementById('emailShareSubject').value.trim();
+        if (!toEmail) {
+            showShareToast('Please enter recipient email', true);
+            return;
+        }
+        document.getElementById('emailShareModal').classList.remove('open');
+
+        const result = _currentPdfResults[_emailShareIdx];
+        if (!result) return;
+        showShareToast('⏳ Generating PDF and sending email...', false);
+        try {
+            const expResp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
+            });
+            if (!expResp.ok) { showShareToast('❌ Export failed', true); return; }
+            const cd = expResp.headers.get('Content-Disposition') || '';
+            const fnMatch = cd.match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : null;
+            if (!filename) { showShareToast('❌ Could not determine export path', true); return; }
+
+            const shareResp = await fetch('/api/pdf-search/share/email', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ export_pdf_path: filename, to_email: toEmail, subject: subject })
+            });
+            const sd = await shareResp.json();
+            if (sd.success) {
+                showShareToast(`✅ Email with PDF attached sent to ${toEmail}!`, false);
+            } else {
+                showShareToast('❌ Email failed: ' + (sd.error || 'Check SMTP credentials'), true);
+            }
+        } catch (e) {
+            showShareToast('❌ Email error: ' + e.message, true);
+        }
+    }
+
+    function showShareToast(msg, isError) {
+        const toast = document.getElementById('shareToast');
+        toast.textContent = msg;
+        toast.style.background = isError
+            ? 'linear-gradient(135deg, #7f1d1d, #991b1b)'
+            : 'linear-gradient(135deg, #166534, #15803d)';
+        toast.style.border = isError ? '1px solid #ef4444' : '1px solid #22c55e';
+        toast.style.color = '#fff';
+        toast.style.display = 'block';
+        toast.style.opacity = '1';
+        if (!isError) {
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.style.display = 'none', 300);
+            }, 4000);
+        } else {
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.style.display = 'none', 300);
+            }, 6000);
+        }
+    }
+
+    async function loadPdfIndexStatus() {
+        const panel = document.getElementById('pdfIndexStatusPanel');
+        panel.style.display = 'block';
+        document.getElementById('pdfIndexStatusContent').textContent = 'Loading index diagnostics...';
+        try {
+            const resp = await fetch('/api/pdf-index/status');
+            const data = await resp.json();
+            const sources = data.indexed_sources || [];
+            if (!sources.length) {
+                document.getElementById('pdfIndexStatusContent').innerHTML =
+                    '<p style="color:#ef4444;">⚠️ No broadsheet PDFs indexed yet. Run automated harvest or upload PDFs first, then click Re-Index.</p>';
+                return;
+            }
+            let html = `<div style="margin-bottom:1rem;color:#94a3b8;">Total Indexed Issues: <strong style="color:#38bdf8">${data.total_documents}</strong> | Active Publications: <strong style="color:#10b981">${data.eligible_sources.join(', ')}</strong></div>`;
+            html += sources.map(s => `
+                <div style="padding:0.75rem 1rem;background:rgba(30,41,59,0.7);border-radius:10px;margin-bottom:0.6rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+                    <div>
+                        <span style="font-weight:800;color:#f1f5f9;font-size:0.95rem;">${s.source_name}</span>
+                        <div style="color:#64748b;font-size:0.8rem;margin-top:2px;">Dates: ${(s.indexed_dates||[]).join(', ') || 'Current'}</div>
+                    </div>
+                    <div style="display:flex;gap:0.6rem;">
+                        <span style="padding:0.25rem 0.6rem;background:rgba(56,189,248,0.15);color:#38bdf8;border-radius:6px;font-size:0.8rem;font-weight:700;">📄 ${s.total_pages} Pages</span>
+                        <span style="padding:0.25rem 0.6rem;background:rgba(16,185,129,0.15);color:#10b981;border-radius:6px;font-size:0.8rem;font-weight:700;">📰 ${s.total_stories} Stories</span>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('pdfIndexStatusContent').innerHTML = html;
+        } catch (e) {
+            document.getElementById('pdfIndexStatusContent').innerHTML = '<p style="color:#ef4444;">Error retrieving index diagnostics: ' + e.message + '</p>';
+        }
+    }
+
+    async function rebuildPdfIndex() {
+        if (!confirm('Rebuild the PDF search index? This will scan all harvested broadsheets and re-index OCR coordinates.')) return;
+        showShareToast('⏳ Rebuilding broadsheet PDF index...', false);
+        try {
+            const resp = await fetch('/api/pdf-index/rebuild', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ force: true })
+            });
+            const data = await resp.json();
+            showShareToast(`✅ Index successfully rebuilt: ${data.indexed} indexed, ${data.skipped} skipped.`, false);
+            loadPdfIndexStatus();
+            fetchIndexStatsQuick();
+        } catch (e) {
+            showShareToast('❌ Index rebuild error: ' + e.message, true);
+        }
+    }
+
+    async function runAutoHarvest() {
+        const btn = document.getElementById('btnTriggerAutoHarvest');
+        if (!btn) return;
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Harvesting Broadsheets...';
+        showShareToast('⚡ Launching automated morning harvest for all 5 papers...', false);
+        try {
+            const resp = await fetch('/api/harvest/auto/run', { method: 'POST' });
+            const data = await resp.json();
+            btn.innerHTML = '✅ Harvest Initiated!';
+            showShareToast(`⚡ Automated harvest initiated for ${data.total_jobs} publications!`, false);
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = '⚡ Run Auto-Harvest Now';
+            }, 5000);
+        } catch (e) {
+            btn.disabled = false;
+            btn.innerHTML = '⚡ Run Auto-Harvest Now';
+            showShareToast('❌ Harvest error: ' + e.message, true);
+        }
+    }
+    </script>
+
+</body>
+</html>

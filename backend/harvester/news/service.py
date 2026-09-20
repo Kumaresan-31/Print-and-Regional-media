@@ -516,91 +516,202 @@ class NewsFeedService:
                 return cat
         return "all"
 
-    async def get_news_for_source(
+    async def get_epaper_digital_news(
         self,
-        source_id: str,
+        source_id: Optional[str] = None,
         category: str = "all",
-        limit: int = 25
+        limit: int = 25,
+        query: Optional[str] = None
     ) -> List[NewsArticle]:
         """
-        Retrieves categorized news articles for a given newspaper source.
-        Uses in-memory TTL caching and authentic regional language processing.
+        Retrieves authentic ePaper Digital News strictly from harvested broadsheet pages and active session cookie publications.
+        Zero external Google News API used.
         """
-        source = get_source(source_id)
-        source_name = source.name if source else source_id.replace("_", " ").title()
-
-        cat_key = category.lower()
-        if cat_key not in CATEGORY_CONFIG:
-            cat_key = "all"
-
-        cache_key = f"{source_id}:{cat_key}"
-        now = datetime.now()
-
-        # Check cache
-        if cache_key in self._cache:
-            cached_time, cached_items = self._cache[cache_key]
-            if now - cached_time < self.cache_ttl:
-                return cached_items
-
-        # Check if this source is one of the 5 harvested-only publications:
-        # For The Hindu, Lokmat, Loksatta, DT Next, Financial Express: ONLY show news from harvested newspaper!
         from harvester.news.pdf_search_index import pdf_search_index
-        norm_src = pdf_search_index.normalize_source_id(source_id)
-        HARVESTED_ONLY_SOURCES = {"the_hindu", "lokmat", "loksatta", "dt_next", "financial_express"}
+        from harvester.auth.session_manager import session_manager
+        from harvester.config import settings
 
-        if norm_src in HARVESTED_ONLY_SOURCES:
-            harvested_stories = pdf_search_index.get_categorized_stories(norm_src, category=cat_key, limit=limit)
-            if harvested_stories:
-                articles = [
-                    NewsArticle(
-                        id=s["id"],
-                        source_id=norm_src,
-                        source_name=s["source_name"],
-                        category=s["category"],
-                        title=s["title"],
-                        link=s["link"],
-                        snippet=s["snippet"],
-                        published_at=s["published_at"],
-                        author=s["author"],
-                        original_title=s.get("original_title"),
-                        original_snippet=s.get("original_snippet"),
-                        original_language=s.get("original_language"),
-                        is_translated=s.get("is_translated", False),
-                        ocr_raw_text=s.get("ocr_raw_text"),
-                        ocr_confidence=s.get("ocr_confidence", 0.9),
-                        page_number=s.get("page_number", 1),
-                        page_snapshot_url=s.get("page_snapshot_url"),
-                        publication_date=s.get("published_at"),
-                        audit_status="verified",
-                    )
-                    for s in harvested_stories
-                ]
-                self._cache[cache_key] = (now, articles)
-                return articles
-            else:
-                # 100% strict: do NOT fallback to Google News for these 5 papers
-                logger.info(f"Harvested-only source '{norm_src}' has no indexed broadsheet stories yet for category '{cat_key}'.")
+        pdf_search_index._load_all_indexes()
+
+        ACTIVE_COOKIE_SOURCES = {
+            "the_hindu",
+            "financial_express",
+            "lokmat_samachar",
+            "lokmat",
+            "loksatta",
+            "dt_next",
+        }
+        for sid, sess in getattr(session_manager, "_sessions", {}).items():
+            if sess.get("has_session"):
+                norm = pdf_search_index.normalize_source_id(sid)
+                if norm in ACTIVE_COOKIE_SOURCES:
+                    ACTIVE_COOKIE_SOURCES.add(norm)
+
+        cat_key = category.lower() if category else "all"
+        target_sources = []
+        if source_id and source_id != "all":
+            norm_src = pdf_search_index.normalize_source_id(source_id)
+            # Strictly restrict ePaper digital news to only active cookie publications
+            if norm_src not in ACTIVE_COOKIE_SOURCES and source_id not in ACTIVE_COOKIE_SOURCES:
+                logger.info(f"Source '{source_id}' does not have active cookie session configured. ePaper Digital News unavailable.")
                 return []
+            target_sources = [norm_src]
+        else:
+            target_sources = list(ACTIVE_COOKIE_SOURCES)
 
+        articles: List[NewsArticle] = []
+        for src in target_sources:
+            has_indexed = any(
+                pdf_search_index.normalize_source_id(idx_doc.get("source_id", "")) == src
+                for idx_doc in pdf_search_index._memory_index.values()
+            )
+            if not has_indexed:
+                src_archive = settings.archive_dir / src
+                if src_archive.exists():
+                    all_pdfs = sorted(
+                        list(src_archive.glob("*/*.pdf")) + list(src_archive.glob("*.pdf")),
+                        key=lambda p: p.stat().st_mtime,
+                        reverse=True
+                    )
+                    if all_pdfs:
+                        latest_pdf = all_pdfs[0]
+                        m = re.search(r"\d{4}-\d{2}-\d{2}", str(latest_pdf))
+                        date_str = m.group(0) if m else datetime.now().strftime("%Y-%m-%d")
+                        try:
+                            await pdf_search_index.index_document(latest_pdf, src, date_str, force=False, max_pages=8)
+                        except Exception as ie:
+                            logger.warning(f"Could not index archive PDF for {src}: {ie}")
+
+            if query:
+                hits = pdf_search_index.search(keywords=query, source_ids=[src], limit=limit)
+                for hit in hits:
+                    st = hit.get("story") or {}
+                    pg = hit.get("page_num", 1)
+                    art_id = st.get("id") or f"epaper_{src}_{hit.get('doc_id')}_{pg}"
+                    articles.append(
+                        NewsArticle(
+                            id=art_id,
+                            source_id=src,
+                            source_name=f"{hit.get('source_name', src)} (Page {pg})",
+                            category=st.get("category", "all"),
+                            title=st.get("title") or hit.get("snippet_en", "")[:80] or f"{hit.get('source_name')} - Page {pg}",
+                            link=hit.get("snapshot_url") or hit.get("crop_url", ""),
+                            snippet=st.get("snippet") or hit.get("snippet_en", "") or hit.get("ocr_text_en", "")[:250],
+                            published_at=hit.get("date"),
+                            author=f"{hit.get('source_name')} Broadsheet",
+                            original_title=st.get("original_title"),
+                            original_snippet=st.get("original_snippet"),
+                            original_language=hit.get("original_language"),
+                            page_number=pg,
+                            page_snapshot_url=hit.get("snapshot_url"),
+                            ocr_raw_text=st.get("ocr_raw_text"),
+                            ocr_confidence=hit.get("ocr_confidence", 0.9),
+                            audit_status="epaper_digital",
+                            news_type="epaper"
+                        )
+                    )
+            else:
+                stories = pdf_search_index.get_categorized_stories(src, category=cat_key, limit=limit)
+                for s in stories:
+                    articles.append(
+                        NewsArticle(
+                            id=s["id"],
+                            source_id=src,
+                            source_name=f"{s['source_name']} (Page {s.get('page_number', 1)})",
+                            category=s["category"],
+                            title=s["title"],
+                            link=s["link"],
+                            snippet=s["snippet"],
+                            published_at=s["published_at"],
+                            author=s["author"],
+                            original_title=s.get("original_title"),
+                            original_snippet=s.get("original_snippet"),
+                            original_language=s.get("original_language"),
+                            is_translated=s.get("is_translated", False),
+                            ocr_raw_text=s.get("ocr_raw_text"),
+                            ocr_confidence=s.get("ocr_confidence", 0.9),
+                            page_number=s.get("page_number", 1),
+                            page_snapshot_url=s.get("page_snapshot_url"),
+                            publication_date=s.get("published_at"),
+                            audit_status="epaper_digital",
+                            news_type="epaper"
+                        )
+                    )
+
+        if not articles:
+            from harvester.news.hardcopy_manager import hardcopy_manager
+            hc_arts = hardcopy_manager.get_articles(category=cat_key if cat_key != "all" else None, limit=limit)
+            for h in hc_arts:
+                if source_id and source_id != "all":
+                    norm_src = pdf_search_index.normalize_source_id(source_id)
+                    h_src = pdf_search_index.normalize_source_id(h.get("newspaper", "") or h.get("source_id", ""))
+                    if norm_src not in h_src and h_src not in norm_src:
+                        continue
+                articles.append(
+                    NewsArticle(
+                        id=h.get("id"),
+                        source_id=pdf_search_index.normalize_source_id(h.get("newspaper", "epaper")),
+                        source_name=f"{h.get('newspaper', 'Broadsheet')} (Page {h.get('page_number', 1)})",
+                        category=h.get("category", "all"),
+                        title=h.get("headline_english") or h.get("title", "ePaper Article"),
+                        link=h.get("page_snapshot_url") or "",
+                        snippet=h.get("content_english") or h.get("snippet", ""),
+                        published_at=h.get("publication_date"),
+                        author=f"{h.get('newspaper')} Broadsheet",
+                        original_title=h.get("headline_original"),
+                        original_language=h.get("original_language"),
+                        page_number=h.get("page_number", 1),
+                        page_snapshot_url=h.get("page_snapshot_url"),
+                        ocr_raw_text=h.get("ocr_raw_text"),
+                        ocr_confidence=h.get("ocr_confidence", 0.95),
+                        audit_status="epaper_digital",
+                        news_type="epaper"
+                    )
+                )
+
+        return articles[:limit]
+
+    async def get_online_news(
+        self,
+        source_id: Optional[str] = None,
+        category: str = "all",
+        limit: int = 25,
+        query: Optional[str] = None
+    ) -> List[NewsArticle]:
+        """
+        Retrieves Online News strictly via Google News RSS feeds in regional / national language context
+        with full multi-language English translation and category tagging.
+        """
+        cat_key = category.lower() if category else "all"
+        source = get_source(source_id) if (source_id and source_id != "all") else None
+        source_name = source.name if source else (source_id.replace("_", " ").title() if (source_id and source_id != "all") else "Online News")
         source_lang_name = source.language.value.lower() if source else "english"
         source_lang_code = LANGUAGE_CODE_MAP.get(source_lang_name, "en")
-        native_name = NATIVE_SOURCE_NAMES.get(source_id)
+        native_name = NATIVE_SOURCE_NAMES.get(source_id) if source_id else None
 
-        # Build targeted query based on requested category
-        if cat_key == "all":
-            if native_name:
-                search_query = f'("{source_name}" OR "{native_name}")'
+        if query:
+            search_query = query
+            if source:
+                target_domain = SOURCE_DOMAINS.get(source_id)
+                if not target_domain and source.base_url:
+                    target_domain = urllib.parse.urlparse(source.base_url).netloc.replace("epaper.", "").replace("www.", "")
+                if target_domain:
+                    search_query = f"{query} site:{target_domain}"
+                else:
+                    search_query = f'"{source.name}" {query}'
+        elif cat_key == "all":
+            if source:
+                search_query = f'("{source_name}" OR "{native_name}")' if native_name else f'"{source_name}"'
             else:
-                search_query = f'"{source_name}"'
+                search_query = "India news breaking"
         else:
             lang_keywords = REGIONAL_CATEGORY_KEYWORDS.get(source_lang_name, {})
             cat_kw = lang_keywords.get(cat_key, CATEGORY_CONFIG[cat_key]["keywords"])
-            if native_name:
-                search_query = f'("{source_name}" OR "{native_name}") ({cat_kw})'
+            if source:
+                search_query = f'("{source_name}" OR "{native_name}") ({cat_kw})' if native_name else f'"{source_name}" ({cat_kw})'
             else:
-                search_query = f'"{source_name}" ({cat_kw})'
+                search_query = f"India ({cat_kw})"
 
-        # Fetch in thread pool
         loop = asyncio.get_event_loop()
         raw_items = await loop.run_in_executor(
             None, self._fetch_rss_sync, search_query, limit, source_lang_code
@@ -610,54 +721,117 @@ class NewsFeedService:
         for idx, item in enumerate(raw_items):
             title = item["title"]
             snippet = item["snippet"]
-
-            # If specific category requested, verify relevance
             if cat_key != "all" and not self._is_relevant_for_category(title, snippet, cat_key):
                 continue
-
             article_category = cat_key if cat_key != "all" else self._detect_category(title, snippet)
-            article_id = hashlib.md5(f"{source_id}_{item['link']}_{idx}".encode()).hexdigest()[:12]
+            article_id = hashlib.md5(f"online_{source_id or 'all'}_{item['link']}_{idx}".encode()).hexdigest()[:12]
             articles.append(
                 NewsArticle(
                     id=article_id,
-                    source_id=source_id,
-                    source_name=source_name,
+                    source_id=source_id or "online_news",
+                    source_name=item["author"] or source_name,
                     category=article_category,
                     title=title,
                     link=item["link"],
                     snippet=snippet,
                     published_at=item["pub_date"],
                     author=item["author"] or source_name,
+                    audit_status="online_rss",
+                    news_type="online"
                 )
             )
 
-        # If external fetch returned nothing or lacks native regional content for a regional paper, provide curated authentic regional news
-        has_regional_content = any(contains_regional_script(a.title) or contains_regional_script(a.snippet) for a in articles)
-        min_required = 2 if cat_key != "all" else 1
-        if len(articles) < min_required or (source_lang_code != "en" and not has_regional_content):
+        if not articles and source:
             fallback_items = self._generate_fallback_news(source_id, source_name, cat_key, source_lang_name)
-            if not articles:
-                articles = fallback_items
-            else:
-                existing_titles = {a.title.lower() for a in articles}
-                for fb in fallback_items:
-                    if fb.title.lower() not in existing_titles:
-                        articles.append(fb)
+            for fb in fallback_items:
+                fb.news_type = "online"
+                fb.audit_status = "online_rss"
+            articles = fallback_items
 
-        # Automatically translate regional language titles/snippets into English while preserving original
         translation_tasks = []
         for a in articles:
             needs_title_tr = contains_regional_script(a.title)
             needs_snip_tr = contains_regional_script(a.snippet) if a.snippet else False
             if needs_title_tr or needs_snip_tr:
                 translation_tasks.append(self._translate_article(a, source_lang_code, source_lang_name))
-
         if translation_tasks:
             await asyncio.gather(*translation_tasks)
 
-        # Store in cache
-        self._cache[cache_key] = (now, articles)
-        return articles
+        return articles[:limit]
+
+    async def get_news_for_source(
+        self,
+        source_id: str,
+        category: str = "all",
+        limit: int = 25,
+        mode: str = "both"
+    ) -> List[NewsArticle]:
+        """
+        Retrieves news articles for a given newspaper source.
+        Supports mode:
+          - 'epaper': strictly active-cookie harvested broadsheet articles
+          - 'online': strictly Google News RSS online web articles
+          - 'both': checks active-cookie broadsheets first, otherwise falls back to online news
+        """
+        cat_key = category.lower() if category else "all"
+        if cat_key not in CATEGORY_CONFIG:
+            cat_key = "all"
+
+        cache_key = f"{source_id}:{cat_key}:{mode}"
+        now = datetime.now()
+        if cache_key in self._cache:
+            cached_time, cached_items = self._cache[cache_key]
+            if now - cached_time < self.cache_ttl:
+                return cached_items
+
+        if mode == "epaper":
+            arts = await self.get_epaper_digital_news(source_id=source_id, category=cat_key, limit=limit)
+            self._cache[cache_key] = (now, arts)
+            return arts
+
+        if mode == "online":
+            arts = await self.get_online_news(source_id=source_id, category=cat_key, limit=limit)
+            self._cache[cache_key] = (now, arts)
+            return arts
+
+        from harvester.news.pdf_search_index import pdf_search_index
+        from harvester.auth.session_manager import session_manager
+        norm_src = pdf_search_index.normalize_source_id(source_id)
+        ACTIVE_COOKIE_SOURCES = {
+            "the_hindu",
+            "financial_express",
+            "lokmat_samachar",
+            "lokmat",
+            "loksatta",
+            "dt_next",
+        }
+        has_epaper_support = (norm_src in ACTIVE_COOKIE_SOURCES or source_id in ACTIVE_COOKIE_SOURCES)
+
+        if mode == "epaper":
+            if not has_epaper_support:
+                logger.info(f"Source '{source_id}' is not an active cookie publication. Returning empty for ePaper mode.")
+                return []
+            arts = await self.get_epaper_digital_news(source_id=norm_src, category=cat_key, limit=limit)
+            self._cache[cache_key] = (now, arts)
+            return arts
+
+        if mode == "online":
+            arts = await self.get_online_news(source_id=source_id, category=cat_key, limit=limit)
+            self._cache[cache_key] = (now, arts)
+            return arts
+
+        # mode == "both" or "all":
+        # Only the 6 active-cookie papers have both ePaper Digital News and Online News!
+        # All other papers have Online News ONLY!
+        if has_epaper_support:
+            epaper_arts = await self.get_epaper_digital_news(source_id=norm_src, category=cat_key, limit=limit)
+            if epaper_arts:
+                self._cache[cache_key] = (now, epaper_arts)
+                return epaper_arts
+
+        online_arts = await self.get_online_news(source_id=source_id, category=cat_key, limit=limit)
+        self._cache[cache_key] = (now, online_arts)
+        return online_arts
 
     def _detect_category_for_query(self, query: str) -> str:
         """Heuristically infers the category from search keywords."""
@@ -715,8 +889,11 @@ class NewsFeedService:
                         matching_from_cache.append(art)
 
         from harvester.news.pdf_search_index import pdf_search_index
+        from harvester.auth.session_manager import session_manager
         norm_src = pdf_search_index.normalize_source_id(source_id) if source_id else None
         HARVESTED_ONLY_SOURCES = {"the_hindu", "lokmat", "loksatta", "dt_next", "financial_express"}
+        if norm_src and session_manager.get_session_info(norm_src, norm_src).has_session:
+            HARVESTED_ONLY_SOURCES.add(norm_src)
 
         if norm_src and norm_src in HARVESTED_ONLY_SOURCES:
             # Search strictly in the harvested broadsheet index (NO GOOGLE NEWS)

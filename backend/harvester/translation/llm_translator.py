@@ -235,8 +235,26 @@ class LLMTranslator:
         return None
 
     def _translate_sync(self, text: str, source_lang: str) -> str:
-        """Multi-engine synchronous translation: Bing session -> MyMemory -> GoogleTranslator fallback."""
-        clean = text.strip()
+        """Multi-engine synchronous translation with automatic chunking and noise pre-cleaning."""
+        # Sanitize OCR noise (stray punctuation brackets, isolated Latin chars between Indic words)
+        clean = re.sub(r"[\^~|\[\]{}\\_+=<>]+", " ", text)
+        clean = re.sub(r"(?<=[\u0900-\u0D7F])\s+[a-zA-Z]\s+(?=[\u0900-\u0D7F])", " ", clean)
+        clean = re.sub(r"\s+", " ", clean).strip()
+
+        if not clean:
+            return ""
+
+        # If text is long, chunk it to stay well within MyMemory 500-char and GoogleTranslator single-sentence limits
+        if len(clean) > 380:
+            chunks = self._split_into_chunks(clean, max_chars=380)
+            if len(chunks) > 1:
+                translated_parts = [self._translate_single_sync(c, source_lang) for c in chunks]
+                return " ".join(p for p in translated_parts if p).strip()
+
+        return self._translate_single_sync(clean, source_lang)
+
+    def _translate_single_sync(self, clean: str, source_lang: str) -> str:
+        """Translates a single short text segment using Bing session -> MyMemory -> GoogleTranslator fallback."""
         import time
 
         # Engine 1: Microsoft Bing Translator (Session Token)
@@ -266,7 +284,6 @@ class LLMTranslator:
                             if tr_text:
                                 return html.unescape(tr_text)
                 else:
-                    # Reset credentials on non-200 to re-fetch on next attempt
                     self._bing_creds = None
         except Exception as e:
             logger.debug(f"Bing engine note: {e}")
@@ -274,10 +291,10 @@ class LLMTranslator:
 
         # Fallback engines
         for attempt in range(2):
-            # Engine 2: MyMemory API
+            # Engine 2: MyMemory API (strictly under 500 chars)
             try:
                 lang_pair = f"{source_lang}|en" if source_lang != "auto" else "autodetect|en"
-                url = f"https://api.mymemory.translated.net/get?q={urllib.parse.quote(clean)}&langpair={lang_pair}"
+                url = f"https://api.mymemory.translated.net/get?q={urllib.parse.quote(clean[:450])}&langpair={lang_pair}"
                 req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
                 with urllib.request.urlopen(req, timeout=5) as resp:
                     data = json.loads(resp.read().decode("utf-8"))
@@ -297,7 +314,7 @@ class LLMTranslator:
                 err_str = str(e)
                 logger.debug(f"GoogleTranslator engine note (attempt {attempt + 1}): {err_str}")
                 if "429" in err_str and attempt == 0:
-                    time.sleep(1.0)
+                    time.sleep(0.5)
                     continue
 
         return clean
@@ -360,6 +377,137 @@ class LLMTranslator:
             provider="dual_engine_llm"
         )
 
+        self._cache[cache_key] = result
+        return result
+
+    def _split_into_chunks(self, text: str, max_chars: int = 380) -> List[str]:
+        """
+        Splits text into chunks of at most max_chars characters, breaking
+        at paragraph boundaries first, then sentence boundaries, then word
+        boundaries — to ensure clean, readable translated output.
+        """
+        if len(text) <= max_chars:
+            return [text]
+
+        chunks: List[str] = []
+        # Try paragraph splits first
+        paragraphs = re.split(r"\n{2,}", text)
+        current = ""
+        for para in paragraphs:
+            if not para.strip():
+                continue
+            if len(current) + len(para) + 2 <= max_chars:
+                current = f"{current}\n\n{para}".lstrip("\n")
+            else:
+                # Para itself is longer than max_chars — split by sentences
+                if current:
+                    chunks.append(current.strip())
+                    current = ""
+                if len(para) <= max_chars:
+                    current = para
+                else:
+                    # Split by sentence
+                    sentences = re.split(r"(?<=[.!?।])\s+", para)
+                    for sent in sentences:
+                        if len(current) + len(sent) + 1 <= max_chars:
+                            current = f"{current} {sent}".lstrip()
+                        else:
+                            if current:
+                                chunks.append(current.strip())
+                            # Sentence itself longer than limit — hard split at word boundary
+                            if len(sent) <= max_chars:
+                                current = sent
+                            else:
+                                words = sent.split()
+                                current = ""
+                                for word in words:
+                                    if len(current) + len(word) + 1 <= max_chars:
+                                        current = f"{current} {word}".lstrip()
+                                    else:
+                                        if current:
+                                            chunks.append(current.strip())
+                                        current = word
+        if current.strip():
+            chunks.append(current.strip())
+        return [c for c in chunks if c.strip()]
+
+    async def translate_long_text(
+        self,
+        text: str,
+        source_lang: str = "auto",
+        chunk_size: int = 380,
+    ) -> TranslationResult:
+        """
+        Translates arbitrarily long text by splitting into chunks, translating
+        each chunk independently, and joining the results back into coherent English.
+        Uses the same entity preservation and confidence pipeline as translate().
+        This is the correct method to use for full article body translation.
+        """
+        if not text or not text.strip():
+            return TranslationResult(
+                original_text="",
+                translated_text="",
+                detected_language=source_lang,
+                confidence_score=1.0,
+                needs_review=False,
+                preserved_entities=[],
+                provider="noop"
+            )
+
+        clean_text = text.strip()
+        cache_key = f"long:{source_lang}:{clean_text[:120]}"
+        if cache_key in self._cache:
+            return self._cache[cache_key]
+
+        chunks = self._split_into_chunks(clean_text, max_chars=chunk_size)
+
+        if len(chunks) == 1:
+            # Short enough — use normal translate path
+            return await self.translate(clean_text, source_lang)
+
+        # Translate chunks with gentle pacing to avoid HTTP 429
+        loop = asyncio.get_event_loop()
+        translated_chunks: List[str] = []
+        all_entities: List[str] = []
+        min_confidence = 1.0
+        any_needs_review = False
+
+        raw_translations = []
+        for chunk in chunks:
+            try:
+                raw_item = await loop.run_in_executor(None, self._translate_sync, chunk, source_lang)
+                raw_translations.append(raw_item)
+            except Exception as ce:
+                raw_translations.append(ce)
+            await asyncio.sleep(0.04)
+
+        for chunk, raw in zip(chunks, raw_translations):
+            if isinstance(raw, Exception) or not raw:
+                # Keep original chunk if translation failed
+                translated_chunks.append(chunk)
+                any_needs_review = True
+                min_confidence = min(min_confidence, 0.60)
+            else:
+                entities = self.extract_named_entities(chunk)
+                fixed, preserved, missing = self.ensure_entity_preservation(str(raw), entities)
+                all_entities.extend(preserved)
+                conf = self.calculate_confidence(chunk, fixed, missing, len(entities), source_lang)
+                min_confidence = min(min_confidence, conf)
+                if conf < self.review_threshold:
+                    any_needs_review = True
+                translated_chunks.append(fixed)
+
+        full_translation = "\n\n".join(translated_chunks)
+
+        result = TranslationResult(
+            original_text=clean_text,
+            translated_text=full_translation,
+            detected_language=source_lang,
+            confidence_score=round(min_confidence, 2),
+            needs_review=any_needs_review,
+            preserved_entities=list(set(all_entities)),
+            provider="dual_engine_llm_chunked"
+        )
         self._cache[cache_key] = result
         return result
 
