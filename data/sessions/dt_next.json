@@ -1,6 +1,6 @@
 {
   "source_id": "dt_next",
-  "updated_at": "2026-09-19T14:02:00.000000+00:00",
+  "updated_at": "2026-09-20T07:04:50.183995+00:00",
   "cookies": [
     {
       "domain": "news.dtnext.in",
@@ -12,11 +12,11 @@
       "secure": false,
       "session": true,
       "storeId": null,
-      "value": "vgnduy4np2pcub14shuaek2m"
+      "value": "1alqiny13vq4tago3hw0zl0b"
     },
     {
       "domain": ".dtnext.in",
-      "expirationDate": 1824385363.854225,
+      "expirationDate": 1824447835.101467,
       "hostOnly": false,
       "httpOnly": false,
       "name": "_ga_385540605",
@@ -25,11 +25,13 @@
       "secure": true,
       "session": false,
       "storeId": null,
-      "value": "GS2.1.s1789825354$o2$g1$t1789825363$j51$l0$h0"
+      "value": "GS2.1.s1789887814",
+      "expires": 1824447835.101467,
+      "expiry": 1824447835.101467
     },
     {
       "domain": ".dtnext.in",
-      "expirationDate": 1789911750,
+      "expirationDate": 1789974215,
       "hostOnly": false,
       "httpOnly": false,
       "name": "_clsk",
@@ -38,11 +40,13 @@
       "secure": false,
       "session": false,
       "storeId": null,
-      "value": "1s0iamt%5E1789825350319%5E1%5E1%5El.clarity.ms%2Fcollect"
+      "value": "o4b211%5E1789887815744%5E1%5E1%5Ef.clarity.ms%2Fcollect",
+      "expires": 1789974215,
+      "expiry": 1789974215
     },
     {
       "domain": ".dtnext.in",
-      "expirationDate": 1824385354.939056,
+      "expirationDate": 1824447814.679805,
       "hostOnly": false,
       "httpOnly": false,
       "name": "_ga",
@@ -51,11 +55,13 @@
       "secure": true,
       "session": false,
       "storeId": null,
-      "value": "GA1.1.66503710.1789816022"
+      "value": "GA1.1.66503710.1789816022",
+      "expires": 1824447814.679805,
+      "expiry": 1824447814.679805
     },
     {
       "domain": ".dtnext.in",
-      "expirationDate": 1789911754,
+      "expirationDate": 1789974214,
       "hostOnly": false,
       "httpOnly": false,
       "name": "_gid",
@@ -64,11 +70,13 @@
       "secure": true,
       "session": false,
       "storeId": null,
-      "value": "GA1.2.804541863.1789816035"
+      "value": "GA1.2.804541863.1789816035",
+      "expires": 1789974214,
+      "expiry": 1789974214
     },
     {
       "domain": ".dtnext.in",
-      "expirationDate": 1821352022,
+      "expirationDate": 1821423810,
       "hostOnly": false,
       "httpOnly": false,
       "name": "_clck",
@@ -77,11 +85,13 @@
       "secure": false,
       "session": false,
       "storeId": null,
-      "value": "eqwf4x%5E2%5Eg9l%5E0%5E2453"
+      "value": "eqwf4x%5E2%5Eg9m%5E0%5E2453",
+      "expires": 1821423810,
+      "expiry": 1821423810
     },
     {
       "domain": ".dtnext.in",
-      "expirationDate": 1824385349.747227,
+      "expirationDate": 1824447810.588235,
       "hostOnly": false,
       "httpOnly": false,
       "name": "_ga_B2VCQLJD3C",
@@ -90,11 +100,13 @@
       "secure": false,
       "session": false,
       "storeId": null,
-      "value": "GS2.1.s1789825348$o2$g0$t1789825349$j59$l0$h0"
+      "value": "GS2.1.s1789887809",
+      "expires": 1824447810.588235,
+      "expiry": 1824447810.588235
     },
     {
       "domain": ".dtnext.in",
-      "expirationDate": 1824385363.857187,
+      "expirationDate": 1824447835.103097,
       "hostOnly": false,
       "httpOnly": false,
       "name": "_ga_N8Q2L41X6R",
@@ -103,11 +115,13 @@
       "secure": true,
       "session": false,
       "storeId": null,
-      "value": "GS2.1.s1789825354$o2$g1$t1789825363$j51$l0$h0"
+      "value": "GS2.1.s1789887814",
+      "expires": 1824447835.103097,
+      "expiry": 1824447835.103097
     },
     {
       "domain": ".dtnext.in",
-      "expirationDate": 1789825414,
+      "expirationDate": 1789887874,
       "hostOnly": false,
       "httpOnly": false,
       "name": "_gat_gtag_UA_69390380_3",
@@ -116,7 +130,9 @@
       "secure": true,
       "session": false,
       "storeId": null,
-      "value": "1"
+      "value": "1",
+      "expires": 1789887874,
+      "expiry": 1789887874
     }
   ]
 }

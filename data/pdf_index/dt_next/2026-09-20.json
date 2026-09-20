@@ -2,37 +2,37 @@
   "source_id": "dt_next",
   "source_name": "DT Next",
   "date": "2026-09-20",
-  "pdf_path": "data\\archive\\dt_next\\2026-09-20\\dt_next_chennai_2026-09-20.pdf",
-  "doc_id": "9f5bb419b8c8",
-  "indexed_at": "2026-09-20T12:30:24.044011",
+  "pdf_path": "D:\\Projects\\VEE2\\data\\archive\\dt_next\\2026-09-20\\dt_next_chennai_2026-09-20.pdf",
+  "doc_id": "cac2c564804b",
+  "indexed_at": "2026-09-20T12:43:35.847220",
   "total_pages": 12,
   "total_stories": 84,
   "snapshots": [
-    "/api/snapshots/9f5bb419b8c8/1",
-    "/api/snapshots/9f5bb419b8c8/2",
-    "/api/snapshots/9f5bb419b8c8/3",
-    "/api/snapshots/9f5bb419b8c8/4",
-    "/api/snapshots/9f5bb419b8c8/5",
-    "/api/snapshots/9f5bb419b8c8/6",
-    "/api/snapshots/9f5bb419b8c8/7",
-    "/api/snapshots/9f5bb419b8c8/8",
-    "/api/snapshots/9f5bb419b8c8/9",
-    "/api/snapshots/9f5bb419b8c8/10",
-    "/api/snapshots/9f5bb419b8c8/11",
-    "/api/snapshots/9f5bb419b8c8/12"
+    "/api/snapshots/cac2c564804b/1",
+    "/api/snapshots/cac2c564804b/2",
+    "/api/snapshots/cac2c564804b/3",
+    "/api/snapshots/cac2c564804b/4",
+    "/api/snapshots/cac2c564804b/5",
+    "/api/snapshots/cac2c564804b/6",
+    "/api/snapshots/cac2c564804b/7",
+    "/api/snapshots/cac2c564804b/8",
+    "/api/snapshots/cac2c564804b/9",
+    "/api/snapshots/cac2c564804b/10",
+    "/api/snapshots/cac2c564804b/11",
+    "/api/snapshots/cac2c564804b/12"
   ],
   "pages": [
     {
       "page_num": 1,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_001.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/1",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_001.jpg",
       "ocr_text_original": "DTNEXTon Sunday\nFORTHENEWAGEREADERtuSmatBottladetBat\n\nState ramps up fever wards, activates anti-dengue\nPM:West'semissions6Xmore;climate\n\nprotocols; Chennai among districts with high prevalence\nDenguebites TN hard:\n\npreachers blocking clean energy efforts\nNTRBUNAL\n\n253casesinsingleday\nManaged to reach a deal\n\nTrump signs Russia\nwithGreenland,saysDon\n\nKejriissued notices\nASIANGAMESKICKOFFINNAGOYA\n\nSkincolournoproofofcastestatus:MHC\nSurprise'asTamil Thaai sungbefore\n\nVande Mataram at Centre'sevent in city",
       "ocr_text_en": "DTNEXTon Sunday FORTHENEWAGEREADERtuSmatBottladetBat\n\nState ramps up fever wards, activates anti-dengue PM:West'semissions6Xmore;climate\n\nprotocols; Chennai among districts with high prevalence Denguebites TN hard:\n\npreachers blocking clean energy efforts NTRBUNAL\n\n253casesinsingleday Managed to reach a deal\n\nTrump signs Russia withGreenland,saysDon\n\nKejriissued notices ASIANGAMESKICKOFFINNAGOYA\n\nSkincolournoproofofcastestatus:MHC Surprise'asTamil Thaai sungbefore\n\nVande Mataram at Centre'sevent in city Vande Mataram at Centre'sevent in city",
       "ocr_confidence": 0.8656,
       "original_language": null,
       "stories": [
         {
-          "id": "b24319879088",
+          "id": "b4fcbf6bf463",
           "title": "DTNEXTon Sunday",
           "snippet": "FORTHENEWAGEREADERtuSmatBottladetBat",
           "original_title": null,
@@ -41,11 +41,11 @@
           "page_num": 1,
           "ocr_raw_text": "DTNEXTon Sunday\nFORTHENEWAGEREADERtuSmatBottladetBat",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         },
         {
-          "id": "d4bd9c34ac07",
+          "id": "7507545aef9f",
           "title": "State ramps up fever wards, activates anti-dengue",
           "snippet": "PM:West'semissions6Xmore;climate",
           "original_title": null,
@@ -54,11 +54,11 @@
           "page_num": 1,
           "ocr_raw_text": "State ramps up fever wards, activates anti-dengue\nPM:West'semissions6Xmore;climate",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         },
         {
-          "id": "87aaba208c63",
+          "id": "328d174c852f",
           "title": "protocols; Chennai among districts with high prevalence",
           "snippet": "Denguebites TN hard:",
           "original_title": null,
@@ -67,11 +67,11 @@
           "page_num": 1,
           "ocr_raw_text": "protocols; Chennai among districts with high prevalence\nDenguebites TN hard:",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         },
         {
-          "id": "4453893607e6",
+          "id": "47bd093ed7cd",
           "title": "preachers blocking clean energy efforts",
           "snippet": "NTRBUNAL",
           "original_title": null,
@@ -80,11 +80,11 @@
           "page_num": 1,
           "ocr_raw_text": "preachers blocking clean energy efforts\nNTRBUNAL",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         },
         {
-          "id": "87efc6761e9b",
+          "id": "d14ecb64b011",
           "title": "253casesinsingleday",
           "snippet": "Managed to reach a deal",
           "original_title": null,
@@ -93,11 +93,11 @@
           "page_num": 1,
           "ocr_raw_text": "253casesinsingleday\nManaged to reach a deal",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         },
         {
-          "id": "c3b5686c637e",
+          "id": "74e5b4c9d8ba",
           "title": "Trump signs Russia",
           "snippet": "withGreenland,saysDon",
           "original_title": null,
@@ -106,11 +106,11 @@
           "page_num": 1,
           "ocr_raw_text": "Trump signs Russia\nwithGreenland,saysDon",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         },
         {
-          "id": "767d87aab65e",
+          "id": "865e6b3971ea",
           "title": "Kejriissued notices",
           "snippet": "ASIANGAMESKICKOFFINNAGOYA",
           "original_title": null,
@@ -119,11 +119,11 @@
           "page_num": 1,
           "ocr_raw_text": "Kejriissued notices\nASIANGAMESKICKOFFINNAGOYA",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         },
         {
-          "id": "44c3d309247c",
+          "id": "e6806c1ef63b",
           "title": "Skincolournoproofofcastestatus:MHC",
           "snippet": "Surprise'asTamil Thaai sungbefore",
           "original_title": null,
@@ -132,11 +132,11 @@
           "page_num": 1,
           "ocr_raw_text": "Skincolournoproofofcastestatus:MHC\nSurprise'asTamil Thaai sungbefore",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         },
         {
-          "id": "a8aabc216326",
+          "id": "417494004dd7",
           "title": "Vande Mataram at Centre'sevent in city",
           "snippet": "Vande Mataram at Centre'sevent in city",
           "original_title": null,
@@ -145,22 +145,22 @@
           "page_num": 1,
           "ocr_raw_text": "Vande Mataram at Centre'sevent in city",
           "ocr_confidence": 0.8656,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/1",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/1",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 2,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_002.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/2",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_002.jpg",
       "ocr_text_original": "2ICIT\nDespite being upgraded to a municipality last year, the industrial hub is reeling under\n\nReservation for special\ndamaged roads, poorly maintained bus stands, and a serious lack of underground sewage\n\npipelines, cleanliness workers proper street name boards, and recreational areas\ntrains during Navaratri,\n\nHightaxesnoguaranteeforbetter\nDeepavali open today\n\nCity-based fertility clinic\nconductsfirstwaterbirth\n\nSchool edu dept to verify\nby Metro Water in\n\nnon-teaching staff data\nPerungudi left damaged\n\nBuildlmoreplatform,improveinfra\nTRB must release\n\nat Putlur station,passengers urge SR\nTNTETresults",
       "ocr_text_en": "2ICIT Despite being upgraded to a municipality last year, the industrial hub is reeling under\n\nReservation for special damaged roads, poorly maintained bus stands, and a serious lack of underground sewage\n\npipelines, cleanliness workers proper street name boards, and recreational areas trains during Navaratri,\n\nHightaxesnoguaranteeforbetter Deepavali open today\n\nCity-based fertility clinic conductsfirstwaterbirth\n\nSchool edu dept to verify by Metro Water in\n\nnon-teaching staff data Perungudi left damaged\n\nBuildlmoreplatform,improveinfra TRB must release\n\nat Putlur station,passengers urge SR TNTETresults",
       "ocr_confidence": 0.8682,
       "original_language": null,
       "stories": [
         {
-          "id": "edf6c01f0ec0",
+          "id": "178da46d1672",
           "title": "2ICIT",
           "snippet": "Despite being upgraded to a municipality last year, the industrial hub is reeling under",
           "original_title": null,
@@ -169,11 +169,11 @@
           "page_num": 2,
           "ocr_raw_text": "2ICIT\nDespite being upgraded to a municipality last year, the industrial hub is reeling under",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         },
         {
-          "id": "320676a8f512",
+          "id": "b5682e823607",
           "title": "Reservation for special",
           "snippet": "damaged roads, poorly maintained bus stands, and a serious lack of underground sewage",
           "original_title": null,
@@ -182,11 +182,11 @@
           "page_num": 2,
           "ocr_raw_text": "Reservation for special\ndamaged roads, poorly maintained bus stands, and a serious lack of underground sewage",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         },
         {
-          "id": "f410246dbbfb",
+          "id": "5023b5b4f4de",
           "title": "pipelines, cleanliness workers proper street name boards, and recreational areas",
           "snippet": "trains during Navaratri,",
           "original_title": null,
@@ -195,11 +195,11 @@
           "page_num": 2,
           "ocr_raw_text": "pipelines, cleanliness workers proper street name boards, and recreational areas\ntrains during Navaratri,",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         },
         {
-          "id": "7dc0943fdda9",
+          "id": "3941fcb9f887",
           "title": "Hightaxesnoguaranteeforbetter",
           "snippet": "Deepavali open today",
           "original_title": null,
@@ -208,11 +208,11 @@
           "page_num": 2,
           "ocr_raw_text": "Hightaxesnoguaranteeforbetter\nDeepavali open today",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         },
         {
-          "id": "2983fc70a73b",
+          "id": "131e417a7d0f",
           "title": "City-based fertility clinic",
           "snippet": "conductsfirstwaterbirth",
           "original_title": null,
@@ -221,11 +221,11 @@
           "page_num": 2,
           "ocr_raw_text": "City-based fertility clinic\nconductsfirstwaterbirth",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         },
         {
-          "id": "61c2c58dd5a7",
+          "id": "b21b7f816de0",
           "title": "School edu dept to verify",
           "snippet": "by Metro Water in",
           "original_title": null,
@@ -234,11 +234,11 @@
           "page_num": 2,
           "ocr_raw_text": "School edu dept to verify\nby Metro Water in",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         },
         {
-          "id": "9aacd6ecad23",
+          "id": "243415dc2b4f",
           "title": "non-teaching staff data",
           "snippet": "Perungudi left damaged",
           "original_title": null,
@@ -247,11 +247,11 @@
           "page_num": 2,
           "ocr_raw_text": "non-teaching staff data\nPerungudi left damaged",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         },
         {
-          "id": "e13e42e8d9e9",
+          "id": "8df04add6115",
           "title": "Buildlmoreplatform,improveinfra",
           "snippet": "TRB must release",
           "original_title": null,
@@ -260,11 +260,11 @@
           "page_num": 2,
           "ocr_raw_text": "Buildlmoreplatform,improveinfra\nTRB must release",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         },
         {
-          "id": "1005089b5578",
+          "id": "414f659f0a90",
           "title": "at Putlur station,passengers urge SR",
           "snippet": "TNTETresults",
           "original_title": null,
@@ -273,22 +273,22 @@
           "page_num": 2,
           "ocr_raw_text": "at Putlur station,passengers urge SR\nTNTETresults",
           "ocr_confidence": 0.8682,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/2",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/2",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 3,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_003.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/3",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_003.jpg",
       "ocr_text_original": "18.500 cops on\nHigh price tags and charging hurdles stall e-auto shift\n\nLow moral fibre: HC dismisses\nGREENAUTOS,REDSIGNAL:\n\nmom's plea for custody of 2kids\nDRIVERSHITTHEBRAKES\n\nDevotns trsnged fe TiurabTieosiDeisth\nan the fint Suhsrdey!\n\ndeacccsTamehopra\n19 yrs on, cops use Al\n\nPre-monsoonpush:Rs150-crroadworkson\ntoolto nab absconder\n\ntrack,claims GCC;unpaid billsposehurdle\nTHEN\n\n.Orlyafewwthstrongfint\nWonan forgets\n\nNGOlaunches projecttoboost livelihoodsof\ngolt os idot:cops\n\nRoad blockade over\nretrieve it from bin\n\nwastecollectorsacrosscoastalTamilNadu\nquarries hits traffic",
       "ocr_text_en": "18.500 cops on High price tags and charging hurdles stall e-auto shift\n\nLow moral fibre: HC dismisses GREENAUTOS,REDSIGNAL:\n\nmom's plea for custody of 2kids DRIVERSHITTHEBRAKES\n\nDevotns trsnged fe TiurabTieosiDeisth an the fint Suhsrdey!\n\ndeacccsTamehopra 19 yrs on, cops use Al\n\nPre-monsoonpush:Rs150-crroadworkson toolto nab absconder\n\ntrack,claims GCC;unpaid billsposehurdle THEN\n\n.Orlyafewwthstrongfint Wonan forgets\n\nNGOlaunches projecttoboost livelihoodsof golt os idot:cops\n\nRoad blockade over retrieve it from bin\n\nwastecollectorsacrosscoastalTamilNadu quarries hits traffic",
       "ocr_confidence": 0.8126,
       "original_language": null,
       "stories": [
         {
-          "id": "94c6309704a5",
+          "id": "ddec17c168ed",
           "title": "18.500 cops on",
           "snippet": "High price tags and charging hurdles stall e-auto shift",
           "original_title": null,
@@ -297,11 +297,11 @@
           "page_num": 3,
           "ocr_raw_text": "18.500 cops on\nHigh price tags and charging hurdles stall e-auto shift",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "857ef6969832",
+          "id": "9e131abe4148",
           "title": "Low moral fibre: HC dismisses",
           "snippet": "GREENAUTOS,REDSIGNAL:",
           "original_title": null,
@@ -310,11 +310,11 @@
           "page_num": 3,
           "ocr_raw_text": "Low moral fibre: HC dismisses\nGREENAUTOS,REDSIGNAL:",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "b73a2e1b50ae",
+          "id": "ae696a351b36",
           "title": "mom's plea for custody of 2kids",
           "snippet": "DRIVERSHITTHEBRAKES",
           "original_title": null,
@@ -323,11 +323,11 @@
           "page_num": 3,
           "ocr_raw_text": "mom's plea for custody of 2kids\nDRIVERSHITTHEBRAKES",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "52acf04d30a0",
+          "id": "75e8d7507232",
           "title": "Devotns trsnged fe TiurabTieosiDeisth",
           "snippet": "an the fint Suhsrdey!",
           "original_title": null,
@@ -336,11 +336,11 @@
           "page_num": 3,
           "ocr_raw_text": "Devotns trsnged fe TiurabTieosiDeisth\nan the fint Suhsrdey!",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "30ccd2d0b3da",
+          "id": "3f3b6aaa9047",
           "title": "deacccsTamehopra",
           "snippet": "19 yrs on, cops use Al",
           "original_title": null,
@@ -349,11 +349,11 @@
           "page_num": 3,
           "ocr_raw_text": "deacccsTamehopra\n19 yrs on, cops use Al",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "6876e89fad4e",
+          "id": "4f4177b75855",
           "title": "Pre-monsoonpush:Rs150-crroadworkson",
           "snippet": "toolto nab absconder",
           "original_title": null,
@@ -362,11 +362,11 @@
           "page_num": 3,
           "ocr_raw_text": "Pre-monsoonpush:Rs150-crroadworkson\ntoolto nab absconder",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "a1935c319e84",
+          "id": "7a0265717c98",
           "title": "track,claims GCC;unpaid billsposehurdle",
           "snippet": "THEN",
           "original_title": null,
@@ -375,11 +375,11 @@
           "page_num": 3,
           "ocr_raw_text": "track,claims GCC;unpaid billsposehurdle\nTHEN",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "23838976c4db",
+          "id": "7c55e499a896",
           "title": ".Orlyafewwthstrongfint",
           "snippet": "Wonan forgets",
           "original_title": null,
@@ -388,11 +388,11 @@
           "page_num": 3,
           "ocr_raw_text": ".Orlyafewwthstrongfint\nWonan forgets",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "ea0c3b5eea41",
+          "id": "ad53f31ea023",
           "title": "NGOlaunches projecttoboost livelihoodsof",
           "snippet": "golt os idot:cops",
           "original_title": null,
@@ -401,11 +401,11 @@
           "page_num": 3,
           "ocr_raw_text": "NGOlaunches projecttoboost livelihoodsof\ngolt os idot:cops",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "dfc2adc0a002",
+          "id": "392f90ee3eb5",
           "title": "Road blockade over",
           "snippet": "retrieve it from bin",
           "original_title": null,
@@ -414,11 +414,11 @@
           "page_num": 3,
           "ocr_raw_text": "Road blockade over\nretrieve it from bin",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         },
         {
-          "id": "46554f5f59b6",
+          "id": "1323c037fd45",
           "title": "wastecollectorsacrosscoastalTamilNadu",
           "snippet": "quarries hits traffic",
           "original_title": null,
@@ -427,22 +427,22 @@
           "page_num": 3,
           "ocr_raw_text": "wastecollectorsacrosscoastalTamilNadu\nquarries hits traffic",
           "ocr_confidence": 0.8126,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/3",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/3",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 4,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_004.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/4",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_004.jpg",
       "ocr_text_original": "Many protesters demanding arrest of\nEmbrace Al,innovationto aid nation's\n\nClasses 1-3 to\nculprits govt job detained by police\n\ngrowth,Speakerurges Engggraduates\nget 2nd term Double murder:\n\nPressure is privilege:Tata Group\nChandra'skey mantra for success\n\neen the pratesters\nAnbumani urges govt\n\nSWD work delays smooth travel for\nto death over\n\nNT Patel Road locals in Nerkundram\nawarenesscampaign\n\nYouth stabs ex-lover for rejecting\nre-laid so",
       "ocr_text_en": "Many protesters demanding arrest of Embrace Al,innovationto aid nation's\n\nClasses 1-3 to culprits govt job detained by police\n\ngrowth,Speakerurges Engggraduates get 2nd term Double murder:\n\nPressure is privilege:Tata Group Chandra'skey mantra for success\n\neen the pratesters Anbumani urges govt\n\nSWD work delays smooth travel for to death over\n\nNT Patel Road locals in Nerkundram awarenesscampaign\n\nYouth stabs ex-lover for rejecting re-laid so",
       "ocr_confidence": 0.8501,
       "original_language": null,
       "stories": [
         {
-          "id": "93a2ef548334",
+          "id": "67aa5e417c74",
           "title": "Many protesters demanding arrest of",
           "snippet": "Embrace Al,innovationto aid nation's",
           "original_title": null,
@@ -451,11 +451,11 @@
           "page_num": 4,
           "ocr_raw_text": "Many protesters demanding arrest of\nEmbrace Al,innovationto aid nation's",
           "ocr_confidence": 0.8501,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/4",
           "is_translated": false
         },
         {
-          "id": "4402fe97c4ee",
+          "id": "36cd09d82a5a",
           "title": "Classes 1-3 to",
           "snippet": "culprits govt job detained by police",
           "original_title": null,
@@ -464,11 +464,11 @@
           "page_num": 4,
           "ocr_raw_text": "Classes 1-3 to\nculprits govt job detained by police",
           "ocr_confidence": 0.8501,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/4",
           "is_translated": false
         },
         {
-          "id": "3109a0f06800",
+          "id": "a293d70177e6",
           "title": "growth,Speakerurges Engggraduates",
           "snippet": "get 2nd term Double murder:",
           "original_title": null,
@@ -477,11 +477,11 @@
           "page_num": 4,
           "ocr_raw_text": "growth,Speakerurges Engggraduates\nget 2nd term Double murder:",
           "ocr_confidence": 0.8501,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/4",
           "is_translated": false
         },
         {
-          "id": "a8f161785d83",
+          "id": "6a9720e5ef33",
           "title": "Pressure is privilege:Tata Group",
           "snippet": "Chandra'skey mantra for success",
           "original_title": null,
@@ -490,11 +490,11 @@
           "page_num": 4,
           "ocr_raw_text": "Pressure is privilege:Tata Group\nChandra'skey mantra for success",
           "ocr_confidence": 0.8501,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/4",
           "is_translated": false
         },
         {
-          "id": "0b6c48a563b8",
+          "id": "46708a6fbc74",
           "title": "een the pratesters",
           "snippet": "Anbumani urges govt",
           "original_title": null,
@@ -503,11 +503,11 @@
           "page_num": 4,
           "ocr_raw_text": "een the pratesters\nAnbumani urges govt",
           "ocr_confidence": 0.8501,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/4",
           "is_translated": false
         },
         {
-          "id": "af84cda9dd92",
+          "id": "281658258654",
           "title": "SWD work delays smooth travel for",
           "snippet": "to death over",
           "original_title": null,
@@ -516,11 +516,11 @@
           "page_num": 4,
           "ocr_raw_text": "SWD work delays smooth travel for\nto death over",
           "ocr_confidence": 0.8501,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/4",
           "is_translated": false
         },
         {
-          "id": "27a6edd0d87a",
+          "id": "e69480db0727",
           "title": "NT Patel Road locals in Nerkundram",
           "snippet": "awarenesscampaign",
           "original_title": null,
@@ -529,11 +529,11 @@
           "page_num": 4,
           "ocr_raw_text": "NT Patel Road locals in Nerkundram\nawarenesscampaign",
           "ocr_confidence": 0.8501,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/4",
           "is_translated": false
         },
         {
-          "id": "72a09901c264",
+          "id": "eb72c12cb3d3",
           "title": "Youth stabs ex-lover for rejecting",
           "snippet": "re-laid so",
           "original_title": null,
@@ -542,22 +542,22 @@
           "page_num": 4,
           "ocr_raw_text": "Youth stabs ex-lover for rejecting\nre-laid so",
           "ocr_confidence": 0.8501,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/4",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/4",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 5,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/5",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_005.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/5",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_005.jpg",
       "ocr_text_original": "Left suspects\nRuling panty has lowered Housedignity,thank Kolathur for not electing me DMK prez\n\nWhy not Secretariat\nStalin:I needn't get certificate or\n\nletter to PM\ngiveMisAprooftoreels-crazygovt\n\nWhether\nBemedisdegateetionronle'sissu\n\nDMKpartyofficebuiltonRs50-cr\nNavedaya schools\n\nproject: Min\nPMK may test bypoll waters to\n\nboardTVK'smulti-partyalliance\nTLSOLVA SUENAN",
       "ocr_text_en": "Left suspects Ruling panty has lowered Housedignity,thank Kolathur for not electing me DMK prez\n\nWhy not Secretariat Stalin:I needn't get certificate or\n\nletter to PM giveMisAprooftoreels-crazygovt\n\nWhether Bemedisdegateetionronle'sissu\n\nDMKpartyofficebuiltonRs50-cr Navedaya schools\n\nproject: Min PMK may test bypoll waters to\n\nboardTVK'smulti-partyalliance TLSOLVA SUENAN",
       "ocr_confidence": 0.8144,
       "original_language": null,
       "stories": [
         {
-          "id": "86b6bf406286",
+          "id": "a2ec6181d56d",
           "title": "Left suspects",
           "snippet": "Ruling panty has lowered Housedignity,thank Kolathur for not electing me DMK prez",
           "original_title": null,
@@ -566,11 +566,11 @@
           "page_num": 5,
           "ocr_raw_text": "Left suspects\nRuling panty has lowered Housedignity,thank Kolathur for not electing me DMK prez",
           "ocr_confidence": 0.8144,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/5",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/5",
           "is_translated": false
         },
         {
-          "id": "b8501fc34bf7",
+          "id": "838572c8d821",
           "title": "Why not Secretariat",
           "snippet": "Stalin:I needn't get certificate or",
           "original_title": null,
@@ -579,11 +579,11 @@
           "page_num": 5,
           "ocr_raw_text": "Why not Secretariat\nStalin:I needn't get certificate or",
           "ocr_confidence": 0.8144,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/5",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/5",
           "is_translated": false
         },
         {
-          "id": "123970803d03",
+          "id": "03ad55689d4d",
           "title": "letter to PM",
           "snippet": "giveMisAprooftoreels-crazygovt",
           "original_title": null,
@@ -592,11 +592,11 @@
           "page_num": 5,
           "ocr_raw_text": "letter to PM\ngiveMisAprooftoreels-crazygovt",
           "ocr_confidence": 0.8144,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/5",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/5",
           "is_translated": false
         },
         {
-          "id": "e3841570951b",
+          "id": "d3a1c0a325c8",
           "title": "Whether",
           "snippet": "Bemedisdegateetionronle'sissu",
           "original_title": null,
@@ -605,11 +605,11 @@
           "page_num": 5,
           "ocr_raw_text": "Whether\nBemedisdegateetionronle'sissu",
           "ocr_confidence": 0.8144,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/5",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/5",
           "is_translated": false
         },
         {
-          "id": "94a12f7e197f",
+          "id": "687ddb84ad8f",
           "title": "DMKpartyofficebuiltonRs50-cr",
           "snippet": "Navedaya schools",
           "original_title": null,
@@ -618,11 +618,11 @@
           "page_num": 5,
           "ocr_raw_text": "DMKpartyofficebuiltonRs50-cr\nNavedaya schools",
           "ocr_confidence": 0.8144,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/5",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/5",
           "is_translated": false
         },
         {
-          "id": "fa8261d2b5e2",
+          "id": "4da5d480bd4b",
           "title": "project: Min",
           "snippet": "PMK may test bypoll waters to",
           "original_title": null,
@@ -631,11 +631,11 @@
           "page_num": 5,
           "ocr_raw_text": "project: Min\nPMK may test bypoll waters to",
           "ocr_confidence": 0.8144,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/5",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/5",
           "is_translated": false
         },
         {
-          "id": "efd8acc72ce8",
+          "id": "22c64a259430",
           "title": "boardTVK'smulti-partyalliance",
           "snippet": "TLSOLVA SUENAN",
           "original_title": null,
@@ -644,22 +644,22 @@
           "page_num": 5,
           "ocr_raw_text": "boardTVK'smulti-partyalliance\nTLSOLVA SUENAN",
           "ocr_confidence": 0.8144,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/5",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/5",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 6,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/6",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_006.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/6",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_006.jpg",
       "ocr_text_original": "stmestccrehoeJseatasore\nCar plunges into\n\n$1lakhfeeon employers onH-IB extended byayear\nMassive sti\n\nTechnoparkengg labfirstIT park'to get NABLrating\nWifeclaimsmanbitn",
       "ocr_text_en": "stmestccrehoeJseatasore Car plunges into\n\n$1lakhfeeon employers onH-IB extended byayear Massive sti\n\nTechnoparkengg labfirstIT park'to get NABLrating Wifeclaimsmanbitn",
       "ocr_confidence": 0.8001,
       "original_language": null,
       "stories": [
         {
-          "id": "b822638f0f87",
+          "id": "ba7d606c61dd",
           "title": "stmestccrehoeJseatasore",
           "snippet": "Car plunges into",
           "original_title": null,
@@ -668,11 +668,11 @@
           "page_num": 6,
           "ocr_raw_text": "stmestccrehoeJseatasore\nCar plunges into",
           "ocr_confidence": 0.8001,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/6",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/6",
           "is_translated": false
         },
         {
-          "id": "606b0d0d02fa",
+          "id": "4d31734dd047",
           "title": "$1lakhfeeon employers onH-IB extended byayear",
           "snippet": "Massive sti",
           "original_title": null,
@@ -681,11 +681,11 @@
           "page_num": 6,
           "ocr_raw_text": "$1lakhfeeon employers onH-IB extended byayear\nMassive sti",
           "ocr_confidence": 0.8001,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/6",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/6",
           "is_translated": false
         },
         {
-          "id": "24ac48c3c3f8",
+          "id": "273e2d47be21",
           "title": "Technoparkengg labfirstIT park'to get NABLrating",
           "snippet": "Wifeclaimsmanbitn",
           "original_title": null,
@@ -694,22 +694,22 @@
           "page_num": 6,
           "ocr_raw_text": "Technoparkengg labfirstIT park'to get NABLrating\nWifeclaimsmanbitn",
           "ocr_confidence": 0.8001,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/6",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/6",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 7,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_007.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/7",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_007.jpg",
       "ocr_text_original": "Pressure mounts to hold TMC intact after back-to-back setbacks post polls\nNEWS\n\nDidi goestoScfor name&symbol\nIndia sents tresh\n\nreliet to Nepal\nPeople will pay you back\n\nfor timing tactics: GOP\nSteel finm chief\n\nCPM leader\nDidi'sRejinagarface dropsfrom\n\npoll fray,onlyto retract later\nr after IIT-B student Job rush after 40 FTAs,\n\nRulers oppose questions raised by\ning with cell ends life\n\nskillincentives,claimsPM\nstudents on'capturedsystem':Lol\n\ntaso\nABVP bags all top posts in DUSU in first students'poll after Gen Z protest",
       "ocr_text_en": "Pressure mounts to hold TMC intact after back-to-back setbacks post polls NEWS\n\nDidi goestoScfor name&symbol India sents tresh\n\nreliet to Nepal People will pay you back\n\nfor timing tactics: GOP Steel finm chief\n\nCPM leader Didi'sRejinagarface dropsfrom\n\npoll fray,onlyto retract later r after IIT-B student Job rush after 40 FTAs,\n\nRulers oppose questions raised by ing with cell ends life\n\nskillincentives,claimsPM students on'capturedsystem':Lol\n\ntaso ABVP bags all top posts in DUSU in first students'poll after Gen Z protest",
       "ocr_confidence": 0.858,
       "original_language": null,
       "stories": [
         {
-          "id": "cd36baa0a7cf",
+          "id": "93ea5f50a31e",
           "title": "Pressure mounts to hold TMC intact after back-to-back setbacks post polls",
           "snippet": "NEWS",
           "original_title": null,
@@ -718,11 +718,11 @@
           "page_num": 7,
           "ocr_raw_text": "Pressure mounts to hold TMC intact after back-to-back setbacks post polls\nNEWS",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         },
         {
-          "id": "bc30ea32b8ee",
+          "id": "099807cfa88c",
           "title": "Didi goestoScfor name&symbol",
           "snippet": "India sents tresh",
           "original_title": null,
@@ -731,11 +731,11 @@
           "page_num": 7,
           "ocr_raw_text": "Didi goestoScfor name&symbol\nIndia sents tresh",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         },
         {
-          "id": "6ec916958d85",
+          "id": "b58689ca605a",
           "title": "reliet to Nepal",
           "snippet": "People will pay you back",
           "original_title": null,
@@ -744,11 +744,11 @@
           "page_num": 7,
           "ocr_raw_text": "reliet to Nepal\nPeople will pay you back",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         },
         {
-          "id": "b8c6f74465a8",
+          "id": "26cd7d0b968d",
           "title": "for timing tactics: GOP",
           "snippet": "Steel finm chief",
           "original_title": null,
@@ -757,11 +757,11 @@
           "page_num": 7,
           "ocr_raw_text": "for timing tactics: GOP\nSteel finm chief",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         },
         {
-          "id": "197c9ba30ae3",
+          "id": "4ee038b46509",
           "title": "CPM leader",
           "snippet": "Didi'sRejinagarface dropsfrom",
           "original_title": null,
@@ -770,11 +770,11 @@
           "page_num": 7,
           "ocr_raw_text": "CPM leader\nDidi'sRejinagarface dropsfrom",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         },
         {
-          "id": "81fcf071de36",
+          "id": "c9cead1d598f",
           "title": "poll fray,onlyto retract later",
           "snippet": "r after IIT-B student Job rush after 40 FTAs,",
           "original_title": null,
@@ -783,11 +783,11 @@
           "page_num": 7,
           "ocr_raw_text": "poll fray,onlyto retract later\nr after IIT-B student Job rush after 40 FTAs,",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         },
         {
-          "id": "ac96e67197c9",
+          "id": "77efda01087b",
           "title": "Rulers oppose questions raised by",
           "snippet": "ing with cell ends life",
           "original_title": null,
@@ -796,11 +796,11 @@
           "page_num": 7,
           "ocr_raw_text": "Rulers oppose questions raised by\ning with cell ends life",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         },
         {
-          "id": "3bda7ef0915c",
+          "id": "d2994f416d25",
           "title": "skillincentives,claimsPM",
           "snippet": "students on'capturedsystem':Lol",
           "original_title": null,
@@ -809,11 +809,11 @@
           "page_num": 7,
           "ocr_raw_text": "skillincentives,claimsPM\nstudents on'capturedsystem':Lol",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         },
         {
-          "id": "b39a857c985b",
+          "id": "2b7bb1dcb720",
           "title": "taso",
           "snippet": "ABVP bags all top posts in DUSU in first students'poll after Gen Z protest",
           "original_title": null,
@@ -822,22 +822,22 @@
           "page_num": 7,
           "ocr_raw_text": "taso\nABVP bags all top posts in DUSU in first students'poll after Gen Z protest",
           "ocr_confidence": 0.858,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/7",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/7",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 8,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_008.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/8",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_008.jpg",
       "ocr_text_original": "Ongoing conflict in Golf disturbing ollpricesstockmarketsandinflicting injuriestoAmericantroops\nCanadabetterthan\n\nNewUSestimatepegsIranwaratS43.6bn\n'debtor'US,Carney\n\nsharpens attack\nntophonour,Trumptoreceive\n\nXi at airport during state visit\nofficial to\n\nPrez-Delcy Rodriguez\nmeet next week: WH\n\nearthminerals.essentialtoeverythingfrom\nPolls to Duma enter\n\nLEARNINGAMONG THERUINS\nPuletirianudontsatendtherSiastdasat thesewsthal pear\n\nnsdeamakesitetscedinkhaYounsonSeutiy\nDontargetsfreshmediaoutletsinwaronfakenews",
       "ocr_text_en": "Ongoing conflict in Golf disturbing ollpricesstockmarketsandinflicting injuriestoAmericantroops Canadabetterthan\n\nNewUSestimatepegsIranwaratS43.6bn 'debtor'US,Carney\n\nsharpens attack ntophonour,Trumptoreceive\n\nXi at airport during state visit official to\n\nPrez-Delcy Rodriguez meet next week: WH\n\nearthminerals.essentialtoeverythingfrom Polls to Duma enter\n\nLEARNINGAMONG THERUINS PuletirianudontsatendtherSiastdasat thesewsthal pear\n\nnsdeamakesitetscedinkhaYounsonSeutiy Dontargetsfreshmediaoutletsinwaronfakenews",
       "ocr_confidence": 0.8393,
       "original_language": null,
       "stories": [
         {
-          "id": "fd6b4716bace",
+          "id": "2be722c40230",
           "title": "Ongoing conflict in Golf disturbing ollpricesstockmarketsandinflicting injuriestoAmericantroops",
           "snippet": "Canadabetterthan",
           "original_title": null,
@@ -846,11 +846,11 @@
           "page_num": 8,
           "ocr_raw_text": "Ongoing conflict in Golf disturbing ollpricesstockmarketsandinflicting injuriestoAmericantroops\nCanadabetterthan",
           "ocr_confidence": 0.8393,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/8",
           "is_translated": false
         },
         {
-          "id": "d0778f981ea8",
+          "id": "0e0309afb37f",
           "title": "NewUSestimatepegsIranwaratS43.6bn",
           "snippet": "'debtor'US,Carney",
           "original_title": null,
@@ -859,11 +859,11 @@
           "page_num": 8,
           "ocr_raw_text": "NewUSestimatepegsIranwaratS43.6bn\n'debtor'US,Carney",
           "ocr_confidence": 0.8393,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/8",
           "is_translated": false
         },
         {
-          "id": "557fe5940b32",
+          "id": "cbe5dc99850a",
           "title": "sharpens attack",
           "snippet": "ntophonour,Trumptoreceive",
           "original_title": null,
@@ -872,11 +872,11 @@
           "page_num": 8,
           "ocr_raw_text": "sharpens attack\nntophonour,Trumptoreceive",
           "ocr_confidence": 0.8393,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/8",
           "is_translated": false
         },
         {
-          "id": "7f42d9eb3c83",
+          "id": "66232149343c",
           "title": "Xi at airport during state visit",
           "snippet": "official to",
           "original_title": null,
@@ -885,11 +885,11 @@
           "page_num": 8,
           "ocr_raw_text": "Xi at airport during state visit\nofficial to",
           "ocr_confidence": 0.8393,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/8",
           "is_translated": false
         },
         {
-          "id": "021104abfce1",
+          "id": "9e3125ec09c3",
           "title": "Prez-Delcy Rodriguez",
           "snippet": "meet next week: WH",
           "original_title": null,
@@ -898,11 +898,11 @@
           "page_num": 8,
           "ocr_raw_text": "Prez-Delcy Rodriguez\nmeet next week: WH",
           "ocr_confidence": 0.8393,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/8",
           "is_translated": false
         },
         {
-          "id": "717c885ca034",
+          "id": "690f8482a31c",
           "title": "earthminerals.essentialtoeverythingfrom",
           "snippet": "Polls to Duma enter",
           "original_title": null,
@@ -911,11 +911,11 @@
           "page_num": 8,
           "ocr_raw_text": "earthminerals.essentialtoeverythingfrom\nPolls to Duma enter",
           "ocr_confidence": 0.8393,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/8",
           "is_translated": false
         },
         {
-          "id": "195355e1c7e0",
+          "id": "4daaea5e8072",
           "title": "LEARNINGAMONG THERUINS",
           "snippet": "PuletirianudontsatendtherSiastdasat thesewsthal pear",
           "original_title": null,
@@ -924,11 +924,11 @@
           "page_num": 8,
           "ocr_raw_text": "LEARNINGAMONG THERUINS\nPuletirianudontsatendtherSiastdasat thesewsthal pear",
           "ocr_confidence": 0.8393,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/8",
           "is_translated": false
         },
         {
-          "id": "7d4b1a20fefa",
+          "id": "22ccfb1f682a",
           "title": "nsdeamakesitetscedinkhaYounsonSeutiy",
           "snippet": "Dontargetsfreshmediaoutletsinwaronfakenews",
           "original_title": null,
@@ -937,22 +937,22 @@
           "page_num": 8,
           "ocr_raw_text": "nsdeamakesitetscedinkhaYounsonSeutiy\nDontargetsfreshmediaoutletsinwaronfakenews",
           "ocr_confidence": 0.8393,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/8",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/8",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 9,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/9",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_009.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/9",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_009.jpg",
       "ocr_text_original": "One last shot:Prannoy\neyesgoldinJapan\n\nNext 15 days of Asiad will see Il,000 athletes from 45 nations competing across 43 sports\nASIANCHALLENGEBEGINS\n\nDominant India faces\nsemis;bronzeclashnext\n\nfamiliar foe Bangladesh\nPraggheldtodrawbut\n\nDavis Cup:Nagal falters ashelpless\nIndia sweeps Spain 3-1\n\nndiasurrenderstoKorea\nConflictwithRohit,LaxmanendsAgarkar'stenure",
       "ocr_text_en": "One last shot:Prannoy eyesgoldinJapan\n\nNext 15 days of Asiad will see Il,000 athletes from 45 nations competing across 43 sports ASIANCHALLENGEBEGINS\n\nDominant India faces semis;bronzeclashnext\n\nfamiliar foe Bangladesh Praggheldtodrawbut\n\nDavis Cup:Nagal falters ashelpless India sweeps Spain 3-1\n\nndiasurrenderstoKorea ConflictwithRohit,LaxmanendsAgarkar'stenure",
       "ocr_confidence": 0.8792,
       "original_language": null,
       "stories": [
         {
-          "id": "5ab31faf89ef",
+          "id": "f69e4ad73a2c",
           "title": "One last shot:Prannoy",
           "snippet": "eyesgoldinJapan",
           "original_title": null,
@@ -961,11 +961,11 @@
           "page_num": 9,
           "ocr_raw_text": "One last shot:Prannoy\neyesgoldinJapan",
           "ocr_confidence": 0.8792,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/9",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/9",
           "is_translated": false
         },
         {
-          "id": "b969ba1a0029",
+          "id": "69e0c23ad3b0",
           "title": "Next 15 days of Asiad will see Il,000 athletes from 45 nations competing across 43 sports",
           "snippet": "ASIANCHALLENGEBEGINS",
           "original_title": null,
@@ -974,11 +974,11 @@
           "page_num": 9,
           "ocr_raw_text": "Next 15 days of Asiad will see Il,000 athletes from 45 nations competing across 43 sports\nASIANCHALLENGEBEGINS",
           "ocr_confidence": 0.8792,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/9",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/9",
           "is_translated": false
         },
         {
-          "id": "389ea558c650",
+          "id": "38977643060b",
           "title": "Dominant India faces",
           "snippet": "semis;bronzeclashnext",
           "original_title": null,
@@ -987,11 +987,11 @@
           "page_num": 9,
           "ocr_raw_text": "Dominant India faces\nsemis;bronzeclashnext",
           "ocr_confidence": 0.8792,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/9",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/9",
           "is_translated": false
         },
         {
-          "id": "6a6750ada8db",
+          "id": "2efbb8c65375",
           "title": "familiar foe Bangladesh",
           "snippet": "Praggheldtodrawbut",
           "original_title": null,
@@ -1000,11 +1000,11 @@
           "page_num": 9,
           "ocr_raw_text": "familiar foe Bangladesh\nPraggheldtodrawbut",
           "ocr_confidence": 0.8792,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/9",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/9",
           "is_translated": false
         },
         {
-          "id": "d1c4459d59e7",
+          "id": "618699d8bce7",
           "title": "Davis Cup:Nagal falters ashelpless",
           "snippet": "India sweeps Spain 3-1",
           "original_title": null,
@@ -1013,11 +1013,11 @@
           "page_num": 9,
           "ocr_raw_text": "Davis Cup:Nagal falters ashelpless\nIndia sweeps Spain 3-1",
           "ocr_confidence": 0.8792,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/9",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/9",
           "is_translated": false
         },
         {
-          "id": "d13aad3ba882",
+          "id": "e8a9962cf4ec",
           "title": "ndiasurrenderstoKorea",
           "snippet": "ConflictwithRohit,LaxmanendsAgarkar'stenure",
           "original_title": null,
@@ -1026,22 +1026,22 @@
           "page_num": 9,
           "ocr_raw_text": "ndiasurrenderstoKorea\nConflictwithRohit,LaxmanendsAgarkar'stenure",
           "ocr_confidence": 0.8792,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/9",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/9",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 10,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_010.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/10",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_010.jpg",
       "ocr_text_original": "Aakash Sivasubramaniam about\nPURE TALENT IS COMMON, BUT IT RARELY\n\nChess Gurukul, training Praggnanandhaa\nWHAT SEPARATED PLAYERS LIKE PRAGG AND\n\nCARRIESANYONETOTHETOPALONE.\nand Vaishali at the academy and more\n\nVAISHALIWAS RUTHLESSPRIORITIZATION\nRAMESH'S\n\nMODERNDISTRACTIONS GMRBRAMESH\nAND THEDISCIPLINE TO TUNE OUT\n\nDOMESTICTOURNAMENTS\nCUTOFFSOF2200AND\n\nABOVE.DILUTINGFIELDS WITH\nOPENENTRIESFORCESOURBEST\n\nTAMILNADU'S EVER-GROWING GMS\nMILLIONS TRAVELINGTO EUROPE",
       "ocr_text_en": "Aakash Sivasubramaniam about PURE TALENT IS COMMON, BUT IT RARELY\n\nChess Gurukul, training Praggnanandhaa WHAT SEPARATED PLAYERS LIKE PRAGG AND\n\nCARRIESANYONETOTHETOPALONE. and Vaishali at the academy and more\n\nVAISHALIWAS RUTHLESSPRIORITIZATION RAMESH'S\n\nMODERNDISTRACTIONS GMRBRAMESH AND THEDISCIPLINE TO TUNE OUT\n\nDOMESTICTOURNAMENTS CUTOFFSOF2200AND\n\nABOVE.DILUTINGFIELDS WITH OPENENTRIESFORCESOURBEST\n\nTAMILNADU'S EVER-GROWING GMS MILLIONS TRAVELINGTO EUROPE",
       "ocr_confidence": 0.8535,
       "original_language": null,
       "stories": [
         {
-          "id": "224c4098f30d",
+          "id": "8aa7d2529c9d",
           "title": "Aakash Sivasubramaniam about",
           "snippet": "PURE TALENT IS COMMON, BUT IT RARELY",
           "original_title": null,
@@ -1050,11 +1050,11 @@
           "page_num": 10,
           "ocr_raw_text": "Aakash Sivasubramaniam about\nPURE TALENT IS COMMON, BUT IT RARELY",
           "ocr_confidence": 0.8535,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/10",
           "is_translated": false
         },
         {
-          "id": "40f0acdf8523",
+          "id": "e237e5f82559",
           "title": "Chess Gurukul, training Praggnanandhaa",
           "snippet": "WHAT SEPARATED PLAYERS LIKE PRAGG AND",
           "original_title": null,
@@ -1063,11 +1063,11 @@
           "page_num": 10,
           "ocr_raw_text": "Chess Gurukul, training Praggnanandhaa\nWHAT SEPARATED PLAYERS LIKE PRAGG AND",
           "ocr_confidence": 0.8535,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/10",
           "is_translated": false
         },
         {
-          "id": "39963b734bcd",
+          "id": "dac9dcbbec45",
           "title": "CARRIESANYONETOTHETOPALONE.",
           "snippet": "and Vaishali at the academy and more",
           "original_title": null,
@@ -1076,11 +1076,11 @@
           "page_num": 10,
           "ocr_raw_text": "CARRIESANYONETOTHETOPALONE.\nand Vaishali at the academy and more",
           "ocr_confidence": 0.8535,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/10",
           "is_translated": false
         },
         {
-          "id": "6ebe351ad06b",
+          "id": "4c0eb4e58fcd",
           "title": "VAISHALIWAS RUTHLESSPRIORITIZATION",
           "snippet": "RAMESH'S",
           "original_title": null,
@@ -1089,11 +1089,11 @@
           "page_num": 10,
           "ocr_raw_text": "VAISHALIWAS RUTHLESSPRIORITIZATION\nRAMESH'S",
           "ocr_confidence": 0.8535,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/10",
           "is_translated": false
         },
         {
-          "id": "6d6308583050",
+          "id": "c910c7ecfb12",
           "title": "MODERNDISTRACTIONS GMRBRAMESH",
           "snippet": "AND THEDISCIPLINE TO TUNE OUT",
           "original_title": null,
@@ -1102,11 +1102,11 @@
           "page_num": 10,
           "ocr_raw_text": "MODERNDISTRACTIONS GMRBRAMESH\nAND THEDISCIPLINE TO TUNE OUT",
           "ocr_confidence": 0.8535,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/10",
           "is_translated": false
         },
         {
-          "id": "0d1774642d93",
+          "id": "5fc6475df0ec",
           "title": "DOMESTICTOURNAMENTS",
           "snippet": "CUTOFFSOF2200AND",
           "original_title": null,
@@ -1115,11 +1115,11 @@
           "page_num": 10,
           "ocr_raw_text": "DOMESTICTOURNAMENTS\nCUTOFFSOF2200AND",
           "ocr_confidence": 0.8535,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/10",
           "is_translated": false
         },
         {
-          "id": "5258546c010f",
+          "id": "34a584f57e20",
           "title": "ABOVE.DILUTINGFIELDS WITH",
           "snippet": "OPENENTRIESFORCESOURBEST",
           "original_title": null,
@@ -1128,11 +1128,11 @@
           "page_num": 10,
           "ocr_raw_text": "ABOVE.DILUTINGFIELDS WITH\nOPENENTRIESFORCESOURBEST",
           "ocr_confidence": 0.8535,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/10",
           "is_translated": false
         },
         {
-          "id": "1d259e9e3b75",
+          "id": "b24847275aa5",
           "title": "TAMILNADU'S EVER-GROWING GMS",
           "snippet": "MILLIONS TRAVELINGTO EUROPE",
           "original_title": null,
@@ -1141,22 +1141,22 @@
           "page_num": 10,
           "ocr_raw_text": "TAMILNADU'S EVER-GROWING GMS\nMILLIONS TRAVELINGTO EUROPE",
           "ocr_confidence": 0.8535,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/10",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/10",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 11,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/11",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_011.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/11",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_011.jpg",
       "ocr_text_original": "Story marks a\nnew chapter with Chinese, Burmese, Thai.\n\nFOODANDPAUSETOECR\nPEANUTBUTTERCOOKIES",
       "ocr_text_en": "Story marks a new chapter with Chinese, Burmese, Thai.\n\nFOODANDPAUSETOECR PEANUTBUTTERCOOKIES",
       "ocr_confidence": 0.8221,
       "original_language": null,
       "stories": [
         {
-          "id": "8f0ae00b0757",
+          "id": "847dbba5d011",
           "title": "Story marks a",
           "snippet": "new chapter with Chinese, Burmese, Thai.",
           "original_title": null,
@@ -1165,11 +1165,11 @@
           "page_num": 11,
           "ocr_raw_text": "Story marks a\nnew chapter with Chinese, Burmese, Thai.",
           "ocr_confidence": 0.8221,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/11",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/11",
           "is_translated": false
         },
         {
-          "id": "283aa160da35",
+          "id": "8e13dae9bbaa",
           "title": "FOODANDPAUSETOECR",
           "snippet": "PEANUTBUTTERCOOKIES",
           "original_title": null,
@@ -1178,22 +1178,22 @@
           "page_num": 11,
           "ocr_raw_text": "FOODANDPAUSETOECR\nPEANUTBUTTERCOOKIES",
           "ocr_confidence": 0.8221,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/11",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/11",
           "is_translated": false
         }
       ]
     },
     {
       "page_num": 12,
-      "snapshot_url": "/api/snapshots/9f5bb419b8c8/12",
-      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\9f5bb419b8c8\\page_012.jpg",
+      "snapshot_url": "/api/snapshots/cac2c564804b/12",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\cac2c564804b\\page_012.jpg",
       "ocr_text_original": "At the audio launch of Baththa, Vijay Sethupathi, Ralaji Tharanidharan and\nJasonSanjay'sSigmatrailer\n\nAtlee share their experiences of bringing the 1980s-set story to the screen\npromises athrillingheistadventure\n\nfor Jackie\nMeesaya Murukku 2is a global story\n\nWeaving anew\naboutmusicians:HiphopTamizhaAdhi",
       "ocr_text_en": "At the audio launch of Baththa, Vijay Sethupathi, Ralaji Tharanidharan and JasonSanjay'sSigmatrailer\n\nAtlee share their experiences of bringing the 1980s-set story to the screen promises athrillingheistadventure\n\nfor Jackie Meesaya Murukku 2is a global story\n\nWeaving anew aboutmusicians:HiphopTamizhaAdhi",
       "ocr_confidence": 0.8466,
       "original_language": null,
       "stories": [
         {
-          "id": "3bf04ad348aa",
+          "id": "8642d8f604f6",
           "title": "At the audio launch of Baththa, Vijay Sethupathi, Ralaji Tharanidharan and",
           "snippet": "JasonSanjay'sSigmatrailer",
           "original_title": null,
@@ -1202,11 +1202,11 @@
           "page_num": 12,
           "ocr_raw_text": "At the audio launch of Baththa, Vijay Sethupathi, Ralaji Tharanidharan and\nJasonSanjay'sSigmatrailer",
           "ocr_confidence": 0.8466,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/12",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/12",
           "is_translated": false
         },
         {
-          "id": "816c6116442c",
+          "id": "1aa5a9d34943",
           "title": "Atlee share their experiences of bringing the 1980s-set story to the screen",
           "snippet": "promises athrillingheistadventure",
           "original_title": null,
@@ -1215,11 +1215,11 @@
           "page_num": 12,
           "ocr_raw_text": "Atlee share their experiences of bringing the 1980s-set story to the screen\npromises athrillingheistadventure",
           "ocr_confidence": 0.8466,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/12",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/12",
           "is_translated": false
         },
         {
-          "id": "00a38301efcb",
+          "id": "d1429bc5fa5d",
           "title": "for Jackie",
           "snippet": "Meesaya Murukku 2is a global story",
           "original_title": null,
@@ -1228,11 +1228,11 @@
           "page_num": 12,
           "ocr_raw_text": "for Jackie\nMeesaya Murukku 2is a global story",
           "ocr_confidence": 0.8466,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/12",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/12",
           "is_translated": false
         },
         {
-          "id": "035090048dac",
+          "id": "31961ae078bc",
           "title": "Weaving anew",
           "snippet": "aboutmusicians:HiphopTamizhaAdhi",
           "original_title": null,
@@ -1241,7 +1241,7 @@
           "page_num": 12,
           "ocr_raw_text": "Weaving anew\naboutmusicians:HiphopTamizhaAdhi",
           "ocr_confidence": 0.8466,
-          "page_snapshot_url": "/api/snapshots/9f5bb419b8c8/12",
+          "page_snapshot_url": "/api/snapshots/cac2c564804b/12",
           "is_translated": false
         }
       ]
