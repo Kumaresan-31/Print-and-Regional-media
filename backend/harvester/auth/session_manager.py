@@ -59,7 +59,13 @@ class SessionManager:
                 c["expirationDate"] = exp
                 c["expires"] = exp
                 c["expiry"] = exp
-            normalized_map[key] = c
+            if key in normalized_map:
+                existing_exp = normalized_map[key].get("expirationDate") or 0
+                new_exp = exp or 0
+                if new_exp >= existing_exp:
+                    normalized_map[key] = c
+            else:
+                normalized_map[key] = c
 
         cleaned_cookies = list(normalized_map.values())
         data = {
@@ -132,6 +138,12 @@ class SessionManager:
             elif source_id == "financial_express":
                 for ed in ["delhi", "mumbai", "bengaluru", "chennai", "kolkata", "lucknow", "hyderabad", "ahmedabad", "pune", "chandigarh", "kochi"]:
                     self.save_cookies(f"financial_express_{ed}", cookies)
+            elif source_id == "lokmat":
+                for ed in ["pune", "mumbai", "nagpur", "nashik", "aurangabad"]:
+                    self.save_cookies(f"lokmat_{ed}", cookies)
+            elif source_id == "lokmat_samachar":
+                for ed in ["nagpur", "aurangabad"]:
+                    self.save_cookies(f"lokmat_samachar_{ed}", cookies)
             return len(cookies)
         return 0
 

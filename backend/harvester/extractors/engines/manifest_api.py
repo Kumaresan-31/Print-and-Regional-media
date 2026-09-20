@@ -125,7 +125,9 @@ class ManifestApiExtractor(BaseExtractor):
         Executes manifest fetching and concurrent page download.
         """
         target_url = resolve_url(self.source, target_date, edition)
-        cookies = session_manager.get_cookie_dict(self.source.id)
+        cookies = session_manager.get_cookie_dict(f"{self.source.id}_{edition}")
+        if not cookies:
+            cookies = session_manager.get_cookie_dict(self.source.id)
 
         headers = {
             "User-Agent": settings.user_agent,

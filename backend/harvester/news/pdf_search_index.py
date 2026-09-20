@@ -20,7 +20,7 @@ from harvester.registry import get_source
 logger = logging.getLogger("harvester.pdf_search_index")
 
 # Sources eligible for PDF-native keyword search
-INDEXED_SOURCES = {"dt_next", "lokmat", "loksatta", "financial_express"}
+INDEXED_SOURCES = {"dt_next", "lokmat", "loksatta", "financial_express", "the_hindu"}
 
 SOURCE_ALIASES: Dict[str, str] = {
     "the_financial_express": "financial_express",
@@ -30,10 +30,14 @@ SOURCE_ALIASES: Dict[str, str] = {
     "finanace_express": "financial_express",
     "fe": "financial_express",
     "the_hindu": "the_hindu",
+    "hindu": "the_hindu",
+    "hindhu": "the_hindu",
+    "the_hindhu": "the_hindu",
     "dtnext": "dt_next",
     "dt_next": "dt_next",
     "loksatta": "loksatta",
     "lokmat": "lokmat",
+    "lokmat_samachar": "lokmat",
 }
 
 
@@ -327,10 +331,178 @@ class PDFSearchIndex:
                     "_score": match_count * 2 + (5 if phrase_match else 0),
                 })
 
+        # If a specific date filter produced 0 results, fall back to searching all indexed dates
+        if date and not results:
+            for key, idx_doc in self._memory_index.items():
+                src_id = idx_doc.get("source_id", "")
+                if src_id not in target_sources and self.normalize_source_id(src_id) not in target_sources:
+                    continue
+                doc_date = idx_doc.get("date", "")
+
+                for page in idx_doc.get("pages", []):
+                    searchable = (
+                        page.get("ocr_text_en", "").lower() + " " +
+                        page.get("ocr_text_original", "").lower()
+                    )
+                    match_count = sum(1 for t in tokens if t in searchable)
+                    if match_count == 0:
+                        continue
+
+                    phrase_match = clean_kw in searchable
+
+                    best_story = None
+                    best_story_score = 0
+                    for story in page.get("stories", []):
+                        s_text = (
+                            f"{story.get('title', '')} {story.get('snippet', '')} "
+                            f"{story.get('original_title', '') or ''}"
+                        ).lower()
+                        sc = sum(1 for t in tokens if t in s_text)
+                        if sc > best_story_score:
+                            best_story_score = sc
+                            best_story = story
+
+                    en_text = page.get("ocr_text_en", "")
+                    snippet = _extract_keyword_snippet(en_text, clean_kw, tokens)
+
+                    if not best_story and page.get("stories"):
+                        for story in page.get("stories"):
+                            s_raw = (story.get("ocr_raw_text") or "").lower()
+                            if any(t in s_raw for t in tokens):
+                                best_story = story
+                                break
+                        if not best_story:
+                            best_story = page.get("stories")[0]
+
+                    if best_story and not best_story.get("title"):
+                        best_story["title"] = snippet[:80] if snippet else f"{idx_doc.get('source_name')} - Page {page.get('page_num', 1)}"
+
+                    import urllib.parse
+                    doc_id_val = idx_doc.get("doc_id", "")
+                    pg_num = page.get("page_num", 1)
+                    story_id = best_story.get("id", "") if best_story else ""
+                    crop_url = f"/api/pdf-search/crop?doc_id={doc_id_val}&page_num={pg_num}&q={urllib.parse.quote_plus(clean_kw)}&story_id={story_id}&source_id={src_id}&date={doc_date}"
+
+                    results.append({
+                        "source_id": src_id,
+                        "source_name": idx_doc.get("source_name", src_id),
+                        "date": doc_date,
+                        "doc_id": doc_id_val,
+                        "pdf_path": idx_doc.get("pdf_path", ""),
+                        "page_num": pg_num,
+                        "snapshot_url": page.get("snapshot_url"),
+                        "snapshot_path": page.get("snapshot_path"),
+                        "crop_url": crop_url,
+                        "ocr_confidence": page.get("ocr_confidence", 0.9),
+                        "original_language": page.get("original_language", ""),
+                        "snippet_en": snippet,
+                        "ocr_text_en": page.get("ocr_text_en", ""),
+                        "story": best_story,
+                        "match_count": match_count,
+                        "phrase_match": phrase_match,
+                        "_score": match_count * 2 + (5 if phrase_match else 0),
+                        "fallback_date": True,
+                    })
+
         results.sort(key=lambda x: x["_score"], reverse=True)
         for r in results:
             r.pop("_score", None)
         return results[:limit]
+
+    def get_categorized_stories(
+        self,
+        source_id: str,
+        category: str = "all",
+        limit: int = 25
+    ) -> List[Dict[str, Any]]:
+        """
+        Extracts news stories strictly from the latest harvested newspaper broadsheet index.
+        Applies accurate categorization (all, sports, business, economic, political, crises_disasters)
+        and preserves broadsheet page snapshots and OCR traceability.
+        """
+        self._load_all_indexes()
+        norm_src = self.normalize_source_id(source_id)
+
+        matching_docs = []
+        for key, idx_doc in self._memory_index.items():
+            s = self.normalize_source_id(idx_doc.get("source_id", ""))
+            if s == norm_src:
+                matching_docs.append(idx_doc)
+
+        if not matching_docs:
+            return []
+
+        # Use the newest harvested issue
+        matching_docs.sort(key=lambda d: d.get("date", ""), reverse=True)
+        latest_doc = matching_docs[0]
+        date_str = latest_doc.get("date", "")
+        source_name = latest_doc.get("source_name") or norm_src.replace("_", " ").title()
+
+        cat_key = (category or "all").lower()
+
+        from harvester.news.service import CATEGORY_VALIDATION_KEYWORDS
+
+        stories_collected = []
+        for page in latest_doc.get("pages", []):
+            page_num = page.get("page_num", 1)
+            snap_url = page.get("snapshot_url")
+            for idx, st in enumerate(page.get("stories", [])):
+                title = (st.get("title") or "").strip()
+                snippet = (st.get("snippet") or "").strip()
+                orig_title = (st.get("original_title") or "").strip()
+                orig_snippet = (st.get("original_snippet") or "").strip()
+
+                if not title and not snippet and not orig_title:
+                    continue
+
+                st_cat = st.get("category", "all")
+                combined_text = f"{title} {snippet} {orig_title} {orig_snippet}".lower()
+
+                # Determine if article matches requested category
+                matched_category = st_cat
+                if cat_key != "all":
+                    kws = CATEGORY_VALIDATION_KEYWORDS.get(cat_key, [])
+                    is_match = (st_cat == cat_key) or any(k in combined_text for k in kws)
+                    if not is_match:
+                        continue
+                    matched_category = cat_key
+                else:
+                    # Detect best category if currently 'all'
+                    if matched_category == "all":
+                        for c in ["crises_disasters", "sports", "business", "economic", "political"]:
+                            if any(k in combined_text for k in CATEGORY_VALIDATION_KEYWORDS.get(c, [])):
+                                matched_category = c
+                                break
+
+                story_id = st.get("id") or f"{norm_src}_{date_str}_{page_num}_{idx}"
+                page_snap = st.get("page_snapshot_url") or snap_url
+
+                stories_collected.append({
+                    "id": story_id,
+                    "source_id": norm_src,
+                    "source_name": f"{source_name} (Page {page_num})",
+                    "category": matched_category,
+                    "title": title or orig_title[:80],
+                    "snippet": snippet or orig_snippet[:200] or st.get("ocr_raw_text", "")[:200],
+                    "original_title": orig_title if orig_title != title else None,
+                    "original_snippet": orig_snippet if orig_snippet != snippet else None,
+                    "original_language": page.get("original_language"),
+                    "page_number": page_num,
+                    "page_snapshot_url": page_snap,
+                    "link": page_snap or f"/api/harvest/preview/{norm_src}/{date_str}/{Path(latest_doc.get('pdf_path', '')).name}",
+                    "published_at": date_str,
+                    "author": f"{source_name} Page {page_num}",
+                    "ocr_raw_text": st.get("ocr_raw_text"),
+                    "ocr_confidence": st.get("ocr_confidence", page.get("ocr_confidence", 0.9)),
+                    "is_translated": st.get("is_translated", False),
+                })
+
+                if len(stories_collected) >= limit:
+                    break
+            if len(stories_collected) >= limit:
+                break
+
+        return stories_collected
 
     # ------------------------------------------------------------------
     # Status / Management

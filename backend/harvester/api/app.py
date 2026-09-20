@@ -232,6 +232,58 @@ async def trigger_batch_harvest(req: BatchHarvestRequest):
     return {"status": "batch_queued", "total_jobs": len(jobs), "jobs": jobs}
 
 
+@app.post("/api/harvest/auto/run")
+async def trigger_auto_harvest(target_date: Optional[str] = None):
+    """
+    Automated harvest for the 5 core broadsheet publications:
+    The Hindu, Lokmat, Loksatta, DT Next, Financial Express.
+    Downloads, extracts OCR, and automatically updates the search and news index.
+    """
+    t_date = target_date or datetime.now().strftime("%Y-%m-%d")
+    core_sources = ["the_hindu", "lokmat", "loksatta", "dt_next", "financial_express"]
+    queued_jobs = []
+    for src_id in core_sources:
+        src = get_source(src_id)
+        if src:
+            job = await orchestrator.trigger_harvest(
+                source_id=src_id,
+                target_date=t_date,
+                edition=src.default_edition
+            )
+            queued_jobs.append(job)
+    return {
+        "status": "auto_harvest_initiated",
+        "target_date": t_date,
+        "sources": core_sources,
+        "total_jobs": len(queued_jobs),
+        "jobs": queued_jobs
+    }
+
+
+@app.get("/api/harvest/auto/status")
+async def get_auto_harvest_status():
+    """Returns scheduler status and configured automated schedules."""
+    core_sources = ["the_hindu", "lokmat", "loksatta", "dt_next", "financial_express"]
+    schedules = []
+    for src_id in core_sources:
+        src = get_source(src_id)
+        if src:
+            schedules.append({
+                "source_id": src_id,
+                "name": src.name,
+                "schedule_time": src.schedule_time,
+                "default_edition": src.default_edition,
+                "has_session": True,
+            })
+    return {
+        "scheduler_running": cron_scheduler.get_status().get("running", True),
+        "timezone": "Asia/Kolkata",
+        "master_sweep": "05:30 AM IST Daily",
+        "core_sources": schedules,
+        "active_jobs": orchestrator.get_active_jobs(),
+    }
+
+
 @app.get("/api/harvest/status")
 async def get_harvest_status():
     """Returns active downloading jobs and recent harvest history."""

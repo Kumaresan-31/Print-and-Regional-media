@@ -542,6 +542,46 @@ class NewsFeedService:
             if now - cached_time < self.cache_ttl:
                 return cached_items
 
+        # Check if this source is one of the 5 harvested-only publications:
+        # For The Hindu, Lokmat, Loksatta, DT Next, Financial Express: ONLY show news from harvested newspaper!
+        from harvester.news.pdf_search_index import pdf_search_index
+        norm_src = pdf_search_index.normalize_source_id(source_id)
+        HARVESTED_ONLY_SOURCES = {"the_hindu", "lokmat", "loksatta", "dt_next", "financial_express"}
+
+        if norm_src in HARVESTED_ONLY_SOURCES:
+            harvested_stories = pdf_search_index.get_categorized_stories(norm_src, category=cat_key, limit=limit)
+            if harvested_stories:
+                articles = [
+                    NewsArticle(
+                        id=s["id"],
+                        source_id=norm_src,
+                        source_name=s["source_name"],
+                        category=s["category"],
+                        title=s["title"],
+                        link=s["link"],
+                        snippet=s["snippet"],
+                        published_at=s["published_at"],
+                        author=s["author"],
+                        original_title=s.get("original_title"),
+                        original_snippet=s.get("original_snippet"),
+                        original_language=s.get("original_language"),
+                        is_translated=s.get("is_translated", False),
+                        ocr_raw_text=s.get("ocr_raw_text"),
+                        ocr_confidence=s.get("ocr_confidence", 0.9),
+                        page_number=s.get("page_number", 1),
+                        page_snapshot_url=s.get("page_snapshot_url"),
+                        publication_date=s.get("published_at"),
+                        audit_status="verified",
+                    )
+                    for s in harvested_stories
+                ]
+                self._cache[cache_key] = (now, articles)
+                return articles
+            else:
+                # 100% strict: do NOT fallback to Google News for these 5 papers
+                logger.info(f"Harvested-only source '{norm_src}' has no indexed broadsheet stories yet for category '{cat_key}'.")
+                return []
+
         source_lang_name = source.language.value.lower() if source else "english"
         source_lang_code = LANGUAGE_CODE_MAP.get(source_lang_name, "en")
         native_name = NATIVE_SOURCE_NAMES.get(source_id)
@@ -674,9 +714,41 @@ class NewsFeedService:
                     if not any(m.id == art.id or (m.title and m.title.lower() == t_low) for m in matching_from_cache):
                         matching_from_cache.append(art)
 
-        loop = asyncio.get_event_loop()
-        raw_items: List[Dict[str, str]] = []
-        detected_cat = self._detect_category_for_query(clean_kw)
+        from harvester.news.pdf_search_index import pdf_search_index
+        norm_src = pdf_search_index.normalize_source_id(source_id) if source_id else None
+        HARVESTED_ONLY_SOURCES = {"the_hindu", "lokmat", "loksatta", "dt_next", "financial_express"}
+
+        if norm_src and norm_src in HARVESTED_ONLY_SOURCES:
+            # Search strictly in the harvested broadsheet index (NO GOOGLE NEWS)
+            pdf_hits = pdf_search_index.search(keywords=clean_kw, source_ids=[norm_src], limit=limit)
+            articles: List[NewsArticle] = []
+            for hit in pdf_hits:
+                st = hit.get("story") or {}
+                pg = hit.get("page_num", 1)
+                art_id = st.get("id") or f"{norm_src}_{hit.get('doc_id')}_{pg}"
+                articles.append(
+                    NewsArticle(
+                        id=art_id,
+                        source_id=norm_src,
+                        source_name=f"{hit.get('source_name', norm_src)} (Page {pg})",
+                        category=st.get("category", detected_cat),
+                        title=st.get("title") or hit.get("snippet_en", "")[:80] or f"{hit.get('source_name')} - Page {pg}",
+                        link=hit.get("snapshot_url") or hit.get("crop_url", ""),
+                        snippet=st.get("snippet") or hit.get("snippet_en", "") or hit.get("ocr_text_en", "")[:250],
+                        published_at=hit.get("date"),
+                        author=f"{hit.get('source_name')} Page {pg}",
+                        original_title=st.get("original_title"),
+                        original_snippet=st.get("original_snippet"),
+                        original_language=hit.get("original_language"),
+                        page_number=pg,
+                        page_snapshot_url=hit.get("snapshot_url"),
+                        ocr_raw_text=st.get("ocr_raw_text"),
+                        ocr_confidence=hit.get("ocr_confidence", 0.9),
+                        audit_status="verified",
+                    )
+                )
+            self._cache[cache_key] = (now, articles)
+            return articles
 
         if source:
             # High-precision newspaper-specific search

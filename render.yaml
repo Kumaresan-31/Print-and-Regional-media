@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: epaper-harvester
+    runtime: python
+    rootDir: backend
+    buildCommand: >
+      pip install -r ../requirements.txt &&
+      playwright install --with-deps chromium
+    startCommand: python -m harvester.cli serve --port $PORT
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: PLAYWRIGHT_BROWSERS_PATH
+        value: /opt/render/project/.playwright
+    disk:
+      name: epaper-data
+      mountPath: /var/data
+      sizeGB: 10

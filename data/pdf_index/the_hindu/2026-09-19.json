@@ -1,0 +1,283 @@
+{
+  "source_id": "the_hindu",
+  "source_name": "The Hindu",
+  "date": "2026-09-19",
+  "pdf_path": "data\\archive\\the_hindu\\2026-09-19\\the_hindu_chennai_2026-09-19.pdf",
+  "doc_id": "d00d12db22bd",
+  "indexed_at": "2026-09-20T09:59:32.584548",
+  "total_pages": 16,
+  "total_stories": 11,
+  "snapshots": [
+    "/api/snapshots/d00d12db22bd/1",
+    "/api/snapshots/d00d12db22bd/2",
+    "/api/snapshots/d00d12db22bd/3",
+    "/api/snapshots/d00d12db22bd/4",
+    "/api/snapshots/d00d12db22bd/5",
+    "/api/snapshots/d00d12db22bd/6",
+    "/api/snapshots/d00d12db22bd/7",
+    "/api/snapshots/d00d12db22bd/8",
+    "/api/snapshots/d00d12db22bd/9",
+    "/api/snapshots/d00d12db22bd/10",
+    "/api/snapshots/d00d12db22bd/11",
+    "/api/snapshots/d00d12db22bd/12",
+    "/api/snapshots/d00d12db22bd/13",
+    "/api/snapshots/d00d12db22bd/14",
+    "/api/snapshots/d00d12db22bd/15",
+    "/api/snapshots/d00d12db22bd/16"
+  ],
+  "pages": [
+    {
+      "page_num": 2,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/2",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_002.jpg",
+      "ocr_text_original": "Behind Indla's Most Impactful Editoelals\nTheDefinithveGuidetothe Storles",
+      "ocr_text_en": "Behind Indla's Most Impactful Editoelals TheDefinithveGuidetothe Storles",
+      "ocr_confidence": 0.7833,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "1807f44b8f62",
+          "title": "Behind Indla's Most Impactful Editoelals",
+          "snippet": "TheDefinithveGuidetothe Storles",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 2,
+          "ocr_raw_text": "Behind Indla's Most Impactful Editoelals\nTheDefinithveGuidetothe Storles",
+          "ocr_confidence": 0.7833,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/2",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 3,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/3",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_003.jpg",
+      "ocr_text_original": "ramietetiprcetainnovatios\nFraminosatloetapurpone",
+      "ocr_text_en": "ramietetiprcetainnovatios Framinosatloetapurpone",
+      "ocr_confidence": 0.73,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "8b6edc93a980",
+          "title": "ramietetiprcetainnovatios",
+          "snippet": "Framinosatloetapurpone",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 3,
+          "ocr_raw_text": "ramietetiprcetainnovatios\nFraminosatloetapurpone",
+          "ocr_confidence": 0.73,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/3",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 5,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/5",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_005.jpg",
+      "ocr_text_original": "IMEISRUNNINGOUT\nFinestLioiegExperience",
+      "ocr_text_en": "IMEISRUNNINGOUT FinestLioiegExperience",
+      "ocr_confidence": 0.7484,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "7aa7b1c49fb4",
+          "title": "IMEISRUNNINGOUT",
+          "snippet": "FinestLioiegExperience",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 5,
+          "ocr_raw_text": "IMEISRUNNINGOUT\nFinestLioiegExperience",
+          "ocr_confidence": 0.7484,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/5",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 7,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/7",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_007.jpg",
+      "ocr_text_original": "Chranal\nSaSuryahushdruspkamdiscurgehinfniumetaseasoncanes",
+      "ocr_text_en": "Chranal SaSuryahushdruspkamdiscurgehinfniumetaseasoncanes",
+      "ocr_confidence": 0.7061,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "b82bad65e896",
+          "title": "Chranal",
+          "snippet": "SaSuryahushdruspkamdiscurgehinfniumetaseasoncanes",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 7,
+          "ocr_raw_text": "Chranal\nSaSuryahushdruspkamdiscurgehinfniumetaseasoncanes",
+          "ocr_confidence": 0.7061,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/7",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 8,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/8",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_008.jpg",
+      "ocr_text_original": "Cheual\nResidentsinmerpedareascanapply\n\nonlineforwater,sewer cooncctious\nHeberEcanDep",
+      "ocr_text_en": "Cheual Residentsinmerpedareascanapply\n\nonlineforwater,sewer cooncctious HeberEcanDep",
+      "ocr_confidence": 0.6751,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "aa5f2e745969",
+          "title": "Cheual",
+          "snippet": "Residentsinmerpedareascanapply",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 8,
+          "ocr_raw_text": "Cheual\nResidentsinmerpedareascanapply",
+          "ocr_confidence": 0.6751,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/8",
+          "is_translated": false
+        },
+        {
+          "id": "c19a91724c62",
+          "title": "onlineforwater,sewer cooncctious",
+          "snippet": "HeberEcanDep",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 8,
+          "ocr_raw_text": "onlineforwater,sewer cooncctious\nHeberEcanDep",
+          "ocr_confidence": 0.6751,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/8",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 9,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/9",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_009.jpg",
+      "ocr_text_original": "04445252627/2015306828155535/5340059538/65/75/91",
+      "ocr_text_en": "04445252627/2015306828155535/5340059538/65/75/91 04445252627/2015306828155535/5340059538/65/75/91",
+      "ocr_confidence": 0.6683,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "6b0bf58972f9",
+          "title": "04445252627/2015306828155535/5340059538/65/75/91",
+          "snippet": "04445252627/2015306828155535/5340059538/65/75/91",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 9,
+          "ocr_raw_text": "04445252627/2015306828155535/5340059538/65/75/91",
+          "ocr_confidence": 0.6683,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/9",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 10,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/10",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_010.jpg",
+      "ocr_text_original": "VinavakaidolstoEnnore\nandKovalamforimmersion",
+      "ocr_text_en": "VinavakaidolstoEnnore andKovalamforimmersion",
+      "ocr_confidence": 0.7807,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "3735e07dc96c",
+          "title": "VinavakaidolstoEnnore",
+          "snippet": "andKovalamforimmersion",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 10,
+          "ocr_raw_text": "VinavakaidolstoEnnore\nandKovalamforimmersion",
+          "ocr_confidence": 0.7807,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/10",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 12,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/12",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_012.jpg",
+      "ocr_text_original": "ponLonvaritiesBi\nVhxr2dwsearchttarthutkilied",
+      "ocr_text_en": "ponLonvaritiesBi Vhxr2dwsearchttarthutkilied",
+      "ocr_confidence": 0.7045,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "fcaf60f07acc",
+          "title": "ponLonvaritiesBi",
+          "snippet": "Vhxr2dwsearchttarthutkilied",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 12,
+          "ocr_raw_text": "ponLonvaritiesBi\nVhxr2dwsearchttarthutkilied",
+          "ocr_confidence": 0.7045,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/12",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 13,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/13",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_013.jpg",
+      "ocr_text_original": "TeancanaHCdisqualifiesBRs\nMlAwhodefecedtoCcnres",
+      "ocr_text_en": "TeancanaHCdisqualifiesBRs MlAwhodefecedtoCcnres",
+      "ocr_confidence": 0.816,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "b708c392f59c",
+          "title": "TeancanaHCdisqualifiesBRs",
+          "snippet": "MlAwhodefecedtoCcnres",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 13,
+          "ocr_raw_text": "TeancanaHCdisqualifiesBRs\nMlAwhodefecedtoCcnres",
+          "ocr_confidence": 0.816,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/13",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 16,
+      "snapshot_url": "/api/snapshots/d00d12db22bd/16",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\d00d12db22bd\\page_016.jpg",
+      "ocr_text_original": "'Over37lakhSiRappeakstill\nBatkeUSutoe",
+      "ocr_text_en": "'Over37lakhSiRappeakstill BatkeUSutoe",
+      "ocr_confidence": 0.6635,
+      "original_language": null,
+      "stories": [
+        {
+          "id": "3413e8587718",
+          "title": "'Over37lakhSiRappeakstill",
+          "snippet": "BatkeUSutoe",
+          "original_title": null,
+          "original_snippet": null,
+          "category": "all",
+          "page_num": 16,
+          "ocr_raw_text": "'Over37lakhSiRappeakstill\nBatkeUSutoe",
+          "ocr_confidence": 0.6635,
+          "page_snapshot_url": "/api/snapshots/d00d12db22bd/16",
+          "is_translated": false
+        }
+      ]
+    }
+  ]
+}

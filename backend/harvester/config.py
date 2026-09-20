@@ -4,7 +4,15 @@ from pydantic import BaseModel, Field
 
 # Project root: backend/harvester/ -> ../../ -> project root
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATA_DIR = BASE_DIR / "data"
+
+# On Render, use the persistent disk mounted at /var/data so harvested
+# PDFs, sessions, and indexes survive server restarts.
+# Locally, fall back to the data/ folder inside the project root.
+if os.environ.get("RENDER"):
+    DATA_DIR = Path("/var/data")
+else:
+    DATA_DIR = BASE_DIR / "data"
+
 ARCHIVE_DIR = DATA_DIR / "archive"
 TEMP_DIR = DATA_DIR / "temp"
 SESSIONS_DIR = DATA_DIR / "sessions"

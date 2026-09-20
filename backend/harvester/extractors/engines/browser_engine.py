@@ -62,7 +62,9 @@ class BrowserFlipbookExtractor(BaseExtractor):
             await context.add_init_script(captcha_solver.get_stealth_scripts())
 
             # 2. Inject stored session cookies if available
-            stored_cookies = session_manager.load_cookies(self.source.id)
+            stored_cookies = session_manager.load_cookies(f"{self.source.id}_{edition}")
+            if not stored_cookies:
+                stored_cookies = session_manager.load_cookies(self.source.id)
             if stored_cookies:
                 pw_cookies = []
                 for c in stored_cookies:
