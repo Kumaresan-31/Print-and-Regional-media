@@ -5,7 +5,8 @@ services:
     rootDir: backend
     plan: free
     buildCommand: pip install -r ../requirements.txt && playwright install chromium
-    startCommand: python -m harvester.cli serve --port $PORT
+    startCommand: python -m harvester.cli serve
+    healthCheckPath: /healthz
     envVars:
       - key: PORT
         value: 10000

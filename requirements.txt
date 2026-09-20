@@ -18,3 +18,4 @@ deep-translator>=1.11.0
 rapidocr-onnxruntime>=1.2.0
 pypdfium2>=4.0.0
 pdf2image>=1.16.0
+tzdata

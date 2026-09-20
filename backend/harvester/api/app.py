@@ -104,6 +104,12 @@ async def serve_dashboard():
     return HTMLResponse("<h1>Automated ePaper Harvester API Running</h1><p>Visit /docs for API documentation.</p>")
 
 
+@app.get("/healthz")
+@app.get("/health")
+async def health_check():
+    return {"status": "ok", "app": settings.app_name, "version": settings.version}
+
+
 @app.get("/upload", response_class=HTMLResponse)
 async def serve_upload_page():
     upload_path = TEMPLATES_DIR / "upload.html"
