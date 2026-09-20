@@ -105,7 +105,9 @@ class NewsAlertsService:
                 matched_topic = "Crisis & Public Safety"
 
             if matched_severity:
-                alert_id = f"alert_{hashlib.md5(f'{art.get('id')}_{title[:30]}'.encode()).hexdigest()[:10]}"
+                art_id_val = art.get("id", "")
+                art_key = f"{art_id_val}_{title[:30]}"
+                alert_id = f"alert_{hashlib.md5(art_key.encode()).hexdigest()[:10]}"
 
                 # Check if already alerted
                 existing_alert = next((existing for existing in self._alerts if existing.id == alert_id or existing.article_id == art.get("id")), None)
