@@ -1,5 +1,615 @@
 [
   {
+    "id": "alert_d7360d0219",
+    "article_id": "2d6c4b950bd9",
+    "source_name": "The Hindu",
+    "severity": "high",
+    "category": "crises_disasters",
+    "topic": "Major Transport Accident",
+    "summary": "Two dead, one injured in fire accident in Hubballi The Hindu",
+    "translated_text": "Two dead, one injured in fire accident in Hubballi - The Hindu",
+    "ocr_raw_text": "Two dead, one injured in fire accident in Hubballi - The Hindu\nTwo dead, one injured in fire accident in Hubballi The Hindu",
+    "ocr_confidence": 0.99,
+    "translation_confidence": 1.0,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/dynamic_snapshot/2d6c4b950bd9",
+    "bounding_box": null,
+    "created_at": "2026-09-20T23:23:25.734546"
+  },
+  {
+    "id": "alert_87fab8a808",
+    "article_id": "3f6bd519eb99",
+    "source_name": "The Hindu",
+    "severity": "critical",
+    "category": "crises_disasters",
+    "topic": "Flash Flood & Natural Disaster",
+    "summary": "One dead, four missing in Nilambur flash flood The Hindu",
+    "translated_text": "One dead, four missing in Nilambur flash flood - The Hindu",
+    "ocr_raw_text": "One dead, four missing in Nilambur flash flood - The Hindu\nOne dead, four missing in Nilambur flash flood The Hindu",
+    "ocr_confidence": 0.99,
+    "translation_confidence": 1.0,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/dynamic_snapshot/3f6bd519eb99",
+    "bounding_box": null,
+    "created_at": "2026-09-20T23:23:25.734385"
+  },
+  {
+    "id": "alert_f265b2f4bee1",
+    "article_id": "f265b2f4bee1",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Rape abuse in the Thalavadi Central Jail",
+    "summary": "He was taken to the central jail for chicken abuse and subjected to physical hardship, and his health deteriorated rapidly. With love, Latha wrote in the diaries, bringing a mature sense of artistic expression, and when the news reached, it caused an intense state of affection.",
+    "translated_text": "Rape abuse in the Thalavadi Central Jail",
+    "ocr_raw_text": "ത തന്ന ബത സെന്‍ല്‍ ജയിലില്‍ കോഴ പീഡന\nത്തിനയോകകി ആരോഗ്യത്കള്‍ന്ന അവടെ ജ്‌ വരി നി പാളി വി കടലിലും അലാവു [॥ സ്നേഹലത റി എഴുതി ഡയികിപ്പുകളിലുയാണ നാദകത്തി സി ണമായ എത്തുന്ന ബു സ്ന തമര്‍കകന്പോള്‍ അഭിരതരാവസ്ഥ്‌",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      151.0,
+      1104.0,
+      1584.0
+    ],
+    "created_at": "2026-09-20T23:17:35.905021"
+  },
+  {
+    "id": "alert_67f1e8f32768",
+    "article_id": "67f1e8f32768",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "She/He wants",
+    "summary": "She wants Anoop, who was fascinated for years, to eat without fuss, the part on the TV of the intense episode. The play is on stage today.",
+    "translated_text": "She/He wants",
+    "ocr_raw_text": "അള്‍ ആഗ്രഹിക്കുന്നു\nഅനൂപ വര്‍ഷത്തോളം ിഡധ ഷിക രിച്ച തിനാ കൂ അവേരല്ലാതത പാര്‍ അധികാ ത്തിലെതവിയിയുടെ ടിവി ി നയതി ഡ്‌ മത്ര പറ. മിസ നാടകം ഇന്ന്‌ അരങ്ങില്‍",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      47.0,
+      769.0,
+      1138.0,
+      1257.0
+    ],
+    "created_at": "2026-09-20T23:17:35.904904"
+  },
+  {
+    "id": "alert_2b737af69541",
+    "article_id": "2b737af69541",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "high",
+    "category": "Environment",
+    "topic": "Wild animal attack",
+    "summary": "Action is needed to protect farmers and crops from wild animal attacks. In the forest fringes, to kill the [name unclear] on the hill, water treasures were used; it became a deed of merit, and with the help of others, the appointed [unclear] made unity possible, [unclear].",
+    "translated_text": "Wild animal attack",
+    "ocr_raw_text": "വന്യീവി ആക്രമണം\nകര്‍ഷകരെയും കൃഷിയെയും രക്ഷിക്കാന്‍ നടപടി വേണം തിയാ വനാതിര്‍തികളില്‍ നെയിം സ രിന്റെ മലത്തി ടി കൊല്ലാന്‍ ജല്‍ തിലകം അന പിയായി ഗുന്‍ അമ മാക്കി മതല നയും ജു സഹായമായ നിയോഗി മസ ഐകകണ്ന പാസ്തായ ശവണ്ടി പിയുടെ",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      663.0,
+      711.0,
+      1141.0,
+      849.0
+    ],
+    "created_at": "2026-09-20T23:17:35.904786"
+  },
+  {
+    "id": "alert_a17da5b95178",
+    "article_id": "a17da5b95178",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Entertainment",
+    "topic": "With my book, it is a play that received widespread appreciation from the audiences who watched the cinematic adaptation.",
+    "summary": "With my book, it is a play that received widespread appreciation from the audiences who watched the cinematic adaptation.",
+    "translated_text": "With my book, it is a play that received widespread appreciation from the audiences who watched the cinematic adaptation.",
+    "ocr_raw_text": "എന എല്‍ പുസ\nതോടെ ്തിനിധികള്‍ക്കി ത സിനേമരിയാന്‍ അവ വി തിയ കം ആപ്പു ആതിഥേയ സരം ലഭിച്ച നാടകം ബാഗമാണ.",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      177.0,
+      1143.0,
+      1333.0
+    ],
+    "created_at": "2026-09-20T23:17:35.904667"
+  },
+  {
+    "id": "alert_bc73dfd70f2c",
+    "article_id": "bc73dfd70f2c",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "September 0 Sunday",
+    "summary": "September 0 Sunday, Ayanazhil's daughter stayed at the maternal uncle's house in Alappuzha.",
+    "translated_text": "September 0 Sunday",
+    "ocr_raw_text": "സെഡ്തംബര്‍ 0 ഞായര്‍\n,അയനഴില മകള്‍ സംഥന സജമനേത്തിനറെ ഫെദധസജനേംനടലന ഘന അല്നനമ നിലെ ആല ോമുമിഗ്രണ്‍ കും ആലപ്പുഴയിലും വീടായി;",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      349.0,
+      50.0,
+      1147.0,
+      1116.0
+    ],
+    "created_at": "2026-09-20T23:17:35.904547"
+  },
+  {
+    "id": "alert_da8a008dfdd8",
+    "article_id": "da8a008dfdd8",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Passenger request",
+    "summary": "Farmers, with their eyes filled with tears, want the government to move forward with the necessary assistance.",
+    "translated_text": "Passenger request",
+    "ocr_raw_text": "പതസര്‍ിാര്‍ ആവശ്യ\nയ കതിന മിന ഇം മിച്ച മിഴനോട്ടിലെ കമുത്തുഴറുകര്‍ഷക, ഇുടതുപഷ മുന്നേറണമെന്ന്‌ ജന ശാ",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      254.0,
+      634.0,
+      821.0,
+      1500.0
+    ],
+    "created_at": "2026-09-20T23:17:35.904408"
+  },
+  {
+    "id": "alert_50e76bce2125",
+    "article_id": "50e76bce2125",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "high",
+    "category": "Environment",
+    "topic": "More can still come",
+    "summary": "You can still come, Nini Kar, at the wildlife sanctuary",
+    "translated_text": "More can still come",
+    "ocr_raw_text": "ഇനിയും വരാമല്ലോ\nവന്യജീവി ആദരണത്തില്‍ നിനി കര്‍",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      49.0,
+      1032.0,
+      1327.0
+    ],
+    "created_at": "2026-09-20T23:17:35.904262"
+  },
+  {
+    "id": "alert_14b1351a4b38",
+    "article_id": "14b1351a4b38",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Health",
+    "topic": "N tarti lada",
+    "summary": "The first type of maltreatment also kills income",
+    "translated_text": "N tarti lada",
+    "ocr_raw_text": "൯ തര്ട്ി ലട\nമട്ട്യ്രചാണേം ത്തും ആദയം കൊല്ലുന്നത്‌",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      483.0,
+      1606.0,
+      700.0,
+      1634.0
+    ],
+    "created_at": "2026-09-20T23:17:35.904119"
+  },
+  {
+    "id": "alert_9121458501a8",
+    "article_id": "9121458501a8",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Maintained firmness and restraint",
+    "summary": "The fertile soil and the preserved lava were used for corp cultivation; the bill was utilized in such a way that it became a road for Yam. The destruction caused by Veerathenkanam's action grew alongside the Sangh Parivar. The slight harm to small life shaped history, resulting in a struggle against the battle.",
+    "translated_text": "Maintained firmness and restraint",
+    "ocr_raw_text": "മന്ന വാശാനവും പാലിച്ച\nലവം കോര്‍പ്‌ കായി ബിലംപരയോഗിചലി ബാര്‍ ണല്‍ ലിക റോഡി യമ നായി ഏക്കറാണ്‌ ഏറ്റെ പി] വീരത്തെങ്കാനയുടെ വിധ്വഖരിത്രം വളച്ലൊടിമ്യ്‌ സംഘപരിവാര്‍ നൈസാമിനറ ുര്‍ഭണത്തി യാണ്‌, നേരിയ ഒരി ചരുട സായു പോട ചരിത്രത്തെ വളച്ച ട്ടി കുന്ം രനത്തിനെി യ വിനു പോരാട്ട",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      259.0,
+      756.0,
+      1613.0
+    ],
+    "created_at": "2026-09-20T23:17:35.903971"
+  },
+  {
+    "id": "alert_a7c60b51b5c8",
+    "article_id": "a7c60b51b5c8",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "National",
+    "topic": "Kadi Nar Aal",
+    "summary": "During the festival of Kadi Nar Ala Vi Thathidanal, the Vice President of the All India Council said that the main agriculture has been improved and that the government is allocating about one thousand hectares in the name of development. Measures are being taken to ensure that everything, from farmers to general resources, is properly managed.",
+    "translated_text": "Kadi Nar Aal",
+    "ocr_raw_text": "കാടി നാർ ആല\n[വി തതിടനാളില്‍ ജി പ്രധാന കാര്‍ഷികം നമായി മറിയതായി അഖില യകിസാല്‍ സഭ വൈസ പ്രസിഡ ഡി വിന്‍ പറഞ്ഞു ആയിരവും മായിരു എക്കര്‍ ജൂജി വികസന ത്തിന്റെ പേരി സര്‍ക്കാരേ പി ഭച്ചെടുകകുകയാണ്‌. പും വിളുോരുക്കി ആംഎല്ലാവയം സംഭംിക്കുമെ രി ല്ം അം ആം തിനാ വിപസായികള്‍സം മുതല്‍ കരുതു പ്‌",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      343.0,
+      964.0,
+      686.0,
+      1224.0
+    ],
+    "created_at": "2026-09-20T23:17:35.903810"
+  },
+  {
+    "id": "alert_44abae7a7530",
+    "article_id": "44abae7a7530",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Local",
+    "topic": "Amaju and Mal Tyiya Prabha",
+    "summary": "Along with this, Mal Thiyia Prabha had an influence, and for this reason, the forest elders claimed that the land became a major agricultural problem. The organization intervened to manage the forest. On the local level, in the month of Amfima, plans were made to employ 1 gram of laborers, according to the reporter.",
+    "translated_text": "Amaju and Mal Tyiya Prabha",
+    "ocr_raw_text": "അമാജും മല്‍ ത്യിയ പ്രഭ\nആധ വശ്യ ഇതിന ജാ വനം വനയജ്വി സം അനിയത്തി ഭൂമി പ്രധാന കാര്‍ഷിക പ്രശ്നമായി കൊയേറിയെന്്‌ ആരോപിട്ചി തമി സംഘടനയായി വിവാ യ വനദുമി കൈയേറിയെന്ന്‌ :നാടിമേനിയില്‍ മു ആമ്േഫിമയിതമിഴനം ഞേനിയില്‍ 1 യൊഴ്പികാനാണനി ഗ്രം കുടിയൊഴിലിക്കുന്ത്‌ യി വക്കും സ്വന്തംലേഖകന്‍",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      254.0,
+      631.0,
+      816.0,
+      1200.0
+    ],
+    "created_at": "2026-09-20T23:17:35.903655"
+  },
+  {
+    "id": "alert_e6ac9478681b",
+    "article_id": "e6ac9478681b",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Bhaja employment program must be organized",
+    "summary": "Bhaja should follow the employment program. It is necessary to apply it. Farmers will benefit and hooms can be replaced.",
+    "translated_text": "Bhaja employment program must be organized",
+    "ocr_raw_text": "ഭജ തൊഴിലുറപപദ്ധതിഫനസ്ഥിക്കണം\nതിം നി്‌ ന യ (ലലെ ഷര്‍മായി ബാധി ത കിസാന്‍ മോര്‍ യ്യും തന ഹോമുകള്‍ പകരം ടു യത്‌",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      349.0,
+      521.0,
+      793.0,
+      669.0
+    ],
+    "created_at": "2026-09-20T23:17:35.903443"
+  },
+  {
+    "id": "alert_de2ad61f8604",
+    "article_id": "de2ad61f8604",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Your needs and ours",
+    "summary": "You must follow our requirements. More than that, the food security amendment bill, the With Bill, and the energy efficiency promotion bill should be withdrawn.",
+    "translated_text": "Your needs and ours",
+    "ocr_raw_text": "നി ആവശ്യങ്ങളും നങ്ങളു\nനോഗ വനങ്ങള്‍ പാലിച്ച .ണമ അതില്‍ കൂടുതല കം റില്‍ ഭക്ഷയസ്വരദ്ധനിയമ ഭേദഗതി ബില്‍ വിത്ത്‌ ബില്‍. ബ്ധ്യുതിസ്വമാരവല്‍ക്കരണ ബില്‍ എന്നിവ പിന്‍വലിക്കണം",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      189.0,
+      1105.0,
+      1613.0
+    ],
+    "created_at": "2026-09-20T23:17:35.902728"
+  },
+  {
+    "id": "alert_b374886708fc",
+    "article_id": "b374886708fc",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Sana Siri Sana Nana N Payasa P Tanana Am Bhavanti Osi Government Muni P Strength",
+    "summary": "Sana Siri Sana Nana N Payasa P Tanana Am Bhavanti Osi Government Muni P Strength",
+    "translated_text": "Sana Siri Sana Nana N Payasa P Tanana Am Bhavanti Osi Government Muni P Strength",
+    "ocr_raw_text": "സനം\nസിരി സനം നാന [ന പായസ പ തനന അമ ഭവന്തി ഒസി സര്‍ക്കാര്‍ മു നി പ വലിവു",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      45.0,
+      1524.0,
+      323.0,
+      1633.0
+    ],
+    "created_at": "2026-09-20T23:17:35.902607"
+  },
+  {
+    "id": "alert_072eeb3fced8",
+    "article_id": "072eeb3fced8",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "State",
+    "topic": "The plow and the farmer in the soil of Telangana",
+    "summary": "In the soil of Telangana, the plowing and farming continued for many years in Telangana. Murali, a member of the organization, attended the district-level meeting of the Association of Management and Development.",
+    "translated_text": "The plow and the farmer in the soil of Telangana",
+    "ocr_raw_text": "തെലങ്കാനയുടെ മണ്ണില്‍ വിണ്ടും കര്‍ഷക മുന്നും\nമണ വര്‍ഷം തെലാനയില്‍ സ്കാര്‍ എപെകമയമായി പിരി ചവിട്ട്‌ ിമുവനുത്തപുരം ത്തി മുരളി അംഗങ്ങളി അന്‍ ്നി സംഘടന വമൂന്നു ജില്ല ആമ ല്‍ ലും സല അലിോന്യുതിസധന്‍സമ യുടെ തി മിയ സമ്മേളന",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      49.0,
+      1141.0,
+      1584.0
+    ],
+    "created_at": "2026-09-20T23:17:35.902498"
+  },
+  {
+    "id": "alert_feab53a9950a",
+    "article_id": "feab53a9950a",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "in Vichchavidathi",
+    "summary": "In an announcement that seems to be a matter of concern, the UDF planned to separate Smita and implement the strategy in a calculated manner.",
+    "translated_text": "in Vichchavidathi",
+    "ocr_raw_text": "യിന്‍ വിിചചവിടതി\nചത ലാരമായി വര്‍ത്തി ചതിച്ച മിര മഥഡരേഷണുമായി ആോപികതയും സ്ന സ്മിതയെ അമമായി പിര ലിടാനള്ളയുഡിഎഫ്‌ സിക്കാ ര മാനം തിക നിയ (മാടനും സനയ താമി",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      263.0,
+      1104.0,
+      1611.0
+    ],
+    "created_at": "2026-09-20T23:17:35.902396"
+  },
+  {
+    "id": "alert_8e5f97540515",
+    "article_id": "8e5f97540515",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Raised a plea",
+    "summary": "The MILMA union, raised by the milk conference, was dismissed; P. Rama Malabar area Yannian T is anti-democratic",
+    "translated_text": "Raised a plea",
+    "ocr_raw_text": "ശ്വ സമ്മേളനം ഉന്നയിച്ച\nമില്‍മ യൂണിയന്‍ പിരിച്ചുവിട്ടത്‌ ജനാധിപ്പത്യവിരുദ്ധം പി രമമലബാര്‍ മേഖല യാന്നിയന്‍ ടി",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      641.0,
+      320.0,
+      1103.0
+    ],
+    "created_at": "2026-09-20T23:17:35.902291"
+  },
+  {
+    "id": "alert_b9deaf6a8911",
+    "article_id": "b9deaf6a8911",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Education",
+    "topic": "Mayum Marshal Paran",
+    "summary": "The martial arts teacher I met used the techniques taught in the march.",
+    "translated_text": "Mayum Marshal Paran",
+    "ocr_raw_text": "മയും മാര്‍ഷിാല്‍പ്പാരന\nപ ഞന തര പതി ഉപയോ പ്പെ ടത്തിയ മാര്‍ചി ര റക നിര്‍",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      331.0,
+      343.0,
+      633.0
+    ],
+    "created_at": "2026-09-20T23:17:35.902135"
+  },
+  {
+    "id": "alert_1f9a3d31a600",
+    "article_id": "1f9a3d31a600",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "State",
+    "topic": "It is in the state of decay",
+    "summary": "The legislation regarding the appointment of officials is in the final stage.",
+    "translated_text": "It is in the state of decay",
+    "ocr_raw_text": "ൂിനശില്െന്നാണ്‌ ളാ സു\nതൂണം നി രില്‍ നിയമനിര്‍മാണം നടത്ത നി",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      134.0,
+      343.0,
+      346.0,
+      531.0
+    ],
+    "created_at": "2026-09-20T23:17:35.902015"
+  },
+  {
+    "id": "alert_2ac590e0c8ef",
+    "article_id": "2ac590e0c8ef",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Give the whip strictly, it will definitely break (this applies to the item worth 0 crores in the batch)",
+    "summary": "Give the whip strictly, it will definitely break (this applies to the item worth 0 crores in the batch)",
+    "translated_text": "Give the whip strictly, it will definitely break (this applies to the item worth 0 crores in the batch)",
+    "ocr_raw_text": "വിപ്പ്‌ കൊടു\nര്‍ണമായും വി നഷിട്പ ം (അതാകെ 0 കോടിരയപയുടെ ലഫ്‌ പതിയില്‍ ഉ",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      46.0,
+      312.0,
+      312.0,
+      359.0
+    ],
+    "created_at": "2026-09-20T23:17:35.901884"
+  },
+  {
+    "id": "alert_f8ac78ed9c84",
+    "article_id": "f8ac78ed9c84",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "In order to settle the accounts, it is announced that compensation will be given, and the farmers affected by the losses will rece",
+    "summary": "In order to settle the accounts, it is announced that compensation will be given, and the farmers affected by the losses will receive a separate subsidy.",
+    "translated_text": "In order to settle the accounts, it is announced that compensation will be given, and the farmers affected by the losses will rece",
+    "ocr_raw_text": "തികം വരിക\n[ ുോയ സാശനക്ങള്‍ ല്‍ സപരിഹാരം നല്‍ ണമെന്ന്‌ കര്‍ കര്‍ഷ ഫാ സസ്ഥാന സമാനം തിനി ഞു മന്നുകലികകള നഷ പ്പ ിരക്ര്‍ഷകര്‍ക്കി വാ ഴ്‌ സബസിഡി അന്യന്‍",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      41.0,
+      49.0,
+      1143.0,
+      1584.0
+    ],
+    "created_at": "2026-09-20T23:17:35.901708"
+  },
+  {
+    "id": "alert_943fd466cf76",
+    "article_id": "943fd466cf76",
+    "source_name": "20092026 Alappuzha 1",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "September 110101) (19:21 Ten new videos have been uploaded, there are damages in the video content",
+    "summary": "September 110101) (19:21 Ten new videos have been uploaded, there are damages in the video content",
+    "translated_text": "September 110101) (19:21 Ten new videos have been uploaded, there are damages in the video content",
+    "ocr_raw_text": "സെപ്തംബര്‍\n110101) (19:21 പ്പത്തി പുതിയ വിട്‌ അനുവ ണ്‌ ണന ശിക കേടപാടുണ്ടായ വ അക്ക ഫാ",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/7c9165e3b70c/1",
+    "bounding_box": [
+      148.0,
+      78.0,
+      756.0,
+      1500.0
+    ],
+    "created_at": "2026-09-20T23:17:35.901537"
+  },
+  {
     "id": "alert_3e9c4173e4",
     "article_id": "06c61b98baea",
     "source_name": "20092026 Alappuzha 1 (Page 1)",

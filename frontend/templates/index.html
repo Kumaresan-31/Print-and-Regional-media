@@ -1,1599 +1,1245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automated ePaper Harvester | 50+ Configured Sources</title>
-    <meta name="description" content="Automated ePaper harvesting platform: scheduled downloads, authentication, captcha bypass, and high-DPI PDF assembly across 50+ national and regional newspapers.">
-    <!-- Google Fonts: Outfit and JetBrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css?v=2.5">
-    <style>
-        .nav-links {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(15, 23, 42, 0.9);
-            padding: 0.35rem 0.5rem;
-            border-radius: var(--radius-full, 9999px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>E-Paper Harvester | AI Newspaper Intelligence & Regional Media Mining</title>
+  <meta name="description" content="AI-Powered Newspaper Intelligence: Upload regional-language broadsheet newspapers, extract complete stories with layout-aware OCR, translate them to fluent English, and explore verified press page-by-page."/>
+  
+  <!-- Google Fonts: Material Symbols, Geist, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS CDN with Stitch Design System Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "error": "#ba1a1a",
+            "primary-container": "#4f46e5",
+            "on-secondary": "#ffffff",
+            "on-primary-fixed": "#0f0069",
+            "inverse-surface": "#283044",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#006e4b",
+            "on-primary": "#ffffff",
+            "on-tertiary-fixed": "#002113",
+            "primary": "#3525cd",
+            "inverse-primary": "#c3c0ff",
+            "on-secondary-container": "#004666",
+            "tertiary-fixed-dim": "#4edea3",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "primary-fixed": "#e2dfff",
+            "background": "#faf8ff",
+            "surface-container-low": "#f2f3ff",
+            "on-tertiary": "#ffffff",
+            "surface": "#faf8ff",
+            "surface-container-high": "#e2e7ff",
+            "surface-container": "#eaedff",
+            "secondary-container": "#39b8fd",
+            "on-background": "#131b2e",
+            "tertiary": "#005338",
+            "surface-tint": "#4d44e3",
+            "on-surface-variant": "#464555",
+            "on-primary-container": "#dad7ff",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-surface": "#131b2e",
+            "outline-variant": "#c7c4d8",
+            "secondary-fixed-dim": "#89ceff",
+            "surface-dim": "#d2d9f4",
+            "on-secondary-fixed": "#001e2f",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed-variant": "#005236",
+            "inverse-on-surface": "#eef0ff",
+            "secondary-fixed": "#c9e6ff",
+            "surface-variant": "#dae2fd",
+            "on-secondary-fixed-variant": "#004c6e",
+            "on-tertiary-container": "#67f4b7",
+            "outline": "#777587",
+            "tertiary-fixed": "#6ffbbe",
+            "secondary": "#006591",
+            "surface-bright": "#faf8ff",
+            "on-primary-fixed-variant": "#3323cc"
+          },
+          fontFamily: {
+            "headline-lg-mobile": ["Geist", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "display-hero-mobile": ["Geist", "sans-serif"],
+            "label-mono": ["JetBrains Mono", "monospace"],
+            "display-hero": ["Geist", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "headline-md": ["Geist", "sans-serif"],
+            "headline-lg": ["Geist", "sans-serif"],
+            "headline-sm": ["Geist", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "label-ui": ["Inter", "sans-serif"]
+          }
         }
-        .nav-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.55rem;
-            padding: 0.5rem 1.15rem;
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 700;
-            border-radius: var(--radius-full, 9999px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.03);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            white-space: nowrap;
-        }
-        .nav-link:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px);
-        }
-        .nav-link.active {
-            color: #ffffff;
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(168, 85, 247, 0.35) 100%);
-            border: 1px solid #38bdf8;
-            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-        }
-        .nav-link .nav-icon {
-            font-size: 1.1rem;
-        }
-    </style>
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #c7c4d8;
+      border-radius: 9999px;
+    }
+    .filter-pill.active {
+      background: #3525cd !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(53, 37, 205, 0.25);
+    }
+    .news-cat-pill.active {
+      background: #3525cd !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(53, 37, 205, 0.25);
+    }
+    .source-card {
+      background: #ffffff;
+      border: 1px solid #dae2fd;
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .source-card:hover {
+      border-color: #3525cd;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(53, 37, 205, 0.08);
+    }
+    .source-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #131b2e;
+    }
+    .source-region {
+      font-size: 0.75rem;
+      color: #464555;
+      margin-top: 0.25rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      background: #eaedff;
+      color: #3525cd;
+    }
+    .badge-lang {
+      background: #f2f3ff;
+      color: #006591;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .card-categories-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.75rem 0;
+    }
+    .card-cat-tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 0.375rem;
+      background: #f2f3ff;
+      color: #464555;
+      border: 1px solid #dae2fd;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .card-cat-tag:hover {
+      background: #eaedff;
+      color: #3525cd;
+      border-color: #3525cd;
+    }
+    .edition-select {
+      width: 100%;
+      background: #f2f3ff;
+      border: 1px solid #dae2fd;
+      color: #131b2e;
+      padding: 0.35rem 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      outline: none;
+    }
+    .source-button-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .source-button-row.secondary-row {
+      margin-top: 0.4rem;
+    }
+    .btn-harvest-action {
+      background: #3525cd;
+      color: #ffffff;
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .btn-harvest-action:hover {
+      background: #4f46e5;
+    }
+    .btn-news {
+      background: #e2e7ff;
+      color: #3525cd;
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-live {
+      background: transparent;
+      color: #006591;
+      padding: 0.35rem 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.72rem;
+      border: 1px solid #c7c4d8;
+      text-decoration: none;
+    }
+    .modal-backdrop.open {
+      display: flex !important;
+    }
+  </style>
 </head>
-<body class="dark-theme">
-    <!-- Navigation Bar -->
-    <header class="navbar" id="appNavbar">
-        <div class="nav-brand">
-            <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.75rem;">
-                <div class="logo-icon">📰</div>
-                <div class="brand-text">
-                    <span class="brand-title">ePaper<span class="gradient-text">Harvester</span></span>
-                    <span class="brand-badge">v2.0 • 50+ Sources</span>
-                </div>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-primary">
+
+  <!-- ========================================================================= -->
+  <!-- 1. STICKY GLASSMORPHISM HEADER NAVIGATION                                 -->
+  <!-- ========================================================================= -->
+  <header class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]" id="appNavbar">
+    <div class="h-16 w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <!-- Left Brand & Badge -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2.5 text-inherit no-underline">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center text-white shadow-md shadow-primary/25">
+            <span class="material-symbols-outlined text-2xl">newspaper</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline-sm text-lg font-bold text-on-surface tracking-tight leading-none">E-Paper Harvester</span>
+            <span class="font-label-mono text-[10px] text-primary font-semibold tracking-wider uppercase mt-0.5">Intelligence v4.2 Pro</span>
+          </div>
+        </a>
+        <span class="hidden xl:inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-mono text-[11px] uppercase tracking-wider">
+          AI Broadsheet Pipeline
+        </span>
+      </div>
+
+      <!-- Center Nav Links -->
+      <nav class="hidden lg:flex items-center gap-1.5 bg-surface-container-low/70 p-1 rounded-xl border border-surface-container-high/60 shadow-xs">
+        <a href="/" class="px-3.5 py-1.5 bg-surface-container-lowest text-primary font-bold rounded-lg shadow-xs text-xs font-label-ui transition-all" data-path="home">
+          Home
+        </a>
+        <a href="/upload" class="px-3.5 py-1.5 rounded-lg text-xs font-label-ui font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="upload">
+          Hardcopy Upload
+        </a>
+        <a href="/search" class="px-3.5 py-1.5 rounded-lg text-xs font-label-ui font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="news-explorer">
+          News Explorer
+        </a>
+        <a href="#sourcesSection" class="px-3.5 py-1.5 rounded-lg text-xs font-label-ui font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all">
+          Newspapers
+        </a>
+        <a href="/inbox" class="px-3.5 py-1.5 rounded-lg text-xs font-label-ui font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="inbox">
+          Inbox Automation
+        </a>
+      </nav>
+
+      <!-- Right Action & Telemetry Cluster -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Quick Search Omnibox Trigger -->
+        <a href="/search" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface text-xs transition-all border border-surface-container-high/50">
+          <span class="material-symbols-outlined text-sm text-primary">search</span>
+          <span>Quick search news...</span>
+          <kbd class="px-1.5 py-0.2 rounded bg-surface-container-lowest font-label-mono text-[10px] text-on-surface-variant shadow-xs">⌘K</kbd>
+        </a>
+
+        <!-- Live Sync Dot -->
+        <div class="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-low border border-surface-container-high/40" id="wsStatusIndicator">
+          <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+          <span class="font-label-mono text-[11px] text-on-surface-variant uppercase font-medium" id="wsStatusText">Live Sync · 99.8% OCR</span>
+        </div>
+
+        <!-- Traceability Modal Button -->
+        <button id="btnOpenAuditModal" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high text-xs font-label-ui font-semibold transition-all shadow-xs border border-surface-container-high" type="button" title="Open 3-Tier Traceability Drawer">
+          <span class="material-symbols-outlined text-base text-primary">verified</span>
+          <span class="hidden sm:inline">Traceability</span>
+          <span id="navAlertsCount" class="px-1.5 py-0.2 rounded-full bg-primary-fixed text-primary font-label-mono text-[10px] font-bold">0</span>
+        </button>
+
+        <!-- Upload PDF Direct CTA -->
+        <a href="/upload" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary text-on-primary font-label-ui text-xs font-semibold hover:bg-primary-container transition-all shadow-sm shadow-primary/20">
+          <span class="material-symbols-outlined text-sm">add</span>
+          <span class="hidden sm:inline">Upload PDF</span>
+        </a>
+
+        <!-- IST Clock -->
+        <div class="hidden sm:flex px-2 py-1 rounded bg-surface-container-low font-label-mono text-[11px] text-on-surface-variant" id="istClockDisplay">
+          00:00:00 IST
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary Telemetry Sub-Bar -->
+    <div class="h-8 w-full bg-surface-container-lowest shadow-[0_1px_4px_rgba(0,0,0,0.02)] px-4 sm:px-8 flex items-center justify-between border-t border-surface-container-high/30">
+      <div class="flex items-center gap-2 text-xs text-on-surface-variant font-label-mono">
+        <span class="material-symbols-outlined text-sm text-primary">home</span>
+        <span>/</span>
+        <span class="font-medium text-on-surface">Intelligence Workspace</span>
+        <span class="text-outline-variant">·</span>
+        <span class="font-label-mono text-tertiary font-medium uppercase">Real-Time Broadsheet Ingestion</span>
+      </div>
+      <div class="flex items-center gap-3 font-label-mono text-[11px] text-on-surface-variant">
+        <span class="hidden sm:inline">INGESTION QUEUE: <strong class="text-on-surface font-semibold">65+ EDITIONS</strong></span>
+        <span class="hidden md:inline text-outline-variant">|</span>
+        <span class="hidden md:inline">OCR LATENCY: <strong class="text-on-surface font-semibold">120ms/PAGE</strong></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN APPLICATION CONTENT                                                  -->
+  <!-- ========================================================================= -->
+  <main class="w-full pt-28 bg-background min-h-screen">
+    <div class="flex flex-col w-full">
+
+      <!-- Ambient Backdrop Glows -->
+      <div class="relative w-full overflow-hidden">
+        <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[480px] bg-gradient-to-b from-primary-container/15 via-secondary-container/10 to-transparent blur-3xl pointer-events-none -z-10"></div>
+        <div class="absolute top-[520px] -left-48 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+        <div class="absolute top-[800px] -right-48 w-96 h-96 bg-tertiary-container/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+        <!-- =================================================================== -->
+        <!-- 2. HERO SECTION                                                     -->
+        <!-- =================================================================== -->
+        <section class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-6 pb-12 flex flex-col items-center text-center">
+          <!-- Glowing Pulsing Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-high text-primary font-label-mono text-xs shadow-sm hover:shadow transition-all cursor-default border border-primary-fixed/60">
+            <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+            <span class="font-semibold tracking-wide uppercase">AI-POWERED NEWSPAPER INTELLIGENCE — COMPLETE OCR & ENGLISH TRANSLATION</span>
+          </div>
+
+          <!-- Main Headline -->
+          <h1 class="mt-5 font-display-hero text-3xl sm:text-5xl lg:text-6xl font-extrabold text-on-surface tracking-tight max-w-4xl text-balance">
+            From Any Regional Newspaper to <span class="bg-gradient-to-r from-primary via-primary-container to-secondary bg-clip-text text-transparent">Understandable English</span>.
+          </h1>
+
+          <!-- Supporting Subtitle -->
+          <p class="mt-3.5 font-body-lg text-base sm:text-lg text-on-surface-variant max-w-2xl text-balance">
+            Upload regional-language newspapers, extract every single story with layout-aware multi-column OCR, synthesize them into fluent English, and explore the verified press page by page.
+          </p>
+
+          <!-- Primary & Secondary CTAs -->
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <a href="/upload" class="group flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-primary text-on-primary font-label-ui text-sm font-semibold shadow-lg shadow-primary/25 hover:bg-primary-container transition-all scale-100 hover:scale-[1.02] active:scale-[0.98]">
+              <span class="material-symbols-outlined text-xl">upload_file</span>
+              <span>Upload Newspaper PDF</span>
+              <span class="material-symbols-outlined text-base transition-transform group-hover:translate-x-0.5">arrow_forward</span>
             </a>
-        </div>
-
-        <!-- Central Navigation Tabs -->
-        <nav class="nav-links">
-            <a href="/" class="nav-link active">
-                <span class="nav-icon">📰</span>
-                <span>Catalog & Harvest</span>
+            <a href="/search" class="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-surface-container-lowest text-on-surface font-label-ui text-sm font-semibold shadow-sm hover:shadow-md hover:bg-surface-container-low transition-all border border-surface-container-high">
+              <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">manage_search</span>
+              <span>Open News Explorer</span>
             </a>
-            <a href="/upload" class="nav-link">
-                <span class="nav-icon">📄</span>
-                <span>Hardcopy PDF Harvester</span>
-            </a>
-            <a href="/inbox" class="nav-link">
-                <span class="nav-icon">📬</span>
-                <span>Inbox Automation</span>
-            </a>
-            <a href="/search" class="nav-link" id="navPdfSearch">
-                <span class="nav-icon">🔍</span>
-                <span>PDF Newspaper Search</span>
-            </a>
-        </nav>
+          </div>
 
-        <!-- Right Controls & Status -->
-        <div class="nav-right-cluster">
-            <div class="header-actions">
-                <button class="btn btn-action-audit" id="btnOpenAuditModal" title="Digital Twin 3-Tier Traceability & Audit Console">
-                    🔍 Traceability (<span id="navAlertsCount">0</span>)
-                </button>
-                <button class="btn btn-action-email" id="btnOpenEmailModal" title="Multi-Language Email News Digest">
-                    📧 Digest
-                </button>
+          <!-- Supported Languages Mosaic -->
+          <div class="mt-5 flex flex-wrap items-center justify-center gap-2 font-label-mono text-xs text-on-surface-variant">
+            <span class="flex items-center gap-1.5 text-tertiary font-semibold">
+              <span class="material-symbols-outlined text-sm">verified</span>
+              Zero External Cloud Calls
+            </span>
+            <span class="text-outline-variant">•</span>
+            <span>Supports:</span>
+            <span class="px-2 py-0.5 rounded bg-surface-container font-medium text-on-surface">Tamil</span>
+            <span class="px-2 py-0.5 rounded bg-surface-container font-medium text-on-surface">Hindi</span>
+            <span class="px-2 py-0.5 rounded bg-surface-container font-medium text-on-surface">Malayalam</span>
+            <span class="px-2 py-0.5 rounded bg-surface-container font-medium text-on-surface">Telugu</span>
+            <span class="px-2 py-0.5 rounded bg-surface-container font-medium text-on-surface">Kannada</span>
+            <span class="px-2 py-0.5 rounded bg-surface-container font-medium text-on-surface">Bengali</span>
+            <span class="text-primary font-semibold">& 12+ Indian Scripts</span>
+          </div>
+
+          <!-- ================================================================= -->
+          <!-- 3. PIPELINE STEPPER RIBBON                                        -->
+          <!-- ================================================================= -->
+          <div class="mt-10 w-full">
+            <div class="bg-surface-container-lowest rounded-2xl shadow-sm p-4 border border-surface-container-high/60">
+              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 relative">
+                <div class="flex flex-col items-center text-center p-3 rounded-xl bg-surface-container-low transition-all hover:bg-surface-container">
+                  <div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-xs">
+                    <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                  </div>
+                  <span class="mt-2 font-label-mono text-[10px] text-on-surface-variant">01. INGEST</span>
+                  <span class="font-headline-sm text-xs leading-tight text-on-surface font-semibold">Newspaper PDF</span>
+                </div>
+                <div class="flex flex-col items-center text-center p-3 rounded-xl bg-surface-container-low transition-all hover:bg-surface-container">
+                  <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shadow-xs">
+                    <span class="material-symbols-outlined text-lg">document_scanner</span>
+                  </div>
+                  <span class="mt-2 font-label-mono text-[10px] text-primary font-semibold">02. RECOGNITION</span>
+                  <span class="font-headline-sm text-xs leading-tight text-on-surface font-semibold">Complete OCR</span>
+                </div>
+                <div class="flex flex-col items-center text-center p-3 rounded-xl bg-surface-container-low transition-all hover:bg-surface-container">
+                  <div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-xs">
+                    <span class="material-symbols-outlined text-lg">translate</span>
+                  </div>
+                  <span class="mt-2 font-label-mono text-[10px] text-on-surface-variant">03. CLASSIFIER</span>
+                  <span class="font-headline-sm text-xs leading-tight text-on-surface font-semibold">Language Detection</span>
+                </div>
+                <div class="flex flex-col items-center text-center p-3 rounded-xl bg-surface-container-low transition-all hover:bg-surface-container">
+                  <div class="w-8 h-8 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary shadow-xs">
+                    <span class="material-symbols-outlined text-lg">auto_awesome</span>
+                  </div>
+                  <span class="mt-2 font-label-mono text-[10px] text-secondary font-semibold">04. SYNTHESIS</span>
+                  <span class="font-headline-sm text-xs leading-tight text-on-surface font-semibold">English Translation</span>
+                </div>
+                <div class="flex flex-col items-center text-center p-3 rounded-xl bg-surface-container-low transition-all hover:bg-surface-container">
+                  <div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-xs">
+                    <span class="material-symbols-outlined text-lg">splitscreen</span>
+                  </div>
+                  <span class="mt-2 font-label-mono text-[10px] text-on-surface-variant">05. SEGMENT</span>
+                  <span class="font-headline-sm text-xs leading-tight text-on-surface font-semibold">AI Article Extraction</span>
+                </div>
+                <div class="flex flex-col items-center text-center p-3 rounded-xl bg-surface-container-low transition-all hover:bg-surface-container">
+                  <div class="w-8 h-8 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary shadow-xs">
+                    <span class="material-symbols-outlined text-lg">newspaper</span>
+                  </div>
+                  <span class="mt-2 font-label-mono text-[10px] text-tertiary font-semibold">06. DISCOVER</span>
+                  <span class="font-headline-sm text-xs leading-tight text-on-surface font-semibold">News Explorer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================================================================= -->
+          <!-- 4. HIGH-FIDELITY SPLIT RECONSTRUCTION SHOWCASE                    -->
+          <!-- ================================================================= -->
+          <div class="mt-8 w-full bg-surface-container-lowest rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl relative text-left border border-surface-container-high/60">
+            <!-- Process Strip Top -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-6 bg-surface-container-low/60 rounded-xl px-4 py-2.5 border border-surface-container-high/40">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-tertiary animate-pulse"></span>
+                <span class="font-label-mono text-xs uppercase text-on-surface font-semibold">LIVE RECONSTRUCTION STREAM: EDITION #TN-9824</span>
+              </div>
+              <div class="flex items-center gap-4 font-label-mono text-xs text-on-surface-variant">
+                <span>COLUMNS PARSED: <strong class="text-on-surface">6/6</strong></span>
+                <span>LATENCY: <strong class="text-on-surface">118ms</strong></span>
+                <span class="px-2 py-0.5 rounded bg-tertiary-container/10 text-tertiary font-semibold">CONFIDENCE 99.4%</span>
+              </div>
             </div>
 
-            <div class="nav-status-group">
-                <div class="live-pill" id="wsStatusIndicator">
-                    <span class="pulse-dot"></span>
-                    <span id="wsStatusText">Live Sync</span>
-                </div>
-                <div class="clock-display" id="istClockDisplay">00:00:00 IST</div>
-            </div>
-
-            <div style="display:flex;align-items:center;gap:0.4rem;">
-                <button class="btn btn-action-batch glow-button" id="btnBatchHarvest" title="Batch Harvest All Configured Papers">
-                    ⚡ Batch Harvest
-                </button>
-                <button class="btn btn-action-purge" id="btnPurgeExpired" title="Retention Purge Expired PDFs">
-                    🧹
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Container -->
-    <main class="app-layout">
-        <!-- Top Metric Highlights -->
-        <section class="metrics-grid" id="metricsSection">
-            <div class="metric-card">
-                <div class="metric-icon">🌐</div>
-                <div class="metric-info">
-                    <span class="metric-label">Configured Sources</span>
-                    <span class="metric-val" id="metricSourcesCount">57</span>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-icon">⏰</div>
-                <div class="metric-info">
-                    <span class="metric-label">Daily Schedules (IST)</span>
-                    <span class="metric-val" id="metricSchedulesCount">04:30 - 05:45 AM</span>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-icon">📚</div>
-                <div class="metric-info">
-                    <span class="metric-label">Harvested Editions</span>
-                    <span class="metric-val" id="metricArchivesCount">0</span>
-                </div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-icon">💾</div>
-                <div class="metric-info">
-                    <span class="metric-label">Storage Used / Free</span>
-                    <span class="metric-val" id="metricDiskUsage">0 MB / ...</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Digital Twin Breaking Alerts Strip -->
-        <section class="alerts-ticker-strip" id="alertsTickerSection" style="margin-bottom:1.5rem;display:none;">
-            <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:var(--radius-md);padding:0.85rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-                <div style="display:flex;align-items:center;gap:0.75rem;">
-                    <span class="live-pill" style="background:#ef4444;color:#fff;font-weight:700;font-size:0.75rem;">🚨 LIVE ALERT</span>
-                    <span id="alertsTickerText" style="font-size:0.88rem;color:var(--text-primary);font-weight:600;">Breaking story with 3-tier traceability...</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-                    <button class="btn btn-xs" id="btnSendActiveAlertWhatsApp" style="background:#25D366;border-color:#25D366;color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:4px;" onclick="sendLatestAlertToWhatsApp()">
-                        💬 Send to WhatsApp
-                    </button>
-                    <button class="btn btn-xs btn-primary" id="btnViewActiveAlert" style="background:#ef4444;border-color:#ef4444;">
-                        View Digital Twin Traceability ➔
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Navigation Tabs -->
-        <div class="tabs-nav" id="mainTabsNav">
-            <button class="tab-btn active" data-tab="catalog" id="tabCatalog">
-                🗞️ Newspapers Catalog (<span id="sourceFilterCount">57</span>)
-            </button>
-            <button class="tab-btn" data-tab="monitor" id="tabMonitor">
-                🚀 Active Harvests & Logs
-                <span class="tab-counter" id="activeJobsCounter" style="display:none;">0</span>
-            </button>
-            <button class="tab-btn" data-tab="archives" id="tabArchives">
-                📥 PDF Archives & Reader
-            </button>
-            <button class="tab-btn" data-tab="sessions" id="tabSessions">
-                🔑 Auth & Cookie Manager
-            </button>
-        </div>
-
-        <!-- ==================================================== -->
-        <!-- TAB 1: NEWSPAPER CATALOG -->
-        <!-- ==================================================== -->
-        <section class="tab-content active" id="viewCatalog">
-            <!-- Filter Bar -->
-            <div class="filter-toolbar">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="sourceSearchInput" placeholder="Search newspapers (e.g. TOI, Hindu, Bhaskar, Eenadu, Express)...">
-                </div>
-
-                <div class="filter-controls">
-                    <div class="pill-group" id="languageFilters">
-                        <button class="filter-pill active" data-lang="all">All</button>
-                        <button class="filter-pill" data-lang="English">English</button>
-                        <button class="filter-pill" data-lang="Hindi">Hindi</button>
-                        <button class="filter-pill" data-lang="Telugu">Telugu</button>
-                        <button class="filter-pill" data-lang="Tamil">Tamil</button>
-                        <button class="filter-pill" data-lang="Marathi">Marathi</button>
-                        <button class="filter-pill" data-lang="Bengali">Bengali</button>
-                        <button class="filter-pill" data-lang="Gujarati">Gujarati</button>
-                        <button class="filter-pill" data-lang="Kannada">Kannada</button>
-                        <button class="filter-pill" data-lang="Malayalam">Malayalam</button>
-                    </div>
-
-                    <div class="date-picker-wrap">
-                        <label for="globalHarvestDate">Harvest Date:</label>
-                        <input type="date" id="globalHarvestDate" class="input-date">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Global News Keyword Search Banner -->
-            <div class="keyword-search-banner" id="keywordSearchBanner">
-                <div class="keyword-search-header">
-                    <div class="keyword-search-title">
-                        <span class="pulse-dot"></span>
-                        <span>Topic & Incident Search Across Publications (Auto-Translated)</span>
-                    </div>
-                    <span class="keyword-badge">All 50+ Sources • Real-time English Translation</span>
-                </div>
-                <div class="keyword-search-row">
-                    <div class="keyword-input-wrapper">
-                        <select id="globalKeywordSourceSelect" class="keyword-source-select" title="Target search to a specific newspaper or search all">
-                            <option value="">🌐 All Newspapers (50+ Sources)</option>
-                        </select>
-                        <span class="keyword-input-icon">🔍</span>
-                        <input type="text" id="globalKeywordSearchInput" placeholder="Search news by keywords (e.g. Tata, Reliance, cricket, elections, budget)...">
-                        <button class="btn btn-primary" id="btnRunKeywordSearch">⚡ Search News</button>
-                    </div>
-                </div>
-                <div class="quick-keywords-strip">
-                    <span class="quick-label">Trending Topics:</span>
-                    <button class="keyword-chip" onclick="triggerKeywordSearch('Reliance Industries')">💼 Reliance</button>
-                    <button class="keyword-chip" onclick="triggerKeywordSearch('Tata Motors')">🚗 Tata Motors</button>
-                    <button class="keyword-chip" onclick="triggerKeywordSearch('Sensex Nifty Stock Market')">📈 Stock Market</button>
-                    <button class="keyword-chip" onclick="triggerKeywordSearch('Train accident')">🚨 Train Accident</button>
-                    <button class="keyword-chip" onclick="triggerKeywordSearch('Flood disaster rescue')">🌊 Flood Crisis</button>
-                    <button class="keyword-chip" onclick="triggerKeywordSearch('ISRO mission')">🚀 ISRO</button>
-                    <button class="keyword-chip" onclick="triggerKeywordSearch('RBI monetary policy')">🏦 RBI Policy</button>
-                </div>
-            </div>
-
-            <!-- Newspaper Sources Grid -->
-            <div class="sources-grid" id="sourcesGridContainer">
-                <!-- Dynamically populated by app.js -->
-            </div>
-        </section>
-
-        <!-- ==================================================== -->
-        <!-- TAB 2: ACTIVE MONITOR & LOGS -->
-        <!-- ==================================================== -->
-        <section class="tab-content" id="viewMonitor">
-            <div class="monitor-container">
-                <div class="active-jobs-panel">
-                    <div class="panel-header">
-                        <h3>Running Harvest Jobs</h3>
-                        <span class="badge" id="activeJobsBadge">0 Active</span>
-                    </div>
-                    <div class="jobs-list" id="activeJobsList">
-                        <div class="empty-state">No jobs currently executing. Trigger a harvest from the Catalog.</div>
-                    </div>
-                </div>
-
-                <div class="logs-panel">
-                    <div class="panel-header">
-                        <h3>Real-time Harvest Engine Stream</h3>
-                        <button class="btn btn-xs btn-outline" id="btnClearLogs">Clear Log</button>
-                    </div>
-                    <div class="terminal-view" id="liveTerminalLogs">
-                        <div class="log-entry system">[SYSTEM] Engine initialized. Scheduler running on Asia/Kolkata timezone.</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================================================== -->
-        <!-- TAB 3: ARCHIVES & READER -->
-        <!-- ==================================================== -->
-        <section class="tab-content" id="viewArchives">
-            <div class="archives-toolbar">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="archiveSearchInput" placeholder="Filter downloaded archives...">
-                </div>
-                <button class="btn btn-secondary" id="btnRefreshArchives">🔄 Refresh Archives</button>
-            </div>
-
-            <div class="archives-grid" id="archivesGridContainer">
-                <!-- Dynamically loaded -->
-            </div>
-        </section>
-
-        <!-- ==================================================== -->
-        <!-- TAB 4: SESSIONS & AUTH -->
-        <!-- ==================================================== -->
-        <section class="tab-content" id="viewSessions">
-            <div class="sessions-container">
-                <div class="sessions-header">
-                    <div>
-                        <h2>Subscription & Cookie Manager</h2>
-                        <p class="text-secondary">For paywalled newspapers (The Hindu, TOI+, etc.), import cookies from your active browser session.</p>
-                    </div>
-                    <button class="btn btn-primary" id="btnOpenCookieImportModal">➕ Import Cookies</button>
-                </div>
-
-                <div class="sessions-table-wrapper">
-                    <table class="data-table" id="sessionsTable">
-                        <thead>
-                            <tr>
-                                <th>Source</th>
-                                <th>Status</th>
-                                <th>Cookies Stored</th>
-                                <th>Valid Until</th>
-                                <th>Last Updated</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sessionsTableBody">
-                            <!-- Populated dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- PDF Reader Modal -->
-    <div class="modal-backdrop" id="pdfReaderModal">
-        <div class="modal-content modal-pdf">
-            <div class="modal-header">
-                <h3 id="pdfReaderTitle">ePaper Preview</h3>
-                <div class="modal-header-actions">
-                    <a id="pdfOpenTabBtn" class="btn btn-sm btn-secondary" target="_blank" title="Open full PDF in dedicated browser tab">🔗 Fullscreen Tab ↗</a>
-                    <a id="pdfDownloadBtn" class="btn btn-sm btn-primary" download target="_blank">⬇️ Download PDF</a>
-                    <button class="btn-close" id="btnClosePdfModal" title="Close Reader">✕</button>
-                </div>
-            </div>
-            <div class="modal-body modal-iframe-body">
-                <iframe id="pdfPreviewIframe" src="about:blank"></iframe>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cookie Import Modal -->
-    <div class="modal-backdrop" id="cookieImportModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Import Session Cookies</h3>
-                <button class="btn-close" id="btnCloseCookieModal">✕</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="cookieSourceSelect">Target Publication:</label>
-                    <select id="cookieSourceSelect" class="form-control"></select>
-                </div>
-                <div class="form-group">
-                    <label for="cookieRawInput">Paste Cookies (JSON or Netscape format):</label>
-                    <textarea id="cookieRawInput" rows="8" class="form-control text-mono" placeholder='[&#10;  {"name": "session_id", "value": "xyz...", "domain": ".thehindu.com"}&#10;]'></textarea>
-                    <small class="text-secondary">Tip: Export cookies using Chrome/Firefox extensions like "Cookie-Editor" or "EditThisCookie".</small>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="btnCancelCookie">Cancel</button>
-                <button class="btn btn-primary" id="btnSaveCookies">Save & Authenticate</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Newspaper Categorized News Modal -->
-    <div class="modal-backdrop" id="newspaperNewsModal">
-        <div class="modal-content modal-news">
-            <div class="modal-header">
-                <div class="news-modal-title-group">
-                    <div class="news-modal-source-icon">📰</div>
-                    <div>
-                        <h3 id="newsModalSourceName">Newspaper News</h3>
-                        <div class="news-modal-meta" id="newsModalSourceMeta">Loading...</div>
-                    </div>
-                </div>
-                <div class="modal-header-actions">
-                    <button id="newsModalEmailBtn" class="btn btn-sm btn-outline" style="border-color:rgba(16,185,129,0.5);color:#10b981;" title="Email this category digest">
-                        📧 Email Digest
-                    </button>
-                    <a id="newsModalLiveBtn" class="btn btn-sm btn-outline" target="_blank" rel="noopener noreferrer" title="Visit official online portal">
-                        🌐 Official ePaper ↗
-                    </a>
-                    <button id="newsModalPdfBtn" class="btn btn-sm btn-secondary" style="display:none;" title="Read downloaded PDF archive">
-                        👁️ Read PDF
-                    </button>
-                    <button id="newsModalHarvestBtn" class="btn btn-sm btn-primary" title="Trigger PDF harvest">
-                        ⚡ Harvest PDF
-                    </button>
-                    <button class="btn-close" id="btnCloseNewsModal">✕</button>
-                </div>
-            </div>
-
-            <!-- Dedicated Dual Channels: ePaper Digital News vs Online News -->
-            <!-- Dedicated Dual Channels: ePaper Digital News vs Online News -->
-            <div class="news-channel-switcher" id="newsChannelSwitcher" style="display:flex;gap:0.75rem;align-items:center;padding:0.75rem 1.25rem 0.25rem;background:rgba(10,13,20,0.6);border-bottom:1px solid rgba(255,255,255,0.06);">
-                <button class="channel-tab-pill" id="btnChannelEpaper" onclick="switchNewsChannel('epaper')" style="display:none;flex:1;padding:0.55rem 1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(30,41,59,0.5);color:#94a3b8;font-weight:700;font-size:0.85rem;cursor:pointer;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s;">
-                    <span>📰</span> ePaper Digital News <small style="opacity:0.85;font-size:0.72rem;font-weight:600;">(Active Cookie Broadsheet)</small>
-                </button>
-                <button class="channel-tab-pill active" id="btnChannelOnline" onclick="switchNewsChannel('online')" style="flex:1;padding:0.55rem 1rem;border-radius:10px;border:1px solid #c084fc;background:linear-gradient(135deg,rgba(168,85,247,0.25),rgba(129,140,248,0.35));color:#c084fc;font-weight:700;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;box-shadow:0 0 12px rgba(168,85,247,0.25);transition:all 0.2s;">
-                    <span>🌐</span> Online News <small style="opacity:0.85;font-size:0.72rem;font-weight:600;">(Google News Live Web)</small>
-                </button>
-                <div id="channelOnlineOnlyBadge" style="display:none;flex:1;align-items:center;justify-content:center;gap:0.5rem;padding:0.55rem 1rem;border-radius:10px;background:rgba(168,85,247,0.12);border:1px solid rgba(168,85,247,0.3);color:#c084fc;font-size:0.83rem;font-weight:700;">
-                    <span class="pulse-dot" style="background:#c084fc;box-shadow:0 0 8px #c084fc;"></span>
-                    <span id="channelOnlineOnlyText">🌐 Online News Live Stream</span>
-                    <span style="font-weight:400;color:#94a3b8;font-size:0.74rem;">(Active cookie not configured for this newspaper)</span>
-                </div>
-            </div>
-
-            <!-- Categories Navigation Bar -->
-            <div class="news-categories-bar" id="newsCategoriesBar">
-                <button class="news-cat-pill active" data-cat="all">
-                    <span class="cat-icon">📰</span> All Stories
-                </button>
-                <button class="news-cat-pill" data-cat="sports">
-                    <span class="cat-icon">🏆</span> Sports
-                </button>
-                <button class="news-cat-pill" data-cat="business">
-                    <span class="cat-icon">💼</span> Business
-                </button>
-                <button class="news-cat-pill" data-cat="economic">
-                    <span class="cat-icon">📈</span> Economic
-                </button>
-                <button class="news-cat-pill" data-cat="political">
-                    <span class="cat-icon">🏛️</span> Political
-                </button>
-                <button class="news-cat-pill" data-cat="crises_disasters">
-                    <span class="cat-icon">🚨</span> Crises & Disasters
-                </button>
-            </div>
-
-            <!-- Modal In-Paper Keyword Search Bar -->
-            <div class="modal-search-toolbar">
-                <div class="modal-search-input-wrap">
-                    <span class="modal-search-icon">🔍</span>
-                    <input type="text" id="modalKeywordSearchInput" placeholder="Search keywords within this newspaper (e.g. company name, incident, disaster)...">
-                    <button class="btn btn-sm btn-primary" id="btnModalKeywordSearch">Search</button>
-                    <button class="btn btn-sm btn-outline" id="btnModalResetSearch" style="display:none;">✕ Clear</button>
-                </div>
-            </div>
-
-            <!-- News Articles Container -->
-            <div class="modal-body modal-news-body" id="newsArticlesContainer">
-                <!-- Populated dynamically by app.js -->
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================================================== -->
-    <!-- MODAL: UPLOAD HARD COPY PDF & OCR NEWS READER -->
-    <!-- ==================================================== -->
-    <div class="modal-backdrop" id="newspaperUploadModal">
-        <div class="modal-dialog modal-dialog-lg modal-glass">
-            <div class="modal-header">
-                <div class="modal-title-group">
-                    <h3 class="modal-title" id="uploadModalTitle">📤 Upload Newspaper PDF (OCR & Categorization)</h3>
-                    <div class="modal-subtitle">Upload scanned hard copies or digital ePapers • Auto-categorized & translated to English</div>
-                </div>
-                <button class="btn-close" id="btnCloseUploadModal">✕</button>
-            </div>
-            
-            <!-- Upload Area / Dropzone -->
-            <div class="upload-dropzone-container" id="uploadDropzoneContainer">
-                <div class="upload-dropzone" id="uploadDropzone">
-                    <div class="upload-icon">📰</div>
-                    <h4 style="font-size:1.15rem;margin-bottom:0.4rem;">Drag & Drop Newspaper Documents or Clippings here</h4>
-                    <p class="text-secondary" style="margin-bottom:1rem;">Upload single or multiple documents (PDF, Word, Images, Text)</p>
-                    <input type="file" id="newspaperFileInput" accept=".pdf,.docx,.doc,.txt,.md,.csv,.png,.jpg,.jpeg,.webp,.tiff,.bmp" multiple style="display:none;">
-                    <div style="display:flex;justify-content:center;gap:0.75rem;flex-wrap:wrap;">
-                        <button class="btn btn-primary" id="btnBrowseFile">📁 Browse Documents</button>
-                        <a href="/upload" class="btn btn-outline" style="border-color:#38bdf8;color:#38bdf8;text-decoration:none;display:inline-flex;align-items:center;">🚀 Open Full-Page Suite (20x) →</a>
-                    </div>
-                    <div class="upload-hints">
-                        <span>✨ Supports PDF, Word (.docx), Scanned Images (JPG/PNG), and Text</span>
-                        <span>✨ Any Language Detected & Translated to English</span>
-                        <span>✨ Categorized into Sports, Business, Economic, Political, Crises</span>
-                    </div>
-                </div>
-
-                <!-- Live Processing Spinner & Progress -->
-                <div class="upload-processing-box" id="uploadProcessingBox" style="display:none;">
-                    <div class="spinner"></div>
-                    <h4 id="uploadProcessStepText" style="margin-top:1.25rem;font-size:1.1rem;">Recognizing text from newspaper PDF...</h4>
-                    <p class="text-secondary" id="uploadProcessSubText">Extracting text streams, running OCR, segmenting stories, and translating...</p>
-                    <div class="processing-progress-bar">
-                        <div class="progress-bar-inner" id="uploadProgressBarInner"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Parsed Results Container (Hidden initially) -->
-            <div class="upload-results-container" id="uploadResultsContainer" style="display:none;">
-                <div class="upload-summary-bar">
-                    <div class="upload-stats">
-                        <span class="badge" id="uploadStatPages">0 Pages</span>
-                        <span class="badge" id="uploadStatArticles">0 Stories Extracted</span>
-                        <span class="badge badge-cyan" id="uploadStatTranslated">0 Auto-Translated</span>
-                    </div>
-                    <button class="btn btn-xs btn-outline" id="btnUploadAnother">📤 Upload Another</button>
-                </div>
-
-                <!-- Parsed Categories Bar -->
-                <div class="news-categories-bar" id="uploadCategoriesBar">
-                    <button class="news-cat-pill active" data-upload-cat="all">
-                        <span class="cat-icon">📰</span> All Stories
-                    </button>
-                    <button class="news-cat-pill" data-upload-cat="sports">
-                        <span class="cat-icon">🏆</span> Sports
-                    </button>
-                    <button class="news-cat-pill" data-upload-cat="business">
-                        <span class="cat-icon">💼</span> Business
-                    </button>
-                    <button class="news-cat-pill" data-upload-cat="economic">
-                        <span class="cat-icon">📈</span> Economic
-                    </button>
-                    <button class="news-cat-pill" data-upload-cat="political">
-                        <span class="cat-icon">🏛️</span> Political
-                    </button>
-                    <button class="news-cat-pill" data-upload-cat="crises_disasters">
-                        <span class="cat-icon">🚨</span> Crises & Disasters
-                    </button>
-                </div>
-
-                <!-- Parsed Articles Grid -->
-                <div class="modal-body modal-news-body" id="uploadArticlesContainer">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================================================== -->
-    <!-- MODAL: EMAIL CATEGORIZED NEWS DIGEST -->
-    <!-- ==================================================== -->
-    <div class="modal-backdrop" id="emailDigestModal">
-        <div class="modal-dialog modal-glass" style="max-width:680px;max-height:92vh;display:flex;flex-direction:column;">
-            <div class="modal-header">
-                <div class="modal-title-group">
-                    <h3 class="modal-title" id="emailModalHeading">📧 Send News Email Digest</h3>
-                    <div class="modal-subtitle">Aggregated national & regional headlines • Auto-translated to English via Gmail SSL SMTP</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.75rem;">
-                    <span id="smtpConnectionBadge" class="live-pill" style="background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.4);color:#10b981;font-size:0.74rem;">
-                        <span class="pulse-dot" style="background:#10b981;"></span> SMTP: Ready (Port 465)
-                    </span>
-                    <button class="btn-close" id="btnCloseEmailModal">✕</button>
-                </div>
-            </div>
-            
-            <div class="modal-body" style="padding:1.5rem;overflow-y:auto;flex:1;">
-                <div class="form-group" style="margin-bottom:1.25rem;">
-                    <label class="form-label" style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.5rem;">
-                        Select News Category:
-                    </label>
-                    <div class="news-categories-bar" id="emailCategorySelector" style="padding:0;background:transparent;border:none;flex-wrap:wrap;gap:0.4rem;">
-                        <button class="news-cat-pill active" data-email-cat="all">📰 All Stories</button>
-                        <button class="news-cat-pill" data-email-cat="sports">🏆 Sports</button>
-                        <button class="news-cat-pill" data-email-cat="business">💼 Business</button>
-                        <button class="news-cat-pill" data-email-cat="economic">📈 Economic</button>
-                        <button class="news-cat-pill" data-email-cat="political">🏛️ Political</button>
-                        <button class="news-cat-pill" data-email-cat="crises_disasters">🚨 Crises & Disasters</button>
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-bottom:1.25rem;">
-                    <label for="emailCustomKeywords" class="form-label" style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.4rem;">
-                        Optional Topic / Company / Incident Filter:
-                    </label>
-                    <input type="text" id="emailCustomKeywords" placeholder="e.g. Tata Motors, Reliance, Train accident, Flood rescue (optional)" style="width:100%;padding:0.6rem 0.85rem;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);font-size:0.85rem;outline:none;font-family:var(--font-main);">
-                </div>
-
-                <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:1.25rem;">
-                    <div class="form-group">
-                        <label for="emailSenderAddress" class="form-label" style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.4rem;">
-                            Sender (Gmail SSL):
-                        </label>
-                        <input type="email" id="emailSenderAddress" value="cuttygreenscreen@gmail.com" readonly style="width:100%;padding:0.6rem 0.85rem;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-muted);font-size:0.82rem;outline:none;font-family:var(--font-main);">
-                    </div>
-                    <div class="form-group">
-                        <label for="emailRecipientAddress" class="form-label" style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:0.4rem;">
-                            Recipient Email (comma-separated for multiple):
-                        </label>
-                        <input type="text" id="emailRecipientAddress" value="cuttyknowledge2006@gmail.com" placeholder="Recipient email address" style="width:100%;padding:0.6rem 0.85rem;background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);font-size:0.85rem;outline:none;font-family:var(--font-main);">
-                    </div>
-                </div>
-
-                <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:var(--radius-md);padding:0.85rem 1rem;margin-bottom:1.25rem;">
-                    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:#10b981;font-weight:600;margin-bottom:0.25rem;">
-                        <span>✨ Multi-Language Translation Guaranteed</span>
-                    </div>
-                    <p style="font-size:0.75rem;color:var(--text-secondary);margin:0;line-height:1.4;">
-                        Aggregates coverage across Hindi, Telugu, Tamil, Marathi, Bengali, and English publications. All regional language headlines and summaries are auto-translated to fluent English with named entities preserved.
-                    </p>
-                </div>
-
-                <!-- Live Digest Preview Box -->
-                <div id="emailDigestPreviewBox" style="display:none;margin-bottom:1.25rem;background:rgba(0,0,0,0.3);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
-                        <h4 style="margin:0;font-size:0.85rem;color:#38bdf8;">👁️ Live Digest Preview (<span id="emailPreviewArticleCount">0</span> Stories)</h4>
-                        <button class="btn btn-xs btn-outline" id="btnClosePreviewBox">Hide Preview</button>
-                    </div>
-                    <div id="emailPreviewContentContainer" style="max-height:220px;overflow-y:auto;font-size:0.8rem;color:var(--text-secondary);padding-right:0.5rem;">
-                        <!-- Preview articles inserted here -->
-                    </div>
-                </div>
-
-                <div id="emailSendingStatus" style="display:none;margin-bottom:1.25rem;text-align:center;">
-                    <div class="spinner" style="margin:0 auto 0.5rem auto;"></div>
-                    <span id="emailSendingStatusText" style="font-size:0.85rem;color:var(--text-secondary);">Compiling stories and dispatching email via Gmail...</span>
-                </div>
-
-                <div style="display:flex;justify-content:space-between;align-items:center;gap:0.75rem;flex-wrap:wrap;">
-                    <div style="display:flex;gap:0.5rem;">
-                        <button class="btn btn-outline" id="btnPreviewEmailDigest" style="border-color:rgba(56,189,248,0.5);color:#38bdf8;">
-                            👁️ Preview Digest
-                        </button>
-                        <button class="btn btn-outline" id="btnTestSmtpConnection" style="border-color:rgba(16,185,129,0.5);color:#10b981;">
-                            🩺 Test SMTP
-                        </button>
-                    </div>
-                    <div style="display:flex;gap:0.75rem;">
-                        <button class="btn btn-secondary" id="btnCancelEmailModal">Cancel</button>
-                        <button class="btn btn-primary glow-button" id="btnSendEmailDigestAction" style="background:#10b981;border-color:#10b981;">
-                            🚀 Send Email Digest
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================================================== -->
-    <!-- MODAL: EMAIL WORKFLOW AUTOMATION & INBOX MONITOR -->
-    <!-- ==================================================== -->
-    <div class="modal-backdrop" id="inboxMonitorModal">
-        <div class="modal-dialog modal-glass" style="max-width:900px;max-height:92vh;display:flex;flex-direction:column;">
-            <div class="modal-header">
-                <div class="modal-title-group">
-                    <h3 class="modal-title">📬 Email Workflow Automation & Clipping Ingestion</h3>
-                    <div class="modal-subtitle">Autonomous IMAP Inbox Monitor • Rule-Based Extraction • OCR & English Translation</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.75rem;">
-                    <span id="imapConnectionBadge" class="live-pill" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.4);color:#a855f7;font-size:0.74rem;">
-                        <span class="pulse-dot" style="background:#a855f7;"></span> IMAP: Connected (Port 993)
-                    </span>
-                    <button class="btn-close" id="btnCloseInboxModal">✕</button>
-                </div>
-            </div>
-            
-            <div class="modal-body" style="padding:1.5rem;overflow-y:auto;flex:1;">
-                <!-- Active Rules Card -->
-                <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.25rem;margin-bottom:1.5rem;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
-                        <h4 style="margin:0;font-size:0.95rem;color:var(--text-primary);display:flex;align-items:center;gap:0.5rem;">
-                            ⚙️ Monitored Ingestion Rules
-                        </h4>
-                        <span class="live-pill" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.4);color:#a855f7;">
-                            <span class="pulse-dot" style="background:#a855f7;"></span> Auto-Scan Every 15m
-                        </span>
-                    </div>
-
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:0.75rem;margin-bottom:0.85rem;">
-                        <div style="background:rgba(0,0,0,0.2);padding:0.75rem;border-radius:var(--radius-sm);border-left:3px solid #a855f7;">
-                            <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">RULE 1: SENDER MATCH</div>
-                            <code style="color:#a855f7;font-weight:600;font-size:0.82rem;">cuttyknowledge2006@gmail.com, bureau@chennai.com</code>
-                        </div>
-                        <div style="background:rgba(0,0,0,0.2);padding:0.75rem;border-radius:var(--radius-sm);border-left:3px solid #38bdf8;">
-                            <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.25rem;">RULE 2: SUBJECT KEYWORD</div>
-                            <code style="color:#38bdf8;font-weight:600;font-size:0.85rem;">clipping</code>
-                        </div>
-                    </div>
-
-                    <div style="font-size:0.78rem;color:var(--text-secondary);display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-                        <span>📥 <strong>Pipeline Flow:</strong> Attachment (.pdf/.png/.jpg)</span>
-                        <span>➔</span>
-                        <span>🔍 <strong>RapidOCR / Tesseract OCR</strong></span>
-                        <span>➔</span>
-                        <span>🌐 <strong>Indic Translation to English</strong></span>
-                        <span>➔</span>
-                        <span>📰 <strong>3-Tier Digital Twin Traceability & Main News Pipeline</strong></span>
-                    </div>
-                </div>
-
-                <!-- Monitor Controls & Stats -->
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem;">
-                    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
-                        <button class="btn btn-primary glow-button" id="btnCheckInboxNow" style="background:#a855f7;border-color:#a855f7;">
-                            ⚡ Check Inbox Now
-                        </button>
-                        <button class="btn btn-outline" id="btnSimulateClipping" style="border-color:rgba(56,189,248,0.5);color:#38bdf8;">
-                            🧪 Test Simulation
-                        </button>
-                        <button class="btn btn-outline" id="btnDirectUploadClipping" style="border-color:rgba(16,185,129,0.5);color:#10b981;">
-                            📤 Ingest Local Clipping
-                        </button>
-                        <input type="file" id="directClippingFileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" style="display:none;">
-                        <button class="btn btn-outline" id="btnRunEmailDiagnostics" style="border-color:rgba(245,158,11,0.5);color:#f59e0b;">
-                            🩺 Diagnostics
-                        </button>
-                    </div>
-
-                    <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text-muted);">
-                        <span id="inboxAccountBadge">📧 cuttygreenscreen@gmail.com</span>
-                        <span>•</span>
-                        <span id="inboxClippingsCountBadge">0 Clippings Ingested</span>
-                    </div>
-                </div>
-
-                <!-- Diagnostics Box -->
-                <div id="emailDiagnosticsBox" style="display:none;margin-bottom:1.25rem;background:rgba(0,0,0,0.3);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1rem;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
-                        <h4 style="margin:0;font-size:0.85rem;color:#f59e0b;">🩺 Email Infrastructure Diagnostics Report</h4>
-                        <button class="btn btn-xs btn-outline" id="btnCloseDiagnosticsBox">Close</button>
-                    </div>
-                    <div id="emailDiagnosticsContent" style="font-size:0.8rem;color:var(--text-secondary);">
-                        <!-- Diagnostics info inserted here -->
-                    </div>
-                </div>
-
-                <!-- Live Status Spinner / Message -->
-                <div id="inboxProcessingStatus" style="display:none;margin-bottom:1.25rem;padding:0.85rem;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.3);border-radius:var(--radius-md);text-align:center;">
-                    <div class="spinner" style="margin:0 auto 0.5rem auto;border-top-color:#a855f7;"></div>
-                    <span id="inboxProcessingStatusText" style="font-size:0.85rem;color:#e2e8f0;">Connecting to IMAP and checking messages...</span>
-                </div>
-
-                <!-- Inbox View Tabs -->
-                <div class="news-categories-bar" style="margin-bottom:1.25rem;">
-                    <button class="news-cat-pill active" id="tabRealInboxBtn">
-                        <span class="cat-icon">📬</span> Live Real Inbox (<span id="inboxLiveTotalBadge">0</span>)
-                    </button>
-                    <button class="news-cat-pill" id="tabIngestedClippingsBtn">
-                        <span class="cat-icon">🗞️</span> Ingested Clippings (<span id="inboxIngestedTotalBadge">0</span>)
-                    </button>
-                </div>
-
-                <!-- VIEW 1: Live Real Inbox Messages Feed -->
-                <div id="realInboxView">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;flex-wrap:wrap;gap:0.5rem;">
-                        <h4 style="margin:0;font-size:0.9rem;color:var(--text-secondary);display:flex;align-items:center;gap:0.4rem;">
-                            Live IMAP Messages Feed • <span id="inboxAccountSubBadge" style="color:#38bdf8;">cuttygreenscreen@gmail.com</span>
-                        </h4>
-                        <div style="display:flex;align-items:center;gap:0.5rem;">
-                            <input type="text" id="inboxSearchInput" placeholder="🔍 Search sender, subject..." class="search-control" style="font-size:0.8rem;padding:0.35rem 0.65rem;width:200px;">
-                            <button class="btn btn-xs btn-outline" id="btnRefreshRealInbox" title="Refresh Live Mailbox">🔄 Refresh</button>
-                        </div>
-                    </div>
-                    <div id="realInboxMessagesList" style="display:flex;flex-direction:column;gap:0.75rem;">
-                        <!-- Real emails populated via JS -->
-                    </div>
-                </div>
-
-                <!-- VIEW 2: Ingested Newspaper Clippings & OCR News Feed -->
-                <div id="ingestedClippingsView" style="display:none;">
-                    <h4 style="margin:0 0 0.85rem 0;font-size:0.9rem;color:var(--text-secondary);">
-                        Ingested Newspaper Clippings & Translated Stories
-                    </h4>
-                    <div id="inboxClippingsContainer" style="display:flex;flex-direction:column;gap:1rem;">
-                        <!-- Clippings populated via JS -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================================================== -->
-    <!-- MODAL: DIGITAL TWIN TRACEABILITY & AUDIT DISPUTE -->
-    <!-- ==================================================== -->
-    <div class="modal-backdrop" id="auditTraceabilityModal">
-        <div class="modal-dialog modal-glass" style="max-width:1150px;max-height:92vh;display:flex;flex-direction:column;">
-            <div class="modal-header">
-                <div class="modal-title-group">
-                    <h3 class="modal-title" style="display:flex;align-items:center;gap:0.5rem;">
-                        🔍 Digital Twin Traceability & Audit Console
-                    </h3>
-                    <div class="modal-subtitle">
-                        Full 3-Tier Traceability: Translated Text ➔ OCR Ground Truth ➔ Original PDF Page Snapshot
-                    </div>
-                </div>
-                <button class="btn-close" id="btnCloseAuditModal">✕</button>
-            </div>
-            
-            <div class="modal-body" style="padding:1.25rem;overflow-y:auto;flex:1;">
-                <!-- Header Meta Bar -->
-                <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:0.85rem 1.25rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;">
-                    <div style="display:flex;align-items:center;gap:0.75rem;">
-                        <span class="live-pill" id="auditSeverityBadge" style="background:#ef4444;color:#fff;font-weight:700;">🚨 HIGH PRIORITY</span>
-                        <span id="auditSourceBadge" style="font-weight:700;color:var(--text-primary);">The Times of India</span>
-                        <span>•</span>
-                        <span id="auditDateBadge" style="color:var(--text-secondary);font-size:0.82rem;">Page 1</span>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:0.5rem;" id="auditEntitiesContainer">
-                        <!-- Preserved entities pills -->
-                    </div>
-                </div>
-
-                <!-- 3-Tier Side-by-Side Grid -->
-                <div style="display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:1rem;margin-bottom:1.5rem;">
-                    <!-- Tier 1: Translated Text -->
-                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(56,189,248,0.3);border-radius:var(--radius-md);padding:1rem;display:flex;flex-direction:column;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:0.5rem;">
-                            <span style="font-size:0.82rem;font-weight:700;color:#38bdf8;text-transform:uppercase;">
-                                🌐 Tier 1: English Translation
-                            </span>
-                            <span class="badge badge-cyan" id="auditTransConfidence">98% Conf</span>
-                        </div>
-                        <div style="flex:1;">
-                            <h4 id="auditTranslatedTitle" style="font-size:1.05rem;color:var(--text-primary);margin:0 0 0.5rem 0;line-height:1.4;"></h4>
-                            <p id="auditTranslatedSnippet" style="font-size:0.84rem;color:var(--text-secondary);line-height:1.5;margin:0;"></p>
-                        </div>
-                        <div id="auditNeedsReviewBanner" style="display:none;margin-top:0.75rem;padding:0.5rem;background:rgba(245,158,11,0.15);border:1px solid #f59e0b;border-radius:var(--radius-sm);font-size:0.75rem;color:#f59e0b;">
-                            ⚠️ Flagged for editorial review (Confidence &lt; 85%)
-                        </div>
-                    </div>
-
-                    <!-- Tier 2: OCR Ground Truth -->
-                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(168,85,247,0.3);border-radius:var(--radius-md);padding:1rem;display:flex;flex-direction:column;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:0.5rem;">
-                            <span style="font-size:0.82rem;font-weight:700;color:#a855f7;text-transform:uppercase;">
-                                📜 Tier 2: Raw OCR Ground Truth
-                            </span>
-                            <span class="badge" style="background:rgba(168,85,247,0.2);color:#a855f7;" id="auditOCRConfidence">99% Conf</span>
-                        </div>
-                        <div style="flex:1;overflow-y:auto;max-height:260px;background:rgba(0,0,0,0.3);padding:0.75rem;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:0.78rem;color:#cbd5e1;white-space:pre-wrap;line-height:1.4;" id="auditOCRRawText">
-                        </div>
-                        <div style="margin-top:0.5rem;font-size:0.72rem;color:var(--text-muted);">
-                            Engine: <strong>RapidOCR (PP-OCRv6)</strong> • Print Font Fidelity &gt;95%
-                        </div>
-                    </div>
-
-                    <!-- Tier 3: Original Page Snapshot -->
-                    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(16,185,129,0.3);border-radius:var(--radius-md);padding:1rem;display:flex;flex-direction:column;">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:0.4rem;">
-                            <span style="font-size:0.82rem;font-weight:700;color:#10b981;text-transform:uppercase;">
-                                📷 Tier 3: Original Newspaper Print
-                            </span>
-                            <a href="#" target="_blank" id="auditSnapshotLink" class="badge" style="background:rgba(16,185,129,0.2);color:#10b981;text-decoration:none;">Open High-Res ↗</a>
-                        </div>
-                        <!-- Original Newspaper Publication Switcher -->
-                        <div style="display:flex;gap:0.35rem;margin-bottom:0.5rem;flex-wrap:wrap;">
-                            <button class="btn btn-xs btn-outline active" id="btnSnapHindu" style="font-size:0.7rem;padding:0.2rem 0.5rem;" onclick="switchOriginalNewspaper('the_hindu', 1)">
-                                📰 The Hindu
-                            </button>
-                            <button class="btn btn-xs btn-outline" id="btnSnapTOI" style="font-size:0.7rem;padding:0.2rem 0.5rem;" onclick="switchOriginalNewspaper('toi', 1)">
-                                📰 Times of India
-                            </button>
-                            <button class="btn btn-xs btn-outline" id="btnSnapRegional" style="font-size:0.7rem;padding:0.2rem 0.5rem;" onclick="switchOriginalNewspaper('sample_doc', 1)">
-                                📰 Dainik Bhaskar / Regional
-                            </button>
-                        </div>
-                        <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#090d16;border-radius:var(--radius-sm);overflow:hidden;min-height:260px;position:relative;border:1px solid rgba(255,255,255,0.06);cursor:zoom-in;" onclick="window.open(document.getElementById('auditSnapshotImage').src, '_blank')" title="Click to open full high-resolution newspaper scan">
-                            <img id="auditSnapshotImage" src="/api/snapshots/sample/1" alt="Original Newspaper Page" style="max-width:100%;max-height:280px;object-fit:contain;border-radius:var(--radius-sm);">
-                        </div>
-                        <div style="margin-top:0.5rem;font-size:0.72rem;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center;">
-                            <div style="display:flex;gap:0.3rem;align-items:center;">
-                                <span>Page:</span>
-                                <button class="btn btn-xs btn-outline" style="padding:0.1rem 0.45rem;font-size:0.68rem;" onclick="changeSnapshotPage(1)">1</button>
-                                <button class="btn btn-xs btn-outline" style="padding:0.1rem 0.45rem;font-size:0.68rem;" onclick="changeSnapshotPage(2)">2</button>
-                                <button class="btn btn-xs btn-outline" style="padding:0.1rem 0.45rem;font-size:0.68rem;" onclick="changeSnapshotPage(3)">3</button>
-                            </div>
-                            <span id="auditPageIndicator" style="color:#10b981;font-weight:600;">The Hindu (Page 1)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dispute Resolution & Editorial Controls -->
-                <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:1.25rem;">
-                    <h4 style="margin:0 0 0.75rem 0;font-size:0.9rem;color:var(--text-primary);">
-                        ⚖️ Editorial Audit & Dispute Resolution
-                    </h4>
-                    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;">
-                        <input type="text" id="auditEditTranslationInput" placeholder="Adjust translated headline if needed..." style="flex:1;min-width:300px;padding:0.6rem 0.85rem;background:rgba(0,0,0,0.3);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);font-size:0.85rem;outline:none;">
-                        <button class="btn btn-primary" id="btnApproveTranslation" style="background:#10b981;border-color:#10b981;">
-                            ✅ Verify & Approve
-                        </button>
-                        <button class="btn btn-secondary" id="btnUpdateTranslation">
-                            ✏️ Update Translation
-                        </button>
-                        <button class="btn btn-outline" id="btnFlagDispute" style="border-color:#ef4444;color:#ef4444;">
-                            ⚠️ Mark Disputed
-                        </button>
-                        <button class="btn" id="btnShareModalWhatsApp" style="background:#25D366;border-color:#25D366;color:#ffffff;font-weight:600;display:inline-flex;align-items:center;gap:5px;" onclick="sendCurrentAuditAlertToWhatsApp()">
-                            💬 Send to WhatsApp
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Live Alerts Feed Table -->
-                <h4 style="margin:1.5rem 0 0.75rem 0;font-size:0.9rem;color:var(--text-secondary);">
-                    Recent Breaking News Alerts with Full Traceability
-                </h4>
-                <div id="auditAlertsListContainer" style="display:flex;flex-direction:column;gap:0.75rem;">
-                    <!-- Populated dynamically -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="/static/js/app.js?v=20260920_v4"></script>
-
-    <!-- =====================================================================
-         PDF NEWSPAPER SEARCH SECTION
-         ===================================================================== -->
-    <section id="pdf-search-section" style="
-        margin: 2rem 1.5rem;
-        background: linear-gradient(145deg, rgba(15,23,42,0.97) 0%, rgba(15,30,60,0.97) 100%);
-        border: 1px solid rgba(56,189,248,0.25);
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 0 60px rgba(56,189,248,0.08), 0 24px 60px rgba(0,0,0,0.5);
-    ">
-        <!-- Section Header -->
-        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.75rem;">
-            <div style="width:52px;height:52px;background:linear-gradient(135deg,#38bdf8,#818cf8);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;">🔍</div>
-            <div>
-                <h2 style="margin:0;font-size:1.45rem;font-weight:700;color:#f1f5f9;letter-spacing:-0.01em;">PDF Newspaper Search</h2>
-                <p style="margin:0;font-size:0.85rem;color:#64748b;">Search OCR-indexed harvested newspapers — results show page number, image &amp; English translation</p>
-            </div>
-            <div style="margin-left:auto;display:flex;align-items:center;gap:0.6rem;">
-                <a href="/search" style="text-decoration:none;padding:0.45rem 1.1rem;background:linear-gradient(135deg,#38bdf8,#818cf8);color:#0f172a;font-weight:700;border-radius:20px;font-size:0.8rem;box-shadow:0 4px 12px rgba(56,189,248,0.35);">
-                    🚀 Open Dedicated Search Page ↗
-                </a>
-                <div id="pdfIndexStatusBadge" style="padding:0.4rem 1rem;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);border-radius:20px;font-size:0.78rem;color:#38bdf8;cursor:pointer;" onclick="loadPdfIndexStatus()">
-                    📊 Index Status
-                </div>
-            </div>
-        </div>
-
-        <!-- Search Bar -->
-        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.25rem;align-items:flex-end;">
-            <!-- Keyword Input -->
-            <div style="flex:1;min-width:260px;">
-                <label style="display:block;font-size:0.8rem;font-weight:600;color:#94a3b8;margin-bottom:0.4rem;">🔤 Keywords</label>
-                <input
-                    id="pdfSearchInput"
-                    type="text"
-                    placeholder="e.g. RBI interest rate, budget, election..."
-                    style="width:100%;padding:0.75rem 1rem;background:rgba(30,41,59,0.9);border:1px solid rgba(56,189,248,0.35);border-radius:10px;color:#f1f5f9;font-size:0.95rem;font-family:inherit;outline:none;box-sizing:border-box;"
-                    onkeydown="if(event.key==='Enter')runPdfSearch()"
-                />
-            </div>
-
-            <!-- Date Picker with Any Date quick toggle -->
-            <div style="min-width:180px;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
-                    <label style="font-size:0.8rem;font-weight:600;color:#94a3b8;">📅 Date</label>
-                    <button type="button" onclick="document.getElementById('pdfSearchDate').value='';this.style.color='#38bdf8';" style="background:none;border:none;color:#64748b;font-size:0.75rem;cursor:pointer;padding:0;" title="Search all harvested dates">Any Date</button>
-                </div>
-                <input
-                    id="pdfSearchDate"
-                    type="date"
-                    style="width:100%;padding:0.72rem 0.9rem;background:rgba(30,41,59,0.9);border:1px solid rgba(56,189,248,0.3);border-radius:10px;color:#f1f5f9;font-size:0.9rem;font-family:inherit;outline:none;box-sizing:border-box;"
-                />
-            </div>
-
-            <!-- Search Button -->
-            <button
-                id="btnRunPdfSearch"
-                onclick="runPdfSearch()"
-                style="padding:0.75rem 2rem;background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;border-radius:10px;color:#0f172a;font-weight:700;font-size:0.95rem;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:inherit;"
-                onmouseover="this.style.transform='translateY(-2px)'"
-                onmouseout="this.style.transform='translateY(0)'"
-            >
-                🔍 Search
-            </button>
-        </div>
-
-        <!-- Source Checkboxes -->
-        <div style="display:flex;flex-wrap:wrap;gap:0.65rem;margin-bottom:1.5rem;">
-            <span style="font-size:0.8rem;color:#64748b;align-self:center;font-weight:600;">Sources:</span>
-            <label id="chk-the_hindu" class="pdf-src-chip selected" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:20px;border:1px solid #38bdf8;background:rgba(56,189,248,0.2);color:#38bdf8;font-size:0.82rem;transition:all 0.2s;">
-                <input type="checkbox" value="the_hindu" checked style="accent-color:#38bdf8;" onchange="updatePdfChip(this)"> The Hindu
-            </label>
-            <label id="chk-dt_next" class="pdf-src-chip selected" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:20px;border:1px solid #38bdf8;background:rgba(56,189,248,0.2);color:#38bdf8;font-size:0.82rem;transition:all 0.2s;">
-                <input type="checkbox" value="dt_next" checked style="accent-color:#38bdf8;" onchange="updatePdfChip(this)"> DT Next
-            </label>
-            <label id="chk-lokmat" class="pdf-src-chip selected" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:20px;border:1px solid #38bdf8;background:rgba(56,189,248,0.2);color:#38bdf8;font-size:0.82rem;transition:all 0.2s;">
-                <input type="checkbox" value="lokmat" checked style="accent-color:#38bdf8;" onchange="updatePdfChip(this)"> Lokmat
-            </label>
-            <label id="chk-loksatta" class="pdf-src-chip selected" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:20px;border:1px solid #38bdf8;background:rgba(56,189,248,0.2);color:#38bdf8;font-size:0.82rem;transition:all 0.2s;">
-                <input type="checkbox" value="loksatta" checked style="accent-color:#38bdf8;" onchange="updatePdfChip(this)"> Loksatta
-            </label>
-            <label id="chk-financial_express" class="pdf-src-chip selected" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:20px;border:1px solid #38bdf8;background:rgba(56,189,248,0.2);color:#38bdf8;font-size:0.82rem;transition:all 0.2s;">
-                <input type="checkbox" value="financial_express" checked style="accent-color:#38bdf8;" onchange="updatePdfChip(this)"> Financial Express
-            </label>
-        </div>
-
-        <!-- Automated Broadsheet Harvest Control Banner -->
-        <div style="margin-bottom:1.5rem;padding:0.85rem 1.25rem;background:linear-gradient(135deg,rgba(56,189,248,0.1),rgba(99,102,241,0.1));border:1px solid rgba(56,189,248,0.25);border-radius:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
-            <div style="display:flex;align-items:center;gap:0.75rem;">
-                <span style="font-size:1.4rem;">⚡</span>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              <!-- LEFT PANE: Scanned Newspaper Canvas with Bounding Box Reticles -->
+              <div class="lg:col-span-6 bg-surface-container-low rounded-2xl p-4 sm:p-5 flex flex-col justify-between relative overflow-hidden border border-surface-container-high/60">
                 <div>
-                    <div style="font-size:0.88rem;font-weight:700;color:#f1f5f9;display:flex;align-items:center;gap:0.5rem;">
-                        Automated Broadsheet Harvesting
-                        <span style="padding:0.15rem 0.5rem;border-radius:12px;background:rgba(16,185,129,0.2);color:#10b981;font-size:0.72rem;font-weight:700;">● Active (05:15 - 05:30 AM IST)</span>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded bg-surface-container-highest font-label-mono text-[10px] text-on-surface-variant font-semibold">ORIGINAL SCAN</span>
+                      <span class="font-headline-sm text-base text-on-surface font-bold">Dina Thanthi (தினத்தந்தி)</span>
                     </div>
-                    <div style="font-size:0.78rem;color:#94a3b8;">Harvests & OCR-indexes The Hindu, Lokmat, Loksatta, DT Next, and Financial Express automatically.</div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-surface-container-lowest font-label-mono text-xs text-secondary font-bold shadow-xs">PAGE 07 // CHENNAI</span>
+                  </div>
+
+                  <!-- Newspaper Mockup Canvas -->
+                  <div class="relative bg-surface-container-lowest rounded-xl p-4 shadow-sm overflow-hidden border border-surface-container-high/40">
+                    <div class="border-b border-surface-variant pb-2 mb-3 flex items-center justify-between text-on-surface-variant">
+                      <span class="font-headline-lg text-lg tracking-widest uppercase font-black text-on-surface">தினத்தந்தி</span>
+                      <span class="font-label-mono text-[10px]">வெள்ளிக்கிழமை, 20 செப்டம்பர் 2026</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3">
+                      <div class="col-span-2 relative p-2.5 rounded-lg bg-secondary-fixed/25 border border-secondary-container/60 shadow-xs">
+                        <div class="absolute -top-2.5 -right-2 px-2 py-0.5 rounded-md bg-secondary text-on-secondary font-label-mono text-[9px] font-bold shadow-sm">
+                          DETECTED ARTICLE #01
+                        </div>
+                        <div class="w-full text-xs font-headline-sm font-bold text-on-surface mb-1">
+                          புதிய கல்வி கொள்கை திட்ட விரிவாக்கம்
+                        </div>
+                        <p class="font-body-sm text-[10px] leading-relaxed text-on-surface-variant">
+                          தமிழகம் முழுவதும் அரசு பள்ளி மாணவர்களின் திறன் மேம்பாட்டுக்காக ரூ.2,400 கோடி மதிப்பில் புதிய தொழில்நுட்ப மையங்கள் அமைக்கப்பட உள்ளன. இதன் மூலம் கிராமப்புற மாணவர்கள் கணிப்பொறி கல்வியை எளிதாக பெற முடியும் என முதலமைச்சர் அறிவித்தார்.
+                        </p>
+                        <div class="mt-2 pt-2 border-t border-secondary-container/20 flex items-center justify-between font-label-mono text-[9px] text-secondary">
+                          <span>BOUNDING BOX: [x:42, y:120, w:312, h:145]</span>
+                          <span class="font-bold">TAMIL // SCRIPT_99%</span>
+                        </div>
+                      </div>
+
+                      <div class="col-span-1 flex flex-col gap-2">
+                        <div class="w-full h-24 rounded-lg overflow-hidden relative shadow-xs bg-surface-container">
+                          <img class="w-full h-full object-cover grayscale opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGxhL1UUH_LXQEUiV7QCkb3PdOywGuTyShvoB0gnNfprMtDxEBvxMJvbg2wIVRxtZ_BfhD1g64X7fa8fPo7lA4_Dq8o2SJwlcve1zmVbgOQ6oiWEDHeIyuzp2WLQi253PCd6ZhKcr6fHbIRGENmUn4a8Pn7cRXmPeqfxylqbrIV9Q05ALCGAb-Yh8OYMWPhcS6eEj8cbPlmQidmRWpDlMq-Ro3emXLASJXge70aaRCFgiPQT2n41SV" alt="Press Conference Photo"/>
+                          <span class="absolute bottom-1 right-1 bg-on-surface/80 text-white font-label-mono text-[8px] px-1 rounded">FIG 7.1</span>
+                        </div>
+                        <div class="p-1.5 rounded bg-surface-container text-on-surface-variant font-label-mono text-[9px] leading-tight">
+                          சென்னை தலைமை செயலகம் அறிவிப்பு அறிக்கை
+                        </div>
+                      </div>
+
+                      <div class="col-span-1 p-2 rounded bg-surface-container-low text-on-surface-variant">
+                        <span class="font-headline-sm text-[10px] block font-semibold text-on-surface mb-1">வணிக வர்த்தகம்</span>
+                        <p class="text-[9px] leading-tight line-clamp-3">சென்னையில் தங்கம் விலை சவரனுக்கு ரூ.320 குறைந்து ரூ.54,400-க்கு விற்பனை...</p>
+                      </div>
+                      <div class="col-span-2 p-2 rounded bg-surface-container-low text-on-surface-variant">
+                        <span class="font-headline-sm text-[10px] block font-semibold text-on-surface mb-1">வானிலை எச்சரிக்கை</span>
+                        <p class="text-[9px] leading-tight line-clamp-2">தென் மாவட்டங்களில் அடுத்த 48 மணி நேரத்தில் மிதமான மழைக்கு வாய்ப்பு என சென்னை வானிலை ஆய்வு மையம் தெரிவித்துள்ளது...</p>
+                      </div>
+                    </div>
+
+                    <div class="mt-3 pt-2.5 border-t border-surface-container-high/60 flex items-center justify-between font-label-mono text-[10px] text-on-surface-variant">
+                      <span class="flex items-center gap-1.5 text-primary">
+                        <span class="material-symbols-outlined text-xs">filter_center_focus</span>
+                        Tesseract-Neural + IndicLayout Engine
+                      </span>
+                      <span class="text-tertiary font-bold">100% On-Device Layout Extraction</span>
+                    </div>
+                  </div>
                 </div>
-            </div>
-            <div style="display:flex;gap:0.6rem;align-items:center;">
-                <button id="btnTriggerAutoHarvest" onclick="runAutoHarvest()" style="padding:0.5rem 1.15rem;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:8px;color:#ffffff;font-weight:700;font-size:0.82rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem;box-shadow:0 4px 14px rgba(16,185,129,0.35);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
-                    ⚡ Run Auto-Harvest Now
-                </button>
-                <button onclick="rebuildPdfIndex()" style="padding:0.5rem 0.9rem;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.35);border-radius:8px;color:#38bdf8;font-size:0.82rem;cursor:pointer;">
-                    🔄 Re-Index PDFs
-                </button>
-            </div>
-        </div>
 
-        <!-- Results Info Bar -->
-        <div id="pdfSearchInfoBar" style="display:none;margin-bottom:1rem;padding:0.65rem 1rem;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:8px;font-size:0.85rem;color:#94a3b8;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
-            <span id="pdfSearchInfoText"></span>
-            <div style="display:flex;gap:0.5rem;">
-                <button onclick="exportAllResults()" style="padding:0.35rem 0.8rem;background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;border-radius:6px;color:#0f172a;font-weight:700;font-size:0.78rem;cursor:pointer;">📄 Export All PDF</button>
-            </div>
-        </div>
-
-        <!-- Loading -->
-        <div id="pdfSearchLoading" style="display:none;text-align:center;padding:3rem;">
-            <div style="width:48px;height:48px;border:3px solid rgba(56,189,248,0.3);border-top-color:#38bdf8;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem;"></div>
-            <p style="color:#64748b;">Searching harvested PDFs...</p>
-        </div>
-
-        <!-- Empty State -->
-        <div id="pdfSearchEmpty" style="display:none;text-align:center;padding:3rem;">
-            <div style="font-size:3rem;margin-bottom:1rem;">📰</div>
-            <h3 style="color:#94a3b8;margin:0 0 0.5rem;">No results found</h3>
-            <p style="color:#475569;font-size:0.875rem;">Try different keywords or make sure PDFs have been harvested and indexed.<br/>Use <strong>POST /api/pdf-index/rebuild</strong> to re-index existing downloads.</p>
-        </div>
-
-        <!-- Results Grid -->
-        <div id="pdfSearchResults" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.25rem;"></div>
-
-        <!-- Index Status Panel -->
-        <div id="pdfIndexStatusPanel" style="display:none;margin-top:1.5rem;padding:1.25rem;background:rgba(15,23,42,0.8);border:1px solid rgba(56,189,248,0.2);border-radius:12px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-                <h3 style="margin:0;color:#38bdf8;font-size:1rem;">📊 PDF Index Status</h3>
-                <div style="display:flex;gap:0.5rem;">
-                    <button onclick="rebuildPdfIndex()" style="padding:0.35rem 0.8rem;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:6px;color:#ef4444;font-size:0.78rem;cursor:pointer;">🔄 Rebuild Index</button>
-                    <button onclick="document.getElementById('pdfIndexStatusPanel').style.display='none'" style="padding:0.35rem 0.6rem;background:rgba(100,116,139,0.2);border:1px solid rgba(100,116,139,0.3);border-radius:6px;color:#94a3b8;font-size:0.78rem;cursor:pointer;">✕</button>
+                <div class="mt-3 pt-2 flex items-center justify-between text-xs text-on-surface-variant font-label-mono">
+                  <span>SCAN DPI: 400 · MULTI-COLUMN RESOLUTION</span>
+                  <a href="/search" class="text-primary font-bold hover:underline flex items-center gap-1">
+                    <span>Inspect Raw Bounding Boxes</span>
+                    <span class="material-symbols-outlined text-xs">open_in_new</span>
+                  </a>
                 </div>
-            </div>
-            <div id="pdfIndexStatusContent" style="color:#94a3b8;font-size:0.85rem;">Loading...</div>
-        </div>
-    </section>
+              </div>
 
-    <!-- Email Share Modal -->
-    <div id="emailShareModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;display:none;align-items:center;justify-content:center;">
-        <div style="background:#1e293b;border:1px solid rgba(56,189,248,0.3);border-radius:16px;padding:2rem;width:420px;max-width:95vw;box-shadow:0 32px 80px rgba(0,0,0,0.7);">
-            <h3 style="margin:0 0 1.25rem;color:#f1f5f9;">📨 Send via Email</h3>
-            <label style="display:block;font-size:0.82rem;color:#94a3b8;margin-bottom:0.4rem;">Recipient Email</label>
-            <input id="emailShareTo" type="email" value="cuttyknowledge2006@gmail.com" placeholder="email@example.com"
-                style="width:100%;padding:0.7rem 1rem;background:rgba(15,23,42,0.9);border:1px solid rgba(56,189,248,0.3);border-radius:8px;color:#f1f5f9;font-size:0.9rem;font-family:inherit;outline:none;box-sizing:border-box;margin-bottom:1rem;"/>
-            <label style="display:block;font-size:0.82rem;color:#94a3b8;margin-bottom:0.4rem;">Subject</label>
-            <input id="emailShareSubject" type="text" placeholder="VEE2 Search Report"
-                style="width:100%;padding:0.7rem 1rem;background:rgba(15,23,42,0.9);border:1px solid rgba(56,189,248,0.3);border-radius:8px;color:#f1f5f9;font-size:0.9rem;font-family:inherit;outline:none;box-sizing:border-box;margin-bottom:1.5rem;"/>
-            <div style="display:flex;gap:0.75rem;">
-                <button onclick="confirmEmailShare()" style="flex:1;padding:0.75rem;background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;border-radius:8px;color:#0f172a;font-weight:700;cursor:pointer;">Send</button>
-                <button onclick="document.getElementById('emailShareModal').style.display='none'" style="flex:1;padding:0.75rem;background:rgba(100,116,139,0.2);border:1px solid rgba(100,116,139,0.3);border-radius:8px;color:#94a3b8;cursor:pointer;">Cancel</button>
+              <!-- RIGHT PANE: Synthesized English Dossier with Ground-Truth Citation -->
+              <div class="lg:col-span-6 flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-4 sm:p-5 shadow-xs border border-surface-container-high/60">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded bg-primary-fixed font-label-mono text-xs text-primary font-semibold">SYNTHESIZED INTEL</span>
+                      <span class="font-headline-sm text-base text-on-surface font-bold">Extracted English Dossier</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-mono text-[11px] font-bold">POLITICS</span>
+                      <span class="px-2.5 py-0.5 rounded-full bg-surface-container font-label-mono text-[11px] text-on-surface-variant font-semibold">PAGE 07</span>
+                    </div>
+                  </div>
+
+                  <div class="p-4 rounded-xl bg-surface-container-low shadow-sm border border-surface-container-high/40">
+                    <div class="flex items-center gap-2 mb-2 font-label-mono text-xs text-on-surface-variant">
+                      <span class="px-2 py-0.5 rounded bg-surface-container-lowest text-tertiary font-bold">99.4% FIDELITY</span>
+                      <span>•</span>
+                      <span>ORIGIN: DINA THANTHI ED. CHENNAI</span>
+                      <span>•</span>
+                      <span>08:15 AM IST</span>
+                    </div>
+                    <h3 class="font-headline-md text-base sm:text-lg text-on-surface font-bold leading-snug">
+                      New ₹2,400 Cr School Education & Digital Hub Initiative Announced Across Tamil Nadu
+                    </h3>
+                    <p class="mt-2 font-body-md text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                      The Chief Minister has officially ratified a massive statewide education infrastructure drive. Under the program, high-tech computer laboratories will be instituted across 3,800 state-run schools, directly upgrading rural STEM curriculum and digital literacy standards.
+                    </p>
+
+                    <div class="mt-3.5 pt-3 border-t border-surface-container-high/60 flex flex-wrap items-center gap-2">
+                      <span class="px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface font-label-mono text-[11px] shadow-xs flex items-center gap-1 border border-surface-container-high/40">
+                        <span class="material-symbols-outlined text-xs text-primary">location_on</span>
+                        Tamil Nadu
+                      </span>
+                      <span class="px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface font-label-mono text-[11px] shadow-xs flex items-center gap-1 border border-surface-container-high/40">
+                        <span class="material-symbols-outlined text-xs text-secondary">payments</span>
+                        ₹2,400 Crore
+                      </span>
+                      <span class="px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface font-label-mono text-[11px] shadow-xs flex items-center gap-1 border border-surface-container-high/40">
+                        <span class="material-symbols-outlined text-xs text-tertiary">school</span>
+                        3,800 Schools
+                      </span>
+                      <span class="px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface font-label-mono text-[11px] shadow-xs flex items-center gap-1 border border-surface-container-high/40">
+                        <span class="material-symbols-outlined text-xs text-outline">calendar_today</span>
+                        Academic Yr 2026-27
+                      </span>
+                    </div>
+
+                    <div class="mt-3.5 p-3 rounded-xl bg-surface-container-lowest flex items-center justify-between border border-surface-container-high/40">
+                      <div class="flex items-center gap-2.5">
+                        <div class="w-6 h-6 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+                          <span class="material-symbols-outlined text-xs font-bold">check_circle</span>
+                        </div>
+                        <div class="flex flex-col text-left">
+                          <span class="font-label-ui text-xs text-on-surface font-semibold">Zero-Hallucination Ground Truth</span>
+                          <span class="font-label-mono text-[10px] text-on-surface-variant">Direct sentence citation mapped to BBox Coordinates</span>
+                        </div>
+                      </div>
+                      <a href="/search" class="px-3 py-1.5 rounded-lg bg-primary-fixed text-primary font-label-ui text-xs font-bold hover:bg-primary hover:text-on-primary transition-all flex items-center gap-1 shadow-xs">
+                        <span>View Original</span>
+                        <span class="material-symbols-outlined text-xs">zoom_in</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-surface-container-high/60 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-ui text-xs hover:bg-surface-container-high transition-colors flex items-center gap-1.5" onclick="navigator.clipboard.writeText('New ₹2,400 Cr School Education & Digital Hub Initiative Announced Across Tamil Nadu'); alert('Copied headline to clipboard!');" type="button">
+                      <span class="material-symbols-outlined text-sm">content_copy</span>
+                      <span>Copy Story</span>
+                    </button>
+                    <a href="/search" class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-ui text-xs hover:bg-surface-container-high transition-colors flex items-center gap-1.5">
+                      <span class="material-symbols-outlined text-sm">open_in_new</span>
+                      <span>Explore In News Feed</span>
+                    </a>
+                  </div>
+                  <span class="font-label-mono text-xs text-tertiary font-bold flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                    Indexed in Explorer
+                  </span>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- 5. ARCHITECTURE & PROCESS PIPELINE CARDS                            -->
+        <!-- =================================================================== -->
+        <section class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12">
+          <div class="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
+            <span class="px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-mono text-xs uppercase tracking-widest font-semibold">
+              Architecture & Process
+            </span>
+            <h2 class="mt-3 font-headline-lg text-2xl sm:text-4xl text-on-surface tracking-tight font-bold">
+              The Intelligence Pipeline
+            </h2>
+            <p class="mt-1.5 font-body-lg text-sm sm:text-base text-on-surface-variant text-balance">
+              How raw scanned newspaper PDFs turn into searchable, structured English intelligence in seconds.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="group relative bg-surface-container-lowest rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-surface-container-high/60">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-label-mono text-base font-black text-primary">01</span>
+                  <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-lg">cloud_upload</span>
+                  </div>
+                </div>
+                <h3 class="font-headline-sm text-sm text-on-surface font-semibold mb-1.5">Upload</h3>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                  Upload one or multiple high-res newspaper PDFs (up to 64 pages per edition). Ingests web editions and micro-scans without manual pre-cropping.
+                </p>
+              </div>
+              <div class="mt-4 pt-2 bg-surface-container-low rounded-lg p-2 font-label-mono text-[10px] text-on-surface-variant flex items-center justify-between">
+                <span>INPUT: PDF / TIFF / PNG</span>
+                <span class="text-primary font-bold">MAX 64 PGS</span>
+              </div>
+            </div>
+
+            <div class="group relative bg-surface-container-lowest rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-surface-container-high/60">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-label-mono text-base font-black text-primary">02</span>
+                  <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-lg">document_scanner</span>
+                  </div>
+                </div>
+                <h3 class="font-headline-sm text-sm text-on-surface font-semibold mb-1.5">Extract</h3>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                  Deep neural OCR reads the complete broadsheet layout, multi-column blocks, mastheads, captions, and sub-headers with sub-pixel alignment.
+                </p>
+              </div>
+              <div class="mt-4 pt-2 bg-surface-container-low rounded-lg p-2 font-label-mono text-[10px] text-on-surface-variant flex items-center justify-between">
+                <span>COLUMN SPLITTER</span>
+                <span class="text-tertiary font-bold">99.8% PRECISION</span>
+              </div>
+            </div>
+
+            <div class="group relative bg-surface-container-lowest rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-surface-container-high/60">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-label-mono text-base font-black text-primary">03</span>
+                  <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-lg">translate</span>
+                  </div>
+                </div>
+                <h3 class="font-headline-sm text-sm text-on-surface font-semibold mb-1.5">Translate</h3>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                  Regional scripts (Tamil, Hindi, Bengali, Telugu, Kannada, etc.) instantly translated into fluent English, preserving idioms and geopolitical context.
+                </p>
+              </div>
+              <div class="mt-4 pt-2 bg-surface-container-low rounded-lg p-2 font-label-mono text-[10px] text-on-surface-variant flex items-center justify-between">
+                <span>INDIC-LLM MODEL</span>
+                <span class="text-secondary font-bold">CONTEXT-SAFE</span>
+              </div>
+            </div>
+
+            <div class="group relative bg-surface-container-lowest rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-surface-container-high/60">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-label-mono text-base font-black text-primary">04</span>
+                  <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-lg">label</span>
+                  </div>
+                </div>
+                <h3 class="font-headline-sm text-sm text-on-surface font-semibold mb-1.5">Categorize</h3>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                  Autonomous classification into Politics, Sports, Business, Governance, Technology, Crime, and State Desks with entity tagging.
+                </p>
+              </div>
+              <div class="mt-4 pt-2 bg-surface-container-low rounded-lg p-2 font-label-mono text-[10px] text-on-surface-variant flex items-center justify-between">
+                <span>AUTO-TAXONOMY</span>
+                <span class="text-primary font-bold">14+ DESKS</span>
+              </div>
+            </div>
+
+            <div class="group relative bg-surface-container-lowest rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-surface-container-high/60">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-label-mono text-base font-black text-primary">05</span>
+                  <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-lg">travel_explore</span>
+                  </div>
+                </div>
+                <h3 class="font-headline-sm text-sm text-on-surface font-semibold mb-1.5">Explore</h3>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                  Read, search, filter, and cross-reference every claim directly to the exact broadsheet page with bounding box highlight verification.
+                </p>
+              </div>
+              <div class="mt-4 pt-2 bg-surface-container-low rounded-lg p-2 font-label-mono text-[10px] text-on-surface-variant flex items-center justify-between">
+                <span>AUDIT PROOF</span>
+                <span class="text-tertiary font-bold">PAGE-PINNED</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- 6. HIGH-YIELD ENGINE CAPABILITIES                                 -->
+        <!-- =================================================================== -->
+        <section class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12">
+          <div class="flex flex-col items-center text-center max-w-3xl mx-auto mb-10">
+            <span class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-mono text-xs uppercase tracking-widest font-semibold border border-surface-container-high">
+              High-Yield Engine Capabilities
+            </span>
+            <h2 class="mt-3 font-headline-lg text-2xl sm:text-4xl text-on-surface tracking-tight font-bold">
+              Engineered for Media Intelligence & Archival Desks
+            </h2>
+            <p class="mt-1.5 font-body-lg text-sm sm:text-base text-on-surface-variant text-balance">
+              Designed from the ground up to conquer dense broadsheet typography, regional nuances, and high-throughput ingestion.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between border border-surface-container-high/60">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-primary-fixed flex items-center justify-center text-primary mb-4 shadow-xs">
+                  <span class="material-symbols-outlined text-2xl">crop_free</span>
+                </div>
+                <h3 class="font-headline-md text-base sm:text-lg text-on-surface font-bold mb-2">
+                  Complete Layout OCR
+                </h3>
+                <p class="font-body-md text-xs sm:text-sm text-on-surface-variant mb-4 leading-relaxed">
+                  Full-page layout-aware text extraction across dense multi-column newsprint. Intelligently separates intertwined advertising columns, photo captions, and breaking flashes.
+                </p>
+                <div class="w-full bg-surface-container-low rounded-xl p-3 mb-4">
+                  <div class="flex items-center justify-between font-label-mono text-[10px] text-on-surface-variant mb-2">
+                    <span>LAYOUT DECONSTRUCTION</span>
+                    <span class="text-primary font-bold">6-COLUMN GRID</span>
+                  </div>
+                  <svg class="w-full h-16 text-outline-variant" viewBox="0 0 280 80">
+                    <rect fill="currentColor" fill-opacity="0.15" height="75" rx="4" width="80" x="0" y="0"></rect>
+                    <rect fill="#3525cd" fill-opacity="0.8" height="8" rx="2" width="70" x="5" y="5"></rect>
+                    <rect fill="currentColor" fill-opacity="0.2" height="50" rx="2" width="70" x="5" y="18"></rect>
+                    <rect fill="currentColor" fill-opacity="0.15" height="40" rx="4" width="96" x="88" y="0"></rect>
+                    <rect fill="#006591" fill-opacity="0.3" height="30" rx="2" width="86" x="93" y="5"></rect>
+                    <rect fill="currentColor" fill-opacity="0.15" height="30" rx="4" width="96" x="88" y="45"></rect>
+                    <rect fill="currentColor" fill-opacity="0.2" height="20" rx="2" width="86" x="93" y="50"></rect>
+                    <rect fill="currentColor" fill-opacity="0.15" height="75" rx="4" width="88" x="192" y="0"></rect>
+                    <rect fill="#005338" fill-opacity="0.7" height="12" rx="2" width="78" x="197" y="5"></rect>
+                    <rect fill="currentColor" fill-opacity="0.2" height="46" rx="2" width="78" x="197" y="22"></rect>
+                  </svg>
+                </div>
+              </div>
+              <span class="font-label-mono text-xs text-primary font-semibold flex items-center gap-1">
+                <span>Resolves Multi-Column Jump Stories</span>
+                <span class="material-symbols-outlined text-xs">chevron_right</span>
+              </span>
+            </div>
+
+            <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between border border-surface-container-high/60">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-secondary-fixed flex items-center justify-center text-secondary mb-4 shadow-xs">
+                  <span class="material-symbols-outlined text-2xl">language</span>
+                </div>
+                <h3 class="font-headline-md text-base sm:text-lg text-on-surface font-bold mb-2">
+                  Pan-Indic Language Support
+                </h3>
+                <p class="font-body-md text-xs sm:text-sm text-on-surface-variant mb-4 leading-relaxed">
+                  Trained extensively on intricate ligatures and character conjuncts across Devanagari, Dravidian, and Eastern Indic typography.
+                </p>
+                <div class="w-full bg-surface-container-low rounded-xl p-3 mb-4 flex flex-wrap gap-1.5">
+                  <div class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface font-label-mono text-[11px] shadow-xs flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                    <span>தமிழ் (Tamil)</span>
+                  </div>
+                  <div class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface font-label-mono text-[11px] shadow-xs flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                    <span>हिन्दी (Hindi)</span>
+                  </div>
+                  <div class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface font-label-mono text-[11px] shadow-xs flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                    <span>తెలుగు (Telugu)</span>
+                  </div>
+                  <div class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface font-label-mono text-[11px] shadow-xs flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                    <span>മലയാളം (Malayalam)</span>
+                  </div>
+                  <div class="px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-mono text-[11px]">
+                    +18 Others
+                  </div>
+                </div>
+              </div>
+              <span class="font-label-mono text-xs text-secondary font-semibold flex items-center gap-1">
+                <span>Sub-dialect & Local Slang Handling</span>
+                <span class="material-symbols-outlined text-xs">chevron_right</span>
+              </span>
+            </div>
+
+            <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between border border-surface-container-high/60">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary mb-4 shadow-xs">
+                  <span class="material-symbols-outlined text-2xl">magic_button</span>
+                </div>
+                <h3 class="font-headline-md text-base sm:text-lg text-on-surface font-bold mb-2">
+                  Context-Aware Translation
+                </h3>
+                <p class="font-body-md text-xs sm:text-sm text-on-surface-variant mb-4 leading-relaxed">
+                  Neural models preserve regional journalistic metaphors, ministerial portmanteaus, and legal terminology without robotic literal drift.
+                </p>
+                <div class="w-full bg-surface-container-low rounded-xl p-3 mb-4 space-y-2">
+                  <div class="flex items-center justify-between text-xs font-medium text-on-surface">
+                    <span>Semantic BLEU Score</span>
+                    <span class="font-label-mono font-bold text-tertiary">42.8 / 50</span>
+                  </div>
+                  <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                    <div class="h-full bg-tertiary rounded-full" style="width: 86%;"></div>
+                  </div>
+                  <div class="flex items-center justify-between font-label-mono text-[10px] text-on-surface-variant pt-1">
+                    <span>INDIC-TO-ENG BENCHMARK</span>
+                    <span class="font-semibold text-on-surface">+18.4% OVER STD API</span>
+                  </div>
+                </div>
+              </div>
+              <span class="font-label-mono text-xs text-tertiary font-semibold flex items-center gap-1">
+                <span>Nuanced Vernacular Preserved</span>
+                <span class="material-symbols-outlined text-xs">chevron_right</span>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- 7. NEWSPAPERS CATALOG & BATCH HARVESTING SECTION                   -->
+        <!-- =================================================================== -->
+        <section class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-10" id="sourcesSection">
+          <div class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-surface-container-high/60 mb-6">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-surface-container-high/60">
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2 text-primary mb-1">
+                  <span class="material-symbols-outlined text-base">domain</span>
+                  <span class="font-label-mono text-xs uppercase tracking-wider font-semibold">Configured Press Desks</span>
+                </div>
+                <h2 class="font-headline-lg text-2xl sm:text-3xl text-on-surface font-bold">
+                  Newspaper Catalog & Auto-Harvester
+                </h2>
+                <p class="font-body-md text-xs sm:text-sm text-on-surface-variant mt-1">
+                  Browse 50+ configured national and state dailies. Trigger instant broadsheet downloads, test session cookies, and monitor daily automated schedules.
+                </p>
+              </div>
+
+              <!-- Top Action Buttons -->
+              <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                <button id="btnBatchHarvest" onclick="triggerBatchHarvest()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-on-primary font-label-ui text-xs font-semibold hover:bg-primary-container transition-all shadow-md shadow-primary/20" type="button">
+                  <span class="material-symbols-outlined text-base">bolt</span>
+                  <span>Harvest All Editions</span>
+                </button>
+                <a href="/upload" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container text-on-surface font-label-ui text-xs font-semibold hover:bg-surface-container-high transition-all border border-surface-container-high">
+                  <span class="material-symbols-outlined text-base text-primary">upload_file</span>
+                  <span>Hardcopy PDF Mode</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Metric Strip -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-5">
+              <div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+                <span class="font-label-mono text-[11px] text-on-surface-variant uppercase">Configured Sources</span>
+                <span class="font-headline-sm text-xl font-bold text-on-surface mt-1" id="metricSourcesCount">57</span>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+                <span class="font-label-mono text-[11px] text-on-surface-variant uppercase">Schedule Window</span>
+                <span class="font-headline-sm text-sm font-semibold text-primary mt-1" id="metricSchedulesCount">04:30 - 05:45 AM IST</span>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+                <span class="font-label-mono text-[11px] text-on-surface-variant uppercase">Harvested Editions</span>
+                <span class="font-headline-sm text-xl font-bold text-tertiary mt-1" id="metricArchivesCount">0</span>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-container-low flex flex-col">
+                <span class="font-label-mono text-[11px] text-on-surface-variant uppercase">Storage Used</span>
+                <span class="font-headline-sm text-sm font-semibold text-on-surface mt-1" id="metricDiskUsage">Calculating...</span>
+              </div>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="mt-5 pt-4 border-t border-surface-container-high/40 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <!-- Search box -->
+              <div class="relative w-full sm:w-80">
+                <span class="material-symbols-outlined absolute left-3 top-2.5 text-base text-on-surface-variant">search</span>
+                <input id="sourceSearchInput" type="text" placeholder="Search publication or state..." class="w-full pl-9 pr-3 py-2 rounded-xl bg-surface-container-low text-xs font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary border border-surface-container-high/50"/>
+              </div>
+
+              <!-- Language Filter Buttons Container -->
+              <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 scrollbar-none" id="languageFilters">
+                <button class="filter-pill active px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-ui text-xs font-semibold shadow-xs" data-lang="all">All</button>
+                <button class="filter-pill px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-ui text-xs font-medium" data-lang="english">English</button>
+                <button class="filter-pill px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-ui text-xs font-medium" data-lang="tamil">Tamil</button>
+                <button class="filter-pill px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-ui text-xs font-medium" data-lang="hindi">Hindi</button>
+                <button class="filter-pill px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-ui text-xs font-medium" data-lang="malayalam">Malayalam</button>
+                <button class="filter-pill px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-ui text-xs font-medium" data-lang="telugu">Telugu</button>
+                <button class="filter-pill px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-ui text-xs font-medium" data-lang="marathi">Marathi</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sources Grid (Populated dynamically by app.js renderSources()) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="sourcesGridContainer">
+            <div class="col-span-full py-12 text-center text-on-surface-variant font-label-mono text-sm">
+              <span class="material-symbols-outlined text-3xl animate-spin text-primary">sync</span>
+              <p class="mt-2">Synchronizing broadsheet catalog...</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- 8. BOTTOM CALL TO ACTION                                          -->
+        <!-- =================================================================== -->
+        <section class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-12 mb-6">
+          <div class="relative w-full rounded-3xl bg-gradient-to-br from-primary to-primary-container text-on-primary p-8 sm:p-12 lg:p-14 overflow-hidden shadow-2xl">
+            <div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-secondary-container/20 blur-2xl pointer-events-none"></div>
+            <div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-tertiary-container/20 blur-xl pointer-events-none"></div>
+
+            <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-on-primary/10 backdrop-blur-md font-label-mono text-xs text-primary-fixed mb-4">
+                <span class="material-symbols-outlined text-sm">bolt</span>
+                <span>ENTERPRISE-GRADE REGIONAL PRESS MINING</span>
+              </div>
+              <h2 class="font-display-hero text-2xl sm:text-4xl lg:text-5xl font-extrabold text-on-primary tracking-tight text-balance">
+                Ready to turn paper into searchable intelligence?
+              </h2>
+              <p class="mt-3 font-body-lg text-sm sm:text-base text-primary-fixed max-w-2xl text-balance">
+                Drop your morning regional newspaper PDFs into the OCR pipeline and receive structured, translated, and verified news stories in seconds.
+              </p>
+              <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <a href="/upload" class="flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-surface-container-lowest text-primary font-label-ui text-sm font-bold shadow-xl hover:bg-surface-bright transition-all scale-100 hover:scale-[1.03] active:scale-[0.98]">
+                  <span class="material-symbols-outlined text-xl">upload_file</span>
+                  <span>Start Uploading PDFs</span>
+                </a>
+                <a href="/search" class="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-on-primary/10 hover:bg-on-primary/15 text-on-primary font-label-ui text-sm font-semibold backdrop-blur-sm transition-all border border-white/20">
+                  <span class="material-symbols-outlined text-lg">travel_explore</span>
+                  <span>Browse News Explorer</span>
+                </a>
+              </div>
+
+              <!-- Micro Stats Row Under CTA -->
+              <div class="mt-10 pt-6 border-t border-on-primary/15 w-full flex flex-wrap items-center justify-around gap-6 font-label-mono text-xs text-primary-fixed">
+                <div class="flex flex-col items-center">
+                  <span class="text-on-primary font-headline-md text-xl font-bold">120ms</span>
+                  <span class="text-[11px]">Avg OCR Latency</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="text-on-primary font-headline-md text-xl font-bold">100%</span>
+                  <span class="text-[11px]">On-Prem / Private</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="text-on-primary font-headline-md text-xl font-bold">18+</span>
+                  <span class="text-[11px]">Languages Mapped</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="text-on-primary font-headline-md text-xl font-bold">0</span>
+                  <span class="text-[11px]">External Cloud APIs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
     </div>
+  </main>
 
-    <!-- Share Toast -->
-    <div id="shareToast" style="display:none;position:fixed;bottom:2rem;right:2rem;z-index:99999;padding:1rem 1.5rem;background:linear-gradient(135deg,#166534,#15803d);border:1px solid #22c55e;border-radius:12px;color:#f0fdf4;font-weight:600;font-size:0.9rem;box-shadow:0 8px 30px rgba(0,0,0,0.5);transition:all 0.3s;"></div>
+  <!-- ========================================================================= -->
+  <!-- 9. 3-TIER TRACEABILITY & DIGITAL TWIN MODAL                               -->
+  <!-- ========================================================================= -->
+  <div class="modal-backdrop fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-4" id="auditTraceabilityModal">
+    <div class="bg-surface-container-lowest w-full max-w-5xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-surface-container-high">
+      <div class="h-14 px-6 bg-surface-container-low flex items-center justify-between shrink-0 border-b border-surface-container-high/60">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-lg">verified_user</span>
+          </div>
+          <div>
+            <h3 class="font-headline-sm text-sm font-bold text-on-surface">Digital Twin Traceability & Audit Console</h3>
+            <span class="font-label-mono text-[10px] text-on-surface-variant">Full 3-Tier Traceability: Translated Text ➔ OCR Ground Truth ➔ Original Document Snapshot</span>
+          </div>
+        </div>
+        <button id="btnCloseAuditModal" class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors" type="button">
+          <span class="material-symbols-outlined text-base">close</span>
+        </button>
+      </div>
 
-    <style>
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes fadeInUp {
-        from { opacity:0; transform:translateY(16px); }
-        to   { opacity:1; transform:translateY(0); }
-    }
-    .pdf-result-card {
-        background: rgba(15,23,42,0.9);
-        border: 1px solid rgba(56,189,248,0.2);
-        border-radius: 14px;
-        overflow: hidden;
-        transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-        animation: fadeInUp 0.35s ease both;
-    }
-    .pdf-result-card:hover {
-        border-color: rgba(56,189,248,0.5);
-        transform: translateY(-3px);
-        box-shadow: 0 12px 40px rgba(56,189,248,0.12);
-    }
-    .pdf-page-img {
-        width:100%;height:200px;object-fit:cover;display:block;
-        background: rgba(30,41,59,0.6);
-        cursor:pointer;
-        transition: transform 0.3s;
-    }
-    .pdf-page-img:hover { transform: scale(1.02); }
-    </style>
+      <div class="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-surface-container-high">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-error text-on-error font-label-mono text-xs font-bold" id="auditSeverityBadge">🚨 HIGH PRIORITY</span>
+            <span id="auditSourceBadge" class="font-bold text-xs text-on-surface">The Times of India</span>
+            <span>•</span>
+            <span id="auditDateBadge" class="text-xs text-on-surface-variant font-label-mono">Page 1</span>
+          </div>
+          <div class="flex items-center gap-1.5" id="auditEntitiesContainer"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-2xl bg-surface-container-low border border-surface-container-high">
+            <span class="font-label-mono text-xs text-primary font-bold uppercase">🌐 TIER 1: Auto-Translated English</span>
+            <h4 id="auditTitleEn" class="font-bold text-sm text-on-surface mt-1 mb-2">Title</h4>
+            <div id="auditContentEn" class="text-xs text-on-surface-variant leading-relaxed">Content</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-surface-container-low border border-surface-container-high">
+            <span class="font-label-mono text-xs text-secondary font-bold uppercase">🔍 TIER 2: OCR Ground Truth</span>
+            <h4 id="auditTitleOrig" class="font-bold text-sm text-on-surface mt-1 mb-2">Original Title</h4>
+            <div id="auditContentOrig" class="text-xs text-on-surface-variant font-label-mono leading-relaxed">Original Content</div>
+          </div>
+        </div>
 
-    <script>
-    // =========================================================
-    // PDF Newspaper Search Module
-    // =========================================================
-    let _currentPdfResults = [];
-    let _currentQuery = '';
-    let _pendingSharePdfPath = '';
+        <div class="p-4 rounded-2xl bg-surface-container-low border border-surface-container-high">
+          <span class="font-label-mono text-xs text-tertiary font-bold uppercase">🖼️ TIER 3: Visual Page Bounding Box & Ground Truth Snapshot</span>
+          <div id="auditSnapshotContainer" class="mt-2 text-center bg-surface-container-lowest p-4 rounded-xl border border-surface-container-high flex items-center justify-center min-h-[220px]">
+            <span class="text-xs text-on-surface-variant font-label-mono">Document snapshot preview</span>
+          </div>
+        </div>
 
-    // Leave default date open so search covers all harvested issues unless user chooses a date
-    (function(){
-        const el = document.getElementById('pdfSearchDate');
-        if(el) el.value = '';
-    })();
+        <div class="flex items-center justify-between pt-3 border-t border-surface-container-high">
+          <div class="flex items-center gap-2">
+            <button id="btnApproveTranslation" class="px-3.5 py-1.5 rounded-lg bg-tertiary text-on-tertiary text-xs font-semibold hover:bg-tertiary-container shadow-xs">
+              ✓ Approve & Validate
+            </button>
+            <button id="btnFlagDispute" class="px-3.5 py-1.5 rounded-lg bg-surface-container text-error text-xs font-semibold hover:bg-surface-container-high">
+              ⚠️ Flag Translation Dispute
+            </button>
+          </div>
+          <button id="btnUpdateTranslation" class="px-3.5 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container shadow-xs">
+            Save Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    function updatePdfChip(cb) {
-        const label = cb.closest('label');
-        if(!label) return;
-        if(cb.checked) {
-            label.style.border = '1px solid #38bdf8';
-            label.style.background = 'rgba(56,189,248,0.2)';
-            label.style.color = '#38bdf8';
-        } else {
-            label.style.border = '1px solid rgba(56,189,248,0.3)';
-            label.style.background = 'rgba(56,189,248,0.06)';
-            label.style.color = '#94a3b8';
-        }
-    }
+  <!-- ========================================================================= -->
+  <!-- 10. NEWSPAPER NEWS READER MODAL                                           -->
+  <!-- ========================================================================= -->
+  <div class="modal-backdrop fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6" id="newsReaderModal">
+    <div class="bg-surface-container-lowest w-full max-w-6xl h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-surface-container-high">
+      <!-- Modal Header -->
+      <div class="h-16 px-6 bg-surface-container-low flex items-center justify-between shrink-0 border-b border-surface-container-high">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center shadow-xs">
+            <span class="material-symbols-outlined text-lg">newspaper</span>
+          </div>
+          <div>
+            <h3 class="font-headline-sm text-sm sm:text-base font-bold text-on-surface" id="newsModalTitle">Newspaper Stories</h3>
+            <span class="font-label-mono text-[11px] text-on-surface-variant" id="newsModalSourceMeta">Categorized News Stories</span>
+          </div>
+        </div>
 
-    function getSelectedSources() {
-        const checkboxes = document.querySelectorAll('#pdf-search-section input[type=checkbox]');
-        const sel = [];
-        checkboxes.forEach(cb => { if(cb.checked) sel.push(cb.value); });
-        return sel;
-    }
+        <div class="flex items-center gap-3">
+          <!-- Channel Switcher -->
+          <div class="flex items-center bg-surface-container rounded-xl p-1 gap-1 border border-surface-container-high">
+            <button class="px-3 py-1 rounded-lg text-xs font-label-ui font-semibold transition-all" id="btnChannelEpaper">
+              📰 ePaper Broadsheet
+            </button>
+            <button class="px-3 py-1 rounded-lg text-xs font-label-ui font-semibold transition-all" id="btnChannelOnline">
+              🌐 Online Wire
+            </button>
+          </div>
 
-    async function runPdfSearch() {
-        const q = document.getElementById('pdfSearchInput').value.trim();
-        if(!q) { document.getElementById('pdfSearchInput').focus(); return; }
+          <button id="btnCloseNewsModal" class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center" type="button">
+            <span class="material-symbols-outlined text-base">close</span>
+          </button>
+        </div>
+      </div>
 
-        _currentQuery = q;
-        const date = document.getElementById('pdfSearchDate').value || null;
-        const sources = getSelectedSources();
+      <!-- Category Filter Bar Inside Modal -->
+      <div class="p-3 px-6 bg-surface-container-low/40 flex items-center justify-between gap-3 border-b border-surface-container-high/60 overflow-x-auto scrollbar-none" id="newsCategoriesBar">
+        <div class="flex items-center gap-1.5">
+          <button class="news-cat-pill active px-3 py-1 rounded-full bg-primary text-on-primary text-xs font-label-ui font-semibold" data-cat="all">All Stories</button>
+          <button class="news-cat-pill px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-label-ui" data-cat="sports">🏆 Sports</button>
+          <button class="news-cat-pill px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-label-ui" data-cat="business">💼 Business</button>
+          <button class="news-cat-pill px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-label-ui" data-cat="economic">📈 Economic</button>
+          <button class="news-cat-pill px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-label-ui" data-cat="political">🏛️ Political</button>
+          <button class="news-cat-pill px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-label-ui" data-cat="crises_disasters">🚨 Crises</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="text" id="modalKeywordSearchInput" placeholder="Filter stories..." class="px-3 py-1 rounded-xl bg-surface-container-lowest text-xs text-on-surface border border-surface-container-high focus:outline-none"/>
+          <button class="px-3 py-1 rounded-lg bg-surface-container text-xs font-semibold text-on-surface" id="btnModalKeywordSearch">Search</button>
+        </div>
+      </div>
 
-        document.getElementById('pdfSearchLoading').style.display = 'block';
-        document.getElementById('pdfSearchResults').innerHTML = '';
-        document.getElementById('pdfSearchEmpty').style.display = 'none';
-        document.getElementById('pdfSearchInfoBar').style.display = 'none';
+      <!-- Articles Body -->
+      <div class="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-4" id="newsArticlesList">
+        <div class="text-center py-12 text-on-surface-variant font-label-mono text-xs">
+          Loading stories...
+        </div>
+      </div>
+    </div>
+  </div>
 
-        try {
-            let url = `/api/pdf-search?q=${encodeURIComponent(q)}&limit=50`;
-            if(date) url += `&date=${date}`;
-            if(sources.length) url += `&source_ids=${sources.join(',')}`;
+  <!-- ========================================================================= -->
+  <!-- 11. PDF VIEWER PREVIEW MODAL                                              -->
+  <!-- ========================================================================= -->
+  <div class="modal-backdrop fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6" id="pdfReaderModal">
+    <div class="bg-surface-container-lowest w-full max-w-6xl h-[92vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-surface-container-high">
+      <div class="h-14 px-6 bg-surface-container-low flex items-center justify-between border-b border-surface-container-high">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-xl">picture_as_pdf</span>
+          <span class="font-headline-sm text-sm font-bold text-on-surface truncate max-w-lg" id="pdfReaderTitle">Newspaper PDF Preview</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <a id="pdfDownloadBtn" download class="px-3 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-label-ui font-semibold shadow-xs flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">download</span>
+            <span>Download</span>
+          </a>
+          <a id="pdfOpenTabBtn" target="_blank" class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface text-xs font-label-ui font-semibold flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">open_in_new</span>
+            <span>Tab</span>
+          </a>
+          <button onclick="document.getElementById('pdfReaderModal').classList.remove('open')" class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center">
+            <span class="material-symbols-outlined text-base">close</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex-1 bg-surface-container p-2">
+        <iframe id="pdfPreviewIframe" class="w-full h-full rounded-2xl bg-white border border-surface-container-high" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
 
-            const resp = await fetch(url);
-            const data = await resp.json();
-            _currentPdfResults = data.results || [];
+  <!-- ========================================================================= -->
+  <!-- 12. MULTI-LANGUAGE EMAIL DIGEST MODAL                                     -->
+  <!-- ========================================================================= -->
+  <div class="modal-backdrop fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-4" id="emailDigestModal">
+    <div class="bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-surface-container-high">
+      <div class="h-14 px-6 bg-surface-container-low flex items-center justify-between shrink-0 border-b border-surface-container-high/60">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-lg">mail</span>
+          </div>
+          <h3 class="font-headline-sm text-sm font-bold text-on-surface">Dispatch Multilingual News Digest</h3>
+        </div>
+        <button id="btnCloseEmailModal" class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors" type="button">
+          <span class="material-symbols-outlined text-base">close</span>
+        </button>
+      </div>
+      <div class="p-6 space-y-4">
+        <div>
+          <label class="font-label-ui text-xs text-on-surface font-semibold block mb-1">Recipient Email Addresses</label>
+          <input type="email" id="emailDigestRecipient" placeholder="editor@newsdesk.com, bureau@media.org" class="w-full px-3 py-2 rounded-xl bg-surface-container-low text-xs text-on-surface border border-surface-container-high focus:outline-none focus:ring-1 focus:ring-primary"/>
+        </div>
+        <div>
+          <label class="font-label-ui text-xs text-on-surface font-semibold block mb-1">Target Category Filter</label>
+          <div class="flex flex-wrap gap-1.5" id="emailCategorySelector">
+            <button class="news-cat-pill active px-2.5 py-1 rounded-lg bg-primary text-on-primary text-xs font-label-mono font-semibold" data-email-cat="all">All News</button>
+            <button class="news-cat-pill px-2.5 py-1 rounded-lg bg-surface-container text-on-surface-variant text-xs font-label-mono" data-email-cat="sports">Sports</button>
+            <button class="news-cat-pill px-2.5 py-1 rounded-lg bg-surface-container text-on-surface-variant text-xs font-label-mono" data-email-cat="business">Business</button>
+            <button class="news-cat-pill px-2.5 py-1 rounded-lg bg-surface-container text-on-surface-variant text-xs font-label-mono" data-email-cat="political">Political</button>
+          </div>
+        </div>
+        <button id="btnSendEmailDigest" class="w-full py-2.5 rounded-xl bg-primary text-on-primary font-label-ui text-xs font-semibold hover:bg-primary-container transition-all shadow-md shadow-primary/25 flex items-center justify-center gap-2" type="button">
+          <span class="material-symbols-outlined text-base">send</span>
+          <span>Send Formatted Digest Now</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-            document.getElementById('pdfSearchLoading').style.display = 'none';
+  <!-- ========================================================================= -->
+  <!-- 13. COOKIE IMPORT MODAL                                                   -->
+  <!-- ========================================================================= -->
+  <div class="modal-backdrop fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-4" id="cookieImportModal">
+    <div class="bg-surface-container-lowest w-full max-w-lg rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-surface-container-high">
+      <div class="h-14 px-6 bg-surface-container-low flex items-center justify-between border-b border-surface-container-high">
+        <h3 class="font-headline-sm text-sm font-bold text-on-surface">Import Session Cookies (JSON)</h3>
+        <button onclick="document.getElementById('cookieImportModal').classList.remove('open')" class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center" type="button">
+          <span class="material-symbols-outlined text-base">close</span>
+        </button>
+      </div>
+      <div class="p-6 space-y-4">
+        <div>
+          <label class="font-label-ui text-xs text-on-surface font-semibold block mb-1">Target Newspaper</label>
+          <select id="cookieSourceSelect" class="w-full px-3 py-2 rounded-xl bg-surface-container-low text-xs text-on-surface border border-surface-container-high"></select>
+        </div>
+        <div>
+          <label class="font-label-ui text-xs text-on-surface font-semibold block mb-1">Paste Cookie Array (JSON from EditThisCookie)</label>
+          <textarea id="cookieJsonTextarea" rows="6" class="w-full p-3 rounded-xl bg-surface-container-low text-xs font-label-mono text-on-surface border border-surface-container-high focus:outline-none" placeholder="[ { 'name': 'PHPSESSID', 'value': '...' } ]"></textarea>
+        </div>
+        <button id="btnSaveCookies" class="w-full py-2.5 rounded-xl bg-primary text-on-primary font-label-ui text-xs font-bold hover:bg-primary-container shadow-xs" type="button">
+          Save Session Cookies
+        </button>
+      </div>
+    </div>
+  </div>
 
-            if(!_currentPdfResults.length) {
-                document.getElementById('pdfSearchEmpty').style.display = 'block';
-                return;
-            }
+  <!-- ========================================================================= -->
+  <!-- 14. FOOTER TELEMETRY STRIP                                                -->
+  <!-- ========================================================================= -->
+  <footer class="w-full bg-surface-container-lowest shadow-[0_-1px_6px_rgba(0,0,0,0.02)] py-4 border-t border-surface-container-high/40">
+    <div class="w-full px-4 sm:px-8 flex flex-col md:flex-row items-center justify-between gap-3 font-label-mono text-xs text-on-surface-variant">
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="px-2 py-0.5 rounded bg-surface-container font-semibold text-on-surface">OCR v4.2 PRO</span>
+        <span>LATENCY: 120ms</span>
+        <span class="text-outline-variant">•</span>
+        <span>CONFIDENCE: 99.8%</span>
+        <span class="text-outline-variant">•</span>
+        <span class="hidden lg:inline">PIPELINE: TESSERACT-NEURAL + LLM SYNTHESIS</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <span class="uppercase text-on-surface font-medium">Languages:</span>
+        <span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface">Tamil</span>
+        <span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface">Hindi</span>
+        <span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface">Telugu</span>
+        <span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface">Malayalam</span>
+        <span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface">Bengali</span>
+        <span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant">+18 More</span>
+      </div>
+    </div>
+  </footer>
 
-            // Info bar
-            const infoBar = document.getElementById('pdfSearchInfoBar');
-            document.getElementById('pdfSearchInfoText').textContent =
-                `Found ${_currentPdfResults.length} result${_currentPdfResults.length !== 1 ? 's' : ''} for "${q}" across ${new Set(_currentPdfResults.map(r=>r.source_name)).size} source(s)`;
-            infoBar.style.display = 'flex';
-
-            renderPdfResults(_currentPdfResults, q);
-        } catch(err) {
-            document.getElementById('pdfSearchLoading').style.display = 'none';
-            document.getElementById('pdfSearchEmpty').style.display = 'block';
-            console.error('PDF search error:', err);
-        }
-    }
-
-    function renderPdfResults(results, query) {
-        const container = document.getElementById('pdfSearchResults');
-        container.innerHTML = '';
-        const keywords = query.toLowerCase().split(/\s+/).filter(t => t.length >= 2);
-
-        results.forEach((r, idx) => {
-            const card = document.createElement('div');
-            card.className = 'pdf-result-card';
-            card.style.animationDelay = `${idx * 0.04}s`;
-
-            // Highlight keywords in snippet
-            let snippet = r.snippet_en || r.ocr_text_en || '';
-            if(snippet.length > 300) snippet = snippet.substring(0, 300) + '...';
-            keywords.forEach(kw => {
-                const re = new RegExp(`(${kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
-                snippet = snippet.replace(re, '<mark style="background:#fef08a;color:#713f12;border-radius:3px;padding:0 2px;">$1</mark>');
-            });
-
-            const cropUrl = r.crop_url || '';
-            const snapUrl = r.snapshot_url || '';
-            // Show snapshot first for INSTANT loading; crop loads in background
-            const initialImg = snapUrl || cropUrl;
-            const sourceColor = {
-                'the_hindu': '#38bdf8',
-                'dt_next': '#f59e0b',
-                'lokmat': '#10b981',
-                'loksatta': '#a855f7',
-                'financial_express': '#06b6d4'
-            }[r.source_id] || '#38bdf8';
-
-            const confPct = Math.round((r.ocr_confidence || 0.9) * 100);
-            const isTranslated = r.story && r.story.is_translated;
-            const storyTitle = (r.story && r.story.title) ? r.story.title : '';
-
-            card.innerHTML = `
-                <div style="position:relative;overflow:hidden;background:#090d16;">
-                    ${initialImg
-                        ? `<img id="res-img-${idx}" src="${initialImg}" class="pdf-page-img" alt="Page ${r.page_num} - ${r.source_name}" onclick="openPageFullView('${cropUrl}','${snapUrl}','${r.source_name}','${r.date}',${r.page_num})" loading="lazy" style="width:100%;height:220px;object-fit:contain;background:#0b1120;cursor:pointer;transition:opacity 0.3s,transform 0.25s;" data-snap="${snapUrl}" data-crop="${cropUrl}" data-view-mode="snap"/>`
-                        : `<div style="height:180px;background:linear-gradient(135deg,rgba(30,41,59,0.8),rgba(15,23,42,0.9));display:flex;align-items:center;justify-content:center;color:#475569;font-size:2.5rem;">📰</div>`
-                    }
-                    <!-- Top Left: Source + Clip badge -->
-                    <div style="position:absolute;top:10px;left:10px;display:flex;gap:0.4rem;align-items:center;z-index:2;">
-                        <span style="background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);border:1px solid ${sourceColor};color:${sourceColor};font-weight:700;font-size:0.72rem;padding:0.25rem 0.6rem;border-radius:20px;">${r.source_name}</span>
-                        <span id="clip-badge-${idx}" style="background:linear-gradient(135deg,#f59e0b,#ea580c);color:#ffffff;font-weight:700;font-size:0.68rem;padding:0.25rem 0.55rem;border-radius:20px;box-shadow:0 2px 8px rgba(245,158,11,0.5);">✂️ Highlighted Clip</span>
-                    </div>
-                    <!-- Page badge -->
-                    <div style="position:absolute;top:10px;right:10px;background:#ef4444;color:white;font-weight:700;font-size:0.78rem;padding:0.3rem 0.65rem;border-radius:20px;box-shadow:0 2px 8px rgba(239,68,68,0.5);z-index:2;">Page ${r.page_num}</div>
-                    <!-- Toggle Switcher (Bottom Right) -->
-                    <div style="position:absolute;bottom:10px;right:10px;display:flex;background:rgba(15,23,42,0.9);backdrop-filter:blur(6px);border:1px solid rgba(56,189,248,0.3);border-radius:8px;overflow:hidden;z-index:2;">
-                        <button id="btn-crop-${idx}" onclick="toggleResultView(${idx},'crop',event)" style="border:none;background:rgba(56,189,248,0.25);color:#38bdf8;font-size:0.7rem;font-weight:700;padding:0.3rem 0.6rem;cursor:pointer;transition:all 0.2s;">✂️ Clip</button>
-                        <button id="btn-full-${idx}" onclick="toggleResultView(${idx},'full',event)" style="border:none;background:transparent;color:#94a3b8;font-size:0.7rem;font-weight:600;padding:0.3rem 0.6rem;cursor:pointer;transition:all 0.2s;">📰 Page</button>
-                    </div>
-                    ${isTranslated ? '<div style="position:absolute;bottom:10px;left:10px;background:rgba(16,185,129,0.85);color:white;font-size:0.68rem;font-weight:600;padding:0.2rem 0.5rem;border-radius:10px;z-index:2;">🌐 Translated</div>' : ''}
-                </div>
-                <div style="padding:1rem;">
-                    <div style="font-size:0.75rem;color:#64748b;margin-bottom:0.4rem;">📅 ${r.date} &nbsp;·&nbsp; 🎯 OCR ${confPct}% ${r.original_language ? '&nbsp;·&nbsp; 🗣️ ' + r.original_language : ''}</div>
-                    ${storyTitle ? `<div style="font-weight:700;color:#f1f5f9;font-size:0.9rem;margin-bottom:0.5rem;line-height:1.4;">${storyTitle}</div>` : ''}
-                    <div style="font-size:0.82rem;color:#94a3b8;line-height:1.6;margin-bottom:0.75rem;">${snippet || '<em style="color:#475569;">No text extracted</em>'}</div>
-                    <!-- Action buttons -->
-                    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                        <button onclick="exportSingleResult(${idx})" style="flex:1;min-width:90px;padding:0.5rem 0.65rem;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.35);border-radius:8px;color:#38bdf8;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(56,189,248,0.25)'" onmouseout="this.style.background='rgba(56,189,248,0.12)'">📄 Export PDF</button>
-                        <button onclick="shareWhatsApp(${idx})" style="flex:1;min-width:80px;padding:0.5rem 0.65rem;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);border-radius:8px;color:#25d366;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(37,211,102,0.22)'" onmouseout="this.style.background='rgba(37,211,102,0.1)'">💬 WhatsApp</button>
-                        <button onclick="shareTelegram(${idx})" style="flex:1;min-width:80px;padding:0.5rem 0.65rem;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:8px;color:#7dd3fc;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(56,189,248,0.18)'" onmouseout="this.style.background='rgba(56,189,248,0.08)'">✈️ Telegram</button>
-                        <button onclick="openEmailModal(${idx})" style="flex:1;min-width:80px;padding:0.5rem 0.65rem;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#c084fc;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(168,85,247,0.2)'" onmouseout="this.style.background='rgba(168,85,247,0.1)'">📨 Email</button>
-                    </div>
-                </div>
-            `;
-            container.appendChild(card);
-
-            // Lazy-load the highlighted crop in background — show snapshot first for instant display
-            if (r.crop_url && r.snapshot_url && r.crop_url !== r.snapshot_url) {
-                const imgEl = document.getElementById(`res-img-${idx}`);
-                const badgeEl = document.getElementById(`clip-badge-${idx}`);
-                if (imgEl) {
-                    // Show loading state on badge
-                    if (badgeEl) {
-                        badgeEl.textContent = '⏳ Loading clip...';
-                        badgeEl.style.background = 'rgba(56,189,248,0.3)';
-                    }
-                    const cropImg = new Image();
-                    cropImg.onload = function() {
-                        // Only swap if user hasn't manually switched to full-page view
-                        if (imgEl.dataset.viewMode !== 'full') {
-                            imgEl.src = cropImg.src;
-                            imgEl.dataset.cropLoaded = '1';
-                            imgEl.dataset.viewMode = 'crop';
-                        }
-                        if (badgeEl) {
-                            badgeEl.textContent = '✂️ Highlighted Clip';
-                            badgeEl.style.background = 'linear-gradient(135deg,#f59e0b,#ea580c)';
-                        }
-                    };
-                    cropImg.onerror = function() {
-                        // Keep showing snapshot if crop fails — hide the badge
-                        if (badgeEl) badgeEl.style.display = 'none';
-                    };
-                    cropImg.src = r.crop_url;
-                }
-            } else if (!r.crop_url) {
-                // No crop URL — hide clip badge
-                const badgeEl3 = document.getElementById(`clip-badge-${idx}`);
-                if (badgeEl3) badgeEl3.style.display = 'none';
-            }
-        });
-    }
-
-    function toggleResultView(idx, mode, evt) {
-        if(evt) evt.stopPropagation();
-        const r = _currentPdfResults[idx];
-        if(!r) return;
-        const imgEl = document.getElementById(`res-img-${idx}`);
-        const badgeEl = document.getElementById(`clip-badge-${idx}`);
-        const btnCrop = document.getElementById(`btn-crop-${idx}`);
-        const btnFull = document.getElementById(`btn-full-${idx}`);
-        if(mode === 'crop') {
-            const cropUrl = r.crop_url;
-            if(imgEl && cropUrl) {
-                imgEl.src = cropUrl;
-                imgEl.dataset.viewMode = 'crop';
-            }
-            if(badgeEl) { badgeEl.textContent = '✂️ Highlighted Clip'; badgeEl.style.display = 'inline-block'; }
-            if(btnCrop) { btnCrop.style.background = 'rgba(56,189,248,0.25)'; btnCrop.style.color = '#38bdf8'; btnCrop.style.fontWeight = '700'; }
-            if(btnFull) { btnFull.style.background = 'transparent'; btnFull.style.color = '#94a3b8'; btnFull.style.fontWeight = '600'; }
-        } else {
-            if(imgEl && r.snapshot_url) {
-                imgEl.src = r.snapshot_url;
-                imgEl.dataset.viewMode = 'full';
-            }
-            if(badgeEl) { badgeEl.style.display = 'none'; }
-            if(btnCrop) { btnCrop.style.background = 'transparent'; btnCrop.style.color = '#94a3b8'; btnCrop.style.fontWeight = '600'; }
-            if(btnFull) { btnFull.style.background = 'rgba(56,189,248,0.25)'; btnFull.style.color = '#38bdf8'; btnFull.style.fontWeight = '700'; }
-        }
-    }
-
-    function openPageFullView(cropUrl, fullUrl, source, date, pageNum) {
-        const win = window.open('', '_blank', 'width=1050,height=950');
-        const activeInitial = cropUrl || fullUrl;
-        win.document.write(`
-            <html><head><title>${source} - Page ${pageNum} - ${date} - Highlighted News Clipping</title>
-            <style>
-                body { margin:0; background:#0b1120; color:#f1f5f9; display:flex; flex-direction:column; align-items:center; padding:24px; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif; }
-                .top-bar { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:960px; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
-                .title { font-size:1.25rem; font-weight:700; color:#38bdf8; display:flex; align-items:center; gap:8px; margin:0; }
-                .controls { display:flex; gap:8px; }
-                .btn { padding:8px 16px; border-radius:8px; font-weight:600; font-size:0.85rem; cursor:pointer; border:1px solid rgba(56,189,248,0.3); background:rgba(30,41,59,0.9); color:#f1f5f9; transition:all 0.2s; }
-                .btn.active { background:#38bdf8; color:#0f172a; border-color:#38bdf8; font-weight:700; }
-                .img-frame { max-width:960px; width:100%; border:2px solid rgba(56,189,248,0.3); border-radius:12px; overflow:hidden; background:#0f172a; box-shadow:0 16px 48px rgba(0,0,0,0.6); display:flex; justify-content:center; }
-                img { max-width:100%; height:auto; display:block; }
-            </style></head>
-            <body>
-                <div class="top-bar">
-                    <h2 class="title">📰 ${source} &mdash; ${date} (Page ${pageNum})</h2>
-                    <div class="controls">
-                        <button id="viewClipBtn" class="btn active" onclick="switchView('crop')">✂️ Highlighted News Clipping</button>
-                        <button id="viewPageBtn" class="btn" onclick="switchView('full')">📰 Full Page</button>
-                        <a id="downloadBtn" class="btn" href="${activeInitial}" download="${source}_Page${pageNum}_Clipping.jpg">⬇️ Download</a>
-                    </div>
-                </div>
-                <div class="img-frame">
-                    <img id="mainDisplayImg" src="${activeInitial}" alt="News Clipping" />
-                </div>
-                <script>
-                    const cUrl = "${cropUrl}";
-                    const fUrl = "${fullUrl}";
-                    function switchView(mode) {
-                        const img = document.getElementById('mainDisplayImg');
-                        const bClip = document.getElementById('viewClipBtn');
-                        const bPage = document.getElementById('viewPageBtn');
-                        const dBtn = document.getElementById('downloadBtn');
-                        if(mode === 'crop') {
-                            img.src = cUrl;
-                            bClip.className = 'btn active';
-                            bPage.className = 'btn';
-                            dBtn.href = cUrl;
-                        } else {
-                            img.src = fUrl;
-                            bPage.className = 'btn active';
-                            bClip.className = 'btn';
-                            dBtn.href = fUrl;
-                        }
-                    }
-                <\/script>
-            </body></html>
-        `);
-    }
-
-    async function exportSingleResult(idx) {
-        const result = _currentPdfResults[idx];
-        if(!result) return;
-        showShareToast('⏳ Generating PDF report...', false);
-        try {
-            const resp = await fetch('/api/pdf-search/export', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    query: _currentQuery,
-                    source_ids: [result.source_id],
-                    date: result.date,
-                })
-            });
-            if(!resp.ok) { const e = await resp.json(); showShareToast('❌ ' + (e.detail || 'Export failed'), true); return; }
-            const blob = await resp.blob();
-            const cd = resp.headers.get('Content-Disposition') || '';
-            const fnMatch = cd.match(/filename=([^;]+)/);
-            const filename = fnMatch ? fnMatch[1] : 'search_report.pdf';
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
-            URL.revokeObjectURL(url);
-            _pendingSharePdfPath = filename;
-            showShareToast('✅ PDF exported! Use WhatsApp/Telegram/Email buttons to share.', false);
-        } catch(e) { showShareToast('❌ Export failed: ' + e.message, true); }
-    }
-
-    async function exportAllResults() {
-        if(!_currentPdfResults.length || !_currentQuery) return;
-        showShareToast('⏳ Generating full search PDF report...', false);
-        const sources = [...new Set(_currentPdfResults.map(r=>r.source_id))];
-        const dates = [...new Set(_currentPdfResults.map(r=>r.date))];
-        try {
-            const resp = await fetch('/api/pdf-search/export', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    query: _currentQuery,
-                    source_ids: sources,
-                    date: dates.length === 1 ? dates[0] : null,
-                })
-            });
-            if(!resp.ok) { const e = await resp.json(); showShareToast('❌ ' + (e.detail || 'Export failed'), true); return; }
-            const blob = await resp.blob();
-            const cd = resp.headers.get('Content-Disposition') || '';
-            const fnMatch = cd.match(/filename=([^;]+)/);
-            const filename = fnMatch ? fnMatch[1] : 'search_report.pdf';
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
-            URL.revokeObjectURL(url);
-            _pendingSharePdfPath = filename;
-            showShareToast('✅ PDF report downloaded! Now you can share via WhatsApp, Telegram, or Email.', false);
-        } catch(e) { showShareToast('❌ Export failed: ' + e.message, true); }
-    }
-
-    async function shareWhatsApp(idx) {
-        const result = _currentPdfResults[idx];
-        if(!result) return;
-        showShareToast('⏳ Generating & sending to WhatsApp...', false);
-        try {
-            // First export
-            const expResp = await fetch('/api/pdf-search/export', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
-            });
-            if(!expResp.ok) { const e = await expResp.json(); showShareToast('❌ ' + (e.detail || 'Export failed'), true); return; }
-            const expData = await expResp.headers.get('Content-Disposition');
-            const fnMatch = (expData||'').match(/filename=([^;]+)/);
-            const filename = fnMatch ? fnMatch[1].trim() : null;
-            if(!filename) { showShareToast('❌ Could not get export filename', true); return; }
-            // Then share
-            const shareResp = await fetch('/api/pdf-search/share/whatsapp', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ export_pdf_path: filename,
-                    caption: `📰 VEE2 Search: "${_currentQuery}" — ${result.source_name}, Page ${result.page_num}, ${result.date}` })
-            });
-            const sd = await shareResp.json();
-            if(sd.success) showShareToast(`✅ Sent to ${sd.recipients_count} WhatsApp chat(s)!`, false);
-            else showShareToast('❌ WhatsApp send failed', true);
-        } catch(e) { showShareToast('❌ ' + e.message, true); }
-    }
-
-    async function shareTelegram(idx) {
-        const result = _currentPdfResults[idx];
-        if(!result) return;
-        showShareToast('⏳ Generating & sending to Telegram...', false);
-        try {
-            // First export
-            const expResp = await fetch('/api/pdf-search/export', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
-            });
-            if(!expResp.ok) { const e = await expResp.json(); showShareToast('❌ ' + (e.detail || 'Export failed'), true); return; }
-            const expData = await expResp.headers.get('Content-Disposition');
-            const fnMatch = (expData||'').match(/filename=([^;]+)/);
-            const filename = fnMatch ? fnMatch[1].trim() : null;
-            if(!filename) { showShareToast('❌ Could not get export filename', true); return; }
-            // Then share
-            const shareResp = await fetch('/api/pdf-search/share/telegram', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ export_pdf_path: filename,
-                    caption: `📰 VEE2 Search: "${_currentQuery}" — ${result.source_name}, Page ${result.page_num}, ${result.date}` })
-            });
-            const sd = await shareResp.json();
-            if(sd.success) showShareToast(`✅ Sent to ${sd.recipients_count} Telegram chat(s)!`, false);
-            else showShareToast('❌ Telegram send failed', true);
-        } catch(e) { showShareToast('❌ ' + e.message, true); }
-    }
-
-    let _emailShareIdx = -1;
-    function openEmailModal(idx) {
-        _emailShareIdx = idx;
-        const result = _currentPdfResults[idx];
-        if(result) {
-            document.getElementById('emailShareSubject').value =
-                `VEE2 Search "${_currentQuery}" — ${result.source_name} Page ${result.page_num} (${result.date})`;
-        }
-        document.getElementById('emailShareModal').style.display = 'flex';
-    }
-
-    async function confirmEmailShare() {
-        const toEmail = document.getElementById('emailShareTo').value.trim();
-        const subject = document.getElementById('emailShareSubject').value.trim();
-        if(!toEmail) return;
-        document.getElementById('emailShareModal').style.display = 'none';
-
-        const result = _currentPdfResults[_emailShareIdx];
-        if(!result) return;
-        showShareToast('⏳ Generating PDF and sending email...', false);
-        try {
-            const expResp = await fetch('/api/pdf-search/export', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
-            });
-            if(!expResp.ok) { showShareToast('❌ Export failed', true); return; }
-            const cd = expResp.headers.get('Content-Disposition') || '';
-            const fnMatch = cd.match(/filename=([^;]+)/);
-            const filename = fnMatch ? fnMatch[1].trim() : null;
-            if(!filename) { showShareToast('❌ Could not determine export path', true); return; }
-
-            const shareResp = await fetch('/api/pdf-search/share/email', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ export_pdf_path: filename, to_email: toEmail, subject: subject })
-            });
-            const sd = await shareResp.json();
-            if(sd.success) showShareToast(`✅ Email sent to ${toEmail}!`, false);
-            else showShareToast('❌ Email failed: ' + (sd.error || ''), true);
-        } catch(e) { showShareToast('❌ ' + e.message, true); }
-    }
-
-    function showShareToast(msg, isError) {
-        const toast = document.getElementById('shareToast');
-        toast.textContent = msg;
-        toast.style.background = isError
-            ? 'linear-gradient(135deg,#7f1d1d,#991b1b)'
-            : 'linear-gradient(135deg,#166534,#15803d)';
-        toast.style.borderColor = isError ? '#ef4444' : '#22c55e';
-        toast.style.display = 'block';
-        toast.style.opacity = '1';
-        if(!isError) setTimeout(() => { toast.style.opacity='0'; setTimeout(()=>toast.style.display='none', 400); }, 3500);
-    }
-
-    async function loadPdfIndexStatus() {
-        const panel = document.getElementById('pdfIndexStatusPanel');
-        panel.style.display = 'block';
-        document.getElementById('pdfIndexStatusContent').textContent = 'Loading...';
-        try {
-            const resp = await fetch('/api/pdf-index/status');
-            const data = await resp.json();
-            const sources = data.indexed_sources || [];
-            if(!sources.length) {
-                document.getElementById('pdfIndexStatusContent').innerHTML =
-                    '<p style="color:#ef4444;">⚠️ No PDFs indexed yet. Harvest newspapers first, then click Rebuild Index.</p>';
-                return;
-            }
-            let html = `<div style="margin-bottom:0.75rem;color:#64748b;">Total indexed documents: <strong style="color:#38bdf8">${data.total_documents}</strong> | Eligible sources: ${data.eligible_sources.join(', ')}</div>`;
-            html += sources.map(s => `
-                <div style="padding:0.6rem 0.9rem;background:rgba(30,41,59,0.6);border-radius:8px;margin-bottom:0.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-                    <span style="font-weight:700;color:#f1f5f9;min-width:150px;">${s.source_name}</span>
-                    <span style="color:#64748b;font-size:0.8rem;">📄 ${s.total_pages} pages &nbsp;·&nbsp; 📰 ${s.total_stories} stories &nbsp;·&nbsp; 📅 ${(s.indexed_dates||[]).join(', ')}</span>
-                </div>
-            `).join('');
-            document.getElementById('pdfIndexStatusContent').innerHTML = html;
-        } catch(e) {
-            document.getElementById('pdfIndexStatusContent').innerHTML = '<p style="color:#ef4444;">Error loading index status</p>';
-        }
-    }
-
-    async function rebuildPdfIndex() {
-        if(!confirm('Rebuild the PDF search index? This will OCR and re-index all harvested PDFs. This may take a few minutes.')) return;
-        showShareToast('⏳ Rebuilding PDF index...', false);
-        try {
-            const resp = await fetch('/api/pdf-index/rebuild', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ force: true }) });
-            const data = await resp.json();
-            showShareToast(`✅ Index rebuilt: ${data.indexed} indexed, ${data.skipped} skipped, ${data.failed} failed.`, false);
-            loadPdfIndexStatus();
-        } catch(e) { showShareToast('❌ Rebuild failed: ' + e.message, true); }
-    }
-
-    async function runAutoHarvest() {
-        const btn = document.getElementById('btnTriggerAutoHarvest');
-        if(!btn) return;
-        btn.disabled = true;
-        btn.innerHTML = '⏳ Harvesting 5 Papers...';
-        showShareToast('⚡ Launching automated harvest for The Hindu, Lokmat, Loksatta, DT Next, Financial Express...', false);
-        try {
-            const resp = await fetch('/api/harvest/auto/run', { method: 'POST' });
-            const data = await resp.json();
-            btn.innerHTML = '✅ Harvest Initiated!';
-            showShareToast(`⚡ Automated harvest initiated for ${data.total_jobs} publications! They will be automatically OCR-indexed.`, false);
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.innerHTML = '⚡ Run Auto-Harvest Now';
-            }, 6000);
-        } catch(e) {
-            btn.disabled = false;
-            btn.innerHTML = '⚡ Run Auto-Harvest Now';
-            showShareToast('❌ Harvest error: ' + e.message, true);
-        }
-    }
-    </script>
-
+  <!-- Application Logic -->
+  <script src="/static/js/app.js?v=4.2"></script>
 </body>
 </html>
-
