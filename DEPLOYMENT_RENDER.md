@@ -22,21 +22,16 @@ You can deploy using either **Method 1: Render Blueprints (Recommended)** or **M
 
 ### Method 1: Render Blueprints (Automated via `render.yaml`)
 
-Because this repository includes [`render.yaml`](render.yaml), you can deploy with a single click:
+Because this repository includes [`render.yaml`](render.yaml) configured for the **Free Plan**, you can deploy directly using this 1-click link:
 
-1. Push your latest code to your GitHub repository:
-   ```bash
-   git add .
-   git commit -m "Configure Render deployment settings and dependencies"
-   git push origin main
-   ```
-2. Log in to [Render Dashboard](https://dashboard.render.com).
-3. Click **New +** in the top navigation and select **Blueprint**.
-4. Connect your GitHub repository: `Kumaresan-31/Print-and-Regional-media`.
-5. Render will automatically read [`render.yaml`](render.yaml) and detect the `epaper-harvester` service.
-6. Click **Apply**:
-   - If using the **Starter Plan** (Paid, $7/mo), it will automatically attach the 10GB persistent disk at `/var/data` so harvested PDFs and indexes persist across deploys.
-   - If using the **Free Plan**, see the [Free Plan Setup](#-free-plan-setup-no-credit-card) section below.
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Kumaresan-31/Print-and-Regional-media)
+
+Or manually follow these steps:
+1. Go to [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints).
+2. Click **New Blueprint Instance**.
+3. Select your repository: `Kumaresan-31/Print-and-Regional-media`.
+4. Render will read [`render.yaml`](render.yaml) automatically.
+5. Click **Apply** to deploy.
 
 ---
 
