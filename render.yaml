@@ -3,7 +3,7 @@ services:
     name: epaper-harvester
     runtime: python
     rootDir: backend
-    plan: starter # NOTE: Set to 'free' and remove the 'disk' section below if deploying on Render Free Tier
+    plan: free
     buildCommand: pip install -r ../requirements.txt && playwright install chromium
     startCommand: python -m harvester.cli serve --port $PORT
     envVars:
@@ -13,7 +13,3 @@ services:
         value: "3.11"
       - key: PLAYWRIGHT_BROWSERS_PATH
         value: /opt/render/project/.playwright
-    disk:
-      name: epaper-data
-      mountPath: /var/data
-      sizeGB: 10
