@@ -432,6 +432,33 @@ class NewsFeedService:
         # Cache key -> (timestamp, List[NewsArticle])
         self._cache: Dict[str, tuple[datetime, List[NewsArticle]]] = {}
         self._translation_cache: Dict[str, str] = {}
+        self._articles_by_id: Dict[str, NewsArticle] = {}
+
+    def register_articles(self, articles: List[NewsArticle]):
+        """Indexes articles by ID for instant retrieval across sessions, searches, and modals."""
+        if not articles:
+            return
+        for a in articles:
+            if a and getattr(a, "id", None):
+                self._articles_by_id[a.id] = a
+        # Bound cache size to prevent memory leaks (keep latest 3000)
+        if len(self._articles_by_id) > 3000:
+            keys = list(self._articles_by_id.keys())
+            for k in keys[:-2500]:
+                self._articles_by_id.pop(k, None)
+
+    def get_article_by_id(self, article_id: str) -> Optional[NewsArticle]:
+        """Retrieves an article by ID from the global registry or cache."""
+        if not article_id:
+            return None
+        if article_id in self._articles_by_id:
+            return self._articles_by_id[article_id]
+        for _, (_, arts) in self._cache.items():
+            for a in arts:
+                if a.id == article_id:
+                    self._articles_by_id[a.id] = a
+                    return a
+        return None
 
     def get_categories(self) -> List[Dict[str, Any]]:
         """Returns metadata for all available news categories."""
@@ -669,7 +696,9 @@ class NewsFeedService:
                     )
                 )
 
-        return articles[:limit]
+        res_arts = articles[:limit]
+        self.register_articles(res_arts)
+        return res_arts
 
     async def get_online_news(
         self,
@@ -757,7 +786,9 @@ class NewsFeedService:
         if translation_tasks:
             await asyncio.gather(*translation_tasks)
 
-        return articles[:limit]
+        res_arts = articles[:limit]
+        self.register_articles(res_arts)
+        return res_arts
 
     async def get_news_for_source(
         self,
@@ -1031,6 +1062,7 @@ class NewsFeedService:
 
         articles.extend(new_fetched)
         self._cache[cache_key] = (now, articles)
+        self.register_articles(articles)
         return articles
 
 

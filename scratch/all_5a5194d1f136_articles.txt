@@ -1,0 +1,92 @@
+[0] ENG: September 110101) (19:21 Ten new bids have been approved, there has been damage
+     ORIG: 'സെപ്തംബര്\u200d'
+     SNIP: '110101) (19:21 പ്പത്തി പുതിയ വിട്\u200c അനുവ ണ്\u200c ണന ശിക കേടപാടുണ്ടായ വ അക്ക ഫാ'
+     BBOX: [148, 78, 756, 1500]
+[1] ENG: Compensation is to be provided to farmers according to the legislation, and the government will give subsidies to farmers to cover
+     ORIG: 'തികം വരിക'
+     SNIP: '[ ുോയ സാശനക്ങള്\u200d ല്\u200d സപരിഹാരം നല്\u200d ണമെന്ന്\u200c കര്\u200d കര്\u200dഷ ഫാ സസ്ഥാന സമാന
+     BBOX: [41, 49, 1143, 1584]
+[2] ENG: Give the whip strictly, it will definitely break (this is at the level of 0 crore rupees)
+     ORIG: 'വിപ്പ്\u200c കൊടു'
+     SNIP: 'ര്\u200dണമായും വി നഷിട്പ ം (അതാകെ 0 കോടിരയപയുടെ ലഫ്\u200c പതിയില്\u200d ഉ'
+     BBOX: [46, 312, 312, 359]
+[3] ENG: It is in the state of decay
+     ORIG: 'ൂിനശില്െന്നാണ്\u200c ളാ സു'
+     SNIP: 'തൂണം നി രില്\u200d നിയമനിര്\u200dമാണം നടത്ത നി'
+     BBOX: [134, 343, 346, 531]
+[4] ENG: Mayum Marshal Paran
+     ORIG: 'മയും മാര്\u200dഷിാല്\u200dപ്പാരന'
+     SNIP: 'പ ഞന തര പതി ഉപയോ പ്പെ ടത്തിയ മാര്\u200dചി ര റക നിര്\u200d'
+     BBOX: [46, 331, 343, 633]
+[5] ENG: Raised the wolf assembly
+     ORIG: 'ശ്വ സമ്മേളനം ഉന്നയിച്ച'
+     SNIP: 'മില്\u200dമ യൂണിയന്\u200d പിരിച്ചുവിട്ടത്\u200c ജനാധിപ്പത്യവിരുദ്ധം പി രമമലബാര്\u200d മേഖല യാന്നിയന
+     BBOX: [46, 641, 320, 1103]
+[6] ENG: in Vichchavidathi
+     ORIG: 'യിന്\u200d വിിചചവിടതി'
+     SNIP: 'ചത ലാരമായി വര്\u200dത്തി ചതിച്ച മിര മഥഡരേഷണുമായി ആോപികതയും സ്ന സ്മിതയെ അമമായി പിര ലിടാനള്ളയുഡിഎഫ്\u
+     BBOX: [46, 263, 1104, 1611]
+[7] ENG: The plow and the farmer's forehead in the soil of Telangana
+     ORIG: 'തെലങ്കാനയുടെ മണ്ണില്\u200d വിണ്ടും കര്\u200dഷക മുന്നും'
+     SNIP: 'മണ വര്\u200dഷം തെലാനയില്\u200d സ്കാര്\u200d എപെകമയമായി പിരി ചവിട്ട്\u200c ിമുവനുത്തപുരം ത്തി മുരളി 
+     BBOX: [46, 49, 1141, 1584]
+[8] ENG: Sana Siri Sana, Naan Na payasa patanam, Ambhavanti OSI, government muni power
+     ORIG: 'സനം'
+     SNIP: 'സിരി സനം നാന [ന പായസ പ തനന അമ ഭവന്തി ഒസി സര്\u200dക്കാര്\u200d മു നി പ വലിവു'
+     BBOX: [45, 1524, 323, 1633]
+[9] ENG: Give flood relief and perishables immediately
+     ORIG: 'പ്രളയ, നഷ്\u200cവരിഹാരം ഉടന്\u200d നല്\u200dകുണം'
+     SNIP: 'നില ഇരി കര്\u200dഷ കിടങ്ങ്\u200c ധി സ്വത്ര്ത്ര വ്യാപാര കുരാരുക്ള്\u200d ൂ'
+     BBOX: [46, 49, 1032, 1327]
+[10] ENG: Your needs and ours
+     ORIG: 'നി ആവശ്യങ്ങളും നങ്ങളു'
+     SNIP: 'നോഗ വനങ്ങള്\u200d പാലിച്ച .ണമ അതില്\u200d കൂടുതല കം റില്\u200d ഭക്ഷയസ്വരദ്ധനിയമ ഭേദഗതി ബില്\u200d വ
+     BBOX: [46, 189, 1105, 1613]
+[11] ENG: Bhaja labor employment program should be established
+     ORIG: 'ഭജ തൊഴിലുറപപദ്ധതിഫനസ്ഥിക്കണം'
+     SNIP: 'തിം നി്\u200c ന യ (ലലെ ഷര്\u200dമായി ബാധി ത കിസാന്\u200d മോര്\u200d യ്യും തന ഹോമുകള്\u200d പകരം ടു 
+     BBOX: [349, 521, 793, 669]
+[12] ENG: Amaju and Mal Tyiya Prabha
+     ORIG: 'അമാജും മല്\u200d ത്യിയ പ്രഭ'
+     SNIP: 'ആധ വശ്യ ഇതിന ജാ വനം വനയജ്വി സം അനിയത്തി ഭൂമി പ്രധാന കാര്\u200dഷിക പ്രശ്നമായി കൊയേറിയെന്്\u200c ആരോപ
+     BBOX: [254, 631, 816, 1200]
+[13] ENG: Kadi Nar Aal
+     ORIG: 'കാടി നാർ ആല'
+     SNIP: '[വി തതിടനാളില്\u200d ജി പ്രധാന കാര്\u200dഷികം നമായി മറിയതായി അഖില യകിസാല്\u200d സഭ വൈസ പ്രസിഡ ഡി വി
+     BBOX: [343, 964, 686, 1224]
+[14] ENG: Obeyed stubbornly
+     ORIG: 'മന്ന വാശാനവും പാലിച്ച'
+     SNIP: 'ലവം കോര്\u200dപ്\u200c കായി ബിലംപരയോഗിചലി ബാര്\u200d ണല്\u200d ലിക റോഡി യമ നായി ഏക്കറാണ്\u200c ഏറ്റ
+     BBOX: [46, 259, 756, 1613]
+[15] ENG: N tarti lada
+     ORIG: '൯ തര്ട്ി ലട'
+     SNIP: 'മട്ട്യ്രചാണേം ത്തും ആദയം കൊല്ലുന്നത്\u200c'
+     BBOX: [483, 1606, 700, 1634]
+[16] ENG: It can still come
+     ORIG: 'ഇനിയും വരാമല്ലോ'
+     SNIP: 'വന്യജീവി ആദരണത്തില്\u200d നിനി കര്\u200d'
+     BBOX: [46, 49, 1032, 1327]
+[17] ENG: Passenger request
+     ORIG: 'പതസര്\u200dിാര്\u200d ആവശ്യ'
+     SNIP: 'യ കതിന മിന ഇം മിച്ച മിഴനോട്ടിലെ കമുത്തുഴറുകര്\u200dഷക, ഇുടതുപഷ മുന്നേറണമെന്ന്\u200c ജന ശാ'
+     BBOX: [254, 634, 821, 1500]
+[18] ENG: September 0 Sunday
+     ORIG: 'സെഡ്തംബര്\u200d 0 ഞായര്\u200d'
+     SNIP: ',അയനഴില മകള്\u200d സംഥന സജമനേത്തിനറെ ഫെദധസജനേംനടലന ഘന അല്നനമ നിലെ ആല ോമുമിഗ്രണ്\u200d കും ആലപ്പുഴയി
+     BBOX: [349, 50, 1147, 1116]
+[19] ENG: With my book, they received a warm welcome at the cinema, and the play was a hit.
+     ORIG: 'എന എല്\u200d പുസ'
+     SNIP: 'തോടെ ്തിനിധികള്\u200dക്കി ത സിനേമരിയാന്\u200d അവ വി തിയ കം ആപ്പു ആതിഥേയ സരം ലഭിച്ച നാടകം ബാഗമാണ.'
+     BBOX: [46, 177, 1143, 1333]
+[20] ENG: Wild animal attack
+     ORIG: 'വന്യീവി ആക്രമണം'
+     SNIP: 'കര്\u200dഷകരെയും കൃഷിയെയും രക്ഷിക്കാന്\u200d നടപടി വേണം തിയാ വനാതിര്\u200dതികളില്\u200d നെയിം സ രിന
+     BBOX: [663, 711, 1141, 849]
+[21] ENG: She/He wants
+     ORIG: 'അള്\u200d ആഗ്രഹിക്കുന്നു'
+     SNIP: 'അനൂപ വര്\u200dഷത്തോളം ിഡധ ഷിക രിച്ച തിനാ കൂ അവേരല്ലാതത പാര്\u200d അധികാ ത്തിലെതവിയിയുടെ ടിവി ി നയതി
+     BBOX: [47, 769, 1138, 1257]
+[22] ENG: Rape abuse in the Thalannam Bath Cell Jail
+     ORIG: 'ത തന്ന ബത സെന്\u200dല്\u200d ജയിലില്\u200d കോഴ പീഡന'
+     SNIP: 'ത്തിനയോകകി ആരോഗ്യത്കള്\u200dന്ന അവടെ ജ്\u200c വരി നി പാളി വി കടലിലും അലാവു [॥ സ്നേഹലത റി എഴുതി ഡയിക
+     BBOX: [46, 151, 1104, 1584]

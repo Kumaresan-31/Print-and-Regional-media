@@ -15,7 +15,11 @@ python-multipart>=0.0.9
 pytesseract>=0.3.10
 websockets>=12.0
 deep-translator>=1.11.0
+# High-speed FastOCR (RapidOCR ONNX Engine)
 rapidocr-onnxruntime>=1.2.0
+# paddleocr & paddlepaddle replaced by lightweight FastOCR (RapidOCR ONNX)
+
 pypdfium2>=4.0.0
 pdf2image>=1.16.0
 tzdata
+

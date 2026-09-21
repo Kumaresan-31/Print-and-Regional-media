@@ -7,6 +7,7 @@ import re
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass, field
+import concurrent.futures
 from typing import Dict, List, Optional, Tuple, Set, Any
 
 from deep_translator import GoogleTranslator
@@ -14,6 +15,9 @@ from deep_translator import GoogleTranslator
 from harvester.config import settings
 
 logger = logging.getLogger(__name__)
+
+# Dedicated thread pool for non-blocking HTTP translation requests (prevents starving FastAPI event loop)
+_translation_executor = concurrent.futures.ThreadPoolExecutor(max_workers=4, thread_name_prefix="tr_worker")
 
 # Canonical dictionary of sensitive Named Entities to preserve strictly in English
 CANONICAL_NAMED_ENTITIES: Dict[str, str] = {
@@ -349,7 +353,7 @@ class LLMTranslator:
 
         # 2. Execute dual-engine translation
         loop = asyncio.get_event_loop()
-        translated_raw = await loop.run_in_executor(None, self._translate_sync, clean_text, source_lang)
+        translated_raw = await loop.run_in_executor(_translation_executor, self._translate_sync, clean_text, source_lang)
 
         # 3. Post-process to guarantee 100% preservation of all named entities
         translated_final, preserved_list, missing_count = self.ensure_entity_preservation(
@@ -475,7 +479,7 @@ class LLMTranslator:
         raw_translations = []
         for chunk in chunks:
             try:
-                raw_item = await loop.run_in_executor(None, self._translate_sync, chunk, source_lang)
+                raw_item = await loop.run_in_executor(_translation_executor, self._translate_sync, chunk, source_lang)
                 raw_translations.append(raw_item)
             except Exception as ce:
                 raw_translations.append(ce)

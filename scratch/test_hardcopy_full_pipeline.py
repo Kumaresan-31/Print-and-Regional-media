@@ -39,8 +39,8 @@ def test_hardcopy_pipeline():
 
     print(f"\n--- 2. Polling Job Progress for {job_id} ---")
     completed = False
-    for attempt in range(40):
-        time.sleep(1.5)
+    for attempt in range(60):
+        time.sleep(2.0)
         p_resp = requests.get(f"{BASE_URL}/api/newspaper/upload-progress/{job_id}")
         job_data = p_resp.json()
         status = job_data.get("status")

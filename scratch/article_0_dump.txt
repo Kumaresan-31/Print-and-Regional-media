@@ -1,0 +1,43 @@
+LATEST FILE: 5a5194d1f136.json
+Total articles: 23
+KEYS in article 0:
+  id: 'ba0f2951323c'
+  article_id: 'ba0f2951323c'
+  newspaper: '20092026 Alappuzha 1'
+  pdf_file: 'batch_20260921_113618_00_20092026-alappuzha-1.pdf'
+  publication_date: '2026-09-21'
+  original_language: 'Malayalam'
+  page_number: 1
+  page_num: 1
+  page_numbers: [1]
+  continuation_label: 'Page: 1'
+  category: 'Other'
+  secondary_categories: []
+  headline_english: 'September 110101) (19:21 Ten new bids have been approved, there has been damage'
+  english_headline: 'September 110101) (19:21 Ten new bids have been approved, there has been damage'
+  content_english: 'September 110101) (19:21 Ten new bids have been approved, there has been damage'
+  english_summary: 'September 110101) (19:21 Ten new bids have been approved, there has been damage'
+  headline_original: 'സെപ്തംബര്\u200d'
+  content_original: 'സെപ്തംബര്\u200d\n110101) (19:21 പ്പത്തി പുതിയ വിട്\u200c അനുവ ണ്\u200c ണന ശിക കേടപാടുണ്ടായ വ അക്ക ഫാ'
+  original_snippet: '110101) (19:21 പ്പത്തി പുതിയ വിട്\u200c അനുവ ണ്\u200c ണന ശിക കേടപാടുണ്ടായ വ അക്ക ഫാ'
+  ocr_confidence: 0.95
+  confidence: 0.95
+  is_low_confidence: False
+  page_snapshot_url: '/api/snapshots/6166126cb03b/1'
+  original_page_image_url: '/api/snapshots/6166126cb03b/1'
+  crop_image_url: '/api/newspaper/article/ba0f2951323c/crop'
+  pdf_download_url: '/api/newspaper/article/ba0f2951323c/pdf'
+  status: 'completed'
+  bounding_box: [148, 78, 756, 1500]
+  title: 'September 110101) (19:21 Ten new bids have been approved, there has been damage'
+  original_title: 'സെപ്തംബര്\u200d'
+  snippet: 'September 110101) (19:21 Ten new bids have been approved, there has been damage'
+  source_id: 'uploaded_pdf'
+  source_name: '20092026 Alappuzha 1 (Page 1)'
+  author: '20092026 Alappuzha 1'
+  link: '#page-1'
+  published_at: 'Page 1'
+  is_translated: True
+  ocr_raw_text: 'സെപ്തംബര്\u200d\n110101) (19:21 പ്പത്തി പുതിയ വിട്\u200c അനുവ ണ്\u200c ണന ശിക കേടപാടുണ്ടായ വ അക്ക ഫാ'
+  doc_id: '6166126cb03b'
+  filename: 'batch_20260921_113618_00_20092026-alappuzha-1.pdf'

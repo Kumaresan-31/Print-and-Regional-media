@@ -6,6 +6,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -114,6 +115,16 @@ class TelegramBotService:
             with urllib.request.urlopen(req, timeout=25) as resp:
                 raw = resp.read().decode("utf-8")
                 return json.loads(raw)
+        except urllib.error.HTTPError as e:
+            try:
+                raw_body = e.read().decode("utf-8")
+                err_data = json.loads(raw_body)
+                desc = err_data.get("description", raw_body)
+                logger.warning(f"Telegram API call to '{endpoint}' failed: HTTP {e.code} - {desc}")
+                return err_data
+            except Exception:
+                logger.warning(f"Telegram API call to '{endpoint}' failed: {e}")
+                return {"ok": False, "error": str(e), "error_code": e.code}
         except Exception as e:
             logger.warning(f"Telegram API call to '{endpoint}' failed: {e}")
             return {"ok": False, "error": str(e)}
@@ -297,6 +308,14 @@ class TelegramBotService:
 
     async def _poll_loop(self):
         """Continuous long-polling loop with exception backoff."""
+        # Ensure any conflicting webhook is cleared before starting polling
+        try:
+            del_res = await self.call_api("deleteWebhook", {"drop_pending_updates": False})
+            if del_res.get("ok"):
+                logger.info("Telegram webhook checked/cleared for polling mode.")
+        except Exception as e:
+            logger.debug(f"Telegram deleteWebhook check error: {e}")
+
         while self._is_polling:
             try:
                 payload = {
@@ -314,7 +333,14 @@ class TelegramBotService:
                             self._last_update_id = up_id
                         await self._process_update(update)
                 else:
-                    await asyncio.sleep(3)
+                    err_code = res.get("error_code")
+                    if err_code == 409:
+                        desc = str(res.get("description", ""))
+                        if "webhook" in desc.lower():
+                            await self.call_api("deleteWebhook", {"drop_pending_updates": False})
+                        await asyncio.sleep(8)
+                    else:
+                        await asyncio.sleep(3)
             except asyncio.CancelledError:
                 break
             except Exception as e:

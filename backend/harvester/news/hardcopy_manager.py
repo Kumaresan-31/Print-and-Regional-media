@@ -55,10 +55,12 @@ class HardcopyManager:
             "created_at": datetime.now().isoformat(),
             "status": "processing",
             "progress_pct": 5,
-            "current_step": f"Uploaded {file_count} document(s). Initializing OCR worker pool...",
+            "progress_percentage": 5,
+            "current_step": f"Uploaded {file_count} document(s). Initializing FastOCR engine worker pool...",
             "file_count": file_count,
             "file_names": file_names,
             "pages_checklist": [],
+            "checklist": [],
             "summary": {
                 "newspaper_names": [],
                 "publication_dates": [],
@@ -72,8 +74,37 @@ class HardcopyManager:
         return job_id
 
     def get_job_progress(self, job_id: str) -> Optional[Dict[str, Any]]:
-        """Retrieves real-time progress for a job."""
-        return self._jobs.get(job_id)
+        """Retrieves real-time progress for a job with backward/forward-compatible aliases."""
+        job = self._jobs.get(job_id)
+        if not job:
+            save_path = HARDCOPY_DIR / f"{job_id}.json"
+            if save_path.exists():
+                try:
+                    with open(save_path, "r", encoding="utf-8") as f:
+                        disk_job = json.load(f)
+                        checklist = disk_job.get("pages_checklist", disk_job.get("checklist", []))
+                        self._jobs[job_id] = {
+                            "job_id": job_id,
+                            "created_at": disk_job.get("created_at", ""),
+                            "status": "completed",
+                            "progress_pct": 100,
+                            "progress_percentage": 100,
+                            "current_step": "Extraction completed",
+                            "file_count": len(checklist),
+                            "file_names": list({p.get("file_name", "") for p in checklist}),
+                            "pages_checklist": checklist,
+                            "checklist": checklist,
+                            "summary": disk_job.get("summary", {}),
+                            "articles": disk_job.get("articles", []),
+                            "error": None,
+                        }
+                        return self._jobs[job_id]
+                except Exception as ex:
+                    logger.debug(f"Could not load persisted job {job_id}: {ex}")
+            return None
+        job["progress_percentage"] = job.get("progress_pct", 0)
+        job["checklist"] = job.get("pages_checklist", [])
+        return job
 
     def update_page_progress(self, job_id: str, page_entry: Dict[str, Any]):
         """Appends or updates a page status entry in real-time."""
@@ -82,6 +113,13 @@ class HardcopyManager:
             return
 
         checklist = job.setdefault("pages_checklist", [])
+        fname = page_entry.get("file_name", "document.pdf")
+        pnum = page_entry.get("page_num", 1)
+        if "name" not in page_entry:
+            page_entry["name"] = f"{fname} - Page {pnum}"
+        if "title" not in page_entry:
+            page_entry["title"] = f"{fname} (Page {pnum})"
+
         # Check if page already exists to update
         existing = next((p for p in checklist if p.get("file_name") == page_entry.get("file_name") and p.get("page_num") == page_entry.get("page_num")), None)
         if existing:
@@ -94,6 +132,8 @@ class HardcopyManager:
         completed = sum(1 for p in checklist if p.get("status") in ("success", "low_confidence", "failed", "blank"))
         pct = min(15 + int((completed / total_expected) * 75), 90)
         job["progress_pct"] = pct
+        job["progress_percentage"] = pct
+        job["checklist"] = checklist
         job["current_step"] = f"Processed {completed}/{total_expected} broadsheet pages... (Page {page_entry.get('page_num')}: {page_entry.get('status')})"
 
     def complete_job(self, job_id: str, results: Dict[str, Any]):
@@ -108,10 +148,12 @@ class HardcopyManager:
 
         job["status"] = "completed"
         job["progress_pct"] = 100
+        job["progress_percentage"] = 100
         job["current_step"] = f"Extraction complete! {len(articles)} English articles categorized across {summary.get('total_pages_processed', len(pages_checklist))} pages."
         job["articles"] = articles
         job["summary"] = summary
         job["pages_checklist"] = pages_checklist
+        job["checklist"] = pages_checklist
 
         # Save to disk
         save_path = HARDCOPY_DIR / f"{job_id}.json"
@@ -122,6 +164,7 @@ class HardcopyManager:
                     "created_at": job["created_at"],
                     "summary": summary,
                     "pages_checklist": pages_checklist,
+                    "checklist": pages_checklist,
                     "articles": articles,
                 }, f, ensure_ascii=False, indent=2)
             logger.info(f"Saved hardcopy upload results to {save_path}")
@@ -137,6 +180,7 @@ class HardcopyManager:
         if job:
             job["status"] = "failed"
             job["progress_pct"] = 100
+            job["progress_percentage"] = 100
             job["current_step"] = f"Failed: {error_msg}"
             job["error"] = error_msg
 
@@ -215,7 +259,15 @@ class HardcopyManager:
                 if q_clean not in searchable:
                     continue
 
-            results.append(art)
+            # Ensure unified aliases for UI components
+            art_copy = dict(art)
+            art_copy["page_num"] = art.get("page_num") or art.get("page_number", 1)
+            art_copy["confidence"] = art.get("confidence") or art.get("ocr_confidence", 0.95)
+            art_copy["english_headline"] = art.get("english_headline") or art.get("headline_english") or art.get("title", "")
+            art_copy["original_snippet"] = art.get("original_snippet") or art.get("content_original") or art.get("original_title") or art.get("snippet", "")
+            art_copy["english_summary"] = art.get("english_summary") or art.get("content_english") or art.get("snippet", "")
+
+            results.append(art_copy)
             if len(results) >= limit:
                 break
 
@@ -303,9 +355,9 @@ class HardcopyManager:
         try:
             from harvester.news.search_pdf_exporter import build_hardcopy_article_pdf, build_hardcopy_batch_pdf
             if len(articles) == 1:
-                pdf_path = build_hardcopy_article_pdf(articles[0])
+                pdf_path = await asyncio.to_thread(build_hardcopy_article_pdf, articles[0])
             elif len(articles) > 1:
-                pdf_path = build_hardcopy_batch_pdf(articles, title=paper_names or "Hardcopy Newspaper Digest")
+                pdf_path = await asyncio.to_thread(build_hardcopy_batch_pdf, articles, paper_names or "Hardcopy Newspaper Digest")
         except Exception as pe:
             logger.warning(f"Could not generate PDF attachment for alert: {pe}")
 
@@ -472,7 +524,8 @@ class HardcopyManager:
                 """
 
                 subject = f"📰 [Newspaper Alert] {paper_names}: {len(articles)} Categorized English Stories"
-                email_ok, email_msg = news_email_service.send_raw_email(
+                email_ok, email_msg = await asyncio.to_thread(
+                    news_email_service.send_raw_email,
                     recipient_email=target_email,
                     subject=subject,
                     html_body=html_body,

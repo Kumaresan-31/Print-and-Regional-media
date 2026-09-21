@@ -5,6 +5,7 @@ import logging
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, List, Dict, Any
+import urllib.parse
 
 ALLOWED_DOC_EXTENSIONS = (
     ".pdf", ".docx", ".doc", ".txt", ".md", ".csv",
@@ -22,7 +23,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from harvester.config import settings, SNAPSHOTS_DIR, EXPORTS_DIR
+import concurrent.futures
+from harvester.config import settings, SNAPSHOTS_DIR, EXPORTS_DIR, BASE_DIR
+
+_cropper_executor = concurrent.futures.ThreadPoolExecutor(max_workers=4, thread_name_prefix="crop_worker")
 from harvester.models import SourceConfig, HarvestJob, ArchiveItem, SessionInfo, NewsArticle, NewsAlert
 from harvester.registry import SOURCES_REGISTRY, get_source, list_sources
 from harvester.news.service import news_service
@@ -643,8 +647,12 @@ async def upload_and_parse_newspaper_batch(
     notify_whatsapp: bool = Form(False),
     notify_telegram: bool = Form(False),
     notify_email: bool = Form(False),
+    send_whatsapp: Optional[bool] = Form(None),
+    send_telegram: Optional[bool] = Form(None),
+    send_email: Optional[bool] = Form(None),
     recipient_email: Optional[str] = Form(None),
     custom_recipient_phone: Optional[str] = Form(None),
+    recipient_phone: Optional[str] = Form(None),
     async_mode: bool = Form(True),
 ):
     """
@@ -663,7 +671,12 @@ async def upload_and_parse_newspaper_batch(
         ext_str = ", ".join(ALLOWED_DOC_EXTENSIONS)
         raise HTTPException(status_code=400, detail=f"No supported document formats found. Supported formats: {ext_str}")
 
-    upload_dir = Path("data/uploads")
+    actual_whatsapp = notify_whatsapp if send_whatsapp is None else (notify_whatsapp or send_whatsapp)
+    actual_telegram = notify_telegram if send_telegram is None else (notify_telegram or send_telegram)
+    actual_email = notify_email if send_email is None else (notify_email or send_email)
+    actual_phone = custom_recipient_phone or recipient_phone
+
+    upload_dir = (BASE_DIR / "data" / "uploads").resolve()
     upload_dir.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -688,11 +701,11 @@ async def upload_and_parse_newspaper_batch(
                 job_id=job_id,
                 saved_paths=saved_paths,
                 file_names=file_names,
-                notify_whatsapp=notify_whatsapp,
-                notify_telegram=notify_telegram,
-                notify_email=notify_email,
+                notify_whatsapp=actual_whatsapp,
+                notify_telegram=actual_telegram,
+                notify_email=actual_email,
                 recipient_email=recipient_email,
-                custom_recipient_phone=custom_recipient_phone,
+                custom_recipient_phone=actual_phone,
             ))
             return {
                 "job_id": job_id,
@@ -706,11 +719,11 @@ async def upload_and_parse_newspaper_batch(
                 job_id=job_id,
                 saved_paths=saved_paths,
                 file_names=file_names,
-                notify_whatsapp=notify_whatsapp,
-                notify_telegram=notify_telegram,
-                notify_email=notify_email,
+                notify_whatsapp=actual_whatsapp,
+                notify_telegram=actual_telegram,
+                notify_email=actual_email,
                 recipient_email=recipient_email,
-                custom_recipient_phone=custom_recipient_phone,
+                custom_recipient_phone=actual_phone,
             )
             return hardcopy_manager.get_job_progress(job_id)
 
@@ -792,7 +805,7 @@ async def get_hardcopy_article_crop(article_id: str):
     from harvester.news.news_cropper import generate_news_crop
     query = art.get("headline_english") or art.get("headline_original") or art.get("title") or ""
     loop = asyncio.get_event_loop()
-    crop_path = await loop.run_in_executor(None, generate_news_crop, snap_path, query, art)
+    crop_path = await loop.run_in_executor(_cropper_executor, generate_news_crop, snap_path, query, art)
     if not crop_path or not crop_path.exists():
         crop_path = snap_path
 
@@ -812,7 +825,7 @@ async def get_hardcopy_article_pdf(article_id: str):
 
     from harvester.news.search_pdf_exporter import build_hardcopy_article_pdf
     loop = asyncio.get_event_loop()
-    pdf_path = await loop.run_in_executor(None, build_hardcopy_article_pdf, art)
+    pdf_path = await loop.run_in_executor(_cropper_executor, build_hardcopy_article_pdf, art)
 
     return FileResponse(
         path=str(pdf_path),
@@ -1075,6 +1088,13 @@ async def test_whatsapp_alert():
 
 class ShareAlertWhatsAppRequest(BaseModel):
     chat_id: Optional[str] = None
+    title: Optional[str] = None
+    summary: Optional[str] = None
+    source_name: Optional[str] = None
+    category: Optional[str] = "all"
+    link: Optional[str] = None
+    original_title: Optional[str] = None
+    page_number: Optional[int] = 1
 
 
 @app.post("/api/alerts/{alert_id}/share/whatsapp")
@@ -1082,11 +1102,43 @@ async def share_alert_whatsapp(alert_id: str, req: Optional[ShareAlertWhatsAppRe
     """
     Explicitly sends ONLY the user-selected alert to WhatsApp.
     Real-time news messages are never sent automatically.
+    Resolves alerts across alerts_service, hardcopy_manager, email clippings, news_service registry/cache,
+    client payload, and digital twin traceability.
     """
     # 1. Lookup in alerts_service
     alert = alerts_service.get_alert_by_id(alert_id)
 
-    # 2. If not found, check email inbox clippings
+    # 2. Check uploaded hardcopy articles
+    if not alert:
+        try:
+            for art in hardcopy_manager.get_articles(limit=300):
+                if art.get("id") == alert_id or art.get("article_id") == alert_id:
+                    raw_ocr = art.get("ocr_raw_text") or f"{art.get('headline_original', '')}\n\n{art.get('content_original', '')}".strip()
+                    headline = art.get("headline_english") or art.get("title") or art.get("headline_original", "Extracted Article")
+                    body = art.get("content_english") or art.get("snippet") or art.get("content_original", "")
+                    alert = NewsAlert(
+                        id=art.get("id"),
+                        article_id=art.get("id"),
+                        source_name=art.get("newspaper") or "Uploaded Newspaper",
+                        severity="high",
+                        category=art.get("category", "all"),
+                        topic=headline,
+                        summary=body[:500] if body else headline,
+                        translated_text=headline,
+                        ocr_raw_text=raw_ocr,
+                        ocr_confidence=art.get("ocr_confidence", 0.96),
+                        translation_confidence=0.95 if art.get("is_translated") else 1.0,
+                        needs_review=art.get("is_low_confidence", False),
+                        preserved_entities=art.get("preserved_entities", []),
+                        page_number=art.get("page_number", 1),
+                        page_snapshot_url=art.get("page_snapshot_url") or f"/api/snapshots/{art.get('doc_id', 'sample')}/{art.get('page_number', 1)}",
+                        created_at=datetime.now()
+                    )
+                    break
+        except Exception as e:
+            logger.debug(f"Hardcopy lookup note: {e}")
+
+    # 3. Check email inbox clippings
     if not alert:
         for clip in email_inbox_monitor.get_clippings():
             for art in clip.get("articles", []):
@@ -1113,31 +1165,83 @@ async def share_alert_whatsapp(alert_id: str, req: Optional[ShareAlertWhatsAppRe
             if alert:
                 break
 
-    # 3. If still not found, check news service cache
+    # 4. Check news service registry and cache
     if not alert:
-        for cache_key, (timestamp, articles) in news_service._cache.items():
-            for art in articles:
-                if art.id == alert_id:
-                    alert = NewsAlert(
-                        id=art.id,
-                        article_id=art.id,
-                        source_name=art.source_name,
-                        severity="high",
-                        category=art.category,
-                        topic=art.title,
-                        summary=art.snippet or art.title,
-                        translated_text=art.title,
-                        ocr_raw_text=art.original_title or art.title,
-                        ocr_confidence=art.ocr_confidence,
-                        translation_confidence=art.translation_confidence,
-                        needs_review=art.needs_review,
-                        preserved_entities=art.preserved_entities or [],
-                        page_number=1,
-                        created_at=datetime.now()
-                    )
+        cached_art = news_service.get_article_by_id(alert_id)
+        if not cached_art:
+            for cache_key, (timestamp, articles) in news_service._cache.items():
+                for art in articles:
+                    if art.id == alert_id:
+                        cached_art = art
+                        break
+                if cached_art:
                     break
-            if alert:
-                break
+
+        if cached_art:
+            alert = NewsAlert(
+                id=cached_art.id,
+                article_id=cached_art.id,
+                source_name=cached_art.source_name,
+                severity="high",
+                category=cached_art.category,
+                topic=cached_art.title,
+                summary=cached_art.snippet or cached_art.title,
+                translated_text=cached_art.title,
+                ocr_raw_text=cached_art.original_title or cached_art.title,
+                ocr_confidence=cached_art.ocr_confidence,
+                translation_confidence=cached_art.translation_confidence,
+                needs_review=cached_art.needs_review,
+                preserved_entities=cached_art.preserved_entities or [],
+                page_number=cached_art.page_number or 1,
+                page_snapshot_url=cached_art.page_snapshot_url,
+                created_at=datetime.now()
+            )
+
+    # 5. Check if client supplied article metadata in request payload
+    if not alert and req and (req.title or req.summary):
+        alert = NewsAlert(
+            id=alert_id,
+            article_id=alert_id,
+            source_name=req.source_name or "Newspaper Publication",
+            severity="high",
+            category=req.category or "all",
+            topic=req.title or "Selected News Article",
+            summary=req.summary or req.title or "News alert details",
+            translated_text=req.title or req.summary or "News Alert",
+            ocr_raw_text=req.original_title or req.summary or req.title or "",
+            ocr_confidence=0.98,
+            translation_confidence=1.0,
+            preserved_entities=[],
+            page_number=req.page_number or 1,
+            page_snapshot_url=f"/api/dynamic_snapshot/{alert_id}",
+            created_at=datetime.now()
+        )
+
+    # 6. Check traceability record fallback
+    if not alert:
+        try:
+            t_rec = await get_traceability_record(alert_id)
+            if t_rec and (t_rec.get("topic") or t_rec.get("translated_text")):
+                alert = NewsAlert(
+                    id=t_rec.get("id", alert_id),
+                    article_id=t_rec.get("article_id", alert_id),
+                    source_name=t_rec.get("source_name", "National / Regional Broadsheet"),
+                    severity=t_rec.get("severity", "high"),
+                    category=t_rec.get("category", "all"),
+                    topic=t_rec.get("topic") or t_rec.get("translated_text", "Selected Alert"),
+                    summary=t_rec.get("summary") or t_rec.get("translated_text", "News Summary"),
+                    translated_text=t_rec.get("translated_text") or t_rec.get("topic", "News Story"),
+                    ocr_raw_text=t_rec.get("ocr_raw_text") or t_rec.get("summary", ""),
+                    ocr_confidence=t_rec.get("ocr_confidence", 0.98),
+                    translation_confidence=t_rec.get("translation_confidence", 1.0),
+                    needs_review=t_rec.get("needs_review", False),
+                    preserved_entities=t_rec.get("preserved_entities", []),
+                    page_number=t_rec.get("page_number", 1),
+                    page_snapshot_url=t_rec.get("page_snapshot_url"),
+                    created_at=datetime.now()
+                )
+        except Exception as e:
+            logger.debug(f"Traceability record fallback check: {e}")
 
     if not alert:
         raise HTTPException(status_code=404, detail="Selected alert or story not found")
@@ -1153,13 +1257,19 @@ async def share_alert_whatsapp(alert_id: str, req: Optional[ShareAlertWhatsAppRe
             )
         raise HTTPException(status_code=502, detail="Failed to deliver alert to WhatsApp Green API.")
 
+    # Generate wa.me direct share text
+    share_msg = whatsapp_service.format_alert_message(alert)
+    encoded_text = urllib.parse.quote_plus(share_msg)
+    direct_share_url = f"https://api.whatsapp.com/send?text={encoded_text}"
+
     return {
         "success": True,
         "recipients_count": sent_count,
         "alert_id": alert.id,
         "headline": alert.translated_text or alert.summary,
         "topic": alert.topic,
-        "source_name": alert.source_name
+        "source_name": alert.source_name,
+        "share_url": direct_share_url
     }
 
 

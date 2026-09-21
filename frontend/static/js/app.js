@@ -14,6 +14,7 @@ const state = {
     currentNewsChannel: 'epaper', // 'epaper' or 'online'
     currentSearchKeyword: '',
     newsCache: {},
+    articlesMap: {},
     uploadedNewsData: null,
     currentUploadCategory: 'all',
     selectedEmailCategory: 'all',
@@ -69,6 +70,44 @@ function isEpaperCookieSource(sourceOrId) {
     if (sid === 'dt_next' || sid === 'dtnext' || sname.includes('dt next')) return true;
 
     return false;
+}
+
+const PUBLICATION_SUBSCRIBE_URLS = {
+    'toi': 'https://buy.indiatimes.com/TOI/plans?product=TOI&productCode=TOIPLUS&plt=TOI&acqSubSource=header_Subscribe&ru=https%3A%2F%2Ftimesofindia.indiatimes.com%2F',
+    'the_times_of_india': 'https://buy.indiatimes.com/TOI/plans?product=TOI&productCode=TOIPLUS&plt=TOI&acqSubSource=header_Subscribe&ru=https%3A%2F%2Ftimesofindia.indiatimes.com%2F',
+    'times_of_india': 'https://buy.indiatimes.com/TOI/plans?product=TOI&productCode=TOIPLUS&plt=TOI&acqSubSource=header_Subscribe&ru=https%3A%2F%2Ftimesofindia.indiatimes.com%2F',
+    'economic_times': 'https://economictimes.indiatimes.com/plans.cms',
+    'et': 'https://economictimes.indiatimes.com/plans.cms',
+    'hindustan_times': 'https://www.hindustantimes.com/subscriptions',
+    'ht': 'https://www.hindustantimes.com/subscriptions',
+    'indian_express': 'https://indianexpress.com/subscribe/',
+    'the_hindu': 'https://epaper.thehindu.com/reader',
+    'financial_express': 'https://epaper.financialexpress.com',
+    'deccan_chronicle': 'https://epaper.deccanchronicle.com',
+    'deccan_herald': 'https://epaper.deccanherald.com',
+    'telegraph': 'https://epaper.telegraphindia.com',
+    'tribune': 'https://epaper.tribuneindia.com',
+    'livemint': 'https://www.livemint.com/subscribe',
+    'mint': 'https://www.livemint.com/subscribe',
+};
+
+function getPublicationSubscribeUrl(sourceData, sourceId = null) {
+    if (sourceData && sourceData.subscription_url) {
+        return sourceData.subscription_url;
+    }
+    const sid = (sourceId || (sourceData ? sourceData.id : '') || '').toLowerCase().trim().replace(/-/g, '_');
+    const sname = (sourceData ? (sourceData.name || '') : '').toLowerCase().trim();
+
+    if (PUBLICATION_SUBSCRIBE_URLS[sid]) {
+        return PUBLICATION_SUBSCRIBE_URLS[sid];
+    }
+    if (sname.includes('times of india') || sname.includes('toi')) {
+        return 'https://buy.indiatimes.com/TOI/plans?product=TOI&productCode=TOIPLUS&plt=TOI&acqSubSource=header_Subscribe&ru=https%3A%2F%2Ftimesofindia.indiatimes.com%2F';
+    }
+    if (sourceData && sourceData.base_url) {
+        return sourceData.base_url;
+    }
+    return 'https://buy.indiatimes.com/TOI/plans?product=TOI&productCode=TOIPLUS&plt=TOI&acqSubSource=header_Subscribe&ru=https%3A%2F%2Ftimesofindia.indiatimes.com%2F';
 }
 
 // Initialize App
@@ -685,6 +724,8 @@ function updateChannelPillsUI(sourceId = null) {
     const btnOn = document.getElementById('btnChannelOnline');
     const badgeOnly = document.getElementById('channelOnlineOnlyBadge');
     const txt = document.getElementById('channelOnlineOnlyText');
+    const btnEpSub = document.getElementById('btnChannelEpaperSubscribe');
+    const subLink = document.getElementById('epaperSubscribeNowLink');
 
     if (!hasEpaper) {
         // NON-COOKIE PAPERS (Times of India, etc.): Strictly Online News only!
@@ -706,6 +747,18 @@ function updateChannelPillsUI(sourceId = null) {
             btnOn.style.borderColor = '#c084fc';
             btnOn.style.boxShadow = '0 0 12px rgba(168,85,247,0.25)';
         }
+        // Show ePaper Digital News subscribe button for non-cookie sources
+        if (btnEpSub) {
+            btnEpSub.style.display = 'flex';
+            btnEpSub.classList.remove('epaper-btn-active');
+        }
+        // Update Subscribe Now link href to point to this source's ePaper site
+        if (subLink) {
+            const sourceData = state.currentNewsSource || (state.sources ? state.sources.find(s => s.id === sid) : null);
+            subLink.href = getPublicationSubscribeUrl(sourceData, sid);
+            subLink.title = sourceData ? `Subscribe to ${sourceData.name} on their official website` : 'Subscribe Now';
+            subLink.style.display = 'none'; // Hidden until user clicks ePaper Digital News
+        }
         return;
     }
 
@@ -713,6 +766,9 @@ function updateChannelPillsUI(sourceId = null) {
     if (badgeOnly) badgeOnly.style.display = 'none';
     if (btnEp) btnEp.style.display = 'flex';
     if (btnOn) btnOn.style.display = 'flex';
+    // Hide subscribe button for sources that already have active cookie ePaper
+    if (btnEpSub) btnEpSub.style.display = 'none';
+    if (subLink) subLink.style.display = 'none';
 
     const isEpaper = state.currentNewsChannel !== 'online';
     if (isEpaper) {
@@ -747,6 +803,27 @@ function updateChannelPillsUI(sourceId = null) {
         }
     }
 }
+
+// Toggle Subscribe Now link when ePaper Digital News is clicked (non-cookie sources)
+window.toggleEpaperSubscribe = function() {
+    const btn = document.getElementById('btnChannelEpaperSubscribe');
+    const subLink = document.getElementById('epaperSubscribeNowLink');
+    if (!subLink) return;
+
+    if (state.currentNewsSource) {
+        subLink.href = getPublicationSubscribeUrl(state.currentNewsSource, state.currentNewsSource.id);
+        subLink.title = `Subscribe to ${state.currentNewsSource.name} on official website`;
+    }
+
+    const isVisible = subLink.style.display === 'flex';
+    if (isVisible) {
+        subLink.style.display = 'none';
+        if (btn) btn.classList.remove('epaper-btn-active');
+    } else {
+        subLink.style.display = 'flex';
+        if (btn) btn.classList.add('epaper-btn-active');
+    }
+};
 
 window.switchNewsChannel = async function(channel) {
     if (!state.currentNewsSource) return;
@@ -1061,6 +1138,13 @@ function renderNewsArticles(articles, category) {
     const container = document.getElementById('newsArticlesContainer');
     if (!container) return;
 
+    if (articles && Array.isArray(articles)) {
+        if (!state.articlesMap) state.articlesMap = {};
+        articles.forEach(a => {
+            if (a && a.id) state.articlesMap[a.id] = a;
+        });
+    }
+
     // Strict category filtering: ensure only articles matching the requested category are displayed, while search allows all categories
     let displayArticles = articles || [];
     if (category && category !== 'all' && category !== 'search') {
@@ -1314,6 +1398,13 @@ function renderUploadedArticles(category) {
     }
 
     const articles = state.uploadedNewsData.categories[category] || [];
+
+    if (articles && Array.isArray(articles)) {
+        if (!state.articlesMap) state.articlesMap = {};
+        articles.forEach(a => {
+            if (a && a.id) state.articlesMap[a.id] = a;
+        });
+    }
 
     if (articles.length === 0) {
         container.innerHTML = `
@@ -2300,24 +2391,94 @@ async function sendAlertToWhatsApp(alertId, event) {
         btn.innerHTML = '⏳ Sending...';
     }
 
+    // Resolve article details from state/cache/hardcopy to pass in request body
+    let art = state.articlesMap ? state.articlesMap[alertId] : null;
+    if (!art && state.newsCache) {
+        for (const k in state.newsCache) {
+            const found = (state.newsCache[k] || []).find(a => a.id === alertId);
+            if (found) { art = found; break; }
+        }
+    }
+    if (!art && window.hardcopyState && window.hardcopyState.articles) {
+        const found = window.hardcopyState.articles.find(a => a.id === alertId);
+        if (found) {
+            art = {
+                title: found.headline_english || found.title || found.headline_original,
+                snippet: found.content_english || found.snippet || found.content_original,
+                source_name: found.newspaper || 'Uploaded Newspaper',
+                category: found.category || 'all',
+                page_number: found.page_number || 1
+            };
+        }
+    }
+    if (!art && state.alerts) {
+        const found = state.alerts.find(a => a.id === alertId || a.article_id === alertId);
+        if (found) {
+            art = {
+                title: found.translated_text || found.topic,
+                snippet: found.summary,
+                source_name: found.source_name,
+                category: found.category || 'all',
+                page_number: found.page_number || 1
+            };
+        }
+    }
+
+    const payload = {
+        title: art ? (art.title || art.topic || '') : '',
+        summary: art ? (art.snippet || art.summary || art.title || '') : '',
+        source_name: art ? (art.source_name || (state.currentNewsSource ? state.currentNewsSource.name : 'Regional News')) : (state.currentNewsSource ? state.currentNewsSource.name : 'Regional News'),
+        category: art ? (art.category || 'all') : 'all',
+        link: art ? (art.link || '') : '',
+        original_title: art ? (art.original_title || '') : '',
+        page_number: art ? (art.page_number || 1) : 1
+    };
+
     try {
         const res = await fetch(`/api/alerts/${encodeURIComponent(alertId)}/share/whatsapp`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({})
+            body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (res.ok && data.success) {
-            alert(`✅ Selected alert successfully sent to WhatsApp!\n\nHeadline: ${data.headline || alertId}\nRecipients: ${data.recipients_count}`);
+            if (btn) {
+                btn.innerHTML = '✅ Sent!';
+                btn.style.background = '#16a34a';
+                setTimeout(() => {
+                    if (btn) {
+                        btn.style.background = '#25D366';
+                        btn.innerHTML = originalText || '💬 WhatsApp';
+                        btn.disabled = false;
+                    }
+                }, 2500);
+            }
+            if (typeof window.showShareToast === 'function') {
+                window.showShareToast(`✅ Delivered to ${data.recipients_count} WhatsApp chat(s)!`, false);
+            } else {
+                alert(`✅ Selected alert successfully sent to WhatsApp!\n\nHeadline: ${data.headline || alertId}\nRecipients: ${data.recipients_count}`);
+            }
         } else {
-            alert(`❌ Failed to send alert to WhatsApp: ${data.detail || data.error || 'Unknown error'}`);
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+            const errMsg = data.detail || data.error || 'Unknown error';
+            if (typeof window.showShareToast === 'function') {
+                window.showShareToast(`❌ WhatsApp send failed: ${errMsg}`, true);
+            } else {
+                alert(`❌ Failed to send alert to WhatsApp: ${errMsg}`);
+            }
         }
     } catch (e) {
-        alert(`❌ WhatsApp send error: ${e.message}`);
-    } finally {
         if (btn) {
             btn.disabled = false;
             btn.innerHTML = originalText;
+        }
+        if (typeof window.showShareToast === 'function') {
+            window.showShareToast(`❌ WhatsApp error: ${e.message}`, true);
+        } else {
+            alert(`❌ WhatsApp send error: ${e.message}`);
         }
     }
 }

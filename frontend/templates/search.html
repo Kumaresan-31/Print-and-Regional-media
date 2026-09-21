@@ -1,909 +1,1335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>News Explorer | AI Newspaper Intelligence & Broadside Index</title>
-  <meta name="description" content="Algorithmic gazette feed and faceted news explorer: search extracted regional broadsheet articles with dual-pane ground-truth bounding box verification."/>
-  
-  <!-- Google Fonts: Material Symbols, Geist, Inter, JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
-  
-  <!-- Tailwind CSS CDN with Stitch Design System Tokens -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "error": "#ba1a1a",
-            "primary-container": "#4f46e5",
-            "on-secondary": "#ffffff",
-            "on-primary-fixed": "#0f0069",
-            "inverse-surface": "#283044",
-            "on-error-container": "#93000a",
-            "tertiary-container": "#006e4b",
-            "on-primary": "#ffffff",
-            "on-tertiary-fixed": "#002113",
-            "primary": "#3525cd",
-            "inverse-primary": "#c3c0ff",
-            "on-secondary-container": "#004666",
-            "tertiary-fixed-dim": "#4edea3",
-            "error-container": "#ffdad6",
-            "on-error": "#ffffff",
-            "primary-fixed": "#e2dfff",
-            "background": "#faf8ff",
-            "surface-container-low": "#f2f3ff",
-            "on-tertiary": "#ffffff",
-            "surface": "#faf8ff",
-            "surface-container-high": "#e2e7ff",
-            "surface-container": "#eaedff",
-            "secondary-container": "#39b8fd",
-            "on-background": "#131b2e",
-            "tertiary": "#005338",
-            "surface-tint": "#4d44e3",
-            "on-surface-variant": "#464555",
-            "on-primary-container": "#dad7ff",
-            "primary-fixed-dim": "#c3c0ff",
-            "on-surface": "#131b2e",
-            "outline-variant": "#c7c4d8",
-            "secondary-fixed-dim": "#89ceff",
-            "surface-dim": "#d2d9f4",
-            "on-secondary-fixed": "#001e2f",
-            "surface-container-lowest": "#ffffff",
-            "surface-container-highest": "#dae2fd",
-            "on-tertiary-fixed-variant": "#005236",
-            "inverse-on-surface": "#eef0ff",
-            "secondary-fixed": "#c9e6ff",
-            "surface-variant": "#dae2fd",
-            "on-secondary-fixed-variant": "#004c6e",
-            "on-tertiary-container": "#67f4b7",
-            "outline": "#777587",
-            "tertiary-fixed": "#6ffbbe",
-            "secondary": "#006591",
-            "surface-bright": "#faf8ff",
-            "on-primary-fixed-variant": "#3323cc"
-          },
-          fontFamily: {
-            "headline-lg-mobile": ["Geist", "sans-serif"],
-            "body-sm": ["Inter", "sans-serif"],
-            "display-hero-mobile": ["Geist", "sans-serif"],
-            "label-mono": ["JetBrains Mono", "monospace"],
-            "display-hero": ["Geist", "sans-serif"],
-            "body-lg": ["Inter", "sans-serif"],
-            "headline-md": ["Geist", "sans-serif"],
-            "headline-lg": ["Geist", "sans-serif"],
-            "headline-sm": ["Geist", "sans-serif"],
-            "body-md": ["Inter", "sans-serif"],
-            "label-ui": ["Inter", "sans-serif"]
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Newspaper Search & Clipping Intelligence | ePaper Harvester</title>
+    <meta name="description" content="Dedicated full-text search across OCR-indexed harvested broadsheet newspapers with instant article clipping crops, 100% English translation, and publication-grade PDF reporting.">
+    <!-- Google Fonts: Outfit and JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=2.5">
+    <style>
+        body {
+            background-color: #07090e;
+            color: #f1f5f9;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
         }
-      }
-    };
-  </script>
-  <style>
-    @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #c7c4d8;
-      border-radius: 9999px;
-    }
-  </style>
+
+        /* Nav styles */
+        .nav-links {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.35rem 0.5rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.5rem 1.15rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+        .nav-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .nav-link.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(168, 85, 247, 0.35) 100%);
+            border: 1px solid #38bdf8;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+        .nav-link .nav-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Container Layout */
+        .search-page-container {
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 2rem 1.75rem 5rem;
+        }
+
+        /* Hero Header Section */
+        .search-hero {
+            background: radial-gradient(100% 120% at 50% 0%, rgba(56, 189, 248, 0.15) 0%, rgba(15, 23, 42, 0.85) 60%, rgba(7, 9, 14, 0.95) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 24px;
+            padding: 2.25rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .search-hero::after {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(129, 140, 248, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+        .hero-brand {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+        .hero-icon-box {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
+            flex-shrink: 0;
+        }
+        .hero-title {
+            margin: 0 0 0.25rem;
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+        .hero-subtitle {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #94a3b8;
+            max-width: 780px;
+            line-height: 1.5;
+        }
+
+        /* Quick Stat Badges */
+        .hero-stats-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .stat-pill {
+            padding: 0.45rem 1rem;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            backdrop-filter: blur(8px);
+        }
+        .stat-pill strong {
+            color: #38bdf8;
+            font-weight: 800;
+        }
+
+        /* Search Input Box */
+        .search-box-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .search-inputs-grid {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        @media (max-width: 860px) {
+            .search-inputs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 0.45rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .input-control {
+            width: 100%;
+            padding: 0.85rem 1.15rem;
+            background: rgba(10, 14, 23, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 12px;
+            color: #f1f5f9;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .input-control:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .btn-search-primary {
+            padding: 0.85rem 2.25rem;
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #818cf8 100%);
+            border: none;
+            border-radius: 12px;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 1.05rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 52px;
+            white-space: nowrap;
+        }
+        .btn-search-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(56, 189, 248, 0.55);
+        }
+
+        /* Keyword chips */
+        .quick-tags-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            padding-top: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .quick-tag-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .quick-tag-pill {
+            padding: 0.3rem 0.75rem;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            color: #cbd5e1;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .quick-tag-pill:hover {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: #38bdf8;
+            color: #38bdf8;
+            transform: translateY(-1px);
+        }
+
+        /* Source Checkboxes */
+        .sources-filter-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            margin-top: 1.25rem;
+        }
+        .src-chip {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.08);
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        .src-chip.selected {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.22);
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        /* Action Controls Banner */
+        .automation-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(56, 189, 248, 0.08) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 14px;
+            padding: 1rem 1.4rem;
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .auto-banner-text {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        /* Results Info Bar */
+        .results-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.85rem 1.25rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Result Cards Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pdf-result-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+        .pdf-result-card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(56, 189, 248, 0.15);
+        }
+
+        .card-image-box {
+            position: relative;
+            height: 240px;
+            background: #090d16;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .card-image-box img:hover {
+            transform: scale(1.02);
+        }
+
+        .card-content-body {
+            padding: 1.25rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-headline {
+            margin: 0 0 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #f8fafc;
+            line-height: 1.4;
+        }
+        .card-snippet {
+            margin: 0 0 1rem;
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        /* Action Buttons */
+        .card-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+            padding-top: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-card-action {
+            flex: 1;
+            min-width: 76px;
+            padding: 0.5rem 0.65rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid transparent;
+            text-align: center;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        .btn-card-action.export {
+            background: rgba(56, 189, 248, 0.12);
+            border-color: rgba(56, 189, 248, 0.35);
+            color: #38bdf8;
+        }
+        .btn-card-action.export:hover {
+            background: rgba(56, 189, 248, 0.25);
+        }
+        .btn-card-action.wa {
+            background: rgba(37, 211, 102, 0.12);
+            border-color: rgba(37, 211, 102, 0.4);
+            color: #25d366;
+        }
+        .btn-card-action.wa:hover {
+            background: rgba(37, 211, 102, 0.25);
+        }
+        .btn-card-action.tg {
+            background: rgba(0, 136, 204, 0.12);
+            border-color: rgba(0, 136, 204, 0.4);
+            color: #38bdf8;
+        }
+        .btn-card-action.tg:hover {
+            background: rgba(0, 136, 204, 0.25);
+        }
+        .btn-card-action.email {
+            background: rgba(168, 85, 247, 0.12);
+            border-color: rgba(168, 85, 247, 0.4);
+            color: #c084fc;
+        }
+        .btn-card-action.email:hover {
+            background: rgba(168, 85, 247, 0.25);
+        }
+
+        /* Modal Overlay */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .custom-modal.open {
+            display: flex;
+        }
+        .modal-card {
+            background: #111827;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Toast */
+        .toast-notify {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100000;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
 </head>
-<body class="bg-background font-body-md text-on-surface antialiased">
+<body class="dark-theme">
 
-  <!-- ========================================================================= -->
-  <!-- 1. STICKY HEADER NAVIGATION                                               -->
-  <!-- ========================================================================= -->
-  <header class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-    <div class="h-16 w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <a href="/" class="flex items-center gap-2.5 text-inherit no-underline">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center text-white shadow-md shadow-primary/25">
-            <span class="material-symbols-outlined text-2xl">newspaper</span>
-          </div>
-          <div class="flex flex-col">
-            <span class="font-headline-sm text-lg font-bold text-on-surface tracking-tight leading-none">E-Paper Harvester</span>
-            <span class="font-label-mono text-[10px] text-primary font-semibold tracking-wider uppercase mt-0.5">News Explorer</span>
-          </div>
-        </a>
-        <span class="hidden xl:inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-mono text-[11px] uppercase tracking-wider">
-          AI Newspaper Intelligence
-        </span>
-      </div>
-
-      <!-- Navigation Links -->
-      <nav class="hidden lg:flex items-center gap-1.5 bg-surface-container-low/70 p-1 rounded-xl border border-surface-container-high/60 shadow-xs">
-        <a href="/" class="px-3.5 py-1.5 rounded-lg text-xs font-label-ui font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all">
-          Home
-        </a>
-        <a href="/upload" class="px-3.5 py-1.5 rounded-lg text-xs font-label-ui font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all">
-          Hardcopy Upload
-        </a>
-        <a href="/search" class="px-3.5 py-1.5 bg-surface-container-lowest text-primary font-bold rounded-lg shadow-xs text-xs font-label-ui transition-all">
-          News Explorer
-        </a>
-        <a href="/#sourcesSection" class="px-3.5 py-1.5 rounded-lg text-xs font-label-ui font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all">
-          Newspapers
-        </a>
-        <a href="/inbox" class="px-3.5 py-1.5 rounded-lg text-xs font-label-ui font-medium text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all">
-          Inbox
-        </a>
-      </nav>
-
-      <!-- Right Actions -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <div class="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-low border border-surface-container-high/40">
-          <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-          <span class="font-label-mono text-[11px] text-on-surface-variant uppercase font-medium">Engine: Active · 99.8% OCR Accuracy</span>
-        </div>
-        <a href="/upload" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary text-on-primary font-label-ui text-xs font-semibold hover:bg-primary-container transition-all shadow-sm shadow-primary/20">
-          <span class="material-symbols-outlined text-sm">add</span>
-          <span class="hidden sm:inline">Upload PDF</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Secondary Telemetry Sub-Bar -->
-    <div class="h-8 w-full bg-surface-container-lowest shadow-[0_1px_4px_rgba(0,0,0,0.02)] px-4 sm:px-8 flex items-center justify-between border-t border-surface-container-high/30">
-      <div class="flex items-center gap-2 text-xs text-on-surface-variant font-label-mono">
-        <span class="material-symbols-outlined text-sm text-primary">manage_search</span>
-        <span>/</span>
-        <span class="font-medium text-on-surface">News Explorer</span>
-        <span class="text-outline-variant">·</span>
-        <span class="font-label-mono text-tertiary font-medium uppercase">Dual-Pane Verification Ready</span>
-      </div>
-      <div class="flex items-center gap-3 font-label-mono text-[11px] text-on-surface-variant">
-        <span class="hidden sm:inline">INDEXED: <strong class="text-on-surface font-semibold" id="topIndexedCount">186 ARTICLES</strong></span>
-        <span class="hidden md:inline text-outline-variant">|</span>
-        <span class="hidden md:inline">OCR LATENCY: <strong class="text-on-surface font-semibold">120ms/PAGE</strong></span>
-      </div>
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- 2. MAIN NEWS EXPLORER WORKSPACE                                           -->
-  <!-- ========================================================================= -->
-  <main class="w-full pt-28 bg-background min-h-screen">
-    <div class="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-4 flex flex-col gap-5">
-      
-      <!-- TOP DISCOVERY BAR -->
-      <div class="w-full flex flex-col gap-4">
-        <!-- Title & Live Extraction Metrics -->
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-3">
-          <div class="flex flex-col">
-            <div class="flex items-center gap-1.5 text-secondary mb-1">
-              <span class="material-symbols-outlined text-sm">manage_search</span>
-              <span class="font-label-mono text-xs uppercase tracking-wider font-semibold">Algorithmic Gazette Feed</span>
-            </div>
-            <h1 class="font-headline-lg text-2xl sm:text-3xl text-on-surface font-bold tracking-tight">News Explorer</h1>
-            <p class="font-body-md text-xs sm:text-sm text-on-surface-variant mt-0.5" id="explorerSubtitle">
-              Extracted exclusively from uploaded newspapers · <strong class="text-on-surface font-semibold" id="explorerStatsCount">186 articles</strong> indexed across regional broadsheets
-            </p>
-          </div>
-
-          <!-- Pipeline Status Indicator -->
-          <div class="flex items-center gap-2.5 bg-surface-container-low px-3.5 py-2 rounded-xl border border-surface-container-high/60">
-            <div class="flex items-center gap-2">
-              <span class="relative flex h-2.5 w-2.5">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-container opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
-              </span>
-              <span class="font-label-mono text-xs text-on-surface font-medium">INDEX: SYNCED</span>
-            </div>
-            <span class="text-outline-variant text-xs">/</span>
-            <span class="font-label-mono text-xs text-tertiary font-semibold" id="pipelineEditionsCount">3 EDITIONS PROCESSED</span>
-            <span class="text-outline-variant text-xs">/</span>
-            <span class="font-label-mono text-xs text-on-surface-variant">OCR VERIFIED 99.4%</span>
-          </div>
-        </div>
-
-        <!-- Omnibox Search Bar with Keyboard Command -->
-        <div class="relative w-full shadow-sm rounded-2xl overflow-hidden bg-surface-container-lowest border border-surface-container-high/70">
-          <div class="flex items-center px-4 py-3.5 gap-3">
-            <span class="material-symbols-outlined text-primary text-xl">search</span>
-            <input class="w-full bg-transparent font-body-md text-sm text-on-surface placeholder:text-outline focus:outline-none" id="explorer-search" placeholder="Search extracted news, keywords, entities, or page numbers (e.g. 'education', 'budget', 'Page 07')..." type="text"/>
-            <div class="hidden sm:flex items-center gap-2">
-              <span class="px-2 py-1 rounded bg-surface-container font-label-mono text-[10px] text-on-surface-variant">ESC TO CLEAR</span>
-              <kbd class="px-2 py-1 rounded bg-surface-container-high font-label-mono text-xs text-primary font-semibold">⌘K</kbd>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Category Pills Navigation -->
-        <div class="w-full overflow-x-auto pb-1 flex items-center gap-2 scrollbar-none" id="category-pill-container">
-          <button class="category-btn active shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-ui text-xs font-semibold shadow-sm transition-all" data-category="all" type="button">
-            <span>All</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-white/20 font-label-mono text-[10px]" id="catCountAll">186</span>
-          </button>
-          <button class="category-btn shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-ui text-xs hover:bg-surface-container-high hover:text-on-surface transition-all" data-category="politics" type="button">
-            <span>Politics</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface font-label-mono text-[10px]">42</span>
-          </button>
-          <button class="category-btn shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-ui text-xs hover:bg-surface-container-high hover:text-on-surface transition-all" data-category="sports" type="button">
-            <span>Sports</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface font-label-mono text-[10px]">31</span>
-          </button>
-          <button class="category-btn shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-ui text-xs hover:bg-surface-container-high hover:text-on-surface transition-all" data-category="business" type="button">
-            <span>Business</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface font-label-mono text-[10px]">28</span>
-          </button>
-          <button class="category-btn shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-ui text-xs hover:bg-surface-container-high hover:text-on-surface transition-all" data-category="education" type="button">
-            <span>Education</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface font-label-mono text-[10px]">22</span>
-          </button>
-          <button class="category-btn shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-ui text-xs hover:bg-surface-container-high hover:text-on-surface transition-all" data-category="technology" type="button">
-            <span>Technology</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface font-label-mono text-[10px]">19</span>
-          </button>
-          <button class="category-btn shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-ui text-xs hover:bg-surface-container-high hover:text-on-surface transition-all" data-category="entertainment" type="button">
-            <span>Entertainment</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface font-label-mono text-[10px]">15</span>
-          </button>
-          <button class="category-btn shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-ui text-xs hover:bg-surface-container-high hover:text-on-surface transition-all" data-category="health" type="button">
-            <span>Health</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface font-label-mono text-[10px]">12</span>
-          </button>
-          <button class="category-btn shrink-0 flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-ui text-xs hover:bg-surface-container-high hover:text-on-surface transition-all" data-category="local" type="button">
-            <span>Local & Civic</span>
-            <span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface font-label-mono text-[10px]">17</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- MAIN TWO-COLUMN WORKSPACE -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mt-1">
-        
-        <!-- LEFT COLUMN: Facet Sidebar (4 cols on lg, 3 on xl) -->
-        <aside class="lg:col-span-4 xl:col-span-3 flex flex-col gap-4 sticky top-28">
-          <!-- Active Filters Box -->
-          <div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-surface-container-high/60 flex flex-col gap-3">
-            <div class="flex items-center justify-between">
-              <span class="font-headline-sm text-sm font-bold text-on-surface">Active Filters</span>
-              <button class="font-label-ui text-xs text-primary hover:text-primary-container transition-colors font-semibold" id="clear-filters-btn" type="button">Clear All</button>
-            </div>
-            <div class="flex flex-wrap gap-1.5" id="activeFilterChips">
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-mono text-[11px]">
-                Dina Thanthi
-                <button class="hover:text-error transition-colors flex items-center" onclick="this.parentElement.remove()"><span class="material-symbols-outlined text-[13px]">close</span></button>
-              </span>
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-mono text-[11px]">
-                Dainik Jagran
-                <button class="hover:text-error transition-colors flex items-center" onclick="this.parentElement.remove()"><span class="material-symbols-outlined text-[13px]">close</span></button>
-              </span>
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-primary-fixed text-on-primary-fixed font-label-mono text-[11px]">
-                OCR &gt;95%
-                <button class="hover:text-error transition-colors flex items-center" onclick="this.parentElement.remove()"><span class="material-symbols-outlined text-[13px]">close</span></button>
-              </span>
-            </div>
-          </div>
-
-          <!-- Facet 1: Source Newspaper -->
-          <div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-surface-container-high/60 flex flex-col gap-2.5">
-            <div class="flex items-center justify-between">
-              <span class="font-label-ui text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Source Newspaper</span>
-              <span class="font-label-mono text-[11px] text-outline">3 Active</span>
-            </div>
-            <div class="flex flex-col gap-1.5" id="sourceFacetList">
-              <label class="flex items-center justify-between p-2 rounded-xl hover:bg-surface-container-low cursor-pointer transition-colors">
-                <div class="flex items-center gap-2.5">
-                  <input checked class="w-4 h-4 rounded text-primary focus:ring-primary accent-primary" type="checkbox" data-facet-source="Dina Thanthi"/>
-                  <div class="flex flex-col">
-                    <span class="font-body-md text-xs text-on-surface font-medium leading-none">Dina Thanthi</span>
-                    <span class="font-label-mono text-[10px] text-on-surface-variant mt-0.5">Tamil · Daily Edition</span>
-                  </div>
+    <!-- Global App Navbar -->
+    <header class="navbar" id="appNavbar" style="background:rgba(10,13,20,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.08);padding:0.75rem 1.75rem;position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;">
+        <div class="nav-brand">
+            <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.75rem;">
+                <div style="width:40px;height:40px;background:linear-gradient(135deg,#38bdf8,#818cf8);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">📰</div>
+                <div>
+                    <span style="font-size:1.15rem;font-weight:800;color:#fff;">ePaper<span style="background:linear-gradient(135deg,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Harvester</span></span>
+                    <span style="display:block;font-size:0.7rem;color:#94a3b8;font-weight:600;">v2.0 • Intelligence Suite</span>
                 </div>
-                <span class="font-label-mono text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-semibold">78</span>
-              </label>
-
-              <label class="flex items-center justify-between p-2 rounded-xl hover:bg-surface-container-low cursor-pointer transition-colors">
-                <div class="flex items-center gap-2.5">
-                  <input checked class="w-4 h-4 rounded text-primary focus:ring-primary accent-primary" type="checkbox" data-facet-source="Dainik Jagran"/>
-                  <div class="flex flex-col">
-                    <span class="font-body-md text-xs text-on-surface font-medium leading-none">Dainik Jagran</span>
-                    <span class="font-label-mono text-[10px] text-on-surface-variant mt-0.5">Hindi · National Edition</span>
-                  </div>
-                </div>
-                <span class="font-label-mono text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-semibold">64</span>
-              </label>
-
-              <label class="flex items-center justify-between p-2 rounded-xl hover:bg-surface-container-low cursor-pointer transition-colors">
-                <div class="flex items-center gap-2.5">
-                  <input class="w-4 h-4 rounded text-primary focus:ring-primary accent-primary" type="checkbox" data-facet-source="Malayala Manorama"/>
-                  <div class="flex flex-col">
-                    <span class="font-body-md text-xs text-on-surface font-medium leading-none">Malayala Manorama</span>
-                    <span class="font-label-mono text-[10px] text-on-surface-variant mt-0.5">Malayalam · Kochi Edition</span>
-                  </div>
-                </div>
-                <span class="font-label-mono text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-semibold">44</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Facet 2: Original Language -->
-          <div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-surface-container-high/60 flex flex-col gap-2.5">
-            <span class="font-label-ui text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Original Language</span>
-            <div class="flex flex-col gap-1.5">
-              <div class="flex items-center justify-between py-1.5 px-2.5 rounded-lg bg-surface-container-low">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
-                  <span class="font-body-sm text-xs text-on-surface font-medium">Tamil (தமிழ்)</span>
-                </div>
-                <span class="font-label-mono text-xs text-on-surface-variant font-bold">78</span>
-              </div>
-              <div class="flex items-center justify-between py-1.5 px-2.5 rounded-lg bg-surface-container-low">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-primary-container"></span>
-                  <span class="font-body-sm text-xs text-on-surface font-medium">Hindi (हिंदी)</span>
-                </div>
-                <span class="font-label-mono text-xs text-on-surface-variant font-bold">64</span>
-              </div>
-              <div class="flex items-center justify-between py-1.5 px-2.5 rounded-lg bg-surface-container-low">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-tertiary"></span>
-                  <span class="font-body-sm text-xs text-on-surface font-medium">Malayalam (മലയാളം)</span>
-                </div>
-                <span class="font-label-mono text-xs text-on-surface-variant font-bold">44</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Facet 3: Page Section Buckets -->
-          <div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm border border-surface-container-high/60 flex flex-col gap-2.5">
-            <div class="flex items-center justify-between">
-              <span class="font-label-ui text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Page Section</span>
-              <span class="font-label-mono text-[10px] text-primary font-bold">ALL PAGES</span>
-            </div>
-            <div class="flex flex-col gap-1">
-              <button class="w-full text-left px-2.5 py-1.5 rounded-lg bg-surface-container-high text-primary flex items-center justify-between font-label-ui text-xs font-semibold" type="button">
-                <span>Page 1 (Front Page)</span>
-                <span class="font-label-mono text-[10px]">14 articles</span>
-              </button>
-              <button class="w-full text-left px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface flex items-center justify-between font-label-ui text-xs transition-colors" type="button">
-                <span>Pages 2–4 (National)</span>
-                <span class="font-label-mono text-[10px] text-on-surface-variant">48 articles</span>
-              </button>
-              <button class="w-full text-left px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface flex items-center justify-between font-label-ui text-xs transition-colors" type="button">
-                <span>Pages 5–8 (Regional)</span>
-                <span class="font-label-mono text-[10px] text-on-surface-variant">52 articles</span>
-              </button>
-              <button class="w-full text-left px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface flex items-center justify-between font-label-ui text-xs transition-colors" type="button">
-                <span>Pages 9–12 (Business)</span>
-                <span class="font-label-mono text-[10px] text-on-surface-variant">36 articles</span>
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        <!-- RIGHT COLUMN: Main News Feed & Cards Grid -->
-        <main class="lg:col-span-8 xl:col-span-9 flex flex-col gap-4 min-w-0">
-          
-          <!-- Feed Filter Control Bar -->
-          <div class="bg-surface-container-lowest p-3.5 px-4 rounded-2xl shadow-sm border border-surface-container-high/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div class="flex items-center gap-2">
-              <span class="font-headline-sm text-sm font-bold text-on-surface" id="feedCounterText">Showing articles</span>
-              <span class="font-label-mono text-xs px-2 py-0.5 rounded bg-surface-container-high text-primary font-bold" id="feedActiveCategoryBadge">ALL</span>
-              <span class="text-outline text-sm">·</span>
-              <span class="font-label-mono text-xs text-on-surface-variant">Live OCR Index</span>
-            </div>
-            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-              <div class="flex items-center gap-1.5 font-label-ui text-xs text-on-surface-variant">
-                <span>Sort:</span>
-                <select class="bg-surface-container-low text-on-surface font-label-ui text-xs py-1 px-2.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer border border-surface-container-high">
-                  <option selected>Page Number (Ascending)</option>
-                  <option>Newest Extracted</option>
-                  <option>Highest Relevance</option>
-                  <option>Highest Confidence Score</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dual-Pane Verification Mode Teaser Banner -->
-          <div class="bg-gradient-to-r from-primary-fixed via-surface-container-low to-secondary-fixed/40 p-4 rounded-2xl shadow-sm border border-surface-container-high/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm">
-                <span class="material-symbols-outlined text-2xl">compare</span>
-              </div>
-              <div class="flex flex-col">
-                <span class="font-label-ui text-xs uppercase tracking-wider text-primary font-bold">Dual-Pane Verification Mode</span>
-                <p class="font-body-sm text-xs text-on-surface-variant">
-                  Click any article card to inspect bounding-box OCR segment against the raw high-res PDF raster.
-                </p>
-              </div>
-            </div>
-            <button class="shrink-0 px-3.5 py-1.5 rounded-xl bg-surface-container-lowest text-primary font-label-ui text-xs font-semibold hover:bg-surface-container-high transition-colors shadow-xs flex items-center gap-1.5 border border-surface-container-high" onclick="openReaderModal(0)" type="button">
-              <span>Launch Quick Inspector</span>
-              <span class="material-symbols-outlined text-sm">open_in_new</span>
-            </button>
-          </div>
-
-          <!-- ARTICLE FEED CONTAINER -->
-          <div class="flex flex-col gap-4" id="articleCardsContainer">
-            <!-- Dynamic article cards will be rendered here -->
-          </div>
-
-          <!-- Pagination -->
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 pb-8 border-t border-surface-container-high/60">
-            <span class="font-label-mono text-xs text-on-surface-variant">
-              SHOWING TOP DISCOVERED ARTICLES · PIPELINE ID: #EP-OCR-8921
-            </span>
-            <div class="flex items-center gap-1.5">
-              <button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-outline font-label-ui text-xs cursor-not-allowed border border-surface-container-high" disabled>Previous</button>
-              <button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-ui text-xs font-semibold shadow-xs">1</button>
-              <button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-ui text-xs transition-colors border border-surface-container-high">Next</button>
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
-  </main>
-
-  <!-- ========================================================================= -->
-  <!-- 3. SLIDEOUT DUAL-PANE READER & PDF COMPARISON MODAL                       -->
-  <!-- ========================================================================= -->
-  <div class="fixed inset-0 z-50 hidden bg-inverse-surface/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6" id="reader-modal">
-    <div class="bg-surface-container-lowest w-full max-w-6xl h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative border border-surface-container-high">
-      
-      <!-- Modal Top Navigation Bar -->
-      <div class="h-14 px-6 bg-surface-container-low flex items-center justify-between shrink-0 border-b border-surface-container-high/60">
-        <div class="flex items-center gap-3">
-          <div class="flex items-center gap-1.5 bg-inverse-surface text-inverse-on-surface px-2.5 py-1 rounded-lg font-label-mono text-xs font-bold">
-            <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
-            <span id="modal-page-badge">PAGE 07</span>
-          </div>
-          <span class="font-headline-sm text-sm sm:text-base font-bold text-on-surface truncate max-w-md sm:max-w-xl" id="modal-headline-title">
-            New education initiative announced across Tamil Nadu
-          </span>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="hidden md:flex items-center gap-1 bg-surface-container px-2.5 py-1 rounded-lg text-on-surface-variant font-label-mono text-xs">
-            <span id="modal-ocr-score">OCR: 99.2%</span>
-            <span class="text-outline">·</span>
-            <span>VERIFIED COLUMN RETICLE</span>
-          </div>
-          <button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors" onclick="closeReaderModal()" type="button">
-            <span class="material-symbols-outlined text-lg">close</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Split Analytical Viewport -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 flex-1 overflow-hidden">
-        <!-- Left Pane: Synthesized Article Text (7 cols) -->
-        <div class="lg:col-span-7 p-6 overflow-y-auto custom-scrollbar flex flex-col gap-4">
-          <div class="flex items-center justify-between pb-3 bg-surface-container-low/60 p-3 rounded-xl border border-surface-container-high/40">
-            <div class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-primary text-base">translate</span>
-              <span class="font-label-ui text-xs text-on-surface font-semibold" id="modal-meta-source">Dina Thanthi · 20 Sep 2026 · Regional Edition</span>
-            </div>
-            <span class="font-label-mono text-[11px] px-2 py-0.5 rounded bg-primary-fixed text-primary font-bold" id="modal-lang-badge">TAMIL → ENGLISH</span>
-          </div>
-
-          <div class="flex flex-col gap-3">
-            <h2 class="font-headline-lg text-lg sm:text-xl font-bold text-on-surface" id="modal-full-headline">
-              New education initiative announced across Tamil Nadu
-            </h2>
-            <div class="flex items-center gap-2 font-label-mono text-xs text-on-surface-variant">
-              <span>BYLINE: SPECIAL CORRESPONDENT</span>
-              <span>•</span>
-              <span id="modal-filed-date">FILED: 20 SEP 2026, 04:30 IST</span>
-            </div>
-            <p class="font-body-lg text-sm sm:text-base text-on-surface leading-relaxed" id="modal-body-p1">
-              The state government today unveiled a comprehensive digital literacy curriculum targeting over 4,000 rural schools. Primary education minister confirmed allocation of ₹240 crore for classroom infrastructure and fiber-optic connectivity hubs, scheduled for roll-out across 14 target districts ahead of the upcoming legislative budget assembly.
-            </p>
-            <p class="font-body-lg text-xs sm:text-sm text-on-surface-variant leading-relaxed" id="modal-body-p2">
-              According to the administrative directive published in section four, each institution will receive dedicated interactive computational panels and vernacular educational software designed by regional academic consortia. Training workshops for an initial cohort of 12,000 headmasters and mathematics educators will commence late next week.
-            </p>
-
-            <!-- Named Entities Matrix -->
-            <div class="bg-surface-container-low p-4 rounded-xl flex flex-col gap-2 mt-2 border border-surface-container-high/40">
-              <span class="font-label-mono text-xs text-secondary uppercase font-semibold">Named Entities Extracted via Indic-LLM</span>
-              <div class="flex flex-wrap gap-2" id="modal-entity-tags">
-                <span class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface font-label-mono text-xs shadow-xs border border-surface-container-high/40">ORG: School Education Dept</span>
-                <span class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface font-label-mono text-xs shadow-xs border border-surface-container-high/40">MONEY: ₹240 Crore</span>
-                <span class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface font-label-mono text-xs shadow-xs border border-surface-container-high/40">COUNT: 4,000 Schools</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Pane: Interactive Raster PDF Preview with Cyan Bounding Box (5 cols) -->
-        <div class="lg:col-span-5 bg-surface-container-high p-4 flex flex-col gap-3 overflow-hidden border-t lg:border-t-0 lg:border-l border-surface-container-high">
-          <div class="flex items-center justify-between">
-            <span class="font-label-mono text-xs text-on-surface uppercase font-bold flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm text-primary">find_in_page</span>
-              Original Broadsheet Raster Match
-            </span>
-            <div class="flex items-center gap-1">
-              <button aria-label="Zoom In" class="p-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface-variant" type="button"><span class="material-symbols-outlined text-sm">zoom_in</span></button>
-              <button aria-label="Zoom Out" class="p-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface-variant" type="button"><span class="material-symbols-outlined text-sm">zoom_out</span></button>
-              <button aria-label="Fit View" class="p-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface-variant" type="button"><span class="material-symbols-outlined text-sm">fullscreen</span></button>
-            </div>
-          </div>
-
-          <!-- Raster Simulation Viewport with Cyan Bounding Box Reticle -->
-          <div class="relative flex-1 rounded-2xl bg-surface-container-lowest overflow-hidden shadow-inner flex items-center justify-center p-2 border border-surface-container-high/60">
-            <img class="w-full h-full object-contain grayscale opacity-85" id="modal-pdf-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACOl_Ga07DUjeJPpo-w6SjJb8JaXdfbpKNmjU_6wRfNvhSR4y_3vU36DFJOrg_0QvH_bW053g3QeHmKR8WnGuz5rAWFvGm6NJuicv04UlhANzwBShDxujc7iVz5tMpnK334oVrUYNwjl4oa2Wn8oD-WkKjFZSDjLBpPxbXgJrB69n9cbXrnM8S0NFp_-KAeBLnGT5D-ggtw9kdLhRn0yYewDIenp5AFtBl5J7i7Oh-2IDIVFj9xog5" alt="Broadsheet scan with OCR bounding box"/>
-            
-            <!-- Simulated Active OCR Reticle Box -->
-            <div class="absolute inset-x-8 top-12 bottom-20 bg-secondary-container/15 rounded-lg pointer-events-none shadow-[0_0_0_2px_#39b8fd,0_0_20px_rgba(57,184,253,0.3)] flex flex-col justify-between p-2">
-              <div class="flex items-center justify-between">
-                <span class="px-1.5 py-0.5 rounded bg-secondary text-on-secondary font-label-mono text-[9px] uppercase font-bold">PARSED ZONE #03</span>
-                <span class="font-label-mono text-[9px] text-secondary font-bold">CONF: 99.2%</span>
-              </div>
-              <div class="flex items-center justify-between font-label-mono text-[8px] text-secondary">
-                <span>X: 184pt · Y: 420pt</span>
-                <span>W: 340pt · H: 580pt</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between text-on-surface-variant font-label-mono text-xs px-1">
-            <span id="modal-raster-footer">BROADSHEET · PG 07</span>
-            <a class="text-primary hover:underline flex items-center gap-1 font-semibold" href="/search" id="modal-open-pdf-link" target="_blank">
-              <span>Open PDF in Tab</span>
-              <span class="material-symbols-outlined text-xs">launch</span>
             </a>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ========================================================================= -->
-  <!-- 4. CLIENT JAVASCRIPT: FEED RENDERING, SEARCH & MODAL                      -->
-  <!-- ========================================================================= -->
-  <script>
-    // Initial rich sample articles dataset matching Stitch Screen 2
-    const defaultArticles = [
-      {
-        id: "art-1",
-        page: "PAGE 07",
-        pageNum: 7,
-        category: "POLITICS",
-        source: "Dina Thanthi",
-        date: "20 Sep 2026",
-        langRoute: "Tamil → English",
-        langFrom: "Tamil",
-        headline: "New education initiative announced across Tamil Nadu",
-        summary: "The state government today unveiled a comprehensive digital literacy curriculum targeting over 4,000 rural schools. Primary education minister confirmed allocation of ₹240 crore for classroom infrastructure and fiber-optic connectivity hubs, scheduled for roll-out across 14 target districts ahead of the upcoming legislative budget assembly.",
-        p2: "According to the administrative directive published in section four, each institution will receive dedicated interactive computational panels and vernacular educational software designed by regional academic consortia. Training workshops for an initial cohort of 12,000 headmasters and mathematics educators will commence late next week in district administrative centers.",
-        entities: ["₹240 Crore Budget", "Primary Education Dept", "4,000 Schools"],
-        ocrScore: "99.2%",
-        wordCount: "420 words",
-        column: "Column 3 / Lead Story",
-        imgThumb: "https://lh3.googleusercontent.com/aida-public/AB6AXuBdKzXNuhz_zIvG3p2Y6kTXs31iMn-nS_WtMnV_8nud_U0cT6wdYnXNbjwnvMw61Jn_3RuUQaO-TlucXnK03dk5rJBiBNEuo0zv_tCcCknknw-dvVbI8XOplsNSalNM1lZcUnELumy63eBHhuhVuBwiJVyeu-eBJAc5Kn4ae27L3GEF4lCkS99slw_VYfddCQ9W96xGLSgHu8mq3uIPaPgd1PGie6UYeeUd5fy9hJSadiWqqJhMmbDS",
-        thumbCol: "Col 3 · Reg #829",
-        thumbScript: "Tamil Script"
-      },
-      {
-        id: "art-2",
-        page: "PAGE 11",
-        pageNum: 11,
-        category: "BUSINESS",
-        source: "Dainik Jagran",
-        date: "20 Sep 2026",
-        langRoute: "Hindi → English",
-        langFrom: "Hindi",
-        headline: "Automotive ancillary manufacturers expand output in industrial corridors",
-        summary: "New export orders drove a 14% quarter-on-quarter increase in component shipments across North Indian manufacturing belts. Local chamber of commerce reports steady hiring across assembly hubs in Gurgaon and Faridabad, aided by steady raw material pricing and streamlined freight rail transit corridors.",
-        p2: "Tier-1 component suppliers cited substantial domestic demand spikes for precision gearbox parts and electrical sensor assemblies. Automotive association delegates confirmed joint testing facilities will inaugurate next month to satisfy export compliance for European union standards.",
-        entities: ["+14% QoQ Growth", "Faridabad Hub", "Chamber of Commerce"],
-        ocrScore: "98.7%",
-        wordCount: "385 words",
-        column: "Column 5 / Business Bureau",
-        imgThumb: "https://lh3.googleusercontent.com/aida-public/AB6AXuCpZKnEda4H0kncJpDUzgVAvYGEHtXLyeJp-wnltW8r9yEuNeVN_4dFoHg6PpdD69WZUpomwGnNejmbh5927L5xXMjKejQQ4Q55ulCzlDFbEmIts8XcjW7U7mhk3W7N2BMO1UDmqic1z8fFBuN9z7owUs3Q0f4gcVd35wYw_IYxx84juKGnfw5ziUIE-L3VLpuj2hbZyl31ZJsKsHP83C_Dm3sGNgvXiQtBMGEytpY0aSvRhd7lBAgV",
-        thumbCol: "Col 5 · Sector B",
-        thumbScript: "Devanagari"
-      },
-      {
-        id: "art-3",
-        page: "PAGE 14",
-        pageNum: 14,
-        category: "SPORTS",
-        source: "Dina Thanthi",
-        date: "20 Sep 2026",
-        langRoute: "Tamil → English",
-        langFrom: "Tamil",
-        headline: "District athletic tournament kicks off with record 1,200 youth participants",
-        summary: "Track and field events began at the central stadium this morning. Opening ceremonies featured state champions and regional sports council delegates, inaugurating synthetic sprint tracks installed earlier this quarter with state sports board grants.",
-        p2: "Over 80 rural sports academies sent delegations to compete in the under-19 and under-16 categories. Preliminary heats for the 100m, 400m, and long jump finished before noon under clear weather conditions.",
-        entities: ["1,200 Athletes", "Central Stadium", "Sprint Relay 400m"],
-        ocrScore: "99.5%",
-        wordCount: "290 words",
-        column: "Column 2 / Page 14",
-        imgThumb: "https://lh3.googleusercontent.com/aida-public/AB6AXuC2FMVMyh6K6AeY9G68P6eSIG1O8Qtu5GxtMcTYB1t9SAyfhTkiJuZ_Xhryp0VknFqh0MAGShWWMsGLmmtsS3X7due5xdmBvxLBmcJfwTWcC-L12WhDrMIpS_LsPB3ZxQ2y9iI2vbtiiQniV2ahNar4JrKo55IZss4givkDsGaakxrz40sTTv8wdDmZc7-fjcbaYioCTAKmr7T7yNzZHLwt9W4S4aI_QdIqN05xjrN_mXTw_GLMcHtb",
-        thumbCol: "Col 2 · Sports Desk",
-        thumbScript: "Halftone Photo OCR"
-      },
-      {
-        id: "art-4",
-        page: "PAGE 05",
-        pageNum: 5,
-        category: "TECHNOLOGY",
-        source: "Malayala Manorama",
-        date: "19 Sep 2026",
-        langRoute: "Malayalam → English",
-        langFrom: "Malayalam",
-        headline: "Regional telecom operators accelerate 5G fiber rollouts in coastal districts",
-        summary: "Over 850 new transmission towers were synchronized this week, improving emergency coastal communication links and marine weather warning dissemination ahead of the southwest monsoon season. The department confirmed optical repeaters have been bolstered with solar backups.",
-        p2: "Fisheries department leaders commended the increased cellular coverage corridor stretching 40 nautical miles offshore, facilitating immediate distress beacon relay and high-resolution sea surface temperature feeds for local vessels.",
-        entities: ["850 Towers", "Coastal Telecom Taskforce", "5G Standalone"],
-        ocrScore: "99.1%",
-        wordCount: "312 words",
-        column: "Column 1 / Page 05",
-        imgThumb: "https://lh3.googleusercontent.com/aida-public/AB6AXuBSgY0EEYobK2tTALzcKRf6MKrjcPhSWzcbPTHmYZAUz0q46lzOYQdCVnDdjeEn59CJxbt4NX3gtJIsbPCqQGVlPo5ZuToC3V2BpXyN-cMrercsxgWnrSwaADrKoTFtPCsU-3NjqT6lIGR-Vl_RjLOzUpdOFtQCYhKrT9ToUxkwK7Tymajy0zdHRpxuaVTdQzNJkYSDV_mR8ZEib4vwt31Ym3I-C01JBOD0KMANav_JbP6-152LqJrB",
-        thumbCol: "Col 1 · State Wire",
-        thumbScript: "Malayalam Script"
-      }
-    ];
+        <nav class="nav-links">
+            <a href="/" class="nav-link">
+                <span class="nav-icon">📰</span>
+                <span>Catalog & Harvest</span>
+            </a>
+            <a href="/upload" class="nav-link">
+                <span class="nav-icon">📄</span>
+                <span>Hardcopy PDF Harvester</span>
+            </a>
+            <a href="/inbox" class="nav-link">
+                <span class="nav-icon">📬</span>
+                <span>Inbox Automation</span>
+            </a>
+            <a href="/search" class="nav-link active">
+                <span class="nav-icon">🔍</span>
+                <span>PDF Newspaper Search</span>
+            </a>
+        </nav>
 
-    let currentArticles = [...defaultArticles];
-    let selectedCategory = 'all';
-
-    // Render Article Cards into Feed
-    function renderArticleCards(articlesToRender) {
-      const container = document.getElementById('articleCardsContainer');
-      if (!container) return;
-
-      if (!articlesToRender || articlesToRender.length === 0) {
-        container.innerHTML = `
-          <div class="bg-surface-container-lowest p-8 rounded-2xl text-center border border-surface-container-high/60">
-            <span class="material-symbols-outlined text-4xl text-outline">newspaper</span>
-            <h3 class="mt-2 font-headline-sm text-base font-semibold text-on-surface">No matching news articles found</h3>
-            <p class="text-xs text-on-surface-variant mt-1">Try relaxing your search terms or picking another category.</p>
-          </div>
-        `;
-        document.getElementById('feedCounterText').textContent = 'Showing 0 articles';
-        return;
-      }
-
-      document.getElementById('feedCounterText').textContent = `Showing ${articlesToRender.length} articles`;
-
-      container.innerHTML = articlesToRender.map((article, idx) => `
-        <article class="group bg-surface-container-lowest rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col gap-4 relative overflow-hidden border border-surface-container-high/60">
-          <!-- Top Tagline & Badges -->
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex flex-wrap items-center gap-2">
-              <div class="flex items-center gap-1.5 bg-inverse-surface text-inverse-on-surface px-2.5 py-1 rounded-lg shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
-                <span class="font-label-mono text-xs font-bold tracking-wider">${article.page}</span>
-              </div>
-              <span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-primary font-label-ui text-xs font-semibold uppercase tracking-wider">
-                ${article.category}
-              </span>
-              <span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-mono text-xs">
-                ${article.source} · ${article.date}
-              </span>
+        <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;background:rgba(30,41,59,0.7);padding:0.35rem 0.8rem;border-radius:20px;font-size:0.78rem;border:1px solid rgba(255,255,255,0.1);">
+                <span style="width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981;"></span>
+                <span style="color:#94a3b8;">Search Index Ready</span>
             </div>
-            <!-- Translation Route -->
-            <div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1 rounded-lg font-label-mono text-xs text-on-surface-variant border border-surface-container-high/40">
-              <span class="font-semibold text-secondary">${article.langFrom || 'Regional'}</span>
-              <span class="material-symbols-outlined text-xs">arrow_forward</span>
-              <span class="font-semibold text-primary">English</span>
-              <span class="text-tertiary ml-1">✓ Synthesized</span>
-            </div>
-          </div>
+            <div id="clockDisplay" style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:#38bdf8;font-weight:600;">00:00:00 IST</div>
+        </div>
+    </header>
 
-          <!-- Main Layout -->
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-            <div class="md:col-span-8 flex flex-col justify-between gap-2.5">
-              <div class="flex flex-col gap-1.5">
-                <h2 class="font-headline-md text-base sm:text-lg font-bold text-on-surface group-hover:text-primary transition-colors cursor-pointer leading-snug" onclick="openReaderModal(${idx})">
-                  ${article.headline}
-                </h2>
-                <p class="font-body-md text-xs sm:text-sm text-on-surface-variant line-clamp-3 leading-relaxed">
-                  ${article.summary}
-                </p>
-              </div>
+    <!-- Main Container -->
+    <div class="search-page-container">
 
-              <!-- Entities -->
-              <div class="flex flex-wrap items-center gap-1.5 pt-1">
-                <span class="font-label-mono text-[10px] text-outline uppercase tracking-wider">Entities:</span>
-                ${(article.entities || []).map(e => `
-                  <span class="px-2 py-0.5 rounded-lg bg-surface-container text-on-surface font-label-mono text-[11px] border border-surface-container-high/40">${e}</span>
-                `).join('')}
-              </div>
-            </div>
-
-            <!-- Micro Newspaper Cutout Viewport with OCR Reticle -->
-            <div class="md:col-span-4 relative rounded-xl overflow-hidden bg-surface-container-high h-36 md:h-auto flex items-center justify-center border border-surface-container-high/60 group-hover:opacity-95 transition-opacity">
-              <img class="w-full h-full object-cover grayscale mix-blend-multiply opacity-80" src="${article.imgThumb}" alt="Column snippet"/>
-              <div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-transparent to-transparent flex flex-col justify-end p-2.5">
-                <div class="flex items-center justify-between text-inverse-on-surface font-label-mono text-[10px]">
-                  <span class="flex items-center gap-1">
-                    <span class="material-symbols-outlined text-xs text-secondary-container">crop_free</span>
-                    ${article.thumbCol || 'Col 3'}
-                  </span>
-                  <span class="bg-surface-container-lowest/20 backdrop-blur-xs px-1.5 py-0.5 rounded">${article.thumbScript || 'Indic OCR'}</span>
+        <!-- Hero Header -->
+        <section class="search-hero">
+            <div class="hero-top-row">
+                <div class="hero-brand">
+                    <div class="hero-icon-box">🔍</div>
+                    <div>
+                        <h1 class="hero-title">PDF Newspaper Search & Clipping</h1>
+                        <p class="hero-subtitle">
+                            Search OCR-indexed harvested broadsheet newspapers. Results instantly render page numbers, real highlighted clippings, and full English translation with direct WhatsApp, Telegram, and Email PDF reporting.
+                        </p>
+                    </div>
                 </div>
-              </div>
-              <div class="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-secondary-container pointer-events-none"></div>
-              <div class="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-secondary-container pointer-events-none"></div>
-            </div>
-          </div>
 
-          <!-- Card Footer -->
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 bg-surface-container-low/40 -mx-5 -mb-5 px-5 py-2.5 border-t border-surface-container-high/50">
-            <div class="flex flex-wrap items-center gap-3 font-label-mono text-xs text-on-surface-variant">
-              <span class="flex items-center gap-1 text-tertiary font-semibold">
-                <span class="material-symbols-outlined text-sm">verified</span>
-                OCR: ${article.ocrScore || '99%'}
-              </span>
-              <span class="text-outline-variant">·</span>
-              <span>${article.wordCount || '350 words'}</span>
-              <span class="text-outline-variant">·</span>
-              <span>${article.column || 'Full Column'}</span>
+                <div class="hero-stats-group">
+                    <div class="stat-pill">
+                        <span>📑 Total Indexed:</span>
+                        <strong id="statTotalIndexed">Loading...</strong>
+                    </div>
+                    <button class="stat-pill" style="cursor:pointer;border-color:#38bdf8;color:#38bdf8;" onclick="loadPdfIndexStatus()">
+                        📊 Index Diagnostics
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center gap-2">
-              <button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-ui text-xs font-semibold flex items-center gap-1.5 shadow-xs border border-surface-container-high" onclick="openReaderModal(${idx})" type="button">
-                <span class="material-symbols-outlined text-sm text-primary">picture_as_pdf</span>
-                <span>Original ${article.page}</span>
-              </button>
-              <button class="px-3.5 py-1.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container transition-all font-label-ui text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-primary/20" onclick="openReaderModal(${idx})" type="button">
-                <span>Read Article</span>
-                <span class="material-symbols-outlined text-sm">arrow_forward</span>
-              </button>
+
+            <!-- Search Box Form -->
+            <div class="search-box-card">
+                <div class="search-inputs-grid">
+                    <!-- Keyword Input -->
+                    <div class="input-group">
+                        <label for="pdfSearchInput">🔤 Search Keywords (Tamil, Hindi, Marathi, English)</label>
+                        <input
+                            id="pdfSearchInput"
+                            class="input-control"
+                            type="text"
+                            placeholder="e.g. Reserve Bank, Supreme Court, Chennai roads, budget, election..."
+                            onkeydown="if(event.key==='Enter')runPdfSearch()"
+                            autofocus
+                        />
+                    </div>
+
+                    <!-- Date Picker -->
+                    <div class="input-group" style="min-width:210px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.45rem;">
+                            <label style="margin:0;">📅 Publication Date</label>
+                            <button type="button" onclick="document.getElementById('pdfSearchDate').value='';showShareToast('Searching across all dates', false);" style="background:none;border:none;color:#38bdf8;font-size:0.75rem;cursor:pointer;font-weight:700;">Any Date</button>
+                        </div>
+                        <input id="pdfSearchDate" class="input-control" type="date" />
+                    </div>
+
+                    <!-- Search Button -->
+                    <div>
+                        <button id="btnRunPdfSearch" class="btn-search-primary" onclick="runPdfSearch()">
+                            🔍 Search Newspapers
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Keywords Row -->
+                <div class="quick-tags-row">
+                    <span class="quick-tag-label">Popular Searches:</span>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Reserve Bank of India')">Reserve Bank of India</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Election Commission')">Election Commission</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Supreme Court')">Supreme Court</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Budget 2026')">Budget 2026</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Stock Market')">Stock Market</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Cabinet decision')">Cabinet decision</button>
+                    <button class="quick-tag-pill" onclick="setQuickKeyword('Chief Minister')">Chief Minister</button>
+                </div>
+
+                <!-- Sources Filter Row -->
+                <div class="sources-filter-row">
+                    <span style="font-size:0.82rem;color:#64748b;font-weight:700;text-transform:uppercase;">Publications:</span>
+                    <label id="chk-the_hindu" class="src-chip selected">
+                        <input type="checkbox" value="the_hindu" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> The Hindu
+                    </label>
+                    <label id="chk-dt_next" class="src-chip selected">
+                        <input type="checkbox" value="dt_next" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> DT Next
+                    </label>
+                    <label id="chk-lokmat" class="src-chip selected">
+                        <input type="checkbox" value="lokmat" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> Lokmat
+                    </label>
+                    <label id="chk-loksatta" class="src-chip selected">
+                        <input type="checkbox" value="loksatta" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> Loksatta
+                    </label>
+                    <label id="chk-financial_express" class="src-chip selected">
+                        <input type="checkbox" value="financial_express" checked style="accent-color:#38bdf8;" onchange="updateChipState(this)"> Financial Express
+                    </label>
+                    <button type="button" onclick="selectAllSources(true)" style="background:none;border:none;color:#38bdf8;font-size:0.78rem;cursor:pointer;font-weight:700;margin-left:0.5rem;">Select All</button>
+                </div>
             </div>
-          </div>
-        </article>
-      `).join('');
+
+            <!-- Automation Banner -->
+            <div class="automation-banner">
+                <div class="auto-banner-text">
+                    <span style="font-size:1.6rem;">⚡</span>
+                    <div>
+                        <div style="font-size:0.92rem;font-weight:700;color:#f1f5f9;display:flex;align-items:center;gap:0.5rem;">
+                            Automated Morning Broadsheet Harvester &amp; OCR Engine
+                            <span style="padding:0.2rem 0.55rem;border-radius:12px;background:rgba(16,185,129,0.2);color:#10b981;font-size:0.72rem;font-weight:800;">● Active (05:15 AM IST)</span>
+                        </div>
+                        <div style="font-size:0.8rem;color:#94a3b8;">
+                            Automatically captures, parses, and OCR-indexes morning e-papers across Tamil, Marathi, and English broadsheets.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:0.6rem;align-items:center;">
+                    <button id="btnTriggerAutoHarvest" onclick="runAutoHarvest()" style="padding:0.55rem 1.25rem;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:8px;color:#fff;font-weight:700;font-size:0.84rem;cursor:pointer;box-shadow:0 4px 14px rgba(16,185,129,0.35);">
+                        ⚡ Run Auto-Harvest Now
+                    </button>
+                    <button onclick="rebuildPdfIndex()" style="padding:0.55rem 1rem;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.35);border-radius:8px;color:#38bdf8;font-size:0.84rem;font-weight:600;cursor:pointer;">
+                        🔄 Re-Index PDFs
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Index Status Diagnostics Panel -->
+        <div id="pdfIndexStatusPanel" style="display:none;margin-bottom:2rem;padding:1.5rem;background:rgba(15,23,42,0.9);border:1px solid rgba(56,189,248,0.3);border-radius:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                <h3 style="margin:0;color:#38bdf8;font-size:1.1rem;display:flex;align-items:center;gap:0.5rem;">
+                    <span>📊</span> PDF Search Index Status &amp; Diagnostics
+                </h3>
+                <div style="display:flex;gap:0.5rem;">
+                    <button onclick="rebuildPdfIndex()" style="padding:0.4rem 0.9rem;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:8px;color:#ef4444;font-size:0.8rem;font-weight:600;cursor:pointer;">🔄 Force Rebuild</button>
+                    <button onclick="document.getElementById('pdfIndexStatusPanel').style.display='none'" style="padding:0.4rem 0.7rem;background:rgba(100,116,139,0.2);border:1px solid rgba(100,116,139,0.3);border-radius:8px;color:#94a3b8;font-size:0.8rem;cursor:pointer;">✕ Close</button>
+                </div>
+            </div>
+            <div id="pdfIndexStatusContent" style="color:#cbd5e1;font-size:0.88rem;">Loading diagnostics...</div>
+        </div>
+
+        <!-- Results Info Bar -->
+        <div id="pdfSearchInfoBar" class="results-toolbar" style="display:none;">
+            <div id="pdfSearchInfoText" style="font-size:0.95rem;font-weight:600;color:#f1f5f9;"></div>
+            <div style="display:flex;gap:0.6rem;align-items:center;">
+                <button onclick="exportAllResults()" style="padding:0.5rem 1.25rem;background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;border-radius:8px;color:#0f172a;font-weight:800;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem;">
+                    📄 Export Full PDF Report
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="pdfSearchLoading" style="display:none;text-align:center;padding:4rem 2rem;">
+            <div style="width:52px;height:52px;border:4px solid rgba(56,189,248,0.2);border-top-color:#38bdf8;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1.25rem;"></div>
+            <h3 style="color:#f1f5f9;margin:0 0 0.4rem;font-size:1.15rem;">Searching Harvested PDFs...</h3>
+            <p style="color:#64748b;margin:0;font-size:0.88rem;">Querying full-text OCR database and locating real broadsheet clipping coordinates...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="pdfSearchEmpty" style="display:none;text-align:center;padding:5rem 2rem;background:rgba(15,23,42,0.5);border:1px dashed rgba(255,255,255,0.1);border-radius:20px;">
+            <div style="font-size:3.5rem;margin-bottom:1rem;">📰</div>
+            <h3 style="color:#f1f5f9;margin:0 0 0.5rem;font-size:1.25rem;">No Matching Newspaper Stories Found</h3>
+            <p style="color:#64748b;font-size:0.92rem;max-width:560px;margin:0 auto 1.5rem;line-height:1.6;">
+                Try searching for broader keywords (e.g. <em>"Reserve Bank"</em>, <em>"Chennai"</em>, <em>"Market"</em>), select <strong>Any Date</strong>, or click <strong>Run Auto-Harvest Now</strong> to download today's broadsheets.
+            </p>
+            <button onclick="rebuildPdfIndex()" style="padding:0.6rem 1.25rem;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.4);border-radius:10px;color:#38bdf8;font-weight:700;font-size:0.88rem;cursor:pointer;">
+                🔄 Rebuild &amp; Index Local PDFs
+            </button>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="pdfSearchResults" class="results-grid"></div>
+
+    </div>
+
+    <!-- Email Share Modal -->
+    <div id="emailShareModal" class="custom-modal">
+        <div class="modal-card">
+            <h3 style="margin:0 0 1.25rem;color:#f1f5f9;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem;">
+                <span>📨</span> Share Report via Email
+            </h3>
+            <div style="margin-bottom:1rem;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;color:#94a3b8;margin-bottom:0.4rem;">Recipient Email</label>
+                <input id="emailShareTo" class="input-control" type="email" value="cuttyknowledge2006@gmail.com" placeholder="name@domain.com" />
+            </div>
+            <div style="margin-bottom:1.5rem;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;color:#94a3b8;margin-bottom:0.4rem;">Subject Line</label>
+                <input id="emailShareSubject" class="input-control" type="text" placeholder="Newspaper Search Report" />
+            </div>
+            <div style="display:flex;gap:0.75rem;">
+                <button onclick="confirmEmailShare()" style="flex:1;padding:0.85rem;background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;border-radius:10px;color:#0f172a;font-weight:800;cursor:pointer;">Send Email</button>
+                <button onclick="document.getElementById('emailShareModal').classList.remove('open')" style="flex:1;padding:0.85rem;background:rgba(100,116,139,0.2);border:1px solid rgba(100,116,139,0.3);border-radius:10px;color:#94a3b8;font-weight:700;cursor:pointer;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="shareToast" class="toast-notify"></div>
+
+    <script>
+    // =========================================================
+    // PDF Newspaper Search Page Logic
+    // =========================================================
+    let _currentPdfResults = [];
+    let _currentQuery = '';
+    let _pendingSharePdfPath = '';
+    let _emailShareIdx = -1;
+
+    // Initialize clock
+    setInterval(() => {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata' }) + ' IST';
+        const el = document.getElementById('clockDisplay');
+        if (el) el.textContent = timeStr;
+    }, 1000);
+
+    // Initial load: fetch index stats
+    window.addEventListener('DOMContentLoaded', () => {
+        fetchIndexStatsQuick();
+        
+        // Auto-run if query param present (e.g. ?q=rbi)
+        const params = new URLSearchParams(window.location.search);
+        const qParam = params.get('q');
+        if (qParam) {
+            document.getElementById('pdfSearchInput').value = qParam;
+            runPdfSearch();
+        }
+    });
+
+    async function fetchIndexStatsQuick() {
+        try {
+            const resp = await fetch('/api/pdf-index/status');
+            const data = await resp.json();
+            const statEl = document.getElementById('statTotalIndexed');
+            if (statEl) {
+                statEl.textContent = `${data.total_documents || 0} issues (${data.indexed_sources ? data.indexed_sources.length : 0} publications)`;
+            }
+        } catch (e) {
+            const statEl = document.getElementById('statTotalIndexed');
+            if (statEl) statEl.textContent = 'Ready';
+        }
     }
 
-    // Quick Reader Modal Logic
-    function openReaderModal(idx) {
-      const article = currentArticles[idx] || currentArticles[0];
-      if (!article) return;
-
-      document.getElementById('modal-page-badge').textContent = article.page;
-      document.getElementById('modal-headline-title').textContent = article.headline;
-      document.getElementById('modal-full-headline').textContent = article.headline;
-      document.getElementById('modal-meta-source').textContent = `${article.source} · ${article.date} · Regional Edition`;
-      document.getElementById('modal-lang-badge').textContent = (article.langRoute || 'INDIC → ENGLISH').toUpperCase();
-      document.getElementById('modal-body-p1').textContent = article.summary;
-      document.getElementById('modal-body-p2').textContent = article.p2 || article.summary;
-      document.getElementById('modal-ocr-score').textContent = `OCR: ${article.ocrScore || '99.2%'}`;
-      document.getElementById('modal-raster-footer').textContent = `${article.source.toUpperCase()} · ${article.page}`;
-
-      if (article.entities && article.entities.length > 0) {
-        document.getElementById('modal-entity-tags').innerHTML = article.entities.map(e => `
-          <span class="px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface font-label-mono text-xs shadow-xs border border-surface-container-high/40">${e}</span>
-        `).join('');
-      }
-
-      const modal = document.getElementById('reader-modal');
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
+    function setQuickKeyword(kw) {
+        const inp = document.getElementById('pdfSearchInput');
+        inp.value = kw;
+        inp.focus();
+        runPdfSearch();
     }
 
-    function closeReaderModal() {
-      const modal = document.getElementById('reader-modal');
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
+    function updateChipState(cb) {
+        const label = cb.closest('label');
+        if (!label) return;
+        if (cb.checked) {
+            label.classList.add('selected');
+        } else {
+            label.classList.remove('selected');
+        }
     }
 
-    // Category Filtering
-    document.querySelectorAll('#category-pill-container .category-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('#category-pill-container .category-btn').forEach(b => {
-          b.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
-          b.classList.add('bg-surface-container', 'text-on-surface-variant');
+    function selectAllSources(check) {
+        const checkboxes = document.querySelectorAll('.sources-filter-row input[type=checkbox]');
+        checkboxes.forEach(cb => {
+            cb.checked = check;
+            updateChipState(cb);
         });
-        this.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
-        this.classList.remove('bg-surface-container', 'text-on-surface-variant');
+    }
 
-        selectedCategory = this.dataset.category || 'all';
-        document.getElementById('feedActiveCategoryBadge').textContent = selectedCategory.toUpperCase();
-        filterArticles();
-      });
-    });
+    function getSelectedSources() {
+        const checkboxes = document.querySelectorAll('.sources-filter-row input[type=checkbox]');
+        const sel = [];
+        checkboxes.forEach(cb => { if (cb.checked) sel.push(cb.value); });
+        return sel;
+    }
 
-    // Omnibox Search
-    const searchInput = document.getElementById('explorer-search');
-    if (searchInput) {
-      searchInput.addEventListener('input', () => {
-        filterArticles();
-      });
-      searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          searchInput.value = '';
-          filterArticles();
+    async function runPdfSearch() {
+        const q = document.getElementById('pdfSearchInput').value.trim();
+        if (!q) {
+            document.getElementById('pdfSearchInput').focus();
+            showShareToast('Please enter search keywords', true);
+            return;
         }
-      });
-    }
 
-    // Global Keydown ⌘K / Ctrl+K
-    window.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        searchInput?.focus();
-      }
-      if (e.key === 'Escape') {
-        closeReaderModal();
-      }
-    });
+        _currentQuery = q;
+        const date = document.getElementById('pdfSearchDate').value || null;
+        const sources = getSelectedSources();
 
-    // Clear Filters
-    const clearFiltersBtn = document.getElementById('clear-filters-btn');
-    if (clearFiltersBtn) {
-      clearFiltersBtn.addEventListener('click', () => {
-        if (searchInput) searchInput.value = '';
-        document.querySelectorAll('aside input[type="checkbox"]').forEach(c => c.checked = true);
-        const allBtn = document.querySelector('#category-pill-container .category-btn[data-category="all"]');
-        allBtn?.click();
-      });
-    }
+        document.getElementById('pdfSearchLoading').style.display = 'block';
+        document.getElementById('pdfSearchResults').innerHTML = '';
+        document.getElementById('pdfSearchEmpty').style.display = 'none';
+        document.getElementById('pdfSearchInfoBar').style.display = 'none';
 
-    // Filter Logic Combining Search & Category
-    function filterArticles() {
-      const query = (searchInput?.value || '').toLowerCase().trim();
-      const filtered = currentArticles.filter(art => {
-        const matchesCat = selectedCategory === 'all' || art.category.toLowerCase() === selectedCategory;
-        const matchesQuery = !query || 
-          art.headline.toLowerCase().includes(query) || 
-          art.summary.toLowerCase().includes(query) || 
-          art.page.toLowerCase().includes(query) ||
-          art.source.toLowerCase().includes(query);
-        return matchesCat && matchesQuery;
-      });
-      renderArticleCards(filtered);
-    }
+        try {
+            let url = `/api/pdf-search?q=${encodeURIComponent(q)}&limit=60`;
+            if (date) url += `&date=${date}`;
+            if (sources.length) url += `&source_ids=${sources.join(',')}`;
 
-    // Load Live Uploaded Articles from Backend if available
-    async function loadBackendArticles() {
-      try {
-        const res = await fetch('/api/newspaper/hardcopy-news');
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.articles && data.articles.length > 0) {
-            const liveArticles = data.articles.map((item, idx) => ({
-              id: item.id || `live-${idx}`,
-              page: `PAGE ${(item.page_num || 1).toString().padStart(2, '0')}`,
-              pageNum: item.page_num || 1,
-              category: (item.category || 'GENERAL').toUpperCase(),
-              source: item.source_name || 'Broadsheet PDF',
-              date: item.harvested_at ? new Date(item.harvested_at).toLocaleDateString('en-IN') : 'Recent',
-              langRoute: `${item.original_language || 'Indic'} → English`,
-              langFrom: item.original_language || 'Regional',
-              headline: item.english_headline || item.title || 'Regional News Article',
-              summary: item.english_summary || item.full_english_text || item.summary || 'Summary extracted via OCR pipeline.',
-              p2: item.full_english_text || item.english_summary || '',
-              entities: item.entities || ['Extracted Article', 'Layout OCR'],
-              ocrScore: `${item.confidence ? Math.round(item.confidence * 100) : 99}%`,
-              wordCount: `${(item.full_english_text || '').split(' ').length} words`,
-              column: `Page ${item.page_num || 1}`,
-              imgThumb: item.crop_url || '/api/snapshots/sample/1',
-              thumbCol: `Col ${item.column || 1}`,
-              thumbScript: item.original_language || 'Regional Script'
-            }));
-            // Merge with default set
-            currentArticles = [...liveArticles, ...defaultArticles];
-            document.getElementById('explorerStatsCount').textContent = `${currentArticles.length} articles`;
-            document.getElementById('topIndexedCount').textContent = `${currentArticles.length} ARTICLES`;
-            document.getElementById('catCountAll').textContent = currentArticles.length;
-          }
+            const resp = await fetch(url);
+            const data = await resp.json();
+            _currentPdfResults = data.results || [];
+
+            document.getElementById('pdfSearchLoading').style.display = 'none';
+
+            if (!_currentPdfResults.length) {
+                document.getElementById('pdfSearchEmpty').style.display = 'block';
+                return;
+            }
+
+            // Results toolbar
+            const infoBar = document.getElementById('pdfSearchInfoBar');
+            const uniqueSources = new Set(_currentPdfResults.map(r => r.source_name)).size;
+            document.getElementById('pdfSearchInfoText').innerHTML =
+                `Found <span style="color:#38bdf8;font-weight:800;">${_currentPdfResults.length}</span> news stories matching <em>"${escapeHtml(q)}"</em> across ${uniqueSources} broadsheet publication(s)`;
+            infoBar.style.display = 'flex';
+
+            renderPdfResults(_currentPdfResults, q);
+        } catch (err) {
+            document.getElementById('pdfSearchLoading').style.display = 'none';
+            document.getElementById('pdfSearchEmpty').style.display = 'block';
+            console.error('PDF search error:', err);
+            showShareToast('Search request error: ' + err.message, true);
         }
-      } catch (err) {
-        console.warn('Using default articles index:', err);
-      }
-      filterArticles();
     }
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      loadBackendArticles();
-    });
-  </script>
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function renderPdfResults(results, query) {
+        const container = document.getElementById('pdfSearchResults');
+        container.innerHTML = '';
+        const keywords = query.toLowerCase().split(/\s+/).filter(t => t.length >= 2);
+
+        results.forEach((r, idx) => {
+            const card = document.createElement('div');
+            card.className = 'pdf-result-card';
+
+            // Highlight keywords in snippet
+            let snippet = r.snippet_en || r.ocr_text_en || '';
+            if (snippet.length > 280) snippet = snippet.substring(0, 280) + '...';
+            keywords.forEach(kw => {
+                const re = new RegExp(`(${kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+                snippet = snippet.replace(re, '<mark style="background:#fef08a;color:#713f12;border-radius:3px;padding:0 2px;font-weight:700;">$1</mark>');
+            });
+
+            const cropUrl = r.crop_url || '';
+            const snapUrl = r.snapshot_url || '';
+            const initialImg = snapUrl || cropUrl;
+
+            const sourceColor = {
+                'the_hindu': '#38bdf8',
+                'dt_next': '#f59e0b',
+                'lokmat': '#10b981',
+                'loksatta': '#a855f7',
+                'financial_express': '#06b6d4'
+            }[r.source_id] || '#38bdf8';
+
+            const confPct = Math.round((r.ocr_confidence || 0.95) * 100);
+            const storyTitle = (r.story && r.story.title) ? r.story.title : (r.headline_english || 'Regional News Article');
+            const isTranslated = Boolean(r.story && r.story.is_translated);
+
+            card.innerHTML = `
+                <div class="card-image-box">
+                    ${initialImg
+                        ? `<img id="res-img-${idx}" src="${initialImg}" alt="${r.source_name} Page ${r.page_num}" onclick="openPageFullView('${cropUrl}','${snapUrl}','${r.source_name}','${r.date}',${r.page_num})" data-snap="${snapUrl}" data-crop="${cropUrl}" data-view-mode="snap" loading="lazy" />`
+                        : `<div style="color:#475569;font-size:3rem;">📰</div>`
+                    }
+
+                    <!-- Top Left Badges -->
+                    <div style="position:absolute;top:10px;left:10px;display:flex;gap:0.4rem;align-items:center;z-index:2;">
+                        <span style="background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);border:1px solid ${sourceColor};color:${sourceColor};font-weight:800;font-size:0.72rem;padding:0.25rem 0.65rem;border-radius:20px;">${r.source_name}</span>
+                        <span id="clip-badge-${idx}" style="background:linear-gradient(135deg,#f59e0b,#ea580c);color:#ffffff;font-weight:700;font-size:0.68rem;padding:0.25rem 0.55rem;border-radius:20px;box-shadow:0 2px 8px rgba(245,158,11,0.5);">✂️ Focused Crop</span>
+                    </div>
+
+                    <!-- Page Badge -->
+                    <div style="position:absolute;top:10px;right:10px;background:#ef4444;color:white;font-weight:800;font-size:0.78rem;padding:0.28rem 0.65rem;border-radius:20px;box-shadow:0 2px 8px rgba(239,68,68,0.5);z-index:2;">
+                        Page ${r.page_num}
+                    </div>
+
+                    <!-- Toggle Switcher -->
+                    <div style="position:absolute;bottom:10px;right:10px;display:flex;background:rgba(15,23,42,0.92);backdrop-filter:blur(8px);border:1px solid rgba(56,189,248,0.35);border-radius:8px;overflow:hidden;z-index:2;">
+                        <button id="btn-crop-${idx}" onclick="toggleResultView(${idx},'crop',event)" style="border:none;background:rgba(56,189,248,0.3);color:#38bdf8;font-size:0.72rem;font-weight:800;padding:0.3rem 0.65rem;cursor:pointer;">✂️ Clip</button>
+                        <button id="btn-full-${idx}" onclick="toggleResultView(${idx},'full',event)" style="border:none;background:transparent;color:#94a3b8;font-size:0.72rem;font-weight:600;padding:0.3rem 0.65rem;cursor:pointer;">📰 Page</button>
+                    </div>
+
+                    ${isTranslated ? `<div style="position:absolute;bottom:10px;left:10px;background:rgba(16,185,129,0.9);color:#fff;font-size:0.68rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:10px;z-index:2;">🌐 100% English</div>` : ''}
+                </div>
+
+                <div class="card-content-body">
+                    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.45rem;font-size:0.78rem;color:#64748b;">
+                        <span>📅 ${r.date}</span>
+                        <span>•</span>
+                        <span>🎯 OCR: ${confPct}%</span>
+                        ${r.original_language ? `<span>•</span><span>🗣️ ${r.original_language}</span>` : ''}
+                    </div>
+
+                    <h3 class="card-headline">${storyTitle}</h3>
+                    <p class="card-snippet">${snippet || '<em style="color:#64748b;">No snippet text available</em>'}</p>
+
+                    <div class="card-actions-bar">
+                        <button class="btn-card-action export" onclick="exportSingleResult(${idx})" title="Download publication-grade clipping PDF">
+                            📄 PDF
+                        </button>
+                        <button class="btn-card-action wa" onclick="shareWhatsApp(${idx})" title="Send PDF directly to WhatsApp">
+                            📱 WhatsApp
+                        </button>
+                        <button class="btn-card-action tg" onclick="shareTelegram(${idx})" title="Send PDF directly to Telegram">
+                            ✈️ Telegram
+                        </button>
+                        <button class="btn-card-action email" onclick="openEmailModal(${idx})" title="Send PDF report via Email">
+                            📧 Email
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+
+            // Lazy-load highlighted crop image in background
+            if (r.crop_url && r.snapshot_url && r.crop_url !== r.snapshot_url) {
+                const imgEl = document.getElementById(`res-img-${idx}`);
+                const badgeEl = document.getElementById(`clip-badge-${idx}`);
+                if (imgEl) {
+                    const cropImg = new Image();
+                    cropImg.onload = function() {
+                        if (imgEl.dataset.viewMode !== 'full') {
+                            imgEl.src = cropImg.src;
+                            imgEl.dataset.viewMode = 'crop';
+                        }
+                        if (badgeEl) {
+                            badgeEl.textContent = '✂️ Highlighted Clip';
+                            badgeEl.style.display = 'inline-block';
+                        }
+                    };
+                    cropImg.onerror = function() {
+                        if (badgeEl) badgeEl.style.display = 'none';
+                    };
+                    cropImg.src = r.crop_url;
+                }
+            }
+        });
+    }
+
+    function toggleResultView(idx, mode, evt) {
+        if (evt) evt.stopPropagation();
+        const r = _currentPdfResults[idx];
+        if (!r) return;
+        const imgEl = document.getElementById(`res-img-${idx}`);
+        const badgeEl = document.getElementById(`clip-badge-${idx}`);
+        const btnCrop = document.getElementById(`btn-crop-${idx}`);
+        const btnFull = document.getElementById(`btn-full-${idx}`);
+
+        if (mode === 'crop') {
+            if (imgEl && r.crop_url) {
+                imgEl.src = r.crop_url;
+                imgEl.dataset.viewMode = 'crop';
+            }
+            if (badgeEl) { badgeEl.textContent = '✂️ Highlighted Clip'; badgeEl.style.display = 'inline-block'; }
+            if (btnCrop) { btnCrop.style.background = 'rgba(56,189,248,0.3)'; btnCrop.style.color = '#38bdf8'; btnCrop.style.fontWeight = '800'; }
+            if (btnFull) { btnFull.style.background = 'transparent'; btnFull.style.color = '#94a3b8'; btnFull.style.fontWeight = '600'; }
+        } else {
+            if (imgEl && r.snapshot_url) {
+                imgEl.src = r.snapshot_url;
+                imgEl.dataset.viewMode = 'full';
+            }
+            if (badgeEl) { badgeEl.style.display = 'none'; }
+            if (btnCrop) { btnCrop.style.background = 'transparent'; btnCrop.style.color = '#94a3b8'; btnCrop.style.fontWeight = '600'; }
+            if (btnFull) { btnFull.style.background = 'rgba(56,189,248,0.3)'; btnFull.style.color = '#38bdf8'; btnFull.style.fontWeight = '800'; }
+        }
+    }
+
+    function openPageFullView(cropUrl, fullUrl, source, date, pageNum) {
+        const win = window.open('', '_blank', 'width=1100,height=950');
+        const activeInitial = cropUrl || fullUrl;
+        win.document.write(`
+            <html><head><title>${source} - Page ${pageNum} - ${date} - Highlighted News Clipping</title>
+            <style>
+                body { margin:0; background:#0b1120; color:#f1f5f9; display:flex; flex-direction:column; align-items:center; padding:24px; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif; }
+                .top-bar { display:flex; align-items:center; justify-content:space-between; width:100%; max-width:980px; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
+                .title { font-size:1.25rem; font-weight:700; color:#38bdf8; display:flex; align-items:center; gap:8px; margin:0; }
+                .controls { display:flex; gap:8px; }
+                .btn { padding:8px 16px; border-radius:8px; font-weight:600; font-size:0.85rem; cursor:pointer; border:1px solid rgba(56,189,248,0.3); background:rgba(30,41,59,0.9); color:#f1f5f9; transition:all 0.2s; }
+                .btn.active { background:#38bdf8; color:#0f172a; border-color:#38bdf8; font-weight:700; }
+                .img-frame { max-width:980px; width:100%; border:2px solid rgba(56,189,248,0.3); border-radius:12px; overflow:hidden; background:#0f172a; box-shadow:0 16px 48px rgba(0,0,0,0.6); display:flex; justify-content:center; }
+                img { max-width:100%; height:auto; display:block; }
+            </style></head>
+            <body>
+                <div class="top-bar">
+                    <h2 class="title">📰 ${source} &mdash; ${date} (Page ${pageNum})</h2>
+                    <div class="controls">
+                        <button id="viewClipBtn" class="btn active" onclick="switchView('crop')">✂️ Highlighted News Clipping</button>
+                        <button id="viewPageBtn" class="btn" onclick="switchView('full')">📰 Full Page</button>
+                        <a id="downloadBtn" class="btn" href="${activeInitial}" download="${source}_Page${pageNum}_Clipping.jpg">⬇️ Download</a>
+                    </div>
+                </div>
+                <div class="img-frame">
+                    <img id="mainDisplayImg" src="${activeInitial}" alt="News Clipping" />
+                </div>
+                <script>
+                    const cUrl = "${cropUrl}";
+                    const fUrl = "${fullUrl}";
+                    function switchView(mode) {
+                        const img = document.getElementById('mainDisplayImg');
+                        const bClip = document.getElementById('viewClipBtn');
+                        const bPage = document.getElementById('viewPageBtn');
+                        const dBtn = document.getElementById('downloadBtn');
+                        if(mode === 'crop') {
+                            img.src = cUrl;
+                            bClip.className = 'btn active';
+                            bPage.className = 'btn';
+                            dBtn.href = cUrl;
+                        } else {
+                            img.src = fUrl;
+                            bPage.className = 'btn active';
+                            bClip.className = 'btn';
+                            dBtn.href = fUrl;
+                        }
+                    }
+                <\/script>
+            </body></html>
+        `);
+    }
+
+    async function exportSingleResult(idx) {
+        const result = _currentPdfResults[idx];
+        if (!result) return;
+        showShareToast('⏳ Generating publication-grade PDF report...', false);
+        try {
+            const resp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    query: _currentQuery,
+                    source_ids: [result.source_id],
+                    date: result.date,
+                })
+            });
+            if (!resp.ok) {
+                const e = await resp.json().catch(() => ({ detail: 'Export error' }));
+                showShareToast('❌ ' + (e.detail || 'Export failed'), true);
+                return;
+            }
+            const blob = await resp.blob();
+            const cd = resp.headers.get('Content-Disposition') || '';
+            const fnMatch = cd.match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : 'clipping_report.pdf';
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            showShareToast('✅ PDF report downloaded successfully!', false);
+        } catch (e) {
+            showShareToast('❌ Export failed: ' + e.message, true);
+        }
+    }
+
+    async function exportAllResults() {
+        if (!_currentPdfResults.length || !_currentQuery) return;
+        showShareToast('⏳ Generating executive multi-page PDF digest...', false);
+        const sources = [...new Set(_currentPdfResults.map(r => r.source_id))];
+        const dates = [...new Set(_currentPdfResults.map(r => r.date))];
+        try {
+            const resp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    query: _currentQuery,
+                    source_ids: sources,
+                    date: dates.length === 1 ? dates[0] : null,
+                })
+            });
+            if (!resp.ok) {
+                showShareToast('❌ Batch PDF generation failed', true);
+                return;
+            }
+            const blob = await resp.blob();
+            const cd = resp.headers.get('Content-Disposition') || '';
+            const fnMatch = cd.match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : 'search_digest.pdf';
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            showShareToast('✅ Full Search PDF Digest successfully downloaded!', false);
+        } catch (e) {
+            showShareToast('❌ Export failed: ' + e.message, true);
+        }
+    }
+
+    async function shareWhatsApp(idx) {
+        const result = _currentPdfResults[idx];
+        if (!result) return;
+        showShareToast('⏳ Generating & dispatching PDF document to WhatsApp...', false);
+        try {
+            const expResp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
+            });
+            if (!expResp.ok) { showShareToast('❌ PDF build failed', true); return; }
+            const expData = await expResp.headers.get('Content-Disposition');
+            const fnMatch = (expData || '').match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : null;
+            if (!filename) { showShareToast('❌ Could not get export filename', true); return; }
+
+            const shareResp = await fetch('/api/pdf-search/share/whatsapp', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    export_pdf_path: filename,
+                    caption: `📰 ${result.source_name} (Page ${result.page_num}) — ${result.date}\n📌 Search: "${_currentQuery}"\n📄 Publication-Grade Broadsheet PDF Report attached`
+                })
+            });
+            const sd = await shareResp.json();
+            if (sd.success) {
+                showShareToast(`✅ PDF Document delivered to ${sd.recipients_count} WhatsApp chat(s)!`, false);
+            } else {
+                showShareToast('❌ WhatsApp dispatch error: ' + (sd.detail || 'Send failed'), true);
+            }
+        } catch (e) {
+            showShareToast('❌ WhatsApp error: ' + e.message, true);
+        }
+    }
+
+    async function shareTelegram(idx) {
+        const result = _currentPdfResults[idx];
+        if (!result) return;
+        showShareToast('⏳ Generating & dispatching PDF document to Telegram...', false);
+        try {
+            const expResp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
+            });
+            if (!expResp.ok) { showShareToast('❌ PDF build failed', true); return; }
+            const expData = await expResp.headers.get('Content-Disposition');
+            const fnMatch = (expData || '').match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : null;
+            if (!filename) { showShareToast('❌ Could not get export filename', true); return; }
+
+            const shareResp = await fetch('/api/pdf-search/share/telegram', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    export_pdf_path: filename,
+                    caption: `📰 <b>${result.source_name}</b> (Page ${result.page_num}) — ${result.date}\n📌 Search: <i>"${_currentQuery}"</i>\n📄 Broadsheet Clipping & Full English PDF attached`
+                })
+            });
+            const sd = await shareResp.json();
+            if (sd.success) {
+                showShareToast(`✅ PDF Document delivered to ${sd.recipients_count} Telegram chat(s)!`, false);
+            } else {
+                showShareToast('❌ Telegram dispatch error: ' + (sd.detail || 'Send failed'), true);
+            }
+        } catch (e) {
+            showShareToast('❌ Telegram error: ' + e.message, true);
+        }
+    }
+
+    function openEmailModal(idx) {
+        _emailShareIdx = idx;
+        const result = _currentPdfResults[idx];
+        if (result) {
+            document.getElementById('emailShareSubject').value =
+                `📰 [Newspaper Report] ${result.source_name}: "${_currentQuery}" (Page ${result.page_num})`;
+        }
+        document.getElementById('emailShareModal').classList.add('open');
+    }
+
+    async function confirmEmailShare() {
+        const toEmail = document.getElementById('emailShareTo').value.trim();
+        const subject = document.getElementById('emailShareSubject').value.trim();
+        if (!toEmail) {
+            showShareToast('Please enter recipient email', true);
+            return;
+        }
+        document.getElementById('emailShareModal').classList.remove('open');
+
+        const result = _currentPdfResults[_emailShareIdx];
+        if (!result) return;
+        showShareToast('⏳ Generating PDF and sending email...', false);
+        try {
+            const expResp = await fetch('/api/pdf-search/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ query: _currentQuery, source_ids: [result.source_id], date: result.date })
+            });
+            if (!expResp.ok) { showShareToast('❌ Export failed', true); return; }
+            const cd = expResp.headers.get('Content-Disposition') || '';
+            const fnMatch = cd.match(/filename=([^;]+)/);
+            const filename = fnMatch ? fnMatch[1].trim() : null;
+            if (!filename) { showShareToast('❌ Could not determine export path', true); return; }
+
+            const shareResp = await fetch('/api/pdf-search/share/email', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ export_pdf_path: filename, to_email: toEmail, subject: subject })
+            });
+            const sd = await shareResp.json();
+            if (sd.success) {
+                showShareToast(`✅ Email with PDF attached sent to ${toEmail}!`, false);
+            } else {
+                showShareToast('❌ Email failed: ' + (sd.error || 'Check SMTP credentials'), true);
+            }
+        } catch (e) {
+            showShareToast('❌ Email error: ' + e.message, true);
+        }
+    }
+
+    function showShareToast(msg, isError) {
+        const toast = document.getElementById('shareToast');
+        toast.textContent = msg;
+        toast.style.background = isError
+            ? 'linear-gradient(135deg, #7f1d1d, #991b1b)'
+            : 'linear-gradient(135deg, #166534, #15803d)';
+        toast.style.border = isError ? '1px solid #ef4444' : '1px solid #22c55e';
+        toast.style.color = '#fff';
+        toast.style.display = 'block';
+        toast.style.opacity = '1';
+        if (!isError) {
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.style.display = 'none', 300);
+            }, 4000);
+        } else {
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.style.display = 'none', 300);
+            }, 6000);
+        }
+    }
+
+    async function loadPdfIndexStatus() {
+        const panel = document.getElementById('pdfIndexStatusPanel');
+        panel.style.display = 'block';
+        document.getElementById('pdfIndexStatusContent').textContent = 'Loading index diagnostics...';
+        try {
+            const resp = await fetch('/api/pdf-index/status');
+            const data = await resp.json();
+            const sources = data.indexed_sources || [];
+            if (!sources.length) {
+                document.getElementById('pdfIndexStatusContent').innerHTML =
+                    '<p style="color:#ef4444;">⚠️ No broadsheet PDFs indexed yet. Run automated harvest or upload PDFs first, then click Re-Index.</p>';
+                return;
+            }
+            let html = `<div style="margin-bottom:1rem;color:#94a3b8;">Total Indexed Issues: <strong style="color:#38bdf8">${data.total_documents}</strong> | Active Publications: <strong style="color:#10b981">${data.eligible_sources.join(', ')}</strong></div>`;
+            html += sources.map(s => `
+                <div style="padding:0.75rem 1rem;background:rgba(30,41,59,0.7);border-radius:10px;margin-bottom:0.6rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+                    <div>
+                        <span style="font-weight:800;color:#f1f5f9;font-size:0.95rem;">${s.source_name}</span>
+                        <div style="color:#64748b;font-size:0.8rem;margin-top:2px;">Dates: ${(s.indexed_dates||[]).join(', ') || 'Current'}</div>
+                    </div>
+                    <div style="display:flex;gap:0.6rem;">
+                        <span style="padding:0.25rem 0.6rem;background:rgba(56,189,248,0.15);color:#38bdf8;border-radius:6px;font-size:0.8rem;font-weight:700;">📄 ${s.total_pages} Pages</span>
+                        <span style="padding:0.25rem 0.6rem;background:rgba(16,185,129,0.15);color:#10b981;border-radius:6px;font-size:0.8rem;font-weight:700;">📰 ${s.total_stories} Stories</span>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('pdfIndexStatusContent').innerHTML = html;
+        } catch (e) {
+            document.getElementById('pdfIndexStatusContent').innerHTML = '<p style="color:#ef4444;">Error retrieving index diagnostics: ' + e.message + '</p>';
+        }
+    }
+
+    async function rebuildPdfIndex() {
+        if (!confirm('Rebuild the PDF search index? This will scan all harvested broadsheets and re-index OCR coordinates.')) return;
+        showShareToast('⏳ Rebuilding broadsheet PDF index...', false);
+        try {
+            const resp = await fetch('/api/pdf-index/rebuild', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ force: true })
+            });
+            const data = await resp.json();
+            showShareToast(`✅ Index successfully rebuilt: ${data.indexed} indexed, ${data.skipped} skipped.`, false);
+            loadPdfIndexStatus();
+            fetchIndexStatsQuick();
+        } catch (e) {
+            showShareToast('❌ Index rebuild error: ' + e.message, true);
+        }
+    }
+
+    async function runAutoHarvest() {
+        const btn = document.getElementById('btnTriggerAutoHarvest');
+        if (!btn) return;
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Harvesting Broadsheets...';
+        showShareToast('⚡ Launching automated morning harvest for all 5 papers...', false);
+        try {
+            const resp = await fetch('/api/harvest/auto/run', { method: 'POST' });
+            const data = await resp.json();
+            btn.innerHTML = '✅ Harvest Initiated!';
+            showShareToast(`⚡ Automated harvest initiated for ${data.total_jobs} publications!`, false);
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = '⚡ Run Auto-Harvest Now';
+            }, 5000);
+        } catch (e) {
+            btn.disabled = false;
+            btn.innerHTML = '⚡ Run Auto-Harvest Now';
+            showShareToast('❌ Harvest error: ' + e.message, true);
+        }
+    }
+    </script>
+
 </body>
 </html>

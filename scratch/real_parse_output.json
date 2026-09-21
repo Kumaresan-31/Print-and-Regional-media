@@ -1,0 +1,86 @@
+[
+  {
+    "id": "ba9e9ad29a69",
+    "headline_original": "പ്രളയ നഷ്ടപരിഹാരം ഉടന്‍ നല്‍കുണം",
+    "headline_english": "Flood compensation should be provided immediately",
+    "content_english": "The Kerala Farmers' Association state conference demanded in the resolution that compensation should be provided immediately for the damages caused in the agricultural sector due to the natural disast",
+    "category": "Politics",
+    "bounding_box": [
+      69,
+      232,
+      672,
+      528
+    ],
+    "ocr_confidence": 0.95
+  },
+  {
+    "id": "3d58101dd6f1",
+    "headline_original": "ഞായവഴ്ല കേരള കര്‍ഷകസംഘം സംസ്ഥന സജ്ഉനത്തിന്റെ ഫെതുസജേളനം നടക്കുന്ന വിഎസ്‌ അല്യൂതാനനന്‍ നഗറിലെ ആലപ്പുഴ ഹേശ്യരിഗ്രൂണ്‍ കുടം",
+    "headline_english": "Sunday Kerala Farmers' Association State Committee's meeting is taking place at Alappuzha Heshyarigram Ground in VS Alyuthanan Nagar",
+    "content_english": "Sunday Kerala Farmers' Association State Committee's meeting is taking place at Alappuzha Heshyarigram Ground in VS Alyuthanan Nagar",
+    "category": "State",
+    "bounding_box": [
+      698,
+      508,
+      1535,
+      537
+    ],
+    "ocr_confidence": 0.95
+  },
+  {
+    "id": "111febd1c343",
+    "headline_original": "ആലപ്പുഴയിലും വീടായി;",
+    "headline_english": "Also a house in Alappuzha;",
+    "content_english": "Bhamotibery Balaryashnan Nagar was near S N S L Puram Sada Nandan's house, at S L Puram Arakkal Lalitha's house. Both of them were there.",
+    "category": "Other",
+    "bounding_box": [
+      1031,
+      567,
+      1715,
+      744
+    ],
+    "ocr_confidence": 0.95
+  },
+  {
+    "id": "e983c975d6ba",
+    "headline_original": "സ്വത്ത്ത വ്യാപാര കുരാനുകള്‍ റദ്ദാക്കണം",
+    "headline_english": "Property trade contracts must be canceled",
+    "content_english": "The state farmers' organization conference demanded to the central government to cancel free trade agreements, including the India-US agreement, the European Union agreement, and the India-New Zealand",
+    "category": "Business",
+    "bounding_box": [
+      94,
+      581,
+      936,
+      979
+    ],
+    "ocr_confidence": 0.95
+  },
+  {
+    "id": "0410e96b70e9",
+    "headline_original": "ഇനിയും വരാമല്ലേ",
+    "headline_english": "You can still come, right?",
+    "content_english": "With this, the representatives were prepared to express their love. Received the hospitality of Alappuzha. The drama-",
+    "category": "Health",
+    "bounding_box": [
+      1031,
+      618,
+      1540,
+      1005
+    ],
+    "ocr_confidence": 0.95
+  },
+  {
+    "id": "52d6671733f5",
+    "headline_original": "(്രാമിബാട്ട്‌ കണ്‍വന്‍ഷന്‍ സെന്റര “സ്വന്തം വീടുപോലെ. ഒപ്പം ലളിതാമ്മയുടെ സ്നേഹ വും. ഇനി എപ്പോള്‍ വേണ മെങ്കിലും വരാം. ആലപ്പുഴ യിലും ഞങ്ങള്‍ക്ക്‌ വിടാ യി\" ആലപ്പുഴയിലും ഏറെ പ്രിയപ്പെട്ടൊരു കൂടുകിട്ടിയ സന്തോഷത്തിലാണ്‌ കര്‍ഷ കരസംഘം സംസ്ഥാന സമ്മേളനത്തില്‍ എറണാ കുളം ജില്ലയില്‍നിന്ന്‌ പ്രതി നിധികളായി എത്തിയ ഹരി തയും രമ്യയും. കര്‍ഷകസംഘം സം, സ്ഥാനു സമ്മേളന പ്രതിനി ധികള്‍ക്ക്‌ താമസത്തിന്‌ ഹോട്ടലുകള്‍ക്ക്‌ പകരം വി",
+    "headline_english": "(At the Ramibatt Convention Center, 'Like our own home. Along with Lalithamma's love. Now we can come whenever we want. We also have farewell in Alappuzha.') We are very happy to meet and gather in Alappuzha, where Karsakar Sangham's state conference was attended by representatives Hari and Ramya from Ernakulam district. Instead of hotels for accommodation for farmer association members and local conference representatives",
+    "content_english": "(At the Ramibatt Convention Center, 'Like our own home. Along with Lalithamma's love. Now we can come whenever we want. We also have farewell in Alappuzha.') We are very happy to meet and gather in Al",
+    "category": "Local",
+    "bounding_box": [
+      1031,
+      686,
+      1189,
+      989
+    ],
+    "ocr_confidence": 0.95
+  }
+]

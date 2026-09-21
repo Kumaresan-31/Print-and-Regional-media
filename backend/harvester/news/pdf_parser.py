@@ -39,15 +39,32 @@ elif Path("data/tessdata").resolve().exists():
 
 TESSERACT_LANGUAGES = "eng+hin+tam+tel+mar+ben+guj+kan+mal+pan+urd"
 
-# Lazy-loaded RapidOCR engine singleton
-_ocr_engine = None
+# ──────────────────────────────────────────────────────────────────────────
+# FASTOCR ENGINE SINGLETON (High-Speed ONNX Engine, Replacing Heavy PaddleOCR)
+# ──────────────────────────────────────────────────────────────────────────
+_fast_ocr_engine = None
+_fast_ocr_lock = Lock()
+_pdf_executor = concurrent.futures.ThreadPoolExecutor(max_workers=2, thread_name_prefix="pdf_worker")
 
 
-def get_rapid_ocr() -> RapidOCR:
-    global _ocr_engine
-    if _ocr_engine is None:
-        _ocr_engine = RapidOCR()
-    return _ocr_engine
+def get_fast_ocr() -> RapidOCR:
+    """Retrieves or initializes a FastOCR (RapidOCR ONNX) engine instance."""
+    global _fast_ocr_engine
+    if _fast_ocr_engine is None:
+        with _fast_ocr_lock:
+            if _fast_ocr_engine is None:
+                logger.info("Initializing FastOCR (RapidOCR ONNX high-speed engine)...")
+                _fast_ocr_engine = RapidOCR()
+    return _fast_ocr_engine
+
+
+# Aliases for compatibility
+get_rapid_ocr = get_fast_ocr
+
+
+def get_paddle_ocr(lang: str = "en") -> Optional[Any]:
+    """PaddleOCR is disabled in favor of high-performance FastOCR (RapidOCR ONNX)."""
+    return None
 
 
 REGIONAL_TESS_LANGS: Set[str] = {"mal", "tam", "tel", "kan", "ben", "guj", "hin", "mar", "pan", "urd", "ori"}
@@ -83,7 +100,13 @@ def detect_script_from_osd(pil_img: Image.Image) -> Optional[str]:
     Gurmukhi, Devanagari, Arabic/Urdu, Latin) in ~0.4s.
     """
     try:
-        osd_res = pytesseract.image_to_osd(pil_img)
+        w, h = pil_img.size
+        if w > 1000 or h > 1400:
+            scale_f = min(1000.0 / w, 1400.0 / h)
+            osd_img = pil_img.resize((max(1, int(w * scale_f)), max(1, int(h * scale_f))))
+        else:
+            osd_img = pil_img
+        osd_res = pytesseract.image_to_osd(osd_img)
         match = re.search(r"Script:\s*([A-Za-z]+)", osd_res)
         if match:
             script_name = match.group(1).lower()
@@ -112,10 +135,9 @@ def run_ocr_on_image(
 ) -> Tuple[str, float, List[Dict[str, Any]]]:
     """
     Executes high-accuracy dual-engine OCR:
-    - For Indian regional scripts (Malayalam, Tamil, Telugu, Kannada, Bengali, Hindi, etc.),
-      runs Tesseract with language pack as PRIMARY engine with bounding box extraction.
-      Suppresses RapidOCR Latin hallucination to prevent gibberish (e.g. 'cucerutrowa').
-    - For English/Latin digital/scanned documents, uses RapidOCR for fast, accurate parsing.
+    - For Indian regional scripts (Malayalam, Tamil, Telugu, Kannada, Bengali, Hindi, Marathi, etc.),
+      runs Tesseract with language pack as PRIMARY engine with exact bounding box and line-layout extraction.
+    - For English/Latin digital/scanned documents, uses PaddleOCR / RapidOCR for fast, accurate parsing.
     - If preferred_lang is not provided, uses fast Tesseract OSD script detection.
     """
     if pil_img is None:
@@ -131,97 +153,130 @@ def run_ocr_on_image(
             preferred_lang = detected_script
 
     # ──────────────────────────────────────────────────────────────────────────
-    # REGIONAL SCRIPT PIPELINE: Tesseract as PRIMARY ENGINE
+    # PRIMARY ENGINE FOR INDIC REGIONAL SCRIPTS: Regional Tesseract OCR with Layout
     # ──────────────────────────────────────────────────────────────────────────
     if preferred_lang and preferred_lang in REGIONAL_TESS_LANGS and pil_img is not None:
         try:
-            from PIL import ImageEnhance
-            # Pure regional language eliminates Latin hallucination ('Mraaogss Opn aad')
             lang_arg = preferred_lang
-            # Preprocess: convert to Grayscale and enhance contrast to eliminate halftone dot noise
-            enhancer = ImageEnhance.Contrast(pil_img.convert("L"))
-            ocr_ready_img = enhancer.enhance(1.6)
+            ocr_ready_img = pil_img.convert("RGB")
+            try:
+                data = pytesseract.image_to_data(ocr_ready_img, lang=lang_arg, config="--psm 1", output_type=pytesseract.Output.DICT)
+            except Exception:
+                data = pytesseract.image_to_data(ocr_ready_img, lang=lang_arg, config="--psm 3", output_type=pytesseract.Output.DICT)
 
-            # Extract bounding boxes and text blocks via image_to_data
-            data = pytesseract.image_to_data(ocr_ready_img, lang=lang_arg, config="--psm 3", output_type=pytesseract.Output.DICT)
             n_boxes = len(data.get("level", []))
             lines_dict: Dict[Tuple[int, int, int], Dict[str, Any]] = {}
             for i in range(n_boxes):
                 txt = (data["text"][i] or "").strip()
                 if not txt:
                     continue
-                key = (data["block_num"][i], data["par_num"][i], data["line_num"][i])
+                x = int(data["left"][i])
+                y = int(data["top"][i])
+                bw = int(data["width"][i])
+                bh = int(data["height"][i])
+                b_num = int(data["block_num"][i])
+                p_num = int(data["par_num"][i])
+                l_num = int(data["line_num"][i])
+                conf = float(data["conf"][i]) if str(data["conf"][i]) != "-1" else 75.0
+
+                key = (b_num, p_num, l_num)
                 if key not in lines_dict:
                     lines_dict[key] = {
                         "words": [txt],
-                        "x1": data["left"][i],
-                        "y1": data["top"][i],
-                        "x2": data["left"][i] + data["width"][i],
-                        "y2": data["top"][i] + data["height"][i],
-                        "conf": float(data["conf"][i]) if data["conf"][i] != "-1" else 75.0,
-                        "block_num": data["block_num"][i],
+                        "x1": x, "y1": y, "x2": x + bw, "y2": y + bh,
+                        "conf": conf, "confs": [conf],
+                        "block_num": b_num, "par_num": p_num, "line_num": l_num
                     }
                 else:
-                    lines_dict[key]["words"].append(txt)
-                    lines_dict[key]["x1"] = min(lines_dict[key]["x1"], data["left"][i])
-                    lines_dict[key]["y1"] = min(lines_dict[key]["y1"], data["top"][i])
-                    lines_dict[key]["x2"] = max(lines_dict[key]["x2"], data["left"][i] + data["width"][i])
-                    lines_dict[key]["y2"] = max(lines_dict[key]["y2"], data["top"][i] + data["height"][i])
+                    ld = lines_dict[key]
+                    ld["words"].append(txt)
+                    ld["x1"] = min(ld["x1"], x)
+                    ld["y1"] = min(ld["y1"], y)
+                    ld["x2"] = max(ld["x2"], x + bw)
+                    ld["y2"] = max(ld["y2"], y + bh)
+                    ld["confs"].append(conf)
 
             blocks: List[Dict[str, Any]] = []
             for val in lines_dict.values():
                 ltxt = " ".join(val["words"]).strip()
                 x1, y1, x2, y2 = val["x1"], val["y1"], val["x2"], val["y2"]
                 box = [[float(x1), float(y1)], [float(x2), float(y1)], [float(x2), float(y2)], [float(x1), float(y2)]]
+                avg_c = sum(val["confs"]) / max(len(val["confs"]), 1)
                 blocks.append({
                     "text": ltxt,
-                    "score": round(max(val["conf"] / 100.0, 0.5), 4),
+                    "score": round(max(avg_c / 100.0, 0.5), 4),
                     "box": box,
-                    "block_num": val.get("block_num", 0),
                     "bbox": [x1, y1, x2, y2],
+                    "block_num": val.get("block_num", 0),
+                    "par_num": val.get("par_num", 0),
+                    "line_num": val.get("line_num", 0),
+                    "words": val.get("words", []),
                 })
 
-            # Extract full page text with column & paragraph structure
-            tess_raw = pytesseract.image_to_string(ocr_ready_img, lang=lang_arg, config="--psm 3")
+            try:
+                tess_raw = pytesseract.image_to_string(ocr_ready_img, lang=lang_arg, config="--psm 1")
+            except Exception:
+                tess_raw = pytesseract.image_to_string(ocr_ready_img, lang=lang_arg, config="--psm 3")
             tess_clean = tess_raw.strip()
 
-            if tess_clean and (contains_regional_script(tess_clean) or len(tess_clean) > 50):
+            if tess_clean and (contains_regional_script(tess_clean) or len(tess_clean) > 40):
                 return tess_clean, 0.95, blocks
         except Exception as te:
-            logger.warning(f"Regional Tesseract OCR primary execution note: {te}")
+            logger.warning(f"Regional Tesseract OCR execution note: {te}")
 
     # ──────────────────────────────────────────────────────────────────────────
-    # STANDARD PIPELINE (RapidOCR + Multilingual Tesseract Fallback)
+    # HIGH-SPEED FASTOCR ENGINE (ONNX Deep Learning Text & Layout Detection)
     # ──────────────────────────────────────────────────────────────────────────
-    rapid_engine = get_rapid_ocr()
+    fast_engine = get_fast_ocr()
     ocr_lines: List[str] = []
     scores: List[float] = []
     blocks: List[Dict[str, Any]] = []
 
-    try:
-        ocr_res = rapid_engine(str(image_path))
-        res_list = ocr_res[0] if isinstance(ocr_res, tuple) else ocr_res
-        if res_list:
-            for item in res_list:
-                if not item or len(item) < 2:
-                    continue
-                box = item[0]
-                line_txt = str(item[1]).strip()
-                if not line_txt:
-                    continue
-                try:
-                    score = float(item[2]) if len(item) > 2 else 0.95
-                except (ValueError, TypeError):
-                    score = 0.95
-                ocr_lines.append(line_txt)
-                scores.append(score)
-                blocks.append({
-                    "text": line_txt,
-                    "score": round(float(score), 4),
-                    "box": _clean_box_coords(box),
-                })
-    except Exception as e:
-        logger.warning(f"RapidOCR execution warning on {image_path.name}: {e}")
+    if fast_engine is not None:
+        try:
+            import numpy as np
+            if pil_img is not None:
+                img_for_fast = np.array(pil_img.convert("RGB"))
+            elif image_path and Path(image_path).exists():
+                img_for_fast = str(image_path)
+            else:
+                img_for_fast = None
+
+            if img_for_fast is not None:
+                ocr_res = fast_engine(img_for_fast)
+                res_list = ocr_res[0] if isinstance(ocr_res, tuple) else ocr_res
+                if res_list:
+                    for idx, item in enumerate(res_list):
+                        if not item or len(item) < 2:
+                            continue
+                        box = item[0]
+                        line_txt = str(item[1]).strip()
+                        if not line_txt:
+                            continue
+                        try:
+                            score = float(item[2]) if len(item) > 2 else 0.95
+                        except (ValueError, TypeError):
+                            score = 0.95
+
+                        clean_box = _clean_box_coords(box)
+                        bbox = None
+                        if clean_box and len(clean_box) >= 4:
+                            xs = [pt[0] for pt in clean_box if isinstance(pt, (list, tuple)) and len(pt) >= 2]
+                            ys = [pt[1] for pt in clean_box if isinstance(pt, (list, tuple)) and len(pt) >= 2]
+                            if xs and ys:
+                                bbox = [int(min(xs)), int(min(ys)), int(max(xs)), int(max(ys))]
+
+                        ocr_lines.append(line_txt)
+                        scores.append(score)
+                        blocks.append({
+                            "text": line_txt,
+                            "score": round(float(score), 4),
+                            "box": clean_box,
+                            "bbox": bbox,
+                            "block_num": idx,
+                        })
+        except Exception as e:
+            logger.warning(f"FastOCR execution warning on {getattr(image_path, 'name', 'image')}: {e}")
 
     rapid_text = "\n".join(ocr_lines).strip()
     avg_rapid_conf = round(sum(scores) / max(len(scores), 1), 4) if scores else 0.90
@@ -960,11 +1015,11 @@ class NewspaperPDFParser:
                     boxes_file = snapshot_file.with_suffix(".boxes.json")
                     pil_img = None
 
-                    # Check for pre-existing rendered snapshot
+                    # Check for pre-existing high-resolution rendered snapshot
                     if snapshot_file.exists() and snapshot_file.stat().st_size > 1000:
                         try:
                             cached_img = Image.open(snapshot_file).convert("RGB")
-                            if cached_img.width >= 1200:
+                            if cached_img.width >= 1800:
                                 pil_img = cached_img
                         except Exception:
                             pil_img = None
@@ -973,9 +1028,9 @@ class NewspaperPDFParser:
                         if pdfium_doc and page_idx < len(pdfium_doc):
                             try:
                                 pdfium_page = pdfium_doc[page_idx]
-                                # scale=2.0 provides sharp 20-30px character height essential for Indic ligatures & multi-column OCR
-                                pil_img = pdfium_page.render(scale=2.0).to_pil()
-                                pil_img.save(snapshot_file, "JPEG", quality=88)
+                                # scale=3.0 provides 250-300 DPI character height essential for Indic ligatures & multi-column OCR
+                                pil_img = pdfium_page.render(scale=3.0).to_pil()
+                                pil_img.save(snapshot_file, "JPEG", quality=92)
                             except Exception as render_err:
                                 logger.warning(f"pdfium render failed on page {page_num}: {render_err}")
 
@@ -1046,8 +1101,10 @@ class NewspaperPDFParser:
                                             {"text": str(b.get("text", "")), "score": round(float(b.get("score", 0.9)), 4), "box": _clean_box_coords(b.get("box"))}
                                             for b in blocks
                                         ]
-                                        with open(boxes_file, "w", encoding="utf-8") as bf:
+                                        tmp_boxes = boxes_file.with_suffix(".tmp.json")
+                                        with open(tmp_boxes, "w", encoding="utf-8") as bf:
                                             json.dump(clean_blocks, bf, ensure_ascii=False, default=lambda x: x.item() if hasattr(x, "item") else str(x))
+                                        os.replace(tmp_boxes, boxes_file)
                                     except Exception as be:
                                         logger.debug(f"Could not write boxes to {boxes_file}: {be}")
 
@@ -1140,12 +1197,181 @@ class NewspaperPDFParser:
         except Exception as e:
             logger.error(f"Error processing PDF {file_path}: {e}")
 
+        if not pages_data and progress_callback:
+            try:
+                progress_callback(1, 1, "failed", 0.0, False, file_path.name)
+            except Exception:
+                pass
+
         return doc_id, pages_data
 
     def extract_text_from_pdf(self, file_path: Path, max_pages: int = 16) -> List[Tuple[int, str]]:
         """Backward-compatible tuple extractor: (page_num, text)."""
         _, pages_data = self.process_pdf_pages(file_path, max_pages=max_pages)
         return [(p.page_num, p.raw_text) for p in pages_data if p.raw_text]
+
+    def extract_articles_from_blocks(self, p_data: PageData) -> List[Dict[str, Any]]:
+        """
+        Intelligent Newspaper Broadsheet Article Segmenter:
+        - Analyzes font sizes and line heights across text blocks
+        - Detects prominent headlines (>= 1.35x median line height or title markers)
+        - Groups multi-column body text paragraphs under their corresponding headline
+        - Generates clean reading-order body text
+        - Calculates the exact article bounding box [x1, y1, x2, y2]
+        """
+        blocks = getattr(p_data, "blocks", [])
+        if not blocks or len(blocks) < 3:
+            return []
+
+        lines = []
+        for b in blocks:
+            bbox = b.get("bbox")
+            if not bbox and b.get("box"):
+                box = b.get("box")
+                xs = [pt[0] for pt in box if isinstance(pt, (list, tuple)) and len(pt) >= 2]
+                ys = [pt[1] for pt in box if isinstance(pt, (list, tuple)) and len(pt) >= 2]
+                if xs and ys:
+                    bbox = [int(min(xs)), int(min(ys)), int(max(xs)), int(max(ys))]
+            if bbox and len(bbox) == 4:
+                txt = (b.get("text") or "").strip()
+                if txt:
+                    lines.append({
+                        "text": txt,
+                        "x1": bbox[0], "y1": bbox[1], "x2": bbox[2], "y2": bbox[3],
+                        "h": bbox[3] - bbox[1],
+                        "w": bbox[2] - bbox[0],
+                        "block": b.get("block_num", 0),
+                        "par": b.get("par_num", 0),
+                        "words": b.get("words", txt.split())
+                    })
+
+        if len(lines) < 3:
+            return []
+
+        page_w = max(l["x2"] for l in lines)
+        page_h = max(l["y2"] for l in lines)
+        heights = [l["h"] for l in lines if l["h"] > 4]
+        median_h = float(sorted(heights)[len(heights) // 2]) if heights else 16.0
+        masthead_cutoff = int(page_h * 0.06)
+
+        par_dict = {}
+        for l in lines:
+            if l["y1"] < masthead_cutoff and l["h"] < median_h * 1.5:
+                continue
+            pkey = (l["block"], l["par"])
+            if pkey not in par_dict:
+                par_dict[pkey] = {
+                    "lines": [l],
+                    "text": l["text"],
+                    "x1": l["x1"], "y1": l["y1"], "x2": l["x2"], "y2": l["y2"],
+                    "max_h": l["h"]
+                }
+            else:
+                p = par_dict[pkey]
+                p["lines"].append(l)
+                p["text"] += " " + l["text"]
+                p["x1"] = min(p["x1"], l["x1"])
+                p["y1"] = min(p["y1"], l["y1"])
+                p["x2"] = max(p["x2"], l["x2"])
+                p["y2"] = max(p["y2"], l["y2"])
+                p["max_h"] = max(p["max_h"], l["h"])
+
+        paragraphs = sorted(par_dict.values(), key=lambda p: (p["y1"], p["x1"]))
+        headlines = []
+        body_blocks = []
+
+        for p in paragraphs:
+            p_text = p["text"].strip()
+            words = p_text.split()
+            if len(p_text) < 4:
+                continue
+            is_hl = (p["max_h"] >= median_h * 1.35 and len(words) <= 25) or (p["max_h"] >= median_h * 1.6)
+            if is_hl and len(words) >= 2:
+                headlines.append(p)
+            elif len(p_text) >= 15:
+                body_blocks.append(p)
+
+        articles = []
+        assigned_body = set()
+
+        for hl in headlines:
+            hl_text = hl["text"].strip()
+            next_hl_y = page_h
+            for other_hl in headlines:
+                if other_hl["y1"] > hl["y2"] + 20 and not (other_hl["x2"] < hl["x1"] - 40 or other_hl["x1"] > hl["x2"] + 40):
+                    next_hl_y = min(next_hl_y, other_hl["y1"])
+
+            matched_bodies = []
+            for b_idx, bb in enumerate(body_blocks):
+                if b_idx in assigned_body:
+                    continue
+                h_overlap = max(0, min(hl["x2"] + 60, bb["x2"]) - max(hl["x1"] - 60, bb["x1"]))
+                bb_w = max(bb["x2"] - bb["x1"], 1)
+                if h_overlap > 0.35 * min(bb_w, max(hl["x2"] - hl["x1"], 1)):
+                    if hl["y1"] - 20 <= bb["y1"] <= next_hl_y + 40:
+                        matched_bodies.append((b_idx, bb))
+
+            matched_bodies.sort(key=lambda item: (item[1]["x1"] // 150, item[1]["y1"]))
+
+            art_x1, art_y1, art_x2, art_y2 = hl["x1"], hl["y1"], hl["x2"], hl["y2"]
+            body_parts = []
+            for b_idx, bb in matched_bodies:
+                assigned_body.add(b_idx)
+                body_parts.append(bb["text"].strip())
+                art_x1 = min(art_x1, bb["x1"])
+                art_y1 = min(art_y1, bb["y1"])
+                art_x2 = max(art_x2, bb["x2"])
+                art_y2 = max(art_y2, bb["y2"])
+
+            full_body = "\n".join(body_parts).strip() or hl_text
+            full_story_ocr = f"{hl_text}\n{full_body}".strip()
+            p_nums, cont_lbl = detect_continuation_link(full_story_ocr, p_data.page_num)
+
+            articles.append({
+                "page": p_data.page_num,
+                "page_numbers": p_nums,
+                "continuation_label": cont_lbl,
+                "title": hl_text,
+                "body": full_body,
+                "snippet": full_body[:400] if full_body else hl_text,
+                "ocr_raw_text": full_story_ocr,
+                "ocr_confidence": p_data.ocr_confidence,
+                "page_snapshot_url": p_data.snapshot_url,
+                "publication_date": p_data.publication_date,
+                "bounding_box": [int(art_x1), int(art_y1), int(art_x2), int(art_y2)],
+            })
+
+        for b_idx, bb in enumerate(body_blocks):
+            if b_idx not in assigned_body and len(bb["text"].strip()) > 70:
+                lines_in_bb = bb["lines"]
+                h_line = lines_in_bb[0]["words"] if "words" in lines_in_bb[0] else lines_in_bb[0]["text"].split()
+                art_hl = " ".join(h_line)
+                art_body = bb["text"][len(art_hl):].strip() or art_hl
+                full_story_ocr = f"{art_hl}\n{art_body}".strip()
+                p_nums, cont_lbl = detect_continuation_link(full_story_ocr, p_data.page_num)
+                articles.append({
+                    "page": p_data.page_num,
+                    "page_numbers": p_nums,
+                    "continuation_label": cont_lbl,
+                    "title": art_hl,
+                    "body": art_body,
+                    "snippet": art_body[:400],
+                    "ocr_raw_text": full_story_ocr,
+                    "ocr_confidence": p_data.ocr_confidence,
+                    "page_snapshot_url": p_data.snapshot_url,
+                    "publication_date": p_data.publication_date,
+                    "bounding_box": [int(bb["x1"]), int(bb["y1"]), int(bb["x2"]), int(bb["y2"])],
+                })
+
+        clean_articles = []
+        for a in articles:
+            wc = len((a["title"] + " " + a["body"]).split())
+            bw = a["bounding_box"][2] - a["bounding_box"][0]
+            bh = a["bounding_box"][3] - a["bounding_box"][1]
+            if wc >= 8 and (bw >= 120 or bh >= 50):
+                clean_articles.append(a)
+
+        return clean_articles
 
     def segment_text_into_stories(
         self,
@@ -1168,6 +1394,11 @@ class NewspaperPDFParser:
         for item in pages_text_or_data:
             if is_page_data:
                 p_data: PageData = item
+                page_articles = self.extract_articles_from_blocks(p_data)
+                if page_articles:
+                    stories.extend(page_articles)
+                    continue
+
                 page_num = p_data.page_num
                 raw_text = p_data.raw_text
                 ocr_conf = p_data.ocr_confidence
@@ -1327,13 +1558,18 @@ class NewspaperPDFParser:
 
                     stories.append({
                         "page": page_num,
+                        "page_num": page_num,
                         "page_numbers": p_nums,
                         "continuation_label": cont_lbl,
                         "title": headline,
+                        "english_headline": headline,
                         "body": body,
                         "snippet": body[:400] if body else headline,
+                        "original_snippet": body[:400] if body else headline,
+                        "english_summary": body[:400] if body else headline,
                         "ocr_raw_text": p,
                         "ocr_confidence": ocr_conf,
+                        "confidence": ocr_conf,
                         "page_snapshot_url": snapshot_url,
                         "publication_date": pub_date,
                         "bounding_box": story_bbox,
@@ -1378,7 +1614,7 @@ class NewspaperPDFParser:
         """
         loop = asyncio.get_event_loop()
         doc_id, pages_data = await loop.run_in_executor(
-            None,
+            _pdf_executor,
             self.process_pdf_pages,
             file_path,
             max_pages,
@@ -1397,26 +1633,32 @@ class NewspaperPDFParser:
         # Build initial articles
         for idx, story in enumerate(raw_stories):
             headline_orig = story["title"]
-            content_orig = story.get("ocr_raw_text") or story["snippet"]
+            content_orig = story.get("body") or story.get("ocr_raw_text") or story.get("snippet", "")
             primary_cat, sec_cats = classify_news_categories(headline_orig, content_orig)
             article_id = hashlib.md5(f"{doc_id}_{story['page']}_{idx}_{headline_orig[:20]}".encode()).hexdigest()[:12]
 
             article_dict = {
                 "id": article_id,
+                "article_id": article_id,
                 "newspaper": newspaper_title,
                 "pdf_file": file_path.name,
                 "publication_date": story.get("publication_date") or datetime.now().strftime("%Y-%m-%d"),
                 "original_language": "English",
                 "page_number": story["page"],
+                "page_num": story["page"],
                 "page_numbers": story.get("page_numbers", [story["page"]]),
                 "continuation_label": story.get("continuation_label", f"Page: {story['page']}"),
                 "category": primary_cat,
                 "secondary_categories": sec_cats,
                 "headline_english": headline_orig,
+                "english_headline": headline_orig,
                 "content_english": story.get("body") or content_orig or story.get("snippet") or headline_orig,
+                "english_summary": (story.get("body") or content_orig or story.get("snippet") or headline_orig)[:400],
                 "headline_original": headline_orig,
                 "content_original": content_orig,
+                "original_snippet": (story.get("body") or content_orig or story.get("snippet") or headline_orig)[:400],
                 "ocr_confidence": round(float(story.get("ocr_confidence", 0.95)), 2),
+                "confidence": round(float(story.get("ocr_confidence", 0.95)), 2),
                 "is_low_confidence": float(story.get("ocr_confidence", 0.95)) < 0.70,
                 "page_snapshot_url": story.get("page_snapshot_url"),
                 "original_page_image_url": story.get("page_snapshot_url"),
@@ -1564,6 +1806,7 @@ class NewspaperPDFParser:
             if is_text_non_english(hl):
                 tr_res = await llm_translator.translate(hl, source_lang=lang_code)
                 article["headline_english"] = tr_res.translated_text
+                article["english_headline"] = tr_res.translated_text
                 article["title"] = tr_res.translated_text
                 article["is_translated"] = True
 
@@ -1573,15 +1816,17 @@ class NewspaperPDFParser:
                 # not just a truncated slice — chunks at paragraph/sentence boundaries
                 tr_body = await llm_translator.translate_long_text(body, source_lang=lang_code)
                 article["content_english"] = tr_body.translated_text
+                article["english_summary"] = tr_body.translated_text[:400]
                 article["snippet"] = tr_body.translated_text[:400]
                 article["is_translated"] = True
 
-            # Clean OCR header artifact in headline
+            # Clean OCR header artifact in headline only if headline was extreme noise
             clean_t = article["headline_english"].strip()
-            if (len(clean_t) < 12 or re.match(r"^(page\s*\d+|regd|rni|p\.\s*\d+|no\.)", clean_t, re.I)) and article["content_english"] and len(article["content_english"]) > 15:
+            if (len(clean_t) < 6 or re.match(r"^(page\s*\d+|regd|rni|p\.\s*\d+|no\.)", clean_t, re.I)) and article["content_english"] and len(article["content_english"]) > 15:
                 sentences = re.split(r"[.!?]\s+", article["content_english"].strip())
                 if sentences and len(sentences[0]) > 10:
                     article["headline_english"] = sentences[0][:130].strip()
+                    article["english_headline"] = article["headline_english"]
                     article["title"] = article["headline_english"]
         except Exception as e:
             logger.warning(f"Translation warning for '{article.get('headline_original', '')[:30]}': {e}")
@@ -1660,6 +1905,11 @@ class NewspaperPDFParser:
                     return {"success": True, "data": result, "path": path}
                 except Exception as e:
                     logger.exception(f"Error processing PDF in batch ({path.name}): {e}")
+                    if progress_callback:
+                        try:
+                            progress_callback(1, 1, "failed", 0.0, False, path.name)
+                        except Exception:
+                            pass
                     return {"success": False, "error": str(e), "filename": path.name, "path": path}
 
         tasks = []

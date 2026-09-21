@@ -25,6 +25,7 @@ SOURCES_REGISTRY: Dict[str, SourceConfig] = {
         ],
         auth_required=True,
         schedule_time="05:00",
+        subscription_url="https://buy.indiatimes.com/TOI/plans?product=TOI&productCode=TOIPLUS&plt=TOI&acqSubSource=header_Subscribe&ru=https%3A%2F%2Ftimesofindia.indiatimes.com%2F",
         notes="Uses PressDisplay/TimesGroup flipbook viewer. Supports session cookies.",
     ),
     "the_hindu": SourceConfig(

@@ -48,6 +48,7 @@ class SourceConfig(BaseModel):
     schedule_time: str = "05:00"  # HH:MM IST
     active: bool = True
     supports_epaper_digital: bool = False  # True strictly for publications with active cookie broadsheet harvesting
+    subscription_url: Optional[str] = None
     headers: Dict[str, str] = Field(default_factory=dict)
     notes: Optional[str] = None
 
