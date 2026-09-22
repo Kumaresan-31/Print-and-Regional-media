@@ -16,7 +16,6 @@ import zipfile
 import xml.etree.ElementTree as ET
 import pypdf
 import pypdfium2 as pdfium
-import pytesseract
 from rapidocr_onnxruntime import RapidOCR
 
 from harvester.config import settings, SNAPSHOTS_DIR, BASE_DIR
@@ -28,9 +27,6 @@ logger = logging.getLogger(__name__)
 
 # Configure Tesseract binary path and tessdata directory with 10+ Indian languages
 TESSERACT_DEFAULT_PATH = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-if os.path.exists(TESSERACT_DEFAULT_PATH):
-    pytesseract.pytesseract.tesseract_cmd = TESSERACT_DEFAULT_PATH
-
 LOCAL_TESSDATA = (BASE_DIR / "data" / "tessdata").resolve()
 if LOCAL_TESSDATA.exists():
     os.environ["TESSDATA_PREFIX"] = str(LOCAL_TESSDATA)
@@ -38,6 +34,19 @@ elif Path("data/tessdata").resolve().exists():
     os.environ["TESSDATA_PREFIX"] = str(Path("data/tessdata").resolve())
 
 TESSERACT_LANGUAGES = "eng+hin+tam+tel+mar+ben+guj+kan+mal+pan+urd"
+_pytesseract = None
+
+
+def get_pytesseract():
+    """Load Tesseract only when an OCR operation actually needs it."""
+    global _pytesseract
+    if _pytesseract is None:
+        import pytesseract
+
+        if os.path.exists(TESSERACT_DEFAULT_PATH):
+            pytesseract.pytesseract.tesseract_cmd = TESSERACT_DEFAULT_PATH
+        _pytesseract = pytesseract
+    return _pytesseract
 
 # ──────────────────────────────────────────────────────────────────────────
 # FASTOCR ENGINE SINGLETON (High-Speed ONNX Engine, Replacing Heavy PaddleOCR)
@@ -67,7 +76,7 @@ def get_paddle_ocr(lang: str = "en") -> Optional[Any]:
     return None
 
 
-REGIONAL_TESS_LANGS: Set[str] = {"mal", "tam", "tel", "kan", "ben", "guj", "hin", "mar", "pan", "urd", "ori"}
+REGIONAL_TESS_LANGS: Set[str] = {"mal", "tam", "tel", "kan", "ben", "guj", "hin", "mar", "mar+eng", "pan", "urd", "ori"}
 
 
 def _clean_box_coords(box: Any) -> List[Any]:
@@ -100,6 +109,7 @@ def detect_script_from_osd(pil_img: Image.Image) -> Optional[str]:
     Gurmukhi, Devanagari, Arabic/Urdu, Latin) in ~0.4s.
     """
     try:
+        pytesseract = get_pytesseract()
         w, h = pil_img.size
         if w > 1000 or h > 1400:
             scale_f = min(1000.0 / w, 1400.0 / h)
@@ -140,29 +150,60 @@ def run_ocr_on_image(
     - For English/Latin digital/scanned documents, uses PaddleOCR / RapidOCR for fast, accurate parsing.
     - If preferred_lang is not provided, uses fast Tesseract OSD script detection.
     """
+    pytesseract = None
+
+    def get_tesseract():
+        nonlocal pytesseract
+        if pytesseract is None:
+            pytesseract = get_pytesseract()
+        return pytesseract
+
     if pil_img is None:
         try:
             pil_img = Image.open(image_path).convert("RGB")
         except Exception:
             pass
 
+    # 0. Check if image path or metadata belongs to a Marathi newspaper
+    if not preferred_lang:
+        try:
+            from harvester.extractors.engines.marathi_ocr import marathi_ocr_engine
+            path_str = str(image_path) if image_path else ""
+            if marathi_ocr_engine.is_marathi_source(path_str):
+                preferred_lang = "mar+eng"
+        except Exception:
+            pass
+
     # 1. Fast OSD script detection if preferred_lang is unknown
     if not preferred_lang and pil_img is not None:
         detected_script = detect_script_from_osd(pil_img)
-        if detected_script and detected_script in REGIONAL_TESS_LANGS:
+        if detected_script and (detected_script in REGIONAL_TESS_LANGS or "mar" in detected_script):
             preferred_lang = detected_script
 
     # ──────────────────────────────────────────────────────────────────────────
     # PRIMARY ENGINE FOR INDIC REGIONAL SCRIPTS: Regional Tesseract OCR with Layout
     # ──────────────────────────────────────────────────────────────────────────
-    if preferred_lang and preferred_lang in REGIONAL_TESS_LANGS and pil_img is not None:
+    if preferred_lang and (preferred_lang in REGIONAL_TESS_LANGS or "mar" in preferred_lang) and pil_img is not None:
         try:
-            lang_arg = preferred_lang
             ocr_ready_img = pil_img.convert("RGB")
+
+            # Dedicated high-accuracy Marathi OCR engine (Power-Howdy/pytesseract-ocr-marathi)
+            if "mar" in preferred_lang:
+                try:
+                    from harvester.extractors.engines.marathi_ocr import marathi_ocr_engine
+                    tess_clean, conf, blocks = marathi_ocr_engine.extract_boxes(ocr_ready_img, psm=3)
+                    if tess_clean and (contains_regional_script(tess_clean) or len(tess_clean) > 30):
+                        return tess_clean, conf, blocks
+                except Exception as m_err:
+                    logger.debug(f"Marathi OCR engine note, falling back to standard regional OCR: {m_err}")
+
+            lang_arg = preferred_lang
             try:
-                data = pytesseract.image_to_data(ocr_ready_img, lang=lang_arg, config="--psm 1", output_type=pytesseract.Output.DICT)
+                tesseract = get_tesseract()
+                data = tesseract.image_to_data(ocr_ready_img, lang=lang_arg, config="--psm 1", output_type=tesseract.Output.DICT)
             except Exception:
-                data = pytesseract.image_to_data(ocr_ready_img, lang=lang_arg, config="--psm 3", output_type=pytesseract.Output.DICT)
+                    tesseract = get_tesseract()
+                    data = tesseract.image_to_data(ocr_ready_img, lang=lang_arg, config="--psm 3", output_type=tesseract.Output.DICT)
 
             n_boxes = len(data.get("level", []))
             lines_dict: Dict[Tuple[int, int, int], Dict[str, Any]] = {}
@@ -214,9 +255,9 @@ def run_ocr_on_image(
                 })
 
             try:
-                tess_raw = pytesseract.image_to_string(ocr_ready_img, lang=lang_arg, config="--psm 1")
+                tess_raw = get_tesseract().image_to_string(ocr_ready_img, lang=lang_arg, config="--psm 1")
             except Exception:
-                tess_raw = pytesseract.image_to_string(ocr_ready_img, lang=lang_arg, config="--psm 3")
+                tess_raw = get_tesseract().image_to_string(ocr_ready_img, lang=lang_arg, config="--psm 3")
             tess_clean = tess_raw.strip()
 
             if tess_clean and (contains_regional_script(tess_clean) or len(tess_clean) > 40):
@@ -293,7 +334,7 @@ def run_ocr_on_image(
         try:
             installed_langs = []
             try:
-                installed_langs = pytesseract.get_languages()
+                installed_langs = get_tesseract().get_languages()
             except Exception:
                 pass
 
@@ -304,7 +345,7 @@ def run_ocr_on_image(
                 r_code, _ = detect_script_language(rapid_text)
                 tess_script_map = {
                     "ta": "tam", "hi": "hin", "te": "tel", "bn": "ben",
-                    "mr": "mar" if "mar" in installed_langs else "hin",
+                    "mr": "mar+eng" if ("mar" in installed_langs or (LOCAL_TESSDATA / "mar.traineddata").exists()) else "hin",
                     "gu": "guj", "kn": "kan", "ml": "mal",
                     "pa": "pan", "ur": "urd"
                 }
@@ -314,7 +355,7 @@ def run_ocr_on_image(
                 else:
                     lang_arg = "hin+tam+tel+mal+kan+ben+eng" if any(l in installed_langs for l in ["hin", "tam", "tel", "mal"]) else "eng"
 
-            tess_raw = pytesseract.image_to_string(pil_img, lang=lang_arg, config="--psm 3")
+            tess_raw = get_tesseract().image_to_string(pil_img, lang=lang_arg, config="--psm 3")
             tess_clean = tess_raw.strip()
             if tess_clean:
                 for line in tess_clean.splitlines():
@@ -472,14 +513,19 @@ def detect_script_language(text: str, source_hint: Optional[str] = None) -> Tupl
     if counts[max_lang] > 0:
         if max_lang == "hi":
             # Devanagari script is shared by Hindi and Marathi
-            # Check source hint or distinctive Marathi tokens
+            # Check source hint or distinctive Marathi tokens and inflected stems
             src_low = (source_hint or "").lower()
-            if any(k in src_low for k in ["loksatta", "lokmat", "marathi", "sakaal", "saamana", "pudhari"]):
-                return "mr", "Marathi"
-            marathi_markers = {"आहे", "नाही", "झाली", "गेले", "यांनी", "म्हणाले", "करणार", "केली", "होत", "होते", "होती", "आहेत", "येथे", "त्यांच्या", "त्यांनी", "पुणे", "मुंबई", "जिल्हा"}
-            words_in_text = set(re.findall(r"[\u0900-\u097F]+", text))
-            if len(words_in_text & marathi_markers) >= 1:
-                return "mr", "Marathi"
+            try:
+                from harvester.extractors.engines.marathi_ocr import marathi_ocr_engine
+                if marathi_ocr_engine.is_marathi_source(src_low) or marathi_ocr_engine.is_marathi_text(text):
+                    return "mr", "Marathi"
+            except Exception:
+                if any(k in src_low for k in ["loksatta", "lokmat", "marathi", "sakaal", "saamana", "pudhari"]):
+                    return "mr", "Marathi"
+                marathi_markers = {"आहे", "नाही", "झाली", "गेले", "यांनी", "म्हणाले", "करणार", "केली", "होत", "होते", "होती", "आहेत", "येथे", "त्यांच्या", "त्यांनी", "पुणे", "मुंबई", "जिल्हा"}
+                words_in_text = set(re.findall(r"[\u0900-\u097F]+", text))
+                if len(words_in_text & marathi_markers) >= 1:
+                    return "mr", "Marathi"
         return max_lang, names.get(max_lang, "Regional")
 
     # Check for European languages in Latin script
@@ -941,9 +987,10 @@ class NewspaperPDFParser:
                     detected_tess_lang = "guj"
                 elif any(k in source_lower for k in [
                     "loksatta", "lokmat", "sakal", "pudhari", "saamana", "tarunbharat", "tarun bharat",
-                    "maharashtratimes", "maharashtra times", "marathi", "mumbai", "pune", "nagpur", "nashik"
+                    "maharashtratimes", "maharashtra times", "marathi", "mumbai", "pune", "nagpur", "nashik",
+                    "divyamarathi", "divya marathi", "deshdoot", "navshakti", "prahaar", "punyanagari"
                 ]):
-                    detected_tess_lang = "mar"
+                    detected_tess_lang = "mar+eng"
                 elif any(k in source_lower for k in [
                     "bhaskar", "dainik bhaskar", "amar ujala", "amarujala", "jagran", "dainik jagran",
                     "patrika", "rajasthan patrika", "navbharat", "jansatta", "hindustan", "punjab kesari",
@@ -1028,8 +1075,9 @@ class NewspaperPDFParser:
                         if pdfium_doc and page_idx < len(pdfium_doc):
                             try:
                                 pdfium_page = pdfium_doc[page_idx]
-                                # scale=3.0 provides 250-300 DPI character height essential for Indic ligatures & multi-column OCR
-                                pil_img = pdfium_page.render(scale=3.0).to_pil()
+                                # scale=3.5 provides 250-300+ DPI character height essential for Indic ligatures & multi-column OCR
+                                render_scale = 3.5 if cur_tess_lang and "mar" in cur_tess_lang else 3.0
+                                pil_img = pdfium_page.render(scale=render_scale).to_pil()
                                 pil_img.save(snapshot_file, "JPEG", quality=92)
                             except Exception as render_err:
                                 logger.warning(f"pdfium render failed on page {page_num}: {render_err}")

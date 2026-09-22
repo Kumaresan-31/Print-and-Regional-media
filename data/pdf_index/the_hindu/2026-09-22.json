@@ -1,0 +1,511 @@
+{
+  "source_id": "the_hindu",
+  "source_name": "The Hindu",
+  "date": "2026-09-22",
+  "pdf_path": "D:\\Projects\\VEE2\\data\\archive\\the_hindu\\2026-09-22\\the_hindu_chennai_2026-09-22.pdf",
+  "doc_id": "f14485b6b9bb",
+  "indexed_at": "2026-09-22T13:50:55.154878",
+  "total_pages": 10,
+  "total_stories": 29,
+  "snapshots": [
+    "/api/snapshots/f14485b6b9bb/1",
+    "/api/snapshots/f14485b6b9bb/2",
+    "/api/snapshots/f14485b6b9bb/3",
+    "/api/snapshots/f14485b6b9bb/4",
+    "/api/snapshots/f14485b6b9bb/5",
+    "/api/snapshots/f14485b6b9bb/6",
+    "/api/snapshots/f14485b6b9bb/7",
+    "/api/snapshots/f14485b6b9bb/8",
+    "/api/snapshots/f14485b6b9bb/9",
+    "/api/snapshots/f14485b6b9bb/10"
+  ],
+  "pages": [
+    {
+      "page_num": 1,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/1",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_001.jpg",
+      "ocr_text_original": "Expansion.cf\nPERUNTHALAIVARKAMARAJAR\n\nBREAKFASTSCHEME\nInaueurabienby Thiru.\n\nC.JOSEPHVIJAY\nHon'bleChief MinisterofTamil Nadu\n\nDatec22.8.2026,Tusstag.Time:8.30an\nVenuc: Charnai Midete Schost,Ganchigraman,Thirevanniput,Chatral.",
+      "ocr_text_en": "Expansion.cf PERUNTHALAIVARKAMARAJAR\n\nBREAKFASTSCHEME Inaueurabienby Thiru.\n\nC.JOSEPHVIJAY Hon'bleChief MinisterofTamil Nadu\n\nDatec22.8.2026,Tusstag.Time:8.30an Venuc: Charnai Midete Schost,Ganchigraman,Thirevanniput,Chatral.",
+      "ocr_confidence": 0.76,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "60958dfc9532",
+          "title": "Expansion.cf",
+          "snippet": "PERUNTHALAIVARKAMARAJAR",
+          "original_title": "Expansion.cf",
+          "original_snippet": "PERUNTHALAIVARKAMARAJAR",
+          "category": "Other",
+          "page_num": 1,
+          "ocr_raw_text": "Expansion.cf\nPERUNTHALAIVARKAMARAJAR",
+          "ocr_confidence": 0.76,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/1",
+          "is_translated": false
+        },
+        {
+          "id": "75502a388b8d",
+          "title": "BREAKFASTSCHEME",
+          "snippet": "Inaueurabienby Thiru.",
+          "original_title": "BREAKFASTSCHEME",
+          "original_snippet": "Inaueurabienby Thiru.",
+          "category": "Other",
+          "page_num": 1,
+          "ocr_raw_text": "BREAKFASTSCHEME\nInaueurabienby Thiru.",
+          "ocr_confidence": 0.76,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/1",
+          "is_translated": false
+        },
+        {
+          "id": "3b11e9f42b3e",
+          "title": "C.JOSEPHVIJAY",
+          "snippet": "Hon'bleChief MinisterofTamil Nadu",
+          "original_title": "C.JOSEPHVIJAY",
+          "original_snippet": "Hon'bleChief MinisterofTamil Nadu",
+          "category": "Politics",
+          "page_num": 1,
+          "ocr_raw_text": "C.JOSEPHVIJAY\nHon'bleChief MinisterofTamil Nadu",
+          "ocr_confidence": 0.76,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/1",
+          "is_translated": false
+        },
+        {
+          "id": "56c58df09a97",
+          "title": "Datec22.8.2026,Tusstag.Time:8.30an",
+          "snippet": "Venuc: Charnai Midete Schost,Ganchigraman,Thirevanniput,Chatral.",
+          "original_title": "Datec22.8.2026,Tusstag.Time:8.30an",
+          "original_snippet": "Venuc: Charnai Midete Schost,Ganchigraman,Thirevanniput,Chatral.",
+          "category": "Other",
+          "page_num": 1,
+          "ocr_raw_text": "Datec22.8.2026,Tusstag.Time:8.30an\nVenuc: Charnai Midete Schost,Ganchigraman,Thirevanniput,Chatral.",
+          "ocr_confidence": 0.76,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/1",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 2,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/2",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_002.jpg",
+      "ocr_text_original": "POWERFUL CHANGE.\nDREAMERSWHODRIVE\nerebikfieloettisardacsmniasfetrevetanatkakfanudto.\nThetiadebeshcidieeCuepmuhrAoinh2asorlebutes Eealadenchuris\necoghingtheoneiwbachrgetheaedrayantsetisnttonsgolethattutomli\naisanlhsasueapplaatthsduape\nSmLNimalaSitharaman\nToday,September22\nGpmonwardsNewDothi\nDEEMEDUNIYKRIIE\nthehindubusinessline",
+      "ocr_text_en": "POWERFUL CHANGE. DREAMERSWHODRIVE\nerebikfieloettisardacsmniasfetrevetanatkakfanudto.\nThetiadebeshcidieeCuepmuhrAoinh2asorlebutes Eealadenchuris\necoghingtheoneiwbachrgetheaedrayantsetisnttonsgolethattutomli\naisanlhsasueapplaatthsduape\nSmLNimalaSitharaman\nToday,September22\nGpmonwardsNewDothi\nDEEMEDUNIYKRIIE\nthehindubusinessline",
+      "ocr_confidence": 0.74,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "369da5cc36b2",
+          "title": "POWERFUL CHANGE.",
+          "snippet": "DREAMERSWHODRIVE\nerebikfieloettisardacsmniasfetrevetanatkakfanudto.\nThetiadebeshcidieeCuepmuhrAoinh2asorlebutes Eealadenchuris\necoghingtheoneiwbachrgetheaedrayantsetisnttonsgolethattutomli\naisanlhsasueapplaatthsduape\nSmLNimalaSitharaman\nToday,September22\nGpmonwardsNewDothi\nDEEMEDUNIYKRIIE\nthehindubusinessline",
+          "original_title": "POWERFUL CHANGE.",
+          "original_snippet": "DREAMERSWHODRIVE\nerebikfieloettisardacsmniasfetrevetanatkakfanudto.\nThetiadebeshcidieeCuepmuhrAoinh2asorlebutes Eealadenchuris\necoghingtheoneiwbachrgetheaedrayantsetisnttonsgolethattutomli\naisanlhsasueapplaatthsduape\nSmLNimalaSitharaman\nToday,September22\nGpmonwardsNewDothi\nDEEMEDUNIYKRIIE\nthehindubusinessline",
+          "category": "Business",
+          "page_num": 2,
+          "ocr_raw_text": "POWERFUL CHANGE.\nDREAMERSWHODRIVE\nerebikfieloettisardacsmniasfetrevetanatkakfanudto.\nThetiadebeshcidieeCuepmuhrAoinh2asorlebutes Eealadenchuris\necoghingtheoneiwbachrgetheaedrayantsetisnttonsgolethattutomli\naisanlhsasueapplaatthsduape\nSmLNimalaSitharaman\nToday,September22\nGpmonwardsNewDothi\nDEEMEDUNIYKRIIE\nthehindubusinessline",
+          "ocr_confidence": 0.74,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/2",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 3,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/3",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_003.jpg",
+      "ocr_text_original": "cases of currency removal\ncases of currency removal\n\nStarbucks to establish Global\nThe Tallai-dopsy\nCapability Centre in Chennai\n\nGovt. hospitals short on critical\nGovt. hospitals short on critical",
+      "ocr_text_en": "cases of currency removal cases of currency removal\n\nStarbucks to establish Global The Tallai-dopsy\nCapability Centre in Chennai\n\nGovt. hospitals short on critical Govt. hospitals short on critical",
+      "ocr_confidence": 0.78,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "09754b839b9e",
+          "title": "cases of currency removal",
+          "snippet": "cases of currency removal",
+          "original_title": "cases of currency removal",
+          "original_snippet": "cases of currency removal",
+          "category": "Other",
+          "page_num": 3,
+          "ocr_raw_text": "cases of currency removal\ncases of currency removal",
+          "ocr_confidence": 0.78,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/3",
+          "is_translated": false
+        },
+        {
+          "id": "b048b831d7e7",
+          "title": "Starbucks to establish Global",
+          "snippet": "The Tallai-dopsy\nCapability Centre in Chennai",
+          "original_title": "Starbucks to establish Global",
+          "original_snippet": "The Tallai-dopsy\nCapability Centre in Chennai",
+          "category": "World",
+          "page_num": 3,
+          "ocr_raw_text": "Starbucks to establish Global\nThe Tallai-dopsy\nCapability Centre in Chennai",
+          "ocr_confidence": 0.78,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/3",
+          "is_translated": false
+        },
+        {
+          "id": "ea26c4eebb57",
+          "title": "Govt. hospitals short on critical",
+          "snippet": "Govt. hospitals short on critical",
+          "original_title": "Govt. hospitals short on critical",
+          "original_snippet": "Govt. hospitals short on critical",
+          "category": "Health",
+          "page_num": 3,
+          "ocr_raw_text": "Govt. hospitals short on critical\nGovt. hospitals short on critical",
+          "ocr_confidence": 0.78,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/3",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 4,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/4",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_004.jpg",
+      "ocr_text_original": "Cheanai\nScoresofVinavakaidolswashashoreafter\n\nimmersion,workersceartonnes of debris\nStypolicewkdenprobeineaseagainsr Veeramani\n\nOnekilkdastrukcdlides\nahbesnearChengiptt",
+      "ocr_text_en": "Cheanai ScoresofVinavakaidolswashashoreafter\n\nimmersion,workersceartonnes of debris Stypolicewkdenprobeineaseagainsr Veeramani\n\nOnekilkdastrukcdlides ahbesnearChengiptt",
+      "ocr_confidence": 0.76,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "c1c3f9379dc0",
+          "title": "Cheanai",
+          "snippet": "ScoresofVinavakaidolswashashoreafter",
+          "original_title": "Cheanai",
+          "original_snippet": "ScoresofVinavakaidolswashashoreafter",
+          "category": "Sports",
+          "page_num": 4,
+          "ocr_raw_text": "Cheanai\nScoresofVinavakaidolswashashoreafter",
+          "ocr_confidence": 0.76,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/4",
+          "is_translated": false
+        },
+        {
+          "id": "1b3e66835362",
+          "title": "immersion,workersceartonnes of debris",
+          "snippet": "Stypolicewkdenprobeineaseagainsr Veeramani",
+          "original_title": "immersion,workersceartonnes of debris",
+          "original_snippet": "Stypolicewkdenprobeineaseagainsr Veeramani",
+          "category": "Crime",
+          "page_num": 4,
+          "ocr_raw_text": "immersion,workersceartonnes of debris\nStypolicewkdenprobeineaseagainsr Veeramani",
+          "ocr_confidence": 0.76,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/4",
+          "is_translated": false
+        },
+        {
+          "id": "5c0a14fd73b3",
+          "title": "Onekilkdastrukcdlides",
+          "snippet": "ahbesnearChengiptt",
+          "original_title": "Onekilkdastrukcdlides",
+          "original_snippet": "ahbesnearChengiptt",
+          "category": "Other",
+          "page_num": 4,
+          "ocr_raw_text": "Onekilkdastrukcdlides\nahbesnearChengiptt",
+          "ocr_confidence": 0.76,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/4",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 5,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/5",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_005.jpg",
+      "ocr_text_original": "3godowns fornon-containerised\ncargo completed at Chennai Port\n\nMMAuinstaticeaHevedamardfor6tht\nMinisterlaunchesSatesolesubsidyscheme",
+      "ocr_text_en": "3godowns fornon-containerised cargo completed at Chennai Port\n\nMMAuinstaticeaHevedamardfor6tht MinisterlaunchesSatesolesubsidyscheme",
+      "ocr_confidence": 0.79,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "3c274019d334",
+          "title": "3godowns fornon-containerised",
+          "snippet": "cargo completed at Chennai Port",
+          "original_title": "3godowns fornon-containerised",
+          "original_snippet": "cargo completed at Chennai Port",
+          "category": "State",
+          "page_num": 5,
+          "ocr_raw_text": "3godowns fornon-containerised\ncargo completed at Chennai Port",
+          "ocr_confidence": 0.79,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/5",
+          "is_translated": false
+        },
+        {
+          "id": "6b187ba3e55c",
+          "title": "MMAuinstaticeaHevedamardfor6tht",
+          "snippet": "MinisterlaunchesSatesolesubsidyscheme",
+          "original_title": "MMAuinstaticeaHevedamardfor6tht",
+          "original_snippet": "MinisterlaunchesSatesolesubsidyscheme",
+          "category": "Politics",
+          "page_num": 5,
+          "ocr_raw_text": "MMAuinstaticeaHevedamardfor6tht\nMinisterlaunchesSatesolesubsidyscheme",
+          "ocr_confidence": 0.79,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/5",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 6,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/6",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_006.jpg",
+      "ocr_text_original": "CMrevems mcesuon\nrationalebehinditsdemand\n\ndrtrpeinade\nforclearing16tmcftbacklog\n\nproposed Secretariat at Pattinapakkam\nafliance parties from star campaigner list\n\nAfier EMKs plaint,TVK drops leaders of\nNo blanker ban onrooster\n\nNew dengue figures come into public domain\nfights, DGP's ofhce tells HC",
+      "ocr_text_en": "CMrevems mcesuon rationalebehinditsdemand\n\ndrtrpeinade forclearing16tmcftbacklog\n\nproposed Secretariat at Pattinapakkam afliance parties from star campaigner list\n\nAfier EMKs plaint,TVK drops leaders of No blanker ban onrooster\n\nNew dengue figures come into public domain fights, DGP's ofhce tells HC",
+      "ocr_confidence": 0.79,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "3a5527e8bd92",
+          "title": "CMrevems mcesuon",
+          "snippet": "rationalebehinditsdemand",
+          "original_title": "CMrevems mcesuon",
+          "original_snippet": "rationalebehinditsdemand",
+          "category": "Other",
+          "page_num": 6,
+          "ocr_raw_text": "CMrevems mcesuon\nrationalebehinditsdemand",
+          "ocr_confidence": 0.79,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/6",
+          "is_translated": false
+        },
+        {
+          "id": "dcaa98615446",
+          "title": "drtrpeinade",
+          "snippet": "forclearing16tmcftbacklog",
+          "original_title": "drtrpeinade",
+          "original_snippet": "forclearing16tmcftbacklog",
+          "category": "Other",
+          "page_num": 6,
+          "ocr_raw_text": "drtrpeinade\nforclearing16tmcftbacklog",
+          "ocr_confidence": 0.79,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/6",
+          "is_translated": false
+        },
+        {
+          "id": "5afb4737a6ef",
+          "title": "proposed Secretariat at Pattinapakkam",
+          "snippet": "afliance parties from star campaigner list",
+          "original_title": "proposed Secretariat at Pattinapakkam",
+          "original_snippet": "afliance parties from star campaigner list",
+          "category": "State",
+          "page_num": 6,
+          "ocr_raw_text": "proposed Secretariat at Pattinapakkam\nafliance parties from star campaigner list",
+          "ocr_confidence": 0.79,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/6",
+          "is_translated": false
+        },
+        {
+          "id": "e81af7627c79",
+          "title": "Afier EMKs plaint,TVK drops leaders of",
+          "snippet": "No blanker ban onrooster",
+          "original_title": "Afier EMKs plaint,TVK drops leaders of",
+          "original_snippet": "No blanker ban onrooster",
+          "category": "Other",
+          "page_num": 6,
+          "ocr_raw_text": "Afier EMKs plaint,TVK drops leaders of\nNo blanker ban onrooster",
+          "ocr_confidence": 0.79,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/6",
+          "is_translated": false
+        },
+        {
+          "id": "f6a506742620",
+          "title": "New dengue figures come into public domain",
+          "snippet": "fights, DGP's ofhce tells HC",
+          "original_title": "New dengue figures come into public domain",
+          "original_snippet": "fights, DGP's ofhce tells HC",
+          "category": "Other",
+          "page_num": 6,
+          "ocr_raw_text": "New dengue figures come into public domain\nfights, DGP's ofhce tells HC",
+          "ocr_confidence": 0.79,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/6",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 7,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/7",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_007.jpg",
+      "ocr_text_original": "2012 Karmataka rape-murder\nSCordersfreshprobeinto\n\nLormhnsa\nKasturiranganreportonWesternGhats\n\ncausingfearamong EarnerxShivakummar\nKiamatakaHCcotsttutes SITinKPSCCse",
+      "ocr_text_en": "2012 Karmataka rape-murder SCordersfreshprobeinto\n\nLormhnsa KasturiranganreportonWesternGhats\n\ncausingfearamong EarnerxShivakummar KiamatakaHCcotsttutes SITinKPSCCse",
+      "ocr_confidence": 0.75,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "337437c86012",
+          "title": "2012 Karmataka rape-murder",
+          "snippet": "SCordersfreshprobeinto",
+          "original_title": "2012 Karmataka rape-murder",
+          "original_snippet": "SCordersfreshprobeinto",
+          "category": "Crime",
+          "page_num": 7,
+          "ocr_raw_text": "2012 Karmataka rape-murder\nSCordersfreshprobeinto",
+          "ocr_confidence": 0.75,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/7",
+          "is_translated": false
+        },
+        {
+          "id": "5dd2ce433598",
+          "title": "Lormhnsa",
+          "snippet": "KasturiranganreportonWesternGhats",
+          "original_title": "Lormhnsa",
+          "original_snippet": "KasturiranganreportonWesternGhats",
+          "category": "Other",
+          "page_num": 7,
+          "ocr_raw_text": "Lormhnsa\nKasturiranganreportonWesternGhats",
+          "ocr_confidence": 0.75,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/7",
+          "is_translated": false
+        },
+        {
+          "id": "2d473cff9730",
+          "title": "causingfearamong EarnerxShivakummar",
+          "snippet": "KiamatakaHCcotsttutes SITinKPSCCse",
+          "original_title": "causingfearamong EarnerxShivakummar",
+          "original_snippet": "KiamatakaHCcotsttutes SITinKPSCCse",
+          "category": "Other",
+          "page_num": 7,
+          "ocr_raw_text": "causingfearamong EarnerxShivakummar\nKiamatakaHCcotsttutes SITinKPSCCse",
+          "ocr_confidence": 0.75,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/7",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 8,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/8",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_008.jpg",
+      "ocr_text_original": "Editorial\nThe auithmetic of Tammil Nachis groath antbition\n\nPreumedandeehk\nAMiadaaa-Singrporenoded far msohing Horm",
+      "ocr_text_en": "Editorial The auithmetic of Tammil Nachis groath antbition\n\nPreumedandeehk AMiadaaa-Singrporenoded far msohing Horm",
+      "ocr_confidence": 0.73,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "c4a6987fc105",
+          "title": "Editorial",
+          "snippet": "The auithmetic of Tammil Nachis groath antbition",
+          "original_title": "Editorial",
+          "original_snippet": "The auithmetic of Tammil Nachis groath antbition",
+          "category": "Other",
+          "page_num": 8,
+          "ocr_raw_text": "Editorial\nThe auithmetic of Tammil Nachis groath antbition",
+          "ocr_confidence": 0.73,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/8",
+          "is_translated": false
+        },
+        {
+          "id": "2df201b65e7d",
+          "title": "Preumedandeehk",
+          "snippet": "AMiadaaa-Singrporenoded far msohing Horm",
+          "original_title": "Preumedandeehk",
+          "original_snippet": "AMiadaaa-Singrporenoded far msohing Horm",
+          "category": "Other",
+          "page_num": 8,
+          "ocr_raw_text": "Preumedandeehk\nAMiadaaa-Singrporenoded far msohing Horm",
+          "ocr_confidence": 0.73,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/8",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 9,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/9",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_009.jpg",
+      "ocr_text_original": "Persisternt amfaginism foeds Uvta\nDecoding the tnmsitiontoalternaitinefuels",
+      "ocr_text_en": "Persisternt amfaginism foeds Uvta Decoding the tnmsitiontoalternaitinefuels",
+      "ocr_confidence": 0.68,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "4f358c795fda",
+          "title": "Persisternt amfaginism foeds Uvta",
+          "snippet": "Decoding the tnmsitiontoalternaitinefuels",
+          "original_title": "Persisternt amfaginism foeds Uvta",
+          "original_snippet": "Decoding the tnmsitiontoalternaitinefuels",
+          "category": "Other",
+          "page_num": 9,
+          "ocr_raw_text": "Persisternt amfaginism foeds Uvta\nDecoding the tnmsitiontoalternaitinefuels",
+          "ocr_confidence": 0.68,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/9",
+          "is_translated": false
+        }
+      ]
+    },
+    {
+      "page_num": 10,
+      "snapshot_url": "/api/snapshots/f14485b6b9bb/10",
+      "snapshot_path": "D:\\Projects\\VEE2\\data\\snapshots\\f14485b6b9bb\\page_010.jpg",
+      "ocr_text_original": "News\nClass 10 girland boy returningfrom\n\ncoachinggroped, assaultedinBihar\nEDfiles chargesheetaeainstCourtcekrsfresh\n\nEaseMyTrippromoserin\nMahadev betting app case\n\nvoterraill entry case\nhearinginSonias\n\nBcnanslyros\nbesinesstire's Sth Changemaler Awards tobe giventoday",
+      "ocr_text_en": "News Class 10 girland boy returningfrom\n\ncoachinggroped, assaultedinBihar EDfiles chargesheetaeainstCourtcekrsfresh\n\nEaseMyTrippromoserin Mahadev betting app case\n\nvoterraill entry case hearinginSonias\n\nBcnanslyros besinesstire's Sth Changemaler Awards tobe giventoday",
+      "ocr_confidence": 0.82,
+      "original_language": "English",
+      "stories": [
+        {
+          "id": "0798db83d308",
+          "title": "News",
+          "snippet": "Class 10 girland boy returningfrom",
+          "original_title": "News",
+          "original_snippet": "Class 10 girland boy returningfrom",
+          "category": "Other",
+          "page_num": 10,
+          "ocr_raw_text": "News\nClass 10 girland boy returningfrom",
+          "ocr_confidence": 0.82,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/10",
+          "is_translated": false
+        },
+        {
+          "id": "3ccdeb1d8428",
+          "title": "coachinggroped, assaultedinBihar",
+          "snippet": "EDfiles chargesheetaeainstCourtcekrsfresh",
+          "original_title": "coachinggroped, assaultedinBihar",
+          "original_snippet": "EDfiles chargesheetaeainstCourtcekrsfresh",
+          "category": "State",
+          "page_num": 10,
+          "ocr_raw_text": "coachinggroped, assaultedinBihar\nEDfiles chargesheetaeainstCourtcekrsfresh",
+          "ocr_confidence": 0.82,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/10",
+          "is_translated": false
+        },
+        {
+          "id": "774580a0849c",
+          "title": "EaseMyTrippromoserin",
+          "snippet": "Mahadev betting app case",
+          "original_title": "EaseMyTrippromoserin",
+          "original_snippet": "Mahadev betting app case",
+          "category": "Technology",
+          "page_num": 10,
+          "ocr_raw_text": "EaseMyTrippromoserin\nMahadev betting app case",
+          "ocr_confidence": 0.82,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/10",
+          "is_translated": false
+        },
+        {
+          "id": "535b73172d97",
+          "title": "voterraill entry case",
+          "snippet": "hearinginSonias",
+          "original_title": "voterraill entry case",
+          "original_snippet": "hearinginSonias",
+          "category": "Law & Courts",
+          "page_num": 10,
+          "ocr_raw_text": "voterraill entry case\nhearinginSonias",
+          "ocr_confidence": 0.82,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/10",
+          "is_translated": false
+        },
+        {
+          "id": "c842fb4aef1c",
+          "title": "Bcnanslyros",
+          "snippet": "besinesstire's Sth Changemaler Awards tobe giventoday",
+          "original_title": "Bcnanslyros",
+          "original_snippet": "besinesstire's Sth Changemaler Awards tobe giventoday",
+          "category": "Other",
+          "page_num": 10,
+          "ocr_raw_text": "Bcnanslyros\nbesinesstire's Sth Changemaler Awards tobe giventoday",
+          "ocr_confidence": 0.82,
+          "page_snapshot_url": "/api/snapshots/f14485b6b9bb/10",
+          "is_translated": false
+        }
+      ]
+    }
+  ]
+}

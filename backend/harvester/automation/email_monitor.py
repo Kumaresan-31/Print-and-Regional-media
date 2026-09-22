@@ -10,21 +10,14 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 
 from PIL import Image
-import pytesseract
 
 from harvester.config import settings, INBOX_ATTACHMENTS_DIR, INBOX_INGESTED_DIR, SNAPSHOTS_DIR, DATA_DIR
-from harvester.news.pdf_parser import pdf_news_parser, detect_script_language, get_rapid_ocr
+from harvester.news.pdf_parser import pdf_news_parser, detect_script_language, get_rapid_ocr, get_pytesseract
 from harvester.news.service import news_service
 from harvester.translation.llm_translator import llm_translator
 from harvester.news.alerts_service import alerts_service
 
 logger = logging.getLogger(__name__)
-
-# Ensure Tesseract OCR executable is configured
-TESSERACT_EXE = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-if os.path.exists(TESSERACT_EXE):
-    pytesseract.pytesseract.tesseract_cmd = TESSERACT_EXE
-
 
 def decode_mime_header(header_value: Optional[str]) -> str:
     """Decodes MIME encoded subject or header values."""
@@ -201,7 +194,7 @@ class EmailInboxMonitor:
 
             if not ocr_text.strip():
                 try:
-                    ocr_text = pytesseract.image_to_string(img).strip()
+                    ocr_text = get_pytesseract().image_to_string(img).strip()
                 except Exception as te:
                     logger.error(f"Tesseract fallback failed: {te}")
 

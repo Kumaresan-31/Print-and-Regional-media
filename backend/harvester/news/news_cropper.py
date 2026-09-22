@@ -58,7 +58,14 @@ def get_or_create_boxes(snapshot_path: Path) -> List[Dict[str, Any]]:
     boxes: List[Dict[str, Any]] = []
     try:
         from harvester.news.pdf_parser import run_ocr_on_image
-        _, _, computed_blocks = run_ocr_on_image(snapshot_path)
+        from harvester.extractors.engines.marathi_ocr import marathi_ocr_engine
+
+        pref_lang = None
+        path_str = str(snapshot_path).lower()
+        if marathi_ocr_engine.is_marathi_source(path_str):
+            pref_lang = "mar+eng"
+
+        _, _, computed_blocks = run_ocr_on_image(snapshot_path, preferred_lang=pref_lang)
         if computed_blocks:
             boxes = computed_blocks
             try:

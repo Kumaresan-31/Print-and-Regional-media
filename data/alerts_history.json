@@ -1,5 +1,1289 @@
 [
   {
+    "id": "alert_528226ff18",
+    "article_id": "6ee400ff250a",
+    "source_name": "timesofindia.indiatimes.com",
+    "severity": "medium",
+    "category": "business",
+    "topic": "Financial Market Benchmark Alert",
+    "summary": "Sensex swing: FIIs are selling, DIIs are buying - who is right? timesofindia.indiatimes.com",
+    "translated_text": "Sensex swing: FIIs are selling, DIIs are buying - who is right? - timesofindia.indiatimes.com",
+    "ocr_raw_text": "Sensex swing: FIIs are selling, DIIs are buying - who is right? - timesofindia.indiatimes.com\nSensex swing: FIIs are selling, DIIs are buying - who is right? timesofindia.indiatimes.com",
+    "ocr_confidence": 0.99,
+    "translation_confidence": 1.0,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/dynamic_snapshot/6ee400ff250a",
+    "bounding_box": null,
+    "created_at": "2026-09-22T19:18:33.592895"
+  },
+  {
+    "id": "alert_ca6c498c8a",
+    "article_id": "ea26c4eebb57",
+    "source_name": "The Hindu (Page 3) (Page 3)",
+    "severity": "high",
+    "category": "crises_disasters",
+    "topic": "Crisis & Public Safety",
+    "summary": "Govt. hospitals short on critical",
+    "translated_text": "Govt. hospitals short on critical",
+    "ocr_raw_text": "Govt. hospitals short on critical\nGovt. hospitals short on critical",
+    "ocr_confidence": 0.99,
+    "translation_confidence": 1.0,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/f14485b6b9bb/3",
+    "bounding_box": null,
+    "created_at": "2026-09-22T19:18:33.591527"
+  },
+  {
+    "id": "alert_c15525f0ad75",
+    "article_id": "c15525f0ad75",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Won all the silver medals in shooting, not even one bronze",
+    "summary": "Won all the silver medals in shooting, not even one bronze",
+    "translated_text": "Won all the silver medals in shooting, not even one bronze",
+    "ocr_raw_text": "शूटिंगमध्ये सर्व रौप्यपदके जिंकली, १ कांस्यही\nशूटिंगमध्ये सर्व रौप्यपदके जिंकली, १ कांस्यही",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      408.0,
+      1358.0,
+      805.0,
+      1389.0
+    ],
+    "created_at": "2026-09-22T19:08:52.325535"
+  },
+  {
+    "id": "alert_65873582dced",
+    "article_id": "65873582dced",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Law & Courts",
+    "topic": "Today's hearing is not for the festival, but against noise pollution: Bench",
+    "summary": "Today's hearing is not for the festival, but against noise pollution: Bench",
+    "translated_text": "Today's hearing is not for the festival, but against noise pollution: Bench",
+    "ocr_raw_text": "आज सुनावणी, उत्सवाच्या नाही तर ध्वनिप्रदूषणाच्या विरोधात : खंडपीठ\nआज सुनावणी, उत्सवाच्या नाही तर ध्वनिप्रदूषणाच्या विरोधात : खंडपीठ",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1013.0,
+      1322.0,
+      1607.0,
+      1364.0
+    ],
+    "created_at": "2026-09-22T19:08:52.325414"
+  },
+  {
+    "id": "alert_9b1149bafa43",
+    "article_id": "9b1149bafa43",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "National",
+    "topic": "4 medals in 2 days; a total of 6 medals",
+    "summary": "On the second day of the Asian Games, India won 4 medals, including 2 silver and 2 bronze medals. With a total of 4 silver and 2 bronze medals, India is ranked 12th in the medal table. In men's 10-meter air rifle, Himanshu Dhillon won silver and Rudraksh Patil won bronze. The two of them, along with Parth, won silver in the team event. On Sunday, 2 silver medals were won in shooting. With a weight",
+    "translated_text": "4 medals in 2 days; a total of 6 medals",
+    "ocr_raw_text": "२ दिवसांत ४ रौप्य; एकूण ६ पदके\nआशियन स्पर्धांच्या दुसऱ्या दिवशी भारताने ४ पदके जिंकली, ज्यात २ रौप्य आणि २ कांस्यपदकांचा समावेश आहे. एकूण ४ रौप्य आणि २ कांस्यपदकांसह भारत पदक तालिकेत १२ व्या क्रमांकावर आहे. पुरुष १० मीटर एअर रायफल्मध्ये हिमांशू धिल्लनने रौप्य व रुद्राक्ष पाटीलने कांस्य जिंकले. दोघांनी पार्थसह सांघिक प्रकारात रौप्यपदक जिंकले. रविवारी नेमबाजीत २ रौप्यपदके जिंकली होती.\n१00 ग्रॅम वजनाने",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      35.0,
+      1263.0,
+      815.0,
+      1652.0
+    ],
+    "created_at": "2026-09-22T19:08:52.325282"
+  },
+  {
+    "id": "alert_9cf7b4691299",
+    "article_id": "9cf7b4691299",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Law & Courts",
+    "topic": "Harsh DJ, Mumbai High Court's suo motu petition against noise pollution",
+    "summary": "The Bombay High Court on Monday took suo motu notice of the intense noise pollution occurring during festival times including Ganeshotsav. We are not against any religion or festival, but are only against the problem of noise pollution, the top news agency Mumbai said.",
+    "translated_text": "Harsh DJ, Mumbai High Court's suo motu petition against noise pollution",
+    "ocr_raw_text": "कर्णकर्कश डीजे, ध्वनिप्रदूषणाविरोधात मुंबई उत्च न्यायालयाची सुमोटो याचिका\nगणेशोत्सवासह उत्सव काळात होणार्‍या तीव्र ध्वनिप्रदूषणाची मुंबई उच्च न्यायालयाने सोमवारी स्वतःहून (सुमोटो) दखल घेतली. आम्ही कोणत्याही धर्माच्या किंवा उत्सवाच्या विरोधात नसून केवळ ध्वनिप्रदूषणाच्या समस्येविरोधात आहोत, असे उच्च\nवृत्तसंस्था | मुंबई",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1007.0,
+      1213.0,
+      1608.0,
+      1543.0
+    ],
+    "created_at": "2026-09-22T19:08:52.325165"
+  },
+  {
+    "id": "alert_d66a82e067b8",
+    "article_id": "d66a82e067b8",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "National",
+    "topic": "On the second day of the 9th Asian Games, India won 2 silver and 2 bronze medals, according to the SWR report.",
+    "summary": "Divya Marathi Network Nagoya informed on Monday that several prominent voters, including former Reserve Bank Governor Bimal Jalan and former Indian Air Force Chief N. A. K. Brown, have been issued notices due to errors found in their applications during the ongoing special in-depth revision campaign of the voter list currently underway in Delhi, according to officials. In the draft voter list",
+    "translated_text": "On the second day of the 9th Asian Games, India won 2 silver and 2 bronze medals, according to the SWR report.",
+    "ocr_raw_text": "[९ आशियाईस्पर्धा | भारताने दुसर्‍या दिवशी २ रौप्य, २ कांस्य जिंकली एस्आवआर अर्जात टी\nदिव्य मराठी नेटवर्क | नागोया\nदिल्लीत सध्या सुरू असलेल्या मतदार यादीच्या विशेष सखोल\nपुनरीक्षण मोहिमेत अर्जात त्रुटी आढळल्याने रिझर्व्ह बँकेचे माजी गव्हर्नन बिमल जालान आणि भारतीय हवाई दलाचे माजी प्रमुख एन. ए. के. ब्राऊन यांच्यासह अनेक नामवंत मतदारांना नोटीस बजावण्यात आली आहे, अशी माहिती अधिकाऱयांनी सोमवारी दिली. मसुदा मतदार यादीतील",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      39.0,
+      1210.0,
+      1000.0,
+      1545.0
+    ],
+    "created_at": "2026-09-22T19:08:52.325035"
+  },
+  {
+    "id": "alert_c198c2bf96e0",
+    "article_id": "c198c2bf96e0",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "State",
+    "topic": "Such criticism was made by Rohit Pawar. Sharad Pawar will visit the drought-affected area on September 28, and he wrote a letter to Devendra Fadnavis regarding the dryness in the state.",
+    "summary": "Such criticism was made by Rohit Pawar. Sharad Pawar will visit the drought-affected area on September 28, and he wrote a letter to Devendra Fadnavis regarding the dryness in the state.",
+    "translated_text": "Such criticism was made by Rohit Pawar. Sharad Pawar will visit the drought-affected area on September 28, and he wrote a letter to Devendra Fadnavis regarding the dryness in the state.",
+    "ocr_raw_text": "अशी टीका रोहित पवार यांनी केली. शरद पवार २८ सप्टेंबरला दुष्काळी भागाचा दौरा करणार असून त्यांनी देवेंद्र फडणवीस यांना पत्र लिहून राज्यात कोरडा\nअशी टीका रोहित पवार यांनी केली. शरद पवार २८ सप्टेंबरला दुष्काळी भागाचा दौरा करणार असून त्यांनी देवेंद्र फडणवीस यांना पत्र लिहून राज्यात कोरडा",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      927.0,
+      1038.0,
+      1093.0,
+      1134.0
+    ],
+    "created_at": "2026-09-22T19:08:52.324868"
+  },
+  {
+    "id": "alert_2487bfa494ff",
+    "article_id": "2487bfa494ff",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "State",
+    "topic": "Drought is measured very accurately and scientifically based on the index and the condition of the plants. The state government is going to use the same method.",
+    "summary": "Drought is measured very accurately and scientifically based on the index and the condition of the plants. The state government is going to use the same method.",
+    "translated_text": "Drought is measured very accurately and scientifically based on the index and the condition of the plants. The state government is going to use the same method.",
+    "ocr_raw_text": "इंडेक्स) व वनस्पतींच्या स्थितीवरून दुष्काळाचे अत्यंत अचूक आणि वैज्ञानिक मोजमाप केले जाते. याच पद्धतीचा राज्य सरकार वापर करणार आहे.\nइंडेक्स) व वनस्पतींच्या स्थितीवरून दुष्काळाचे अत्यंत अचूक आणि वैज्ञानिक मोजमाप केले जाते. याच पद्धतीचा राज्य सरकार वापर करणार आहे.",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      633.0,
+      1023.0,
+      886.0,
+      1085.0
+    ],
+    "created_at": "2026-09-22T19:08:52.324689"
+  },
+  {
+    "id": "alert_458ace2f0e82",
+    "article_id": "458ace2f0e82",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "State",
+    "topic": "Those waiting for the central funds will have to assess the losses after October 5 according to the rules and seek help from the center; until then, the state government itself",
+    "summary": "Those waiting for the central funds will have to assess the losses after October 5 according to the rules and seek help from the center; until then, the state government itself",
+    "translated_text": "Those waiting for the central funds will have to assess the losses after October 5 according to the rules and seek help from the center; until then, the state government itself",
+    "ocr_raw_text": "र केंद्राच्या निधीची वाट पाहणार ट्र हन पर्ण नियमानुसार ५ ऑक्टोबरनंतर औक नुकसानीचे पंचनामे करून कें मदत मागितली जाईल, तोपर्यंत राज्य सरकार स्वतःच्या\nर केंद्राच्या निधीची वाट पाहणार ट्र हन पर्ण नियमानुसार ५ ऑक्टोबरनंतर औक नुकसानीचे पंचनामे करून कें मदत मागितली जाईल, तोपर्यंत राज्य सरकार स्वतःच्या",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      232.0,
+      1017.0,
+      457.0,
+      1128.0
+    ],
+    "created_at": "2026-09-22T19:08:52.324121"
+  },
+  {
+    "id": "alert_6d3c6db08b70",
+    "article_id": "6d3c6db08b70",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Politics",
+    "topic": "The action plans have already been started, instead of waiting for the survey of the entire area. For aiding farmers, the government should send influential Chief Ministers to the field.",
+    "summary": "€) Stage: Field-level 9) (Ground Zero) Regional Survey. Criteria: If the survey finds more than 33% crop damage, Chief Minister Fadnavis stated that the concerned village will be declared drought-affected. All necessary steps will be taken from the fund to provide relief to farmers; no farmer will be left deprived / 'Last year, assistance of ₹21,543 crore was provided to 1.54 crore farmers.'\n\nThis",
+    "translated_text": "The action plans have already been started, instead of waiting for the survey of the entire area. For aiding farmers, the government should send influential Chief Ministers to the field.",
+    "ocr_raw_text": "उपाययोजना आधीच सुरू केल्या सरला जग तस पगिपेगोल धर सपर परश सर्वेक्षणाची वाट पाहण्यापेक्षा आहेत. शेतकरी मदतीसाठी सरकार रा टप्पा: प्रभावदर्शक मुख्यमंत्र्यांनाच बांधावर पाठवा,\n€) रा टप्पा: प्रत्यक्ष जमिनीवर ९) (ग्राउंड झीरो) क्षेत्रीय सर्वेक्षण. निकष: या सर्वेक्षणात पिकांचे ३३% वर नुकसान आढळल्यास मुख्यमंत्री फडणवीस यांनी सांगितले. संबंधित गाव दुष्काळग्रस्त घोषित.\nनिधीतून सर्व आवश्यक पावले उचलून शेतकऱ्यांना दिलासा देईल,\nएकही शेतकरी वंचित राहणार नाही\n/ 'मागील वर्षी १ कोटी ५४ लाख शेतकऱ्यांना २१\nहजार ५४३ कोटींची मदत दिल्गी होती. यंदाही एकही दुष्काळ जाहीर करून हेक्‍टरी ५० पीडित शेतकरी मदतीपासून वंचित राहणार नाही. हजार रुपये मदतीची मागणी केली -मकरंद जाधव पाटील, मंत्री, मदत व पुनर्वसन . आहे.\nजालान यांनाही नोटीस वृत्तसंस्था | नवी दिल्ली",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      236.0,
+      994.0,
+      1095.0,
+      1301.0
+    ],
+    "created_at": "2026-09-22T19:08:52.323138"
+  },
+  {
+    "id": "alert_154e7e68abbf",
+    "article_id": "154e7e68abbf",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "Checking of remotely related coordinates. 'A drought used to be determined on the method, but now",
+    "summary": "Checking of remotely related coordinates. 'A drought used to be determined on the method, but now",
+    "translated_text": "Checking of remotely related coordinates. 'A drought used to be determined on the method, but now",
+    "ocr_raw_text": "दुत संबधित निर्देशांकांची तपासणी. 'पद्धतीवर दुष्काळ ठरवला जायचा, मात्र, आता\nदुत संबधित निर्देशांकांची तपासणी. 'पद्धतीवर दुष्काळ ठरवला जायचा, मात्र, आता",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      295.0,
+      981.0,
+      900.0,
+      1012.0
+    ],
+    "created_at": "2026-09-22T19:08:52.322921"
+  },
+  {
+    "id": "alert_e02a42934d61",
+    "article_id": "e02a42934d61",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "It had risen up to partial Celsius. At that time, only 77.7% rain had occurred. Due to the new system in the Bay of Bengal in the early monsoon, favorable conditions for rain in Maharashtra arose. In 1965, 18.6% of the normal monsoon came 2 days late from Rajasthan. In 2009, 18.3% as the return journey had begun, due to the new system in the Bay of Bengal, rain in Maharashtra became active again in 1905, 16.8%, and in 1979, 16.7%. The Meteorological Department has stated the probability of the low-pressure area in the subcontinent transforming into a 'severe depression' by 22 September at 14.9% in 2026*. It is 0.25 after 25 years until 20 September. High temperatures were recorded in Sambhajinagar in September. Divya City",
+    "summary": "The court clarified. The bench of Justice G. S. Kulkarni and Justice Neela Gokhale expressed serious concern about noise pollution caused by the use of DJs, sound systems, and loudspeakers during festivals and public events. 'We are not against any religion or festival. However,",
+    "translated_text": "It had risen up to partial Celsius. At that time, only 77.7% rain had occurred. Due to the new system in the Bay of Bengal in the early monsoon, favorable conditions for rain in Maharashtra arose. In 1965, 18.6% of the normal monsoon came 2 days late from Rajasthan. In 2009, 18.3% as the return journey had begun, due to the new system in the Bay of Bengal, rain in Maharashtra became active again in 1905, 16.8%, and in 1979, 16.7%. The Meteorological Department has stated the probability of the low-pressure area in the subcontinent transforming into a 'severe depression' by 22 September at 14.9% in 2026*. It is 0.25 after 25 years until 20 September. High temperatures were recorded in Sambhajinagar in September. Divya City",
+    "ocr_raw_text": "अंशसेल्सियसपर्यंत वाढले होते. तेंव्हा फक्त ७७.७% पाऊस झाला होता. न्य पव्साचीतूर बंगालच्या उपसागरातील नवीन प्रणालीमुळे 2 जाडी महाराष्ट्रात पावसासाठी अनुकूल स्थिती 1965 18.6% नैक्रंत्य मान्सूनचा राजस्थानमधून २ दिवस उशिराने 2009 18.3% परतीचा प्रवास सुरू झाला असतानाच बंगालच्या 1905 16.8% उपसागरातील नवीन प्रणालीमुळे महाराष्ट्रात पाऊस पुन्हा 1979 16.7% सक्रिय झाला आहे. उपसागरातील कमी दाबाच्या क्षेत्राचे 2026* 14.9% रूपांतर २२ सप्टेंबरपर्यंत 'तीव्र अवदाबात' होण्याची *२०२६ वीआकडेवारी शक्यता हवामान विभागाने वर्तवली.० २५ वर्षानंतर २० सप्टॅबरपर्यंतची आहे. सप्टेंबरमध्ये संभाजीनारात उत्त्चांकी नोंद . दिव्य सिटी\nन्यायालयाने स्पष्ट केले. न्यायमूर्ती जी. एस. कुलकर्णी आणि न्यायमूर्ती नीला गोखले यांच्या खंडपीठाने उत्सव आणि सार्वजनिक कार्यक्रमांदरम्यान डीजे, साउंड सिस्टीम आणि ध्वनिक्षेपकांच्या वापरामुळे होणाऱ्या ध्वनिप्रदूषणावर तीव्र चिंता व्यक्‍त केली. 'आम्ही कोणत्याही धर्मांच्या किंवा सणाच्या विरोधात नाही. मात्र,",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1146.0,
+      973.0,
+      1590.0,
+      1543.0
+    ],
+    "created_at": "2026-09-22T19:08:52.322186"
+  },
+  {
+    "id": "alert_6bba8776245e",
+    "article_id": "6bba8776245e",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "Is KAV going to evaluate a new method of measuring drought? Without waiting for the center to declare a drought, help can be provided, knowing the 'forecast' that has been received or has occurred, and as a result, the opposition has aggressively targeted the government in drought relief efforts 7-7-0. Until 5th October.",
+    "summary": "Determination of drought intensity based on coordinates.",
+    "translated_text": "Is KAV going to evaluate a new method of measuring drought? Without waiting for the center to declare a drought, help can be provided, knowing the 'forecast' that has been received or has occurred, and as a result, the opposition has aggressively targeted the government in drought relief efforts 7-7-0. Until 5th October.",
+    "ocr_raw_text": "मूल्यांकन करणार काव आहे दुष्काळ मोजमापाची नवी पद्धत? अद्याप दुष्काळ जाहीर न केंद्राची वाट न पाहता मदत करू आ पु्तब्िटा्या कळत सुल झालेल्या 'आणेवारी' किंवा झाल्याने विरोधी पक्ष आक्रमक सरकारने दुष्काळ निवारणाच्या ] ७-७ - ० यो गी झाले आहेत. ५ ऑक्टोबरपर्यंत\nनिर्देशांकाच्या आधारे दुष्काळाची तीव्रता निश्‍चिती.",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      236.0,
+      939.0,
+      1080.0,
+      1078.0
+    ],
+    "created_at": "2026-09-22T19:08:52.321339"
+  },
+  {
+    "id": "alert_4168d0e4def1",
+    "article_id": "4168d0e4def1",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Finance",
+    "topic": "Being about to do, in the meantime about assistance, the famine became the target of Marathi opponents in three stages, they will aggressively evaluate the value",
+    "summary": "Being about to do, in the meantime about assistance, the famine became the target of Marathi opponents in three stages, they will aggressively evaluate the value",
+    "translated_text": "Being about to do, in the meantime about assistance, the famine became the target of Marathi opponents in three stages, they will aggressively evaluate the value",
+    "ocr_raw_text": "करणार असून त्यांतर मदतीवाबत तीन टप्प्यांत दुष्काळाचे दिव्य मराठी विरोधक झाले आक्रमक ति मूल्यांकन करणार\nकरणार असून त्यांतर मदतीवाबत तीन टप्प्यांत दुष्काळाचे दिव्य मराठी विरोधक झाले आक्रमक ति मूल्यांकन करणार",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      233.0,
+      908.0,
+      1101.0,
+      967.0
+    ],
+    "created_at": "2026-09-22T19:08:52.320756"
+  },
+  {
+    "id": "alert_15732d7b6ea4",
+    "article_id": "15732d7b6ea4",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "A trend of one hundred and twenty-five years... 2026 is the seventh driest year. Since 1950, super El Niño has formed only 6 times. Out of these, the monsoon was normal twice, below average once, normal twice, and once: severe drought occurred. In 519972, the strongest El Niño occurred. At that time, the sea surface temperature was 2.3",
+    "summary": "A trend of one hundred and twenty-five years... 2026 is the seventh driest year. Since 1950, super El Niño has formed only 6 times. Out of these, the monsoon was normal twice, below average once, normal twice, and once: severe drought occurred. In 519972, the strongest El Niño occurred. At that time, the sea surface temperature was 2.3",
+    "translated_text": "A trend of one hundred and twenty-five years... 2026 is the seventh driest year. Since 1950, super El Niño has formed only 6 times. Out of these, the monsoon was normal twice, below average once, normal twice, and once: severe drought occurred. In 519972, the strongest El Niño occurred. At that time, the sea surface temperature was 2.3",
+    "ocr_raw_text": "सव्वाशे वर्षांचा ट्रेंड... २0२६ हे सातवे सर्वात कोरडे वर्ष « १९५० पासून आतापर्यंत केवळ ६ वेळा सुपर एल निनो तयार झाले. यापैकी २ वेळा मान्सून सामान्य राहिला, एकदा: सरासरीपेक्षा कमी, दोनदा सामान्य आणि एकदा मोठा: दुष्काळ पडला. ५१९९७२ मध्ये सर्वात मजबूत चि एल निनो होता. तेव्हा समुद्राच्या पृष्ठभागाचे तापमान २.३\nसव्वाशे वर्षांचा ट्रेंड... २0२६ हे सातवे सर्वात कोरडे वर्ष « १९५० पासून आतापर्यंत केवळ ६ वेळा सुपर एल निनो तयार झाले. यापैकी २ वेळा मान्सून सामान्य राहिला, एकदा: सरासरीपेक्षा कमी, दोनदा सामान्य आणि एकदा मोठा: दुष्काळ पडला. ५१९९७२ मध्ये सर्वात मजबूत चि एल निनो होता. तेव्हा समुद्राच्या पृष्ठभागाचे तापमान २.३",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1150.0,
+      889.0,
+      1589.0,
+      996.0
+    ],
+    "created_at": "2026-09-22T19:08:52.320552"
+  },
+  {
+    "id": "alert_8d5607f3af23",
+    "article_id": "8d5607f3af23",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "Crops were inspected in Belad and Motalā Shailapur of Tāḷ Taluka, Sanemal.",
+    "summary": "Crops were inspected in Belad and Motalā Shailapur of Tāḷ Taluka, Sanemal.",
+    "translated_text": "Crops were inspected in Belad and Motalā Shailapur of Tāḷ Taluka, Sanemal.",
+    "ocr_raw_text": "स जानेमलकापर ताळ तालुक्‍यातील बेलाड व मोताळा शैलापूर येथे पिकांची पाहणी केली.\nस जानेमलकापर ताळ तालुक्‍यातील बेलाड व मोताळा शैलापूर येथे पिकांची पाहणी केली.",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      431.0,
+      838.0,
+      607.0,
+      907.0
+    ],
+    "created_at": "2026-09-22T19:08:52.320351"
+  },
+  {
+    "id": "alert_2df517c4b43f",
+    "article_id": "2df517c4b43f",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "State",
+    "topic": "Madhya Pradesh 40%, Haryana 23%, Punjab 39%, Rajasthan 21%, Bihar 37%, Maharashtra 17%, Karnataka 31%, Uttar Pradesh 5%. In major states, the amount of rainfall shows a deficiency of 22%, the situation is like this.",
+    "summary": "Madhya Pradesh 40%, Haryana 23%, Punjab 39%, Rajasthan 21%, Bihar 37%, Maharashtra 17%, Karnataka 31%, Uttar Pradesh 5%. In major states, the amount of rainfall shows a deficiency of 22%, the situation is like this.",
+    "translated_text": "Madhya Pradesh 40%, Haryana 23%, Punjab 39%, Rajasthan 21%, Bihar 37%, Maharashtra 17%, Karnataka 31%, Uttar Pradesh 5%. In major states, the amount of rainfall shows a deficiency of 22%, the situation is like this.",
+    "ocr_raw_text": "र्ज्य कमी राज्य कमी मण ली की डो रश ंध्र प्रदेश 40% हरियाणा ७ 23% लय स 'पंजाब 39% राजस्थान _0 21% क भात हती दन बिहार 9 37% महाराष्ट्र 17% प्रमुख राज्यांत पावसात्या कर्नाटक 31% उत्तर प्रदेश 05% राज्यांत १ उत्तोसड 22 कमतरतेची स्थिती अशी. हील ला र\nर्ज्य कमी राज्य कमी मण ली की डो रश ंध्र प्रदेश 40% हरियाणा ७ 23% लय स 'पंजाब 39% राजस्थान _0 21% क भात हती दन बिहार 9 37% महाराष्ट्र 17% प्रमुख राज्यांत पावसात्या कर्नाटक 31% उत्तर प्रदेश 05% राज्यांत १ उत्तोसड 22 कमतरतेची स्थिती अशी. हील ला र",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1146.0,
+      756.0,
+      1596.0,
+      892.0
+    ],
+    "created_at": "2026-09-22T19:08:52.320014"
+  },
+  {
+    "id": "alert_127ced21b756",
+    "article_id": "127ced21b756",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Local",
+    "topic": "In 47% of districts, rainfall deficit is more than 20%",
+    "summary": "In 47% of districts, rainfall deficit is more than 20%",
+    "translated_text": "In 47% of districts, rainfall deficit is more than 20%",
+    "ocr_raw_text": "४७% जिल्ह्यांत पावसाची तट २0% पेक्षा जास्त\n४७% जिल्ह्यांत पावसाची तट २0% पेक्षा जास्त",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1170.0,
+      720.0,
+      1573.0,
+      749.0
+    ],
+    "created_at": "2026-09-22T19:08:52.319903"
+  },
+  {
+    "id": "alert_e9f6511a0a93",
+    "article_id": "e9f6511a0a93",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Local",
+    "topic": "g; Similarly, the demand for employment and direct regional migration caused by water scarcity in the village will be examined at the socio-economic level as factors for starting tankers. Buldhana State Minister and Deputy Minister Sanjay Savkare will oversee the committee under the chairmanship of the District Collector.",
+    "summary": "g; Similarly, the demand for employment and direct regional migration caused by water scarcity in the village will be examined at the socio-economic level as factors for starting tankers. Buldhana State Minister and Deputy Minister Sanjay Savkare will oversee the committee under the chairmanship of the District Collector.",
+    "translated_text": "g; Similarly, the demand for employment and direct regional migration caused by water scarcity in the village will be examined at the socio-economic level as factors for starting tankers. Buldhana State Minister and Deputy Minister Sanjay Savkare will oversee the committee under the chairmanship of the District Collector.",
+    "ocr_raw_text": "ग; | तसेच रोजगाराची मागणी आणि गावाकडून पाणीटंचाई निर्माण झाल्यास थेट क्षेत्रीय 3 होणारे स्थलांतर हे सामाजिक-आर्थिक स्तरावरच टँकर सुरू करण्याचे अधिकार वा ॥& घटक तपासले जातील. देण्यात आले आहेत. बुलढाणा | राज्यमंत्री तथा सहपालकमंत्री संजय सावकारे यांनी जिल्हाधिकार्‍यांच्या अध्यक्षतेखालील समिती करणार देखरेख\nग; | तसेच रोजगाराची मागणी आणि गावाकडून पाणीटंचाई निर्माण झाल्यास थेट क्षेत्रीय 3 होणारे स्थलांतर हे सामाजिक-आर्थिक स्तरावरच टँकर सुरू करण्याचे अधिकार वा ॥& घटक तपासले जातील. देण्यात आले आहेत. बुलढाणा | राज्यमंत्री तथा सहपालकमंत्री संजय सावकारे यांनी जिल्हाधिकार्‍यांच्या अध्यक्षतेखालील समिती करणार देखरेख",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      435.0,
+      661.0,
+      1075.0,
+      843.0
+    ],
+    "created_at": "2026-09-22T19:08:52.319759"
+  },
+  {
+    "id": "alert_75a1a906aaf0",
+    "article_id": "75a1a906aaf0",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Local",
+    "topic": "Attention will also be paid to these factors in drought assessment: actual peri area and soil moisture, groundwater level and 4$. Water storage in dams, availability of fodder and drinking water for animals",
+    "summary": "A committee has been established under the chairmanship of the District Collector to oversee the drought situation. The joint team of Agriculture and Revenue will visit the fields to conduct an inspection. The final declaration of drought will be made only after this report is presented before the state-level committee and the cabinet.",
+    "translated_text": "Attention will also be paid to these factors in drought assessment: actual peri area and soil moisture, groundwater level and 4$. Water storage in dams, availability of fodder and drinking water for animals",
+    "ocr_raw_text": "या घटकांवरही राहणार नजर दुष्काळ मूल्यांकनात प्रत्यक्ष पेरी क्षेत्र व जमिनीतील ओलावा, भूजलपातळी व ४$. धरणांमधील पाणीसाठा, जनावरांसाठी चारा व पिण्याच्या पाण्याची उपलब्धता\nदुष्काळी स्थितीवर देखरेखीसाठी जिल्हाधिकाऱ्यांच्या अध्यक्षतेखाली समिती स्थापन केली आहे. कृषी व महसूलचे संयुक्‍त पथक शेतावर जाऊन पाहणी करेल. हा अहवाल राज्यस्तरीय समिती व मंत्रिमंडळासमोर मांडल्यानंतरच दुष्काळाची अंतिम घोषणा होईल.",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      611.0,
+      633.0,
+      1082.0,
+      907.0
+    ],
+    "created_at": "2026-09-22T19:08:52.319624"
+  },
+  {
+    "id": "alert_f08c4324e1f3",
+    "article_id": "f08c4324e1f3",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Business",
+    "topic": "R is making idols of gods and goddesses from clay. His family has been engaged in sculpture work for 150 years. In the work of making idols, many others in the village are also getting employment by taking inspiration from Magta. Magta's two grandsons, Avinash and Pritam, are still connected to this traditional sculpture business even after completing their MBA. They are creating new designs, painting, and decorating according to market preferences. In the village, statues ranging from 6 inches to 12 feet were made.",
+    "summary": "The death of Sheikh Ahmed Sheikh Ahmed bin Rashid Al Maktoum (76), the brother of Dubai's ruler Sheikh Mohammed bin Rashid Al Maktoum, has passed away. A 10-day official mourning period has been declared in Dubai and all national flags will be flown at half-mast. Sheikh Ahmed was the youngest son of the late ruler of Dubai, Sheikh Rashid bin Saeed Al Maktoum.",
+    "translated_text": "R is making idols of gods and goddesses from clay. His family has been engaged in sculpture work for 150 years. In the work of making idols, many others in the village are also getting employment by taking inspiration from Magta. Magta's two grandsons, Avinash and Pritam, are still connected to this traditional sculpture business even after completing their MBA. They are creating new designs, painting, and decorating according to market preferences. In the village, statues ranging from 6 inches to 12 feet were made.",
+    "ocr_raw_text": "र मातीपासून देवी-देवतांच्या मूर्ती बनवत आहेत. त्यांच्या कुटुंबात १५० वर्षांपासून मूर्तिकलेचे काम होत आहे. मूर्ती बनवण्याच्या कामात मगता यांच्याकडून प्रेरणा घेऊन गावातील इतर अनेक झबंनही रोजगार मिळत आहे. मगता यांचे दोन नातू अविनाश आणि प्रीतम एमबौए पूर्ण केल्यानंतरही मूर्तिकलेच्या या पारंपरिक व्यवसायाशी जोडलेले आहेत. ते नवीन डिझाइन, रंगव सजावटीने बाजाराच्या आवडीनुसार बनवत आहेत. गावात६ इंच ते १२ फुटांपर्यंतच्या मूर्ती बनवल्या.\nशेख अहमद यांचे निधन दुबई | दुबईचे शासक शेख मोहम्मद बिन रशीद अल मकतूम यांचे भाऊ शेख अहमद बिनराशीद अल मकतूम (७६) यांचे निधन झाले. दुबईत १० दिवसांचा अधिकृत दुखवटा जाहीर झाला असून सर्व राष्ट्रध्वज अर्ध्यावर उतरवले जातील. शेख अहमद हे दुबईचे दिवंगत शासक शेख रशीद बिन सईद अल मकतूम यांचे सर्वात धाकटे पुत्र होते.",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      38.0,
+      542.0,
+      225.0,
+      1199.0
+    ],
+    "created_at": "2026-09-22T19:08:52.319515"
+  },
+  {
+    "id": "alert_1bd9cd38d37d",
+    "article_id": "1bd9cd38d37d",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "A & then Mahapatra",
+    "summary": "A & then Mahapatra",
+    "translated_text": "A & then Mahapatra",
+    "ocr_raw_text": "अ &ू || मगता महापात्र \"\nअ &ू || मगता महापात्र \"",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      59.0,
+      499.0,
+      210.0,
+      539.0
+    ],
+    "created_at": "2026-09-22T19:08:52.319393"
+  },
+  {
+    "id": "alert_d44abcddbf35",
+    "article_id": "d44abcddbf35",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "It is believed. So far, only 703.7 mm of rain has occurred. There is a deficit of 123.5 mm. By 30th September, the average rainfall for the season is 868.6 mm. There are 9 days left in the season. However, now it is unlikely that the deficit of 15% will be made up. This is because the monsoon is retreating rapidly from the northwest part of the country. On 19th September, the withdrawal mother pressure had started from western Rajasthan. On Monday, the monsoon withdrew from the entire Punjab, half of Haryana, and Rajasthan.",
+    "summary": "It is acknowledged. So far, only 703.7 mm of rain has occurred. There is a deficit of 123.5 mm. By 30th September, the average rainfall for the season is 868.6 mm. There are 9 days left in the season. However, now it is unlikely that the 15% deficit will be filled. Because the monsoon is rapidly retreating from the north-western part of the country. On 19th September, the retreating monsoon had mo",
+    "translated_text": "It is believed. So far, only 703.7 mm of rain has occurred. There is a deficit of 123.5 mm. By 30th September, the average rainfall for the season is 868.6 mm. There are 9 days left in the season. However, now it is unlikely that the deficit of 15% will be made up. This is because the monsoon is retreating rapidly from the northwest part of the country. On 19th September, the withdrawal mother pressure had started from western Rajasthan. On Monday, the monsoon withdrew from the entire Punjab, half of Haryana, and Rajasthan.",
+    "ocr_raw_text": "मानला जातो. आतापर्यंत फक्त ७०३.७ मिमी पाऊस झाला. १२३.५ मिमीची तूट आहे. ३० सप्टेंबरपर्यंत हंगामासाठी सरासरी पाऊस ८६८.६ मिमी असतो. हंगामात ९ दिवस उरले आहेत. पण, आता १५% ची तूट भरून निघण्याची शक्‍यता नाही. कारण देशाच्या उत्तर-पश्चिम भागातून मान्सून वेगाने माघार घेत आहे. १९ सप्टेंबर रोजी पश्‍चिम राजस्थानमधून परतीचा माता धक रू झाला होता. सोमवारी संपूर्ण पंजाब, अर्धा हरियाणा व राजस्थानातून मान्सूनने माघार घेतली.\nमानला जातो. आतापर्यंत फक्त ७०३.७ मिमी पाऊस झाला. १२३.५ मिमीची तूट आहे. ३० सप्टेंबरपर्यंत हंगामासाठी सरासरी पाऊस ८६८.६ मिमी असतो. हंगामात ९ दिवस उरले आहेत. पण, आता १५% ची तूट भरून निघण्याची शक्‍यता नाही. कारण देशाच्या उत्तर-पश्चिम भागातून मान्सून वेगाने माघार घेत आहे. १९ सप्टेंबर रोजी पश्‍चिम राजस्थानमधून परतीचा माता धक रू झाला होता. सोमवारी संपूर्ण पंजाब, अर्धा हरियाणा व राजस्थानातून मान्सूनने माघार घेतली.",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1375.0,
+      487.0,
+      1607.0,
+      714.0
+    ],
+    "created_at": "2026-09-22T19:08:52.319258"
+  },
+  {
+    "id": "alert_1460619550f8",
+    "article_id": "1460619550f8",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Local",
+    "topic": "97-year-old from Surangi village in the district",
+    "summary": "97-year-old from Surangi village in the district",
+    "translated_text": "97-year-old from Surangi village in the district",
+    "ocr_raw_text": "जिल्ह्यातील सुरंगी गावातील * ९७ वर्षीय\nजिल्ह्यातील सुरंगी गावातील * ९७ वर्षीय",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      45.0,
+      433.0,
+      196.0,
+      538.0
+    ],
+    "created_at": "2026-09-22T19:08:52.319104"
+  },
+  {
+    "id": "alert_282ef0577dac",
+    "article_id": "282ef0577dac",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "Brahmapur in Ganjam, Odisha",
+    "summary": "Brahmapur in Ganjam, Odisha",
+    "translated_text": "Brahmapur in Ganjam, Odisha",
+    "ocr_raw_text": "ब्र॒ह्मपूर | ओडिशाच्या गंजाम\nब्र॒ह्मपूर | ओडिशाच्या गंजाम",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      48.0,
+      411.0,
+      211.0,
+      442.0
+    ],
+    "created_at": "2026-09-22T19:08:52.318990"
+  },
+  {
+    "id": "alert_aba007dda0e0",
+    "article_id": "aba007dda0e0",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "State",
+    "topic": "The drought will be determined not by the rainfall figures, but by the reality on the 'ground zero'.",
+    "summary": "After excessive rainfall in the Mumbai state, some areas are now starting to face the shadow of drought. Against this backdrop, the state government has made a major change in the old method of declaring drought. Now, instead of relying solely on rainfall records, drought will be declared only after a comprehensive assessment of the reality on 'ground zero' by going directly to the farms to evalua",
+    "translated_text": "The drought will be determined not by the rainfall figures, but by the reality on the 'ground zero'.",
+    "ocr_raw_text": "पावसाच्या आकड्यांवर नव्हे, 'ग्राउंड झीरो' वास्तवावरच ठरणार दुष्काळ\nप्रतिनिधी | मुंबई\nराज्यात अतिवृष्टीनंतर आता काही भागांत दुष्काळाचे सावट गडद होऊ लागले आहे. या पार्श्वभूमीवर राज्य सरकारने दुष्काळ जाहीर करण्याच्या जुन्या पद्धतीत मोठा बदल केला आहे. आता केवळ पावसाच्या नोंदीवर अवलंबून न राहता थेट बांधावर जाऊनपिकांची स्थिती, भूजलपातळी आणि स्थलांतर या 'ग्राउंड झीरो'वरील वास्तवाचे सर्वकष मूल्यांकन करूनच दुष्काळ जाहीर केला जाईल. या नव्या पद्धतीबाबत 3 कृषी सचिव मंगळवारी राज्य मंत्रिमंडळाच्या बैठकीत सादरीकरण",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      233.0,
+      373.0,
+      1100.0,
+      911.0
+    ],
+    "created_at": "2026-09-22T19:08:52.318873"
+  },
+  {
+    "id": "alert_fab50cc62359",
+    "article_id": "fab50cc62359",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Great person at the age of 97",
+    "summary": "Great person at the age of 97",
+    "translated_text": "Great person at the age of 97",
+    "ocr_raw_text": "९७ व्या वर्षी महापात्र\n९७ व्या वर्षी महापात्र",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      49.0,
+      360.0,
+      210.0,
+      396.0
+    ],
+    "created_at": "2026-09-22T19:08:52.318744"
+  },
+  {
+    "id": "alert_17bba9f57140",
+    "article_id": "17bba9f57140",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "The driest monsoon in 17 years due to the impact of 'El Niño'",
+    "summary": "The driest monsoon in 17 years due to the impact of 'El Niño'",
+    "translated_text": "The driest monsoon in 17 years due to the impact of 'El Niño'",
+    "ocr_raw_text": "“एल निनो'च्या प्रभावामुळे १७ वर्षांतील सर्वात कोरडा मान्सून\n“एल निनो'च्या प्रभावामुळे १७ वर्षांतील सर्वात कोरडा मान्सून",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1135.0,
+      359.0,
+      1608.0,
+      480.0
+    ],
+    "created_at": "2026-09-22T19:08:52.318630"
+  },
+  {
+    "id": "alert_0d22de35869a",
+    "article_id": "0d22de35869a",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Business",
+    "topic": "In case of 33% crop loss, the entire village will be eligible",
+    "summary": "The important dates and authorities: the final date for declaring a drought for the Kharif season is October 30, while for the Rabi season it has been set as March 39. Now in villages and cities",
+    "translated_text": "In case of 33% crop loss, the entire village will be eligible",
+    "ocr_raw_text": "« 33% पीक नुकसान झाल्यास संपूर्ण गाव ठरणार पात्र\nमहत्त्वाच्या तारखा व अधिकार खरीप हंगामासाठी दुष्काळ घोषित करण्याची अंतिम तारीख ३० ऑक्टोबर तर रब्बी हंगामासाठी ३९ मार्च निश्‍चित करण्यात आली आहे. आता गाव, शहरांत",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      512.0,
+      322.0,
+      1099.0,
+      741.0
+    ],
+    "created_at": "2026-09-22T19:08:52.318518"
+  },
+  {
+    "id": "alert_4a8436bba3f3",
+    "article_id": "4a8436bba3f3",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Weather",
+    "topic": "This year, 15% less rainfall than average",
+    "summary": "Aniruddha Sharma, New Delhi: This year, during the monsoon, rainfall was 15% less than average. This is the lowest rainfall in 17 years. Previously, in 200_, rainfall was 18.3% less. The cause of this year's rainfall deficit is El Niño. According to 125 years of data (since 1997), the 2026 monsoon has turned out to be the seventh driest monsoon. From June 1 to September 21, the average rainfall in",
+    "translated_text": "This year, 15% less rainfall than average",
+    "ocr_raw_text": "लि यंदा सरासरीपेक्षा १५% कमी पाऊस\nअनिरुद्ध शर्मा | नवी दिल्ली\nया वर्षी मान्सूनमध्ये सरासरीपेक्षा १५% कमी पाऊस झाला आहे. हा १७ वर्षांतील सर्वात कमी पाऊस आहे. यापूर्वी, २०० मध्ये १८.३% कमी पाऊस झाला होता. या वर्षी पावसातील कमतरतेचे कारण एल निनो आहे. सव्वाशे वर्षांच्या (१९९७ पासून) आकडेवारीनुसार २०२६ चा मान्सून सातवा सर्वात कोरडा मान्सून ठरला आहे. देशात १ जून ते २१ सप्टेंबरपर्यंत ८२७.२ मिमी पाऊस सरासरी",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      1136.0,
+      319.0,
+      1610.0,
+      707.0
+    ],
+    "created_at": "2026-09-22T19:08:52.318385"
+  },
+  {
+    "id": "alert_46b6b163b14f",
+    "article_id": "46b6b163b14f",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Local",
+    "topic": "Total pages: 1054-54-18. $6.85 for the City",
+    "summary": "Total pages: 1054-54-18. $6.85 for the City",
+    "translated_text": "Total pages: 1054-54-18. $6.85 for the City",
+    "ocr_raw_text": "एकूण पाने : १०५४-५४-१८ । किंमत ₹ ५.०० वर्ष ६ । अंक ८१ | महानगर\nएकूण पाने : १०५४-५४-१८ । किंमत ₹ ५.०० वर्ष ६ । अंक ८१ | महानगर",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      655.0,
+      212.0,
+      990.0,
+      241.0
+    ],
+    "created_at": "2026-09-22T19:08:52.318265"
+  },
+  {
+    "id": "alert_637cf7646076",
+    "article_id": "637cf7646076",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "Livi Truth Marathi Uncategorized",
+    "summary": "Livi Truth Marathi Uncategorized",
+    "translated_text": "Livi Truth Marathi Uncategorized",
+    "ocr_raw_text": "लिव्यि सत्य [| मराठी बिनधास्त\nलिव्यि सत्य [| मराठी बिनधास्त",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.95,
+    "needs_review": false,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e4512795f39e/1",
+    "bounding_box": [
+      431.0,
+      33.0,
+      1214.0,
+      209.0
+    ],
+    "created_at": "2026-09-22T19:08:52.318146"
+  },
+  {
+    "id": "alert_dd53336a2f78",
+    "article_id": "dd53336a2f78",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "fc G 3c",
+    "summary": "Dhela ehn hlnh blha hellataae\nufafaaf / afare",
+    "translated_text": "fc G 3c",
+    "ocr_raw_text": "fc G 3c\nDhela ehn hlnh blha hellataae\nufafaaf / afare",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 2,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/2",
+    "bounding_box": [
+      1143.0,
+      1292.0,
+      2234.0,
+      2342.0
+    ],
+    "created_at": "2026-09-22T19:08:52.317993"
+  },
+  {
+    "id": "alert_ef094af00c25",
+    "article_id": "ef094af00c25",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Politics",
+    "topic": "2 66",
+    "summary": "fertility center\nSex selection and prenatal sex determination arelegal and notdone here.",
+    "translated_text": "2 66",
+    "ocr_raw_text": "2 66\nfertility center\nSex selection and prenatal sex determination arelegal and notdone here.",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 2,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/2",
+    "bounding_box": [
+      375.0,
+      363.0,
+      1093.0,
+      3494.0
+    ],
+    "created_at": "2026-09-22T19:08:52.317819"
+  },
+  {
+    "id": "alert_de3ea13dd6bf",
+    "article_id": "de3ea13dd6bf",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": ", T- a a; 3 R",
+    "summary": "Pplbhle Khj  Ta lbhle\nPhallar h blhelh",
+    "translated_text": ", T- a a; 3 R",
+    "ocr_raw_text": ", T- a a; 3 R\nPplbhle Khj  Ta lbhle\nPhallar h blhelh",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 2,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/2",
+    "bounding_box": [
+      1701.0,
+      359.0,
+      2232.0,
+      1043.0
+    ],
+    "created_at": "2026-09-22T19:08:52.317695"
+  },
+  {
+    "id": "alert_2126b23e297f",
+    "article_id": "2126b23e297f",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "s ; fce c ee% a   a 3e",
+    "summary": "s ; fce c ee% a   a 3e",
+    "translated_text": "s ; fce c ee% a   a 3e",
+    "ocr_raw_text": "s ; fce c ee% a   a 3e\ns ; fce c ee% a   a 3e",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/1",
+    "bounding_box": [
+      52.0,
+      3053.0,
+      1360.0,
+      3131.0
+    ],
+    "created_at": "2026-09-22T19:08:52.317563"
+  },
+  {
+    "id": "alert_3042f87f12d2",
+    "article_id": "3042f87f12d2",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "R;  3,",
+    "summary": "The New York Times\ngogdt affea feooy a. ifae",
+    "translated_text": "R;  3,",
+    "ocr_raw_text": "R;  3,\nThe New York Times\ngogdt affea feooy a. ifae",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/1",
+    "bounding_box": [
+      46.0,
+      2973.0,
+      1396.0,
+      3535.0
+    ],
+    "created_at": "2026-09-22T19:08:52.317462"
+  },
+  {
+    "id": "alert_76588a6dd663",
+    "article_id": "76588a6dd663",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "0 8    3",
+    "summary": "at, fafist, sak gsfaeat a",
+    "translated_text": "0 8    3",
+    "ocr_raw_text": "0 8    3\nat, fafist, sak gsfaeat a",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/1",
+    "bounding_box": [
+      325.0,
+      2434.0,
+      1392.0,
+      2884.0
+    ],
+    "created_at": "2026-09-22T19:08:52.317329"
+  },
+  {
+    "id": "alert_c13fe2091d9c",
+    "article_id": "c13fe2091d9c",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "2 feaRia 8 a; Uur E G",
+    "summary": "2 feaRia 8 a; Uur E G",
+    "translated_text": "2 feaRia 8 a; Uur E G",
+    "ocr_raw_text": "2 feaRia 8 a; Uur E G\n2 feaRia 8 a; Uur E G",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/1",
+    "bounding_box": [
+      44.0,
+      1738.0,
+      1146.0,
+      1881.0
+    ],
+    "created_at": "2026-09-22T19:08:52.317186"
+  },
+  {
+    "id": "alert_a5908ada21e9",
+    "article_id": "a5908ada21e9",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "qfa fa RsT H",
+    "summary": "qfa fa RsT H",
+    "translated_text": "qfa fa RsT H",
+    "ocr_raw_text": "qfa fa RsT H\nqfa fa RsT H",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/1",
+    "bounding_box": [
+      1571.0,
+      585.0,
+      2236.0,
+      668.0
+    ],
+    "created_at": "2026-09-22T19:08:52.316999"
+  },
+  {
+    "id": "alert_7a2f4823b316",
+    "article_id": "7a2f4823b316",
+    "source_name": "Divya Marathi नाशिक 20260922",
+    "severity": "normal",
+    "category": "Other",
+    "topic": "06 Fpeh I2, ,",
+    "summary": "06 Fpeh I2, ,",
+    "translated_text": "06 Fpeh I2, ,",
+    "ocr_raw_text": "06 Fpeh I2, ,\n06 Fpeh I2, ,",
+    "ocr_confidence": 0.65,
+    "translation_confidence": 1.0,
+    "needs_review": true,
+    "preserved_entities": [
+      "PayU"
+    ],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/02aaf6e14b0e/1",
+    "bounding_box": [
+      1582.0,
+      495.0,
+      2230.0,
+      581.0
+    ],
+    "created_at": "2026-09-22T19:08:52.316699"
+  },
+  {
+    "id": "alert_46644bf5f0",
+    "article_id": "7ba85eb21bb9",
+    "source_name": "The Hindu (Page 3) (Page 3)",
+    "severity": "high",
+    "category": "crises_disasters",
+    "topic": "Crisis & Public Safety",
+    "summary": "BcetcoutiksasfanuntatEwtahaazdstiugbeatalirakeT3ecoocnsrnu\nfoeroteycesnabdin.sanraioresespoecodSsSomncreMnar\n3 civilians killed in\nPak.attacks: Taliban\nStarbucks toestablishGlobal\nCapabilityCentreinChennai\nGovt. hospitals short on critical\nmedicinesforpre-termbabies",
+    "translated_text": "come into effect on Oct.20",
+    "ocr_raw_text": "come into effect on Oct.20\nBcetcoutiksasfanuntatEwtahaazdstiugbeatalirakeT3ecoocnsrnu\nfoeroteycesnabdin.sanraioresespoecodSsSomncreMnar\n3 civilians killed in\nPak.attacks: Taliban\nStarbucks toestablishGlobal\nCapabilityCentreinChennai\nGovt. hospitals short on critical\nmedicinesforpre-termbabies",
+    "ocr_confidence": 0.99,
+    "translation_confidence": 1.0,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/a8b0cb5b4715/3",
+    "bounding_box": null,
+    "created_at": "2026-09-22T10:36:21.196623"
+  },
+  {
+    "id": "alert_1d7ada9242",
+    "article_id": "164c572242f4",
+    "source_name": "Amarujala 2026 09 21 (Page 1)",
+    "severity": "medium",
+    "category": "Law & Courts",
+    "topic": "Tata Group Business Update",
+    "summary": "There are directors currently appointed, in such a situation. Tata Sons board had removed Cyrus Mistry from the position of chairman. Mistry had challenged it in the Supreme Court, saying their majority is two, not one. Back then, the board had supported the rights of the trusts, and Noel Tata, one of the two directors, had proposed it, and the Supreme Court had also approved it. Now the board is ",
+    "translated_text": "The proposal to be passed under the Articles of Association (i.e., the decision to give a two-term tenure AOA) is against that procedure.",
+    "ocr_raw_text": "(आर्टिकल्स ऑफ एसोसिएशन यानी. दोबाग कार्यकाल देने का निर्णय एओए) के तहत प्रस्ताव को पारित होने. उस प्रक्रिया के खिलाफ है।\nहो निदेशक अभी नामित हैं, ऐसे में. टाटा संस बोर्ड ने साइरस मिस्त्री को चेयरमैन पद से हटाया था। मिस्त्री ने इसे उनका बहुमत दो ही होता है, एक नहीं। शीर्ष अदालत में चुनौती दी थी। तब बोर्ड ने ट्रस्ट्स के अधिकारों का समर्थन दो निदेशकों में से नोएल टाटा ने प्रस्ताव किया और सुप्रीम कोर्ट ने भी इस पर मुहर लगाई थी। अब बोर्ड मुकर रहा है। का बिरोध किया, इसलिए एओए के तहत यह प्रस्ताव विफल हो गया और 7 सितंबर का प्रस्ताव शुरुआत से ही शून्य (अमान्य) माना जाएगा। ब्यूरो\nविदेशी निवेशकों ने बाजार से निकाले 20,974 करोड़ : नई दिल्‍ली। विदेशी पोर्टफोलियो निवेशकों (एफपीआई ) ने सितंबर में एक बार फिर भारतीय शेयर बाजार से दूरी बनानी शुरू कर दी है। इस महीने 8 सितंबर तक एफपीआई ने भारतीय शेयर बाजारों से 20,974 करोड़ रुपये निकाल लिए हैं। इसके साथ ही वर्ष 2026 में अब तक उनकी कुल निकासी 2.45 लाख करोड़ रुपये पर पहुंच गई है, जो पूरे 2025 में दर्ज .66 लाख करोड़ से काफी अधिक है। बिकवाली ऐसे समय हुई, जब विदेशी निवेशकों ने जुलाई में 20,200 करोड़ रुपये और अगस्त में 29,630 करोड़ रुपये का शुद्ध निवेश किया था। एजेंसी\nकानूनी लड़ाई की तैयारी : टाटा ट्रस्ट्स ने अब तक टाटा संस बोर्ड के फैसले के खिलाफ कोई मुकदमा दायर नहीं किया है, लेकिन ट्रस्ट्स ने अभिषेक सिंघवी जबकि टाटा संस ने हरीश साल्वे जैसे दिग्गज वकीलों को काम पर रख लिया है। इससे लग रहा है कि मामला जल्द कोर्ट में पहुँच सकता है।",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.98,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e6aef9a26c5d/1",
+    "bounding_box": [
+      9.0,
+      2074.0,
+      674.0,
+      2468.0
+    ],
+    "created_at": "2026-09-22T10:33:39.198124"
+  },
+  {
+    "id": "alert_d1cd4368ba",
+    "article_id": "031c869ba56e",
+    "source_name": "Amarujala 2026 09 21 (Page 1)",
+    "severity": "high",
+    "category": "Politics",
+    "topic": "Capital Market Enforcement",
+    "summary": "पूर्व उपप्रधानमंत्री 95 वर्षीय लालकृष्ण आडवाणी, | & सुप्रीम कोर्ट की पूर्व न्यायाधीश रंजना देसाई, पति बेटी प्रतिभा व बहू गीतिका का नाम पिछली एसआईआर ; प्रकाश व अधिवक्ता माइक देसाई और बहू से मैप नहीं हो सका, इसलिए नोटिस भेजा गया है। 4 साक्षी देसाई को मैपिंग न होने से नोटिस मिला है। दही, उनके बेटे जयंत का नाम मैपिंग में सही पाया चुनाव आयुक्त संधू का नाम मैप नहीं था। पर दस्तावेज गया। चारों नई दिल्‍ली ",
+    "translated_text": "Former Deputy Prime Minister 95-year-old L. K. Advani, & former Supreme Court judge Ranjana Desai, husband, daughter Pratibha, and daughter-in-law Geetika's names could not be mapped in the previous SIR; therefore, a notice has been sent. 4 witnesses received notices due to Desai not being mapped. Dahi, their son Jayant's name was found correct in the mapping, but Election Commissioner Sandhu's name was not mapped. However, the document was sent. All four are voters of the New Delhi Assembly constituency. After verification, their entry was validated. Deputy Chief Minister Sisodia, Pali Seema and his son & External Affairs Minister S. Jaishankar, Pali Kyoko Jaishankar's complex record did not map with the previous SIR list. In the matter, discrepancies were found in the parents' names and in his own name in the wife's case on 2/23/20. I, Kamlesh Sood, the record of former session of Param Jal Thap and Pali Sunita Dwivedi was also not mapped. Congress's claim: 32% risk of names being deleted & Foreign Secretary Vikram Miss, SEBI Chairman Tuhin Congress General Secretary Jairam Ramesh told SIR, criticizing Constitutional expert Kanta Pandey, Prime Minister's chief scientific advisor, that in the third phase, the number of voters whose names are at risk of being deleted, including Ajay Kumar Sood and Health Secretary Punya Salila, is about 32%. Trivastava has also received a notice due to lack of mapping. The Congress claims that in Delhi, # Comptroller and Auditor General K. Sanjay Murti",
+    "ocr_raw_text": "पूर्व उपप्रधानमंत्री 95 वर्षीय लालकृष्ण आडवाणी, | & सुप्रीम कोर्ट की पूर्व न्यायाधीश रंजना देसाई, पति बेटी प्रतिभा व बहू गीतिका का नाम पिछली एसआईआर ; प्रकाश व अधिवक्ता माइक देसाई और बहू से मैप नहीं हो सका, इसलिए नोटिस भेजा गया है। 4 साक्षी देसाई को मैपिंग न होने से नोटिस मिला है। दही, उनके बेटे जयंत का नाम मैपिंग में सही पाया चुनाव आयुक्त संधू का नाम मैप नहीं था। पर दस्तावेज गया। चारों नई दिल्‍ली विधानसभा क्षेत्र के मतदाता हैं। | जांच के बाद उनकी प्रविष्टि को सत्यापित कर दिया गया। उपमुख्यमंत्री सिसोदिया, पली सीमा और बेटे | & विदेश मंत्री एस. जयशंकर, पली क्योको जयशंकर का जटिल जाय मम रिकॉर्ड पिछले एसआईआर की सूची से मैप नहीं हुआ। मामले में माता-पिता के नाम में और पत्नी के मामले ना ब्चक मर : 2 23 20 में खुद के नाम में विसंगति मिली है। । मं कमलेश सूद पूर्व सत्र परम जल ठप और पली सुनीता द्विवेदी का रिकॉर्ड भी मैप नहीं हुआ। कांग्रेस का दावा : 32% नाम कटने का खतरा | & विदेश सचिव विक्रम मिस, सेबी के चेवरमैन तुहिन कांग्रेस महासचिव जयराम रमेश ने एसआईआर को संवधान | कांत पांडे, प्रधानमंत्री के प्रधान वैज्ञानिक सलाहकार पर हमला बताते हुए दावा किया कि तीसरे चरण में जिन वोटरों | अजय कुमार सूद और स्वास्थ्य सचिव पुण्य सलिला का नाम हटने का खतरा है, उनकी संख्या करीब 32% है। | त्रीवास्तव को भी मैपिंग न होने से नोटिस मिला है। कांग्रेस का दाबा है कि दिल्ली में # नियंत्रक एवं महालेखा परीक्षक के. संजय मूर्ति को\nपूर्व उपप्रधानमंत्री 95 वर्षीय लालकृष्ण आडवाणी, | & सुप्रीम कोर्ट की पूर्व न्यायाधीश रंजना देसाई, पति बेटी प्रतिभा व बहू गीतिका का नाम पिछली एसआईआर ; प्रकाश व अधिवक्ता माइक देसाई और बहू से मैप नहीं हो सका, इसलिए नोटिस भेजा गया है। 4 साक्षी देसाई को मैपिंग न होने से नोटिस मिला है। दही, उनके बेटे जयंत का नाम मैपिंग में सही पाया चुनाव आयुक्त संधू का नाम मैप नहीं था। पर दस्तावेज गया। चारों नई दिल्‍ली विधानसभा क्षेत्र के मतदाता हैं। | जांच के बाद उनकी प्रविष्टि को सत्यापित कर दिया गया। उपमुख्यमंत्री सिसोदिया, पली सीमा और बेटे | & विदेश मंत्री एस. जयशंकर, पली क्योको जयशंकर का जटिल जाय मम रिकॉर्ड पिछले एसआईआर की सूची से मैप नहीं हुआ। मामले में माता-पिता के नाम में और पत्नी के मामले ना ब्चक मर : 2 23 20 में खुद के नाम में विसंगति मिली है। । मं कमलेश सूद पूर्व सत्र परम जल ठप और पली सुनीता द्विवेदी का रिकॉर्ड भी मैप नहीं हुआ। कांग्रेस का दावा : 32% नाम कटने का खतरा | & विदेश सचिव विक्रम मिस, सेबी के चेवरमैन तुहिन कांग्रेस महासचिव जयराम रमेश ने एसआईआर को संवधान | कांत पांडे, प्रधानमंत्री के प्रधान वैज्ञानिक सलाहकार पर हमला बताते हुए दावा किया कि तीसरे चरण में जिन वोटरों | अजय कुमार सूद और स्वास्थ्य सचिव पुण्य सलिला का नाम हटने का खतरा है, उनकी संख्या करीब 32% है। | त्रीवास्तव को भी मैपिंग न होने से नोटिस मिला है। कांग्रेस का दाबा है कि दिल्ली में # नियंत्रक एवं महालेखा परीक्षक के. संजय मूर्ति को",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.98,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e6aef9a26c5d/1",
+    "bounding_box": [
+      1227.0,
+      2063.0,
+      1819.0,
+      2386.0
+    ],
+    "created_at": "2026-09-22T10:33:39.197849"
+  },
+  {
+    "id": "alert_c3f0ca3cbf",
+    "article_id": "4be04d7227be",
+    "source_name": "Amarujala 2026 09 21 (Page 1)",
+    "severity": "medium",
+    "category": "State",
+    "topic": "Tata Group Business Update",
+    "summary": "Support of the majority of directors is necessary. Tata Sons said in a statement that rules should not be changed arbitrarily. Since the trusts have two members on the board, the board should not change the rules at its will. Breaking the 100-year-old structure taken in October 206.",
+    "translated_text": "of Kabi 7",
+    "ocr_raw_text": "की काभी ७\nनिदेशकों के बहुमत का समर्थन जरूरी. मनमर्जी से नियम न बदले टाटा संस : बयान में कहा गया है, टाटा संस है। चूंकि ट्रस्ट्स की ओर से बोर्ड में दो. बोर्ड को अपनी मर्जी से नियम नहीं बदलना चाहिए। अक्तूबर, 206 में\nलिए 00 साल पुरानी संरचना को तोड़ना",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.98,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e6aef9a26c5d/1",
+    "bounding_box": [
+      9.0,
+      1694.0,
+      675.0,
+      2192.0
+    ],
+    "created_at": "2026-09-22T10:33:39.197268"
+  },
+  {
+    "id": "alert_e54dfd7f86",
+    "article_id": "83011457a1fa",
+    "source_name": "Amarujala 2026 09 21 (Page 1)",
+    "severity": "medium",
+    "category": "Business",
+    "topic": "Tata Group Business Update",
+    "summary": "New Delhi. The controversy surrounding the country's largest business group, Tata, has deepened. Tata Trusts, the largest shareholder of the company (66%), said again that the decision to reappoint N Chandrasekaran as chairman for five years and regarding the company's listing at the Tata Sons board meeting on September 7 was not passed according to the rules and it is also against the Supreme Cou",
+    "translated_text": "Said - Proposal of 7th September is zero",
+    "ocr_raw_text": "ने कहा-7 सितंबर का प्रस्ताव शून्य\nनई दिल्ली। देश के सबसे बड़े कारोबारी समूह टाटा का विवाद और गहरा हो गया है। कंपनी के सबसे बड़े शेयरधारक (66%) टाटा ट्र॒स्ट्स ने फिर कहा कि 7 सितंबर को टाटा संस बोर्ड की बैठक में एन चंद्रशेखरन को पांच साल के लिए फिर से चेयरमैन नियुक्त करने और कंपनी की लिस्टिंग का फैसला नियमों के हिसाब से पारित नहीं हुआ और यह सुप्रीम कोर्ट के फैसले के भी खिलाफ है। इसके लिए ट्रस्ट्स ने साइरस मिस्त्री मामले का हवाला दिया।\nउत्तराधिकार प्रक्रिया पर सवाल : टाटा ट्रस्ट्स का कहना है कि चंद्रशेखरन ने 2 अगस्त को दूसरा कार्यकाल नहीं लेने का फैसला किया था और इस निर्णय को ट्रस्ट्स ने स्वीकार भी कर लिया था। इसके बाद एओए के अनुरूप उत्तराधिकारी\nबयान में टाटा ट्रस्ट्स ने शेयर बाजार में सूचीबद्ध होने (लिस्टिंग) की दिशा में आगे बढ़ने को बोर्ड की ओर से दी गई मंजूरी का भी विरोध किया। ट्रस्ट्स ने कहा, इस बारे में अन्य विकल्प तलाशे जाने चाहिए। ट्रस्ट्स ने कहा, कंपनी में स्वतंत्र निदेशकों की नियुक्ति, ऑडिट समिति, नामांकन एवं पारिश्रमिक समिति, संबंधित पक्षों के लेनदेन, निदेशकों की सेवानिवृत्ति तथा इनसाइडर ट्रेडिंग रोकने जैसी व्यवस्थाएं किसी लिमिटेड\nकंपनी की तरह पहले से मौजूद हैं। एक काल्पनिक कमी को दूर करने के",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.98,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e6aef9a26c5d/1",
+    "bounding_box": [
+      9.0,
+      1606.0,
+      675.0,
+      2087.0
+    ],
+    "created_at": "2026-09-22T10:33:39.196743"
+  },
+  {
+    "id": "alert_762e895f54",
+    "article_id": "389d6669549e",
+    "source_name": "Amarujala 2026 09 21 (Page 1)",
+    "severity": "medium",
+    "category": "Other",
+    "topic": "Tata Group Business Update",
+    "summary": "Tata's controversy deepened, trusts",
+    "translated_text": "Tata's controversy deepened, trusts",
+    "ocr_raw_text": "टाटा का विवाद ओर गहराया, ट्रस्ट्स\nटाटा का विवाद ओर गहराया, ट्रस्ट्स",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.98,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e6aef9a26c5d/1",
+    "bounding_box": [
+      6.0,
+      1538.0,
+      677.0,
+      1610.0
+    ],
+    "created_at": "2026-09-22T10:33:39.195796"
+  },
+  {
+    "id": "alert_e6a857a79c",
+    "article_id": "35d45a6767b8",
+    "source_name": "Amarujala 2026 09 21 (Page 1)",
+    "severity": "high",
+    "category": "Finance",
+    "topic": "Major Transport Accident",
+    "summary": "Katra. A fire broke out at the helipad terminal of Mata Vaishno Devi's base camp early Sunday at 3:05 AM. As a result, the entire stock of the ticket booking counter, donation counter, and a coffee shop was burned to ashes. A major accident was averted as the terminal was closed at the time of the incident. Due to the incident, helicopter services started one and a half hours late. Report",
+    "translated_text": "Vaishno Devi: Fire at the helipad terminal",
+    "ocr_raw_text": "वैष्णोदेवी : हेलीपैड टर्मिनल में लगी आग\nकटड़ा। माता वैष्णोदेवी के बेस कैंप के हेलीपैड टर्मिनल में रविवार तड़के 3:5 बजे आग लग गई। इससे टिकट बुकिंग काउंटर, डोनेशन काउंटर ब एक कॉफी शॉप का पूरा सामान जल कर राख हो गया। घटना के समय टर्मिनल बंद होने से बड़ा हादसा टल गया। हादसे के चलते हेलिकॉप्टर सेवा डेढ़ घंटे देरी से शुरू हुईं। संवाद",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.98,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/e6aef9a26c5d/1",
+    "bounding_box": [
+      30.0,
+      820.0,
+      201.0,
+      1219.0
+    ],
+    "created_at": "2026-09-22T10:33:39.194441"
+  },
+  {
+    "id": "alert_d1967c943f",
+    "article_id": "088214fbe202",
+    "source_name": "Dinamani Dinamani Chennai 20260921 (Page 2)",
+    "severity": "critical",
+    "category": "State",
+    "topic": "Emergency Disaster Alert",
+    "summary": "Even though they are rivers that flow between states, or rivers that flow between two countries, international courts and the Supreme Court of India have affirmed that the command area for irrigation has greater rights over it.\n\nThe Cauvery Water Disputes Tribunal and the Supreme Court have clearly stated in their rulings that any construction across the Cauvery for irrigation purposes must obtain",
+    "translated_text": "Even if rivers run between different states, or even if they flow between two countries, international courts and the Supreme Court of India have affirmed that the command area for irrigation has the greater right over it. The Cauvery Water Disputes Tribunal and the Supreme Court have clearly stated in their rulings that any construction across the Cauvery for irrigation purposes must obtain the approval of the states of Tamil Nadu and Puducherry. The impacts of the Mekedatu dam on the environment, the threats to food security, and the drinking water shortage are included. We must raise these aspects and file numerous cases successively in the Supreme Court. The Karnataka government has prepared a detailed revised project report for constructing the Mekedatu dam and submitted it to the Central Government. Accordingly, if the dam is built and completed, 12,500 acres of forest land will be converted into a reservoir area, and 12,500 acres of land belonging to the Cauvery Wildlife Sanctuary will be submerged in water. Elephants, tigers, and birds will lose their habitats; as a result, rare species of animals, including wildlife, will be destroyed; many hill-dwelling villages will be submerged; this will become a major environmental disaster. Furthermore, in the reservoir areas, 890,000 trees will be cut down and felled. Although the capacity of the Mekedatu dam is said to be 67 TMC, since the reservoir area is larger, it can be filled up to more than 70 TMC. Not even a drop of water will come to Tamil Nadu. As a result, the Cauvery irrigation districts will soon become deserts. In 25 districts, 50 million people will face a lack of drinking water. Which part is in the Rasimalai region of Krishnagiri district? It is located 10 km from Biligundlu, where the Cauvery water for Tamil Nadu is measured. This place is a feasible area for building a dam to store surplus water coming to the Mettur Dam and to generate electricity. That is why Kamaraj laid the foundation for the Rasimanal Dam in 1961. Efforts for it continued even during M.G.R.'s tenure. The Rasimanal region belongs to Tamil Nadu on the left bank of the Kaveri and to Karnataka on the right bank. Since there are hills on both sides of that area, it is possible to store about 66 TMC of water. If a dam is built in the Rasimanal area, water storage areas can be created in two sections from there: upwards up to 42 km to Mekkedattu, and northwards for 25 km up to Anchetti. Compared to the Mekkedattu dam, this would have a lower cost. If a small hydroelectric power station is set up here, electricity can be generated. Drinking water can be transported from Rasimanal to Bengaluru. It is only in the Philigundulu area that water for Tamil Nadu is accounted for. The Cauvery water will be calculated here. Therefore, Karnataka will not be affected in any way. If Karnataka provides excess water, we can store it in Rasimanal.",
+    "ocr_raw_text": "ர மாநிலங்களுக்குஇடையே ஓடும்நதிகளாக இருந்தாலும்‌, இரு நாடுகளுக்கு இடையே ஓடும்‌ நதிகளாக இருந்தாலும்‌ அதன்‌ மீது கடைமடை பாசனப்‌ பகுதிக்குத்தான்‌ அதிக உரிமை உள்ளது என்பதை பன்னாட்டு நீதிமன்றங்களும்‌, இந்திய உச்ச நீதிமன்றமும்‌ உறுதி செய்திருக்‌ கின்றன. காவிரியின்‌ குறுக்கே புதி ட தாக எந்தக்‌ கட்டுமானங்களைக்‌ கட்டுவதாக இருந்தாலும்‌ தமிழ கம்‌, புதுச்சேரி ஆகிய கடைமடை பாசன மாநிலங்‌ களின்‌ ஒப்புதலைப்‌ பெற வேண்டும்‌ என்று காவிரி நடுவர்‌ மன்றமும்‌, உச்சநீதிமன்றமும்‌ அவற்றின்‌ தீர்ப்புகளில்‌ தெளிவாகக்‌ கூறியுள்ளன. மேக்கேதாட்டு அணையால்‌ சுற்றுச்சூழலுக்கு ஏற்படும்‌ பாதிப்புகள்‌, உணவுப்‌ பாதுகாப்புக்கு, ஏற்படும்‌ அச்சுறுத்தல்‌, குடிநீர்த்‌ தட்டுப்பாடு உள்‌. ளிட்ட அம்சங்களை முன்வைத்து அடுக்கடுக்காக ஏராளமான வழக்குகளை உச்சநீதிமன்றத்தில்‌ நாம்‌ தொடர வேண்டும்‌. மேக்கேதாட்டு அணை கட்டுவதற்கான திருத்‌ தப்பட்ட விரிவான திட்ட அறிக்கையை கர்நாடக அரசு தயாரித்து மத்திய அரசிடம்‌ தாக்கல்‌ செய்‌ துள்ளது. அதன்படி அணை கட்டி முடிக்கப்பட்‌ டால்‌ 12,500 ஏக்கர்‌ வனப்‌ பகுதி நீர்த்தேக்கப்‌ பகு தியாக மாற்றப்பட்டு, 12,500 ஏக்கர்‌ பரப்பளவி லான காவிரி வனவிலங்கு சரணாலய நிலப்பகுதி நீரில்‌ மூழ்கும்‌. யானைகள்‌, புலிகள்‌, பறவைகள்‌ வாழிடம்‌ அழியும்‌; அதனால்‌ வனவிலங்குகள்‌ உள்ளிட்ட அரிய வகை விலங்குகள்‌ அழியும்‌; பல மலைவாழ்‌ கிராமங்கள்‌ மூழ்கும்‌; இது ஒரு மாபெ ரும்‌ சூழலியல்‌ பேரழிவாக அமையும்‌. மேலும்‌, நீர்த்தேக்கப்‌ பகுதிகளில்‌ உள்ள 8 லட்சத்து 90 ஆயி. ரம்‌ மரங்கள்‌ வெட்டி வீழ்த்தப்படும்‌. மேக்கேதாட்டு அணையின்‌ கொள்ளளவு 67 டிஎம்சி எனக்‌ கூறப்பட்டாலும்‌ நீர்த்தேக்கப்‌ பகுதி அதிகமாக இருப்பதால்‌ 70 டிஎம்சி-க்கும்‌ கூடுத லாக தேக்கி வைக்க முடியும்‌. தமிழ்நாட்டுக்கு ஒரு சொட்டு நீர்கூட வராது. அதனால்‌ காவிரிப்‌ பாசன மாவட்டங்கள்‌ விரைவில்‌ பாலைவனமாகிவிடும்‌. 25 மாவட்டங்களில்‌ உள்ள 5 கோடி மக்களுக்கு குடிநீர்‌ கிடைக்காமல்‌ போகும்‌. ராசிமணல்பகுதிகிருஷ்ணகிரிமாவட்டத்தில்‌உள்‌ எது. தமிழ்நாட்டுக்கான காவிரி நீர்‌ அளவிடப்படும்‌ பிலிகுண்டுலுவில்‌ இருந்து 10 கி.மீ. தொலைவில்‌. உள்ளது. மேட்டூர்‌ அணைக்கு வரும்‌ உபரி நீரைத்‌ தேக்கிவைக்கவும்‌, மின்சாரம்‌ தயாரிக்கவும்‌ இந்த 'இடம்‌ அணை கட்டச்‌ சாத்தியமான பகுதியாகும்‌. அதனால்தான்‌ ராசிமணல்‌ அணை கட்ட 1961-இல்‌ காமராஜர்‌ அடிக்கல்‌ நாட்டினார்‌. எம்ஜிஆர்‌ ஆட்சிக்‌ காலத்திலும்‌ அதற்கான முயற்சிகள்‌ தொடர்ந்தன. ராசிமணல்‌ பகுதியில்‌ காவிரியின்‌ இடதுகரை தமிழகத்துக்கும்‌, வலதுகரை கர்நாடகத்துக்கும்‌ சொந்தமானது. அந்த இடத்தில்‌ இருபுறமும்‌ மலை கள்‌ இருப்பதால்‌, ஏறக்குறைய 66 டிஎம்சி தண்‌ ணீரைச்‌ சேமிக்க முடியும்‌. ராசிமணல்‌ பகுதியில்‌ அணைகட்டப்பட்டால்‌ அங்கிருந்து மேல்‌ நோக்கி 42 கி.மீ. மேக்கேதாட்டு வரையிலும்‌, வடக்கே 25 கி.மீ. தூரம்‌ அஞ்செட்டி வரையிலும்‌ இரு பிரிவுக ளாகத்‌ தண்ணீர்‌ சேமிப்புப்‌ பகுதிகளாகத்‌ தேக்கி வைக்கமுடியும்‌. மேக்கேதாட்டு அணையுடன்‌ ஒப்பிடும்போது இதற்கு குறைந்த செலவே ஆகும்‌. இங்கு புனல்‌ மின்நிலையம்‌ அமைந்தால்‌ மின்சாரம்‌ உற்பத்தி செய்ய முடியும்‌. ராசிமணல்‌ அணையிலிருந்து பெங்களூருக்கு குடிநீர்‌ கொண்டு செல்லலாம்‌. பிலிகுண்டுலு பகுதியில்தான்‌ தமிழகத்துக்கான. காவிரி நீர்‌ கணக்கிடப்படும்‌. இதனால்‌ கர்நாடகத்‌ துக்கு எந்தவிதத்திலும்‌ பாதிப்பு ஏற்படாது. கர்நா. டகம்‌ மிகை நீரை அளித்தால்‌ அதை ராசிமணலில்‌ நாம்‌ சேமிக்க முடியும்‌.\nர மாநிலங்களுக்குஇடையே ஓடும்நதிகளாக இருந்தாலும்‌, இரு நாடுகளுக்கு இடையே ஓடும்‌ நதிகளாக இருந்தாலும்‌ அதன்‌ மீது கடைமடை பாசனப்‌ பகுதிக்குத்தான்‌ அதிக உரிமை உள்ளது என்பதை பன்னாட்டு நீதிமன்றங்களும்‌, இந்திய உச்ச நீதிமன்றமும்‌ உறுதி செய்திருக்‌ கின்றன. காவிரியின்‌ குறுக்கே புதி ட தாக எந்தக்‌ கட்டுமானங்களைக்‌ கட்டுவதாக இருந்தாலும்‌ தமிழ கம்‌, புதுச்சேரி ஆகிய கடைமடை பாசன மாநிலங்‌ களின்‌ ஒப்புதலைப்‌ பெற வேண்டும்‌ என்று காவிரி நடுவர்‌ மன்றமும்‌, உச்சநீதிமன்றமும்‌ அவற்றின்‌ தீர்ப்புகளில்‌ தெளிவாகக்‌ கூறியுள்ளன. மேக்கேதாட்டு அணையால்‌ சுற்றுச்சூழலுக்கு ஏற்படும்‌ பாதிப்புகள்‌, உணவுப்‌ பாதுகாப்புக்கு, ஏற்படும்‌ அச்சுறுத்தல்‌, குடிநீர்த்‌ தட்டுப்பாடு உள்‌. ளிட்ட அம்சங்களை முன்வைத்து அடுக்கடுக்காக ஏராளமான வழக்குகளை உச்சநீதிமன்றத்தில்‌ நாம்‌ தொடர வேண்டும்‌. மேக்கேதாட்டு அணை கட்டுவதற்கான திருத்‌ தப்பட்ட விரிவான திட்ட அறிக்கையை கர்நாடக அரசு தயாரித்து மத்திய அரசிடம்‌ தாக்கல்‌ செய்‌ துள்ளது. அதன்படி அணை கட்டி முடிக்கப்பட்‌ டால்‌ 12,500 ஏக்கர்‌ வனப்‌ பகுதி நீர்த்தேக்கப்‌ பகு தியாக மாற்றப்பட்டு, 12,500 ஏக்கர்‌ பரப்பளவி லான காவிரி வனவிலங்கு சரணாலய நிலப்பகுதி நீரில்‌ மூழ்கும்‌. யானைகள்‌, புலிகள்‌, பறவைகள்‌ வாழிடம்‌ அழியும்‌; அதனால்‌ வனவிலங்குகள்‌ உள்ளிட்ட அரிய வகை விலங்குகள்‌ அழியும்‌; பல மலைவாழ்‌ கிராமங்கள்‌ மூழ்கும்‌; இது ஒரு மாபெ ரும்‌ சூழலியல்‌ பேரழிவாக அமையும்‌. மேலும்‌, நீர்த்தேக்கப்‌ பகுதிகளில்‌ உள்ள 8 லட்சத்து 90 ஆயி. ரம்‌ மரங்கள்‌ வெட்டி வீழ்த்தப்படும்‌. மேக்கேதாட்டு அணையின்‌ கொள்ளளவு 67 டிஎம்சி எனக்‌ கூறப்பட்டாலும்‌ நீர்த்தேக்கப்‌ பகுதி அதிகமாக இருப்பதால்‌ 70 டிஎம்சி-க்கும்‌ கூடுத லாக தேக்கி வைக்க முடியும்‌. தமிழ்நாட்டுக்கு ஒரு சொட்டு நீர்கூட வராது. அதனால்‌ காவிரிப்‌ பாசன மாவட்டங்கள்‌ விரைவில்‌ பாலைவனமாகிவிடும்‌. 25 மாவட்டங்களில்‌ உள்ள 5 கோடி மக்களுக்கு குடிநீர்‌ கிடைக்காமல்‌ போகும்‌. ராசிமணல்பகுதிகிருஷ்ணகிரிமாவட்டத்தில்‌உள்‌ எது. தமிழ்நாட்டுக்கான காவிரி நீர்‌ அளவிடப்படும்‌ பிலிகுண்டுலுவில்‌ இருந்து 10 கி.மீ. தொலைவில்‌. உள்ளது. மேட்டூர்‌ அணைக்கு வரும்‌ உபரி நீரைத்‌ தேக்கிவைக்கவும்‌, மின்சாரம்‌ தயாரிக்கவும்‌ இந்த 'இடம்‌ அணை கட்டச்‌ சாத்தியமான பகுதியாகும்‌. அதனால்தான்‌ ராசிமணல்‌ அணை கட்ட 1961-இல்‌ காமராஜர்‌ அடிக்கல்‌ நாட்டினார்‌. எம்ஜிஆர்‌ ஆட்சிக்‌ காலத்திலும்‌ அதற்கான முயற்சிகள்‌ தொடர்ந்தன. ராசிமணல்‌ பகுதியில்‌ காவிரியின்‌ இடதுகரை தமிழகத்துக்கும்‌, வலதுகரை கர்நாடகத்துக்கும்‌ சொந்தமானது. அந்த இடத்தில்‌ இருபுறமும்‌ மலை கள்‌ இருப்பதால்‌, ஏறக்குறைய 66 டிஎம்சி தண்‌ ணீரைச்‌ சேமிக்க முடியும்‌. ராசிமணல்‌ பகுதியில்‌ அணைகட்டப்பட்டால்‌ அங்கிருந்து மேல்‌ நோக்கி 42 கி.மீ. மேக்கேதாட்டு வரையிலும்‌, வடக்கே 25 கி.மீ. தூரம்‌ அஞ்செட்டி வரையிலும்‌ இரு பிரிவுக ளாகத்‌ தண்ணீர்‌ சேமிப்புப்‌ பகுதிகளாகத்‌ தேக்கி வைக்கமுடியும்‌. மேக்கேதாட்டு அணையுடன்‌ ஒப்பிடும்போது இதற்கு குறைந்த செலவே ஆகும்‌. இங்கு புனல்‌ மின்நிலையம்‌ அமைந்தால்‌ மின்சாரம்‌ உற்பத்தி செய்ய முடியும்‌. ராசிமணல்‌ அணையிலிருந்து பெங்களூருக்கு குடிநீர்‌ கொண்டு செல்லலாம்‌. பிலிகுண்டுலு பகுதியில்தான்‌ தமிழகத்துக்கான. காவிரி நீர்‌ கணக்கிடப்படும்‌. இதனால்‌ கர்நாடகத்‌ துக்கு எந்தவிதத்திலும்‌ பாதிப்பு ஏற்படாது. கர்நா. டகம்‌ மிகை நீரை அளித்தால்‌ அதை ராசிமணலில்‌ நாம்‌ சேமிக்க முடியும்‌.",
+    "ocr_confidence": 0.95,
+    "translation_confidence": 0.98,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 2,
+    "page_snapshot_url": "/api/snapshots/2b12e754c892/2",
+    "bounding_box": [
+      73.0,
+      486.0,
+      428.0,
+      1991.0
+    ],
+    "created_at": "2026-09-22T10:31:58.174448"
+  },
+  {
+    "id": "alert_70926a8f25",
+    "article_id": "137d7d5421bf",
+    "source_name": "The Hindu (Page 3) (Page 3)",
+    "severity": "high",
+    "category": "crises_disasters",
+    "topic": "Crisis & Public Safety",
+    "summary": "BcetcoutiksasfanuntatEwtahaazdstiugbeatalirakeT3ecoocnsrnu\nfoeroteycesnabdin.sanraioresespoecodSsSomncreMnar\n3 civilians killed in\nPak.attacks: Taliban\nStarbucks toestablishGlobal\nCapabilityCentreinChennai\nGovt. hospitals short on critical\nmedicinesforpre-termbabies",
+    "translated_text": "come into effect on Oct.20",
+    "ocr_raw_text": "come into effect on Oct.20\nBcetcoutiksasfanuntatEwtahaazdstiugbeatalirakeT3ecoocnsrnu\nfoeroteycesnabdin.sanraioresespoecodSsSomncreMnar\n3 civilians killed in\nPak.attacks: Taliban\nStarbucks toestablishGlobal\nCapabilityCentreinChennai\nGovt. hospitals short on critical\nmedicinesforpre-termbabies",
+    "ocr_confidence": 0.99,
+    "translation_confidence": 1.0,
+    "needs_review": false,
+    "preserved_entities": [],
+    "page_number": 1,
+    "page_snapshot_url": "/api/snapshots/2a28bd12c4e7/3",
+    "bounding_box": null,
+    "created_at": "2026-09-22T10:16:22.410121"
+  },
+  {
     "id": "alert_f55c4d46ffe4",
     "article_id": "f55c4d46ffe4",
     "source_name": "Amarujala 2026 09 21",
