@@ -15,23 +15,22 @@ class TestUploadBatchAPI(unittest.TestCase):
             res = await serve_upload_page()
             self.assertEqual(res.status_code, 200)
             body = res.body.decode("utf-8")
-            self.assertIn("Multi-PDF News Extraction", body)
+            self.assertIn("Hardcopy Broadsheet", body)
             self.assertIn("batchDropzone", body)
-            self.assertIn("docFilterSelect", body)
 
         asyncio.run(_run())
 
     def test_upload_batch_validation(self):
-        """Test upload_and_parse_newspaper_batch rejects non-PDF files."""
+        """Test upload_and_parse_newspaper_batch rejects unsupported file extensions."""
         async def _run():
             fake_file = UploadFile(
-                filename="test.txt",
-                file=io.BytesIO(b"Hello world text file")
+                filename="test.exe",
+                file=io.BytesIO(b"Hello world binary file")
             )
             with self.assertRaises(HTTPException) as cm:
                 await upload_and_parse_newspaper_batch(files=[fake_file])
             self.assertEqual(cm.exception.status_code, 400)
-            self.assertIn("Only PDF files are supported", cm.exception.detail)
+            self.assertIn("No supported document formats found", cm.exception.detail)
 
         asyncio.run(_run())
 

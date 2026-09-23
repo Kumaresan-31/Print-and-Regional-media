@@ -882,6 +882,8 @@ class NewsFeedService:
         if not clean_kw:
             return []
 
+        loop = asyncio.get_running_loop()
+
         source = get_source(source_id) if source_id else None
         source_name = source.name if source else "All Indian News"
         source_lang_name = source.language.value.lower() if source else "auto"
@@ -939,7 +941,7 @@ class NewsFeedService:
                         id=art_id,
                         source_id=norm_src,
                         source_name=f"{hit.get('source_name', norm_src)} (Page {pg})",
-                        category=st.get("category", detected_cat),
+                        category=st.get("category") or self._detect_category(st.get("title", ""), st.get("snippet", "")),
                         title=st.get("title") or hit.get("snippet_en", "")[:80] or f"{hit.get('source_name')} - Page {pg}",
                         link=hit.get("snapshot_url") or hit.get("crop_url", ""),
                         snippet=st.get("snippet") or hit.get("snippet_en", "") or hit.get("ocr_text_en", "")[:250],
@@ -1038,7 +1040,7 @@ class NewsFeedService:
                 id=article_id,
                 source_id=source_id or "search",
                 source_name=effective_author,
-                category=detected_cat,
+                category=self._detect_category(item_title, item.get("snippet", "")),
                 title=item_title,
                 link=item["link"],
                 snippet=item["snippet"],

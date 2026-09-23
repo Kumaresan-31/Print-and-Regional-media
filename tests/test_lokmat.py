@@ -51,8 +51,9 @@ class TestLokmatIntegration(unittest.TestCase):
             self.assertGreaterEqual(len(cookies), 4, f"Missing cookies for {src}")
 
     def test_root_cookie_file_matches(self):
-        root_file = Path(r"d:\Projects\VEE2\lokmat_cookies.json")
-        self.assertTrue(root_file.exists())
+        root_file = Path(__file__).resolve().parent.parent / "lokmat_cookies.json"
+        if not root_file.exists():
+            self.skipTest("lokmat_cookies.json not present (untracked local session file)")
         with open(root_file, "r", encoding="utf-8") as f:
             cookies = json.load(f)
         self.assertEqual(len(cookies), 4)

@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 import sys
 
-backend_path = Path(r"d:\Projects\VEE2\backend")
+backend_path = Path(__file__).resolve().parent.parent / "backend"
 if str(backend_path) not in sys.path:
     sys.path.insert(0, str(backend_path))
 
@@ -10,7 +10,7 @@ from harvester.news.news_cropper import generate_news_crop, get_or_create_boxes
 
 class TestNewsCropper(unittest.TestCase):
     def test_news_crop_generation(self):
-        snapshot_dir = Path(r"d:\Projects\VEE2\data\snapshots")
+        snapshot_dir = Path(__file__).resolve().parent.parent / "data" / "snapshots"
         # Find any available page snapshot
         cand = None
         for p in snapshot_dir.rglob("page_001.jpg"):

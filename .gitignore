@@ -1,31 +1,125 @@
-# Byte-compiled / optimized / DLL files
+# ==============================================================================
+# Automated ePaper Harvester & Regional Media Platform (.gitignore)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Byte-Compiled / Python Runtime & Caches
+# ------------------------------------------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
 *.cpython-*.pyc
-*.egg-info/
-*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
 
-
-# Virtual environments
+# ------------------------------------------------------------------------------
+# 2. Virtual Environments & Packaging
+# ------------------------------------------------------------------------------
 .venv/
 venv/
 ENV/
 env/
+env.bak/
+venv.bak/
+*.egg-info/
+*.egg
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+parts/
+var/
+sdist/
+wheel/
 
-# Harvested newspaper archives, snapshots, and temporary runtime data
+# ------------------------------------------------------------------------------
+# 3. Security, Credentials & Session Persistence
+# ------------------------------------------------------------------------------
+# Active subscription cookie tokens & credentials (DO NOT COMMIT)
+*_cookies.json
+*cookies*.json
+cookies.json
+dt_next_cookies.json
+lokmat_cookies.json
+loksatta_cookies.json
+the_hindu_cookies.json
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+client_secrets.json
+token.json
+
+# ------------------------------------------------------------------------------
+# 4. Harvested Broadsheets, OCR Snapshots & Runtime Data
+# ------------------------------------------------------------------------------
+# Retain folder structure while ignoring all generated newspaper data & models
+data/*
+!data/.gitkeep
+backend/data/
+
+# Specific data subdirectories for safety
 data/archive/
 data/temp/
+data/temp_*/
 data/logs/
 data/snapshots/
 data/exports/
 data/inbox_attachments/
 data/inbox_ingested/
+data/uploads/
+data/hardcopy_uploads/
+data/sessions/
+data/pdf_index/
+data/tessdata/
+data/real_hindu_*
+data/*.json
+data/*.pdf
+data/*.png
+data/*.jpg
+data/*.webp
+data/*.traineddata
 
-# Scratch & test dumps
-scratch/test_lokmat_temp/
-scratch/*.html
+# Sample PDFs & crops created during runtime testing
+backend/harvester/news sample.pdf
+backend/test_art0_crop.jpg
+backend/*.jpg
+backend/*.png
 
-# Operating System files
+# ------------------------------------------------------------------------------
+# 5. Scratchpad, Internal Notes & Temporary Workspaces
+# ------------------------------------------------------------------------------
+scratch/
+project.txt
+temp/
+tmp/
+*.dump
+
+# ------------------------------------------------------------------------------
+# 6. Operating System & Editor Artifacts
+# ------------------------------------------------------------------------------
 .DS_Store
 Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# ------------------------------------------------------------------------------
+# 7. Application Logs & SQLite Databases
+# ------------------------------------------------------------------------------
+*.log
+logs/
+*.sqlite3
+*.db

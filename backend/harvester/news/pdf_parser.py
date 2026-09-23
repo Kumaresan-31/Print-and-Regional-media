@@ -623,12 +623,14 @@ NEWSPAPER_CATEGORIES: Dict[str, List[str]] = {
         "assembly", "cabinet", "mla", "mp", "chief minister", "prime minister", "governor", "vote",
         "party", "rajya sabha", "lok sabha", "democracy", "constituency", "manifesto", "ruling party",
         "opposition", "தேர்தல்", "அரசியல்", "பாஜக", "காங்கிரஸ்", "அமைச்சர்", "முதல்வர்", "திமுக", "அதிமுக",
-        "राजकारण", "निवडणूक", "भाजप", "काँग्रेस", "मंत्री", "मुख्यमंत्री", "शिवसेना", "राष्ट्रवादी", "राजनीति", "चुनाव"
+        "राजकारण", "निवडणूक", "भाजप", "काँग्रेस", "मंत्री", "मुख्यमंत्री", "शिवसेना", "राष्ट्रवादी", "राजनीति", "चुनाव",
+        "संसद", "विधेयक", "मतदान", "विपक्ष", "लोकसभा", "राज्यसभा", "सरकार"
     ],
     "Sports": [
         "sports", "cricket", "football", "hockey", "badminton", "tennis", "olympics", "ipl",
         "fifa", "bcci", "match", "tournament", "wicket", "goal", "trophy", "stadium", "athlete",
-        "chess", "kabaddi", "cricketer", "score", "champion", "விளையாட்டு", "கிரிக்கெட்", "கால்பந்து",
+        "chess", "kabaddi", "cricketer", "score", "champion", "campeones", "liga", "torneo", "real madrid",
+        "விளையாட்டு", "கிரிக்கெட்", "கால்பந்து",
         "सामना", "खेळ", "क्रिकेट", "फुटबॉल", "क्रीडा", "खेल", "खिलाड़ी"
     ],
     "Business": [
@@ -723,6 +725,7 @@ NEWSPAPER_CATEGORIES: Dict[str, List[str]] = {
     "Weather": [
         "weather", "rain", "monsoon", "heatwave", "cyclone", "storm", "flood", "temperature",
         "forecast", "celsius", "cloudy", "rainfall", "heavy rain", "wind", "drought",
+        "disaster", "rescue", "emergency", "desastre", "inundación", "rescate", "emergencia",
         "வானிலை", "மழை", "புயல்", "வெள்ளம்", "வெப்பம்", "மழைப்பொழிவு",
         "हवामान", "पाऊस", "चक्रीवादळ", "पूर", "உष्णता", "मान्सून", "तापमान"
     ],
@@ -744,7 +747,7 @@ def classify_news_categories(headline: str, content: str) -> Tuple[str, List[str
     for cat, kws in NEWSPAPER_CATEGORIES.items():
         for kw in kws:
             kw_low = kw.lower()
-            if kw_low.isascii() and len(kw_low) <= 4 and kw_low.isalnum():
+            if len(kw_low) <= 4:
                 if re.search(rf"\b{re.escape(kw_low)}\b", text):
                     scores[cat] += 2
             elif kw_low in text:
@@ -1061,6 +1064,8 @@ class NewspaperPDFParser:
                     snapshot_file = doc_snapshot_dir / f"page_{page_num:03d}.jpg"
                     boxes_file = snapshot_file.with_suffix(".boxes.json")
                     pil_img = None
+                    with _lang_lock:
+                        cur_tess_lang = _detected_tess_lang_holder[0]
 
                     # Check for pre-existing high-resolution rendered snapshot
                     if snapshot_file.exists() and snapshot_file.stat().st_size > 1000:
@@ -1470,17 +1475,15 @@ class NewspaperPDFParser:
                     if re.match(r"^(page\s+\d+|p\.\s*\d+|epaper|edition|www\..+)", p_lines[0], re.IGNORECASE):
                         continue
 
-                    is_short_hl = (len(p_lines) == 1 and 8 <= len(p_lines[0]) <= 130 and not p_lines[0].endswith((".", "।", ";", ":", "-")))
-                    if is_short_hl and current_block and len(current_block) >= 2:
+                    is_p_headline = (len(p_lines[0]) <= 130 and not p_lines[0].endswith((".", "।", ";", ":", "-")))
+                    if is_p_headline and current_block and len(current_block) >= 2:
                         blocks.append(current_block)
-                        current_block = [p_lines[0]]
-                    elif is_short_hl and not current_block:
-                        current_block = [p_lines[0]]
-                    else:
-                        current_block.extend(p_lines)
-                        if sum(len(l) for l in current_block) >= 200:
-                            blocks.append(current_block)
-                            current_block = []
+                        current_block = []
+
+                    current_block.extend(p_lines)
+                    if len(p_lines) >= 2 and is_p_headline and current_block:
+                        blocks.append(current_block)
+                        current_block = []
                 if current_block:
                     blocks.append(current_block)
             else:
@@ -1638,6 +1641,7 @@ class NewspaperPDFParser:
             "Finance": "economic",
             "Crime": "crises_disasters",
             "Environment": "crises_disasters",
+            "Weather": "crises_disasters",
         }
         return legacy_map.get(primary, primary.lower())
 
@@ -1660,7 +1664,7 @@ class NewspaperPDFParser:
            Automobile, Finance, Weather, Other).
         7. Organize into categories and return structured Digital Twin output.
         """
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         doc_id, pages_data = await loop.run_in_executor(
             _pdf_executor,
             self.process_pdf_pages,
